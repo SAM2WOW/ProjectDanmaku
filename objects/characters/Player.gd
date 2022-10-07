@@ -8,7 +8,11 @@ var bullet = preload("res://objects/weapons/PlayerBullet.tscn")
 
 
 func _input(event):
-	pass
+	if event is InputEventKey:
+		var keyPressed = event.scancode
+		for node in get_tree().get_nodes_in_group('bullet'):
+			node._on_Verse_Jump(keyPressed - 48)
+			#print(keyPressed - 48)
 
 
 func _unhandled_input(event):

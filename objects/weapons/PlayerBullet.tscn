@@ -6,7 +6,7 @@
 [sub_resource type="CircleShape2D" id=1]
 radius = 45.2769
 
-[node name="PlayerBullet" type="RigidBody2D"]
+[node name="PlayerBullet" type="RigidBody2D" groups=["bullet"]]
 collision_layer = 4
 collision_mask = 9
 gravity_scale = 0.0
@@ -17,7 +17,6 @@ script = ExtResource( 2 )
 [node name="Style0" type="Node2D" parent="."]
 
 [node name="Sprite" type="Sprite" parent="Style0"]
-visible = false
 texture = ExtResource( 1 )
 
 [node name="Style1" type="Node2D" parent="."]
@@ -28,10 +27,14 @@ polygon = PoolVector2Array( 6, 20, -17, 25, -28, -7, -8, -30, 39, -7 )
 
 [node name="Style2" type="Node2D" parent="."]
 
+[node name="Polygon2D" type="Polygon2D" parent="Style2"]
+color = Color( 1, 0, 0, 1 )
+polygon = PoolVector2Array( -15, 16, -15, -13, 21, -3 )
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
 
-[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="." groups=["bullet"]]
+[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
 
 [connection signal="body_entered" from="." to="." method="_on_PlayerBullet_body_entered"]
 [connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]

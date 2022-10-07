@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://objects/characters/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://objects/characters/Boss.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scripts/Console.gd" type="Script" id=3]
+[ext_resource path="res://objects/system/portal.tscn" type="PackedScene" id=4]
 
 [node name="Main" type="Node"]
 
@@ -27,3 +28,14 @@ mouse_filter = 2
 
 [node name="Console" type="Node" parent="."]
 script = ExtResource( 3 )
+
+[node name="Portal" parent="." instance=ExtResource( 4 )]
+position = Vector2( 839, 265 )
+
+[node name="Portal" parent="Portal" instance=ExtResource( 4 )]
+position = Vector2( 307, -12 )
+type = 1
+
+[node name="Portal2" parent="Portal" instance=ExtResource( 4 )]
+position = Vector2( 597, 82 )
+type = 2
