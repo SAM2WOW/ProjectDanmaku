@@ -8,6 +8,10 @@ export var speed = 300
 var bullet = preload("res://objects/weapons/PlayerBullet.tscn")
 
 
+func _ready():
+	Global.player = self
+
+
 func _input(event):
 	if event is InputEventKey:
 		var keyPressed = event.scancode
@@ -20,9 +24,9 @@ func _input(event):
 func _unhandled_input(event):
 	if event is InputEventMouseButton:
 		if event.pressed:
-			$BulletTimer.start()
+			$FireTimer.start()
 		else:
-			$BulletTimer.stop()
+			$FireTimer.stop()
 
 
 func _physics_process(delta):
@@ -54,6 +58,10 @@ func _on_Timer_timeout():
 	
 	var dir = get_global_position().direction_to(get_global_mouse_position())
 	b.add_force(Vector2.ZERO, dir * 200)
+
+
+func damage(amount):
+	print("Player have been damaged %d" % amount)
 
 
 func _on_Verse_Jump(verse):

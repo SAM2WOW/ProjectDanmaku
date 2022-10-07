@@ -4,7 +4,8 @@
 [ext_resource path="res://icon.png" type="Texture" id=2]
 
 [sub_resource type="CapsuleShape2D" id=1]
-radius = 16.0
+radius = 51.0
+height = 204.0
 
 [node name="Boss" type="KinematicBody2D"]
 collision_layer = 8
@@ -15,7 +16,8 @@ script = ExtResource( 1 )
 scale = Vector2( 0.44168, 0.892623 )
 
 [node name="Icon" type="Sprite" parent="Style0"]
-position = Vector2( 1, -2 )
+position = Vector2( 3.23117e-27, 1.13687e-13 )
+scale = Vector2( 3.74239, 5.28933 )
 texture = ExtResource( 2 )
 
 [node name="Style1" type="Node2D" parent="."]
@@ -25,4 +27,7 @@ texture = ExtResource( 2 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
 
-[node name="Timer" type="Timer" parent="."]
+[node name="FireTimer" type="Timer" parent="."]
+autostart = true
+
+[connection signal="timeout" from="FireTimer" to="." method="_on_FireTimer_timeout"]
