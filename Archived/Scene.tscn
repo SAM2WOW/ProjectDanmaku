@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://minimalist-background-6728257_960_720.jpg" type="Texture" id=2]
+[ext_resource path="res://Green.tres" type="Shader" id=3]
+
+[sub_resource type="ShaderMaterial" id=12]
+shader = ExtResource( 3 )
+
+[node name="Node" type="Node"]
+
+[node name="Node2D" type="Node2D" parent="."]
+
+[node name="Player" parent="Node2D" instance=ExtResource( 1 )]
+position = Vector2( 119, 129 )
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+
+[node name="Minimalist-background-6728257960720" type="Sprite" parent="ParallaxBackground/ParallaxLayer"]
+material = SubResource( 12 )
+position = Vector2( 506, 549 )
+scale = Vector2( 2.7963, 2.4875 )
+texture = ExtResource( 2 )
