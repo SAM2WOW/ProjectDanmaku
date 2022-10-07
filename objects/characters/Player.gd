@@ -12,6 +12,7 @@ func _unhandled_input(event):
 
 
 func _physics_process(delta):
+	velocity = Vector2.ZERO
 	if Input.is_action_pressed("move_up"):
 		velocity.y = -1
 	
@@ -25,4 +26,3 @@ func _physics_process(delta):
 		velocity.x = -1
 	
 	move_and_slide(velocity * speed, Vector2.UP)
-	velocity = Vector2.ZERO
