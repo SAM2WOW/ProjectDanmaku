@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/witch_idle.png-63421f99fd870c88177c211503247252.stex"
+path="res://.import/witch_idle.png-90b3541f773aed10584ffae91003dcbf.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://arts/witch_idle.png"
-dest_files=[ "res://.import/witch_idle.png-63421f99fd870c88177c211503247252.stex" ]
+source_file="res://arts/pixelArt/witch_idle.png"
+dest_files=[ "res://.import/witch_idle.png-90b3541f773aed10584ffae91003dcbf.stex" ]
 
 [params]
 
