@@ -49,7 +49,7 @@ func _physics_process(delta):
 func _on_Timer_timeout():
 	# fire bullets
 	var b = bullet.instance()
-	
+
 	b.style = style
 	b._on_Verse_Jump(style)
 	
