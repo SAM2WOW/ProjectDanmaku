@@ -54,7 +54,7 @@ texture = ExtResource( 2 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Style1"]
 scale = Vector2( 3, 3 )
 frames = SubResource( 8 )
-frame = 1
+frame = 2
 speed_scale = 2.0
 playing = true
 script = ExtResource( 4 )
@@ -65,7 +65,7 @@ script = ExtResource( 4 )
 position = Vector2( -3, 18 )
 shape = SubResource( 1 )
 
-[node name="BulletTimer" type="Timer" parent="."]
+[node name="FireTimer" type="Timer" parent="."]
 wait_time = 0.1
 
-[connection signal="timeout" from="BulletTimer" to="." method="_on_Timer_timeout"]
+[connection signal="timeout" from="FireTimer" to="." method="_on_Timer_timeout"]
