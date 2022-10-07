@@ -4,11 +4,22 @@ extends KinematicBody2D
 var velocity = Vector2.ZERO
 export var speed = 300
 
+var bullet = preload("res://objects/weapons/PlayerBullet.tscn")
+
+
+func _input(event):
+	pass
+
 
 func _unhandled_input(event):
 	if event is InputEventMouseButton:
 		if event.pressed:
-			print(get_global_mouse_position())
+			var b = bullet.instance()
+			get_parent().add_child(b)
+			b.set_global_position(get_global_position())
+			
+			var dir = get_global_position().direction_to(get_global_mouse_position())
+			b.add_force(Vector2.ZERO, dir * 200)
 
 
 func _physics_process(delta):

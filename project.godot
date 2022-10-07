@@ -15,6 +15,10 @@ config/description="CMPM 170"
 run/main_scene="res://scenes/Main.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+Global="*res://scripts/Global.gd"
+
 [display]
 
 window/size/width=1920
@@ -63,6 +67,7 @@ move_right={
 2d_physics/layer_1="World"
 2d_physics/layer_2="Player"
 2d_physics/layer_3="Bullet"
+2d_physics/layer_4="Enemy"
 
 [physics]
 

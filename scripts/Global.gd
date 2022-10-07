@@ -1,4 +1,5 @@
 extends Node
 
 
-var funny
+var console
+

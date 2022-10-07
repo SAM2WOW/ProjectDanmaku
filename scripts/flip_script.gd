@@ -9,6 +9,7 @@ var player_vel = Vector2();
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	player_node = get_node("/root/Main/Node2D/Player");
+	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
