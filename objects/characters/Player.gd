@@ -46,9 +46,13 @@ func _physics_process(delta):
 		velocity.x = -1
 	
 	move_and_slide(velocity * speed, Vector2.UP)
+	# bound the player to the viewport
+	position.x = clamp(position.x, 0, get_viewport_rect().size.x)
+	position.y = clamp(position.y, 0, get_viewport_rect().size.y)
 
 # fires a bullet at the mouse position
 func fire_bullet():
+	var b_speed = 700;
 	var b = bullet.instance()
 
 	b.style = style
@@ -58,7 +62,8 @@ func fire_bullet():
 	b.set_global_position(get_global_position())
 	
 	var dir = get_global_position().direction_to(get_global_mouse_position())
-	b.add_force(Vector2.ZERO, dir * 200)
+	# b.add_force(Vector2.ZERO, dir * 200)
+	b.set_linear_velocity(dir*b_speed);
 	
 
 func _on_Timer_timeout():

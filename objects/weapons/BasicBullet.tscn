@@ -12,6 +12,8 @@ collision_mask = 3
 gravity_scale = 0.0
 contacts_reported = 1
 contact_monitor = true
+linear_damp = 0.0
+angular_damp = 0.0
 script = ExtResource( 2 )
 
 [node name="Style0" type="Node2D" parent="."]

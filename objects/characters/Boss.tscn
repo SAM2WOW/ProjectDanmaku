@@ -3,9 +3,8 @@
 [ext_resource path="res://objects/characters/Boss.gd" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
 
-[sub_resource type="CapsuleShape2D" id=1]
-radius = 43.0
-height = 176.0
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 77.5, 79 )
 
 [node name="Boss" type="KinematicBody2D"]
 collision_layer = 8
@@ -13,19 +12,29 @@ collision_mask = 0
 script = ExtResource( 1 )
 
 [node name="Style0" type="Node2D" parent="."]
-scale = Vector2( 0.44168, 0.892623 )
 
 [node name="Icon" type="Sprite" parent="Style0"]
-position = Vector2( 198.227, 1.13687e-13 )
-scale = Vector2( 9.93699, 5.28933 )
+scale = Vector2( 3, 3 )
 texture = ExtResource( 2 )
 
 [node name="Style1" type="Node2D" parent="."]
 
+[node name="Icon" type="Sprite" parent="Style1"]
+modulate = Color( 1, 0.415686, 0.415686, 1 )
+position = Vector2( 1, -2 )
+scale = Vector2( 3, 3 )
+texture = ExtResource( 2 )
+
 [node name="Style2" type="Node2D" parent="."]
 
+[node name="Icon" type="Sprite" parent="Style2"]
+modulate = Color( 0.631373, 0.14902, 0.623529, 1 )
+position = Vector2( 1, 0 )
+scale = Vector2( 3, 3 )
+texture = ExtResource( 2 )
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 85, 5 )
+position = Vector2( -2, 1 )
 shape = SubResource( 1 )
 
 [node name="FireTimer" type="Timer" parent="."]

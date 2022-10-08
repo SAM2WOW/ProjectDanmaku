@@ -32,4 +32,4 @@ func _on_FireTimer_timeout():
 	b.set_global_position(get_global_position())
 	
 	var dir = get_global_position().direction_to(Global.player.get_global_position())
-	b.add_force(Vector2.ZERO, dir * 200)
+	b.set_linear_velocity(dir*200);
