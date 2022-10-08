@@ -10,6 +10,12 @@ var bullet = preload("res://objects/weapons/PlayerBullet.tscn")
 
 func _ready():
 	Global.player = self
+	
+func _process(delta):
+	if Input.is_action_pressed("mouse_action"):
+		if ($FireTimer.is_stopped()):
+			fire_bullet();
+			$FireTimer.start();
 
 
 func _input(event):
@@ -18,15 +24,11 @@ func _input(event):
 		if keyPressed in [48,49,50]:
 			for node in get_tree().get_nodes_in_group('bullet'):
 				node._on_Verse_Jump(keyPressed - 48)
-				#print(keyPressed - 48)
+				# print(keyPressed - 48)
 
-
+# Andrew: for some reason the input functions didnt work every frame, so I moved the code to process
 func _unhandled_input(event):
-	if event is InputEventMouseButton:
-		if event.pressed:
-			$FireTimer.start()
-		else:
-			$FireTimer.stop()
+	pass
 
 
 func _physics_process(delta):
@@ -45,9 +47,8 @@ func _physics_process(delta):
 	
 	move_and_slide(velocity * speed, Vector2.UP)
 
-
-func _on_Timer_timeout():
-	# fire bullets
+# fires a bullet at the mouse position
+func fire_bullet():
 	var b = bullet.instance()
 
 	b.style = style
@@ -58,6 +59,10 @@ func _on_Timer_timeout():
 	
 	var dir = get_global_position().direction_to(get_global_mouse_position())
 	b.add_force(Vector2.ZERO, dir * 200)
+	
+
+func _on_Timer_timeout():
+	pass
 
 
 func damage(amount):

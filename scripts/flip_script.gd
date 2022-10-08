@@ -2,7 +2,6 @@ extends AnimatedSprite
 
 
 # Declare member variables here. Examples:
-var dir = 1;
 var player_node;
 var player_vel = Vector2();
 
