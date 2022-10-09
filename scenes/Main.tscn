@@ -10,20 +10,20 @@
 [node name="Node2D" type="Node2D" parent="."]
 
 [node name="Player" parent="Node2D" instance=ExtResource( 1 )]
-position = Vector2( 149, 160 )
+position = Vector2( 201, 548 )
 
 [node name="Boss" parent="Node2D" instance=ExtResource( 2 )]
-position = Vector2( 556, 142 )
+position = Vector2( 1700, 542 )
 
 [node name="Portal" parent="Node2D" instance=ExtResource( 4 )]
-position = Vector2( 839, 265 )
+position = Vector2( 619, 265 )
 
 [node name="Portal2" parent="Node2D" instance=ExtResource( 4 )]
-position = Vector2( 1146, 253 )
+position = Vector2( 926, 253 )
 style = 1
 
 [node name="Portal3" parent="Node2D" instance=ExtResource( 4 )]
-position = Vector2( 1436, 347 )
+position = Vector2( 1216, 347 )
 style = 2
 
 [node name="Control" type="Control" parent="."]
