@@ -22,7 +22,7 @@ func _input(event):
 	if event is InputEventKey:
 		var keyPressed = event.scancode
 		if keyPressed in [48,49,50]:
-			for node in get_tree().get_nodes_in_group('bullet'):
+			for node in get_tree().get_nodes_in_group('style'):
 				node._on_Verse_Jump(keyPressed - 48)
 				# print(keyPressed - 48)
 

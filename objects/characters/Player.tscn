@@ -40,7 +40,7 @@ animations = [ {
 [sub_resource type="CircleShape2D" id=1]
 radius = 14.0
 
-[node name="Player" type="KinematicBody2D"]
+[node name="Player" type="KinematicBody2D" groups=["style"]]
 collision_layer = 2
 script = ExtResource( 1 )
 
@@ -54,6 +54,7 @@ texture = ExtResource( 2 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Style1"]
 scale = Vector2( 3, 3 )
 frames = SubResource( 8 )
+frame = 5
 speed_scale = 2.0
 playing = true
 script = ExtResource( 4 )
