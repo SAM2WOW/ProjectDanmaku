@@ -1,7 +1,28 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://objects/characters/Boss.gd" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
+[ext_resource path="res://arts/pixelArt/boss_idle.png" type="Texture" id=3]
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 3 )
+region = Rect2( 0, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 3 )
+region = Rect2( 64, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 3 )
+region = Rect2( 128, 0, 64, 64 )
+
+[sub_resource type="SpriteFrames" id=5]
+animations = [ {
+"frames": [ SubResource( 2 ), SubResource( 3 ), SubResource( 4 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 77.5, 79 )
@@ -19,11 +40,12 @@ texture = ExtResource( 2 )
 
 [node name="Style1" type="Node2D" parent="."]
 
-[node name="Icon" type="Sprite" parent="Style1"]
-modulate = Color( 1, 0.415686, 0.415686, 1 )
+[node name="Icon" type="AnimatedSprite" parent="Style1"]
 position = Vector2( 1, -2 )
-scale = Vector2( 3, 3 )
-texture = ExtResource( 2 )
+scale = Vector2( 5, 5 )
+frames = SubResource( 5 )
+frame = 1
+playing = true
 
 [node name="Style2" type="Node2D" parent="."]
 

@@ -20,11 +20,9 @@ position = Vector2( 839, 265 )
 
 [node name="Portal2" parent="Node2D" instance=ExtResource( 4 )]
 position = Vector2( 1146, 253 )
-style = 1
 
 [node name="Portal3" parent="Node2D" instance=ExtResource( 4 )]
 position = Vector2( 1436, 347 )
-style = 2
 
 [node name="Control" type="Control" parent="."]
 anchor_right = 1.0
