@@ -4,6 +4,7 @@ var style = 0
 
 var velocity = Vector2.ZERO
 export var speed = 300
+var shooting = false;
 
 var bullet = preload("res://objects/weapons/PlayerBullet.tscn")
 
@@ -13,9 +14,12 @@ func _ready():
 	
 func _process(delta):
 	if Input.is_action_pressed("mouse_action"):
+		shooting = true;
 		if ($FireTimer.is_stopped()):
 			fire_bullet();
 			$FireTimer.start();
+	else:
+		shooting = false;
 
 
 func _input(event):
@@ -62,6 +66,7 @@ func fire_bullet():
 	b.set_global_position(get_global_position())
 	
 	var dir = get_global_position().direction_to(get_global_mouse_position())
+	b.rotation = 2*PI + atan2(dir.y, dir.x);
 	# b.add_force(Vector2.ZERO, dir * 200)
 	b.set_linear_velocity(dir*b_speed);
 	
