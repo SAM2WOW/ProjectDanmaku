@@ -20,7 +20,7 @@ func _on_Verse_Jump(verse):
 	
 	get_node("Style%d" % style).show()
 	
-	for i in range(2):
+	for i in range(3):
 		if i != style:
 			get_node("Style%d" % i).hide()
 			print("Style%d" % style)
