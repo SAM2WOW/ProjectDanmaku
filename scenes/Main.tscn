@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://objects/characters/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://objects/characters/Boss.tscn" type="PackedScene" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://arts/temp/360_F_215948377_kgIhNUy4X0iYsyUfYd9KKIViSPOxclbC.jpg" type="Texture" id=5]
 [ext_resource path="res://arts/temp/HTB1KALUazuhSKJjSspmq6AQDpXad.jpg" type="Texture" id=6]
 [ext_resource path="res://arts/temp/9b54aeb05d88665c605dd650a643b794.jpg" type="Texture" id=7]
+[ext_resource path="res://scripts/BackgroundScript.gd" type="Script" id=8]
 
 [node name="Main" type="Node"]
 
@@ -32,8 +33,9 @@ style = 1
 position = Vector2( 351, -234 )
 style = 2
 
-[node name="Background" type="Node2D" parent="Node2D"]
+[node name="Background" type="Node2D" parent="Node2D" groups=["style"]]
 z_index = -500
+script = ExtResource( 8 )
 
 [node name="Style0" type="Sprite" parent="Node2D/Background"]
 scale = Vector2( 2.89025, 3.19402 )
