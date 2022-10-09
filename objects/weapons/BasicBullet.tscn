@@ -6,7 +6,7 @@
 [sub_resource type="CircleShape2D" id=1]
 radius = 45.2769
 
-[node name="BasicBullet" type="RigidBody2D" groups=["bullet"]]
+[node name="BasicBullet" type="RigidBody2D" groups=["bullet", "style"]]
 collision_layer = 4
 collision_mask = 3
 gravity_scale = 0.0

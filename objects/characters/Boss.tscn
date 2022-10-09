@@ -6,7 +6,7 @@
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 77.5, 79 )
 
-[node name="Boss" type="KinematicBody2D"]
+[node name="Boss" type="KinematicBody2D" groups=["style"]]
 collision_layer = 8
 collision_mask = 0
 script = ExtResource( 1 )
