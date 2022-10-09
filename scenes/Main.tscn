@@ -1,30 +1,54 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://objects/characters/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://objects/characters/Boss.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scripts/Console.gd" type="Script" id=3]
 [ext_resource path="res://objects/system/portal.tscn" type="PackedScene" id=4]
+[ext_resource path="res://arts/temp/360_F_215948377_kgIhNUy4X0iYsyUfYd9KKIViSPOxclbC.jpg" type="Texture" id=5]
+[ext_resource path="res://arts/temp/HTB1KALUazuhSKJjSspmq6AQDpXad.jpg" type="Texture" id=6]
+[ext_resource path="res://arts/temp/9b54aeb05d88665c605dd650a643b794.jpg" type="Texture" id=7]
 
 [node name="Main" type="Node"]
 
 [node name="Node2D" type="Node2D" parent="."]
 
+[node name="Camera2D" type="Camera2D" parent="Node2D"]
+current = true
+
 [node name="Player" parent="Node2D" instance=ExtResource( 1 )]
-position = Vector2( 201, 548 )
+position = Vector2( -701, -7 )
 
 [node name="Boss" parent="Node2D" instance=ExtResource( 2 )]
-position = Vector2( 1700, 542 )
+position = Vector2( 779, -2 )
 
 [node name="Portal" parent="Node2D" instance=ExtResource( 4 )]
-position = Vector2( 619, 265 )
+position = Vector2( -246, -316 )
 
 [node name="Portal2" parent="Node2D" instance=ExtResource( 4 )]
-position = Vector2( 926, 253 )
+position = Vector2( 61, -328 )
 style = 1
 
 [node name="Portal3" parent="Node2D" instance=ExtResource( 4 )]
-position = Vector2( 1216, 347 )
+position = Vector2( 351, -234 )
 style = 2
+
+[node name="Background" type="Node2D" parent="Node2D"]
+z_index = -500
+
+[node name="Style0" type="Sprite" parent="Node2D/Background"]
+scale = Vector2( 2.89025, 3.19402 )
+texture = ExtResource( 5 )
+
+[node name="Style1" type="Sprite" parent="Node2D/Background"]
+visible = false
+scale = Vector2( 2.79831, 2.98668 )
+texture = ExtResource( 7 )
+
+[node name="Style2" type="Sprite" parent="Node2D/Background"]
+visible = false
+modulate = Color( 0.360784, 0.360784, 0.360784, 1 )
+scale = Vector2( 2.47001, 1.74668 )
+texture = ExtResource( 6 )
 
 [node name="Control" type="Control" parent="."]
 anchor_right = 1.0
