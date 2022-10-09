@@ -4,15 +4,12 @@
 [ext_resource path="res://objects/characters/Boss.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scripts/Console.gd" type="Script" id=3]
 [ext_resource path="res://objects/system/portal.tscn" type="PackedScene" id=4]
-[ext_resource path="res://arts/temp/360_F_215948377_kgIhNUy4X0iYsyUfYd9KKIViSPOxclbC.jpg" type="Texture" id=5]
-[ext_resource path="res://arts/temp/HTB1KALUazuhSKJjSspmq6AQDpXad.jpg" type="Texture" id=6]
-[ext_resource path="res://arts/temp/9b54aeb05d88665c605dd650a643b794.jpg" type="Texture" id=7]
+[ext_resource path="res://arts/shaders/BG.jpg" type="Texture" id=5]
+[ext_resource path="res://arts/shaders/Style1.tres" type="Material" id=6]
+[ext_resource path="res://arts/shaders/Style3.tres" type="Material" id=7]
 [ext_resource path="res://scripts/BackgroundScript.gd" type="Script" id=8]
-
-[sub_resource type="Shader" id=1]
-
-[sub_resource type="ShaderMaterial" id=2]
-shader = SubResource( 1 )
+[ext_resource path="res://arts/shaders/MetalBall/Gel_Shader.tres" type="Material" id=9]
+[ext_resource path="res://arts/shaders/Style2.tres" type="Material" id=10]
 
 [node name="Main" type="Node"]
 
@@ -43,19 +40,21 @@ z_index = -500
 script = ExtResource( 8 )
 
 [node name="Style0" type="Sprite" parent="Node2D/Background"]
-scale = Vector2( 2.89025, 3.19402 )
+material = ExtResource( 6 )
+scale = Vector2( 2, 2 )
 texture = ExtResource( 5 )
 
 [node name="Style1" type="Sprite" parent="Node2D/Background"]
 visible = false
-scale = Vector2( 2.79831, 2.98668 )
-texture = ExtResource( 7 )
+material = ExtResource( 10 )
+scale = Vector2( 2, 2 )
+texture = ExtResource( 5 )
 
 [node name="Style2" type="Sprite" parent="Node2D/Background"]
 visible = false
-modulate = Color( 0.360784, 0.360784, 0.360784, 1 )
-scale = Vector2( 2.47001, 1.74668 )
-texture = ExtResource( 6 )
+material = ExtResource( 7 )
+scale = Vector2( 2, 2 )
+texture = ExtResource( 5 )
 
 [node name="Console" type="Node" parent="."]
 script = ExtResource( 3 )
@@ -67,8 +66,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 
-[node name="BloomShader" type="ColorRect" parent="CanvasLayer/Control"]
+[node name="Style1" type="ColorRect" parent="CanvasLayer/Control"]
 visible = false
-material = SubResource( 2 )
+material = ExtResource( 9 )
 anchor_right = 1.0
 anchor_bottom = 1.0

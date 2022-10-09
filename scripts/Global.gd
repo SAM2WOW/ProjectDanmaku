@@ -5,3 +5,4 @@ var console
 var player
 
 var initial_style = 0
+var total_style = 3
