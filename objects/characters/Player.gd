@@ -50,9 +50,11 @@ func _physics_process(delta):
 		velocity.x = -1
 	
 	move_and_slide(velocity * speed, Vector2.UP)
+	
 	# bound the player to the viewport
-	position.x = clamp(position.x, 0, get_viewport_rect().size.x)
-	position.y = clamp(position.y, 0, get_viewport_rect().size.y)
+	position.x = clamp(position.x, -get_viewport_rect().size.x/2, get_viewport_rect().size.x/2)
+	position.y = clamp(position.y, -get_viewport_rect().size.y/2, get_viewport_rect().size.y/2)
+
 
 # fires a bullet at the mouse position
 func fire_bullet():
