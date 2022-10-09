@@ -10,12 +10,17 @@ var bullet = preload("res://objects/weapons/PlayerBullet.tscn")
 
 func _ready():
 	Global.player = self
-	
+
+
 func _process(delta):
 	if Input.is_action_pressed("mouse_action"):
 		if ($FireTimer.is_stopped()):
 			fire_bullet();
 			$FireTimer.start();
+	
+	# rotate the sprite toward player in minimalistic style
+	if style == 0:
+		$Style0/Icon.look_at(get_global_mouse_position())
 
 
 func _input(event):
