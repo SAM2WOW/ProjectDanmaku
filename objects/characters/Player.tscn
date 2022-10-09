@@ -50,23 +50,24 @@ script = ExtResource( 1 )
 texture = ExtResource( 2 )
 
 [node name="Style1" type="Node2D" parent="."]
+visible = false
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Style1"]
 scale = Vector2( 3, 3 )
 frames = SubResource( 8 )
-frame = 5
+frame = 1
 speed_scale = 2.0
 playing = true
 script = ExtResource( 4 )
 
 [node name="Style2" type="Node2D" parent="."]
+visible = false
 
 [node name="Sprite" type="Sprite" parent="Style2"]
 modulate = Color( 0.243137, 0.909804, 0.54902, 1 )
 texture = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( -3, 18 )
 shape = SubResource( 1 )
 
 [node name="FireTimer" type="Timer" parent="."]
