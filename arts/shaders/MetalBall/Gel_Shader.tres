@@ -1,0 +1,168 @@
+[gd_resource type="ShaderMaterial" load_steps=17 format=2]
+
+[sub_resource type="VisualScript" id=1]
+data = {
+"base_type": "ShaderMaterial",
+"functions": [  ],
+"is_tool_script": false,
+"signals": [  ],
+"variables": [  ],
+"vs_unify": true
+}
+
+[sub_resource type="VisualShaderNodeVectorOp" id=2]
+operator = 2
+
+[sub_resource type="VisualShaderNodeVectorOp" id=3]
+
+[sub_resource type="VisualShaderNodeVectorOp" id=4]
+operator = 2
+
+[sub_resource type="VisualShaderNodeScalarFunc" id=5]
+function = 31
+
+[sub_resource type="VisualShaderNodeScalarFunc" id=6]
+output_port_for_preview = 0
+function = 31
+
+[sub_resource type="VisualShaderNodeVectorLen" id=7]
+output_port_for_preview = 0
+
+[sub_resource type="VisualShaderNodeInput" id=8]
+input_name = "screen_uv"
+
+[sub_resource type="VisualShaderNodeTexture" id=9]
+output_port_for_preview = 0
+source = 1
+
+[sub_resource type="VisualShaderNodeColorUniform" id=10]
+uniform_name = "Sauce"
+
+[sub_resource type="VisualShaderNodeColorUniform" id=11]
+uniform_name = "BG"
+
+[sub_resource type="VisualShaderNodeInput" id=12]
+input_name = "screen_texture"
+
+[sub_resource type="VisualShaderNodeScalarConstant" id=13]
+constant = 1.5
+
+[sub_resource type="VisualShaderNodeScalarOp" id=14]
+output_port_for_preview = 0
+operator = 2
+
+[sub_resource type="VisualShaderNodeScalarFunc" id=15]
+output_port_for_preview = 0
+function = 14
+
+[sub_resource type="VisualShader" id=16]
+code = "shader_type canvas_item;
+uniform vec4 Sauce : hint_color;
+uniform vec4 BG : hint_color;
+
+
+
+void vertex() {
+// Output:0
+
+}
+
+void fragment() {
+// ColorUniform:22
+	vec3 n_out22p0 = Sauce.rgb;
+	float n_out22p1 = Sauce.a;
+
+// Input:20
+	vec3 n_out20p0 = vec3(SCREEN_UV, 0.0);
+
+// Input:3
+
+// Texture:21
+	vec3 n_out21p0;
+	float n_out21p1;
+	{
+		vec4 _tex_read = textureLod(SCREEN_TEXTURE, n_out20p0.xy, 0.0);
+		n_out21p0 = _tex_read.rgb;
+		n_out21p1 = _tex_read.a;
+	}
+
+// VectorLen:19
+	float n_out19p0 = length(n_out21p0);
+
+// ScalarFunc:18
+	float n_out18p0 = 1.0 - n_out19p0;
+
+// Scalar:6
+	float n_out6p0 = 1.500000;
+
+// ScalarOp:7
+	float n_out7p0 = n_out18p0 * n_out6p0;
+
+// ScalarFunc:8
+	float n_out8p0 = floor(n_out7p0);
+
+// VectorOp:14
+	vec3 n_out14p0 = n_out22p0 * vec3(n_out8p0);
+
+// ColorUniform:23
+	vec3 n_out23p0 = BG.rgb;
+	float n_out23p1 = BG.a;
+
+// ScalarFunc:16
+	float n_out16p0 = 1.0 - n_out8p0;
+
+// VectorOp:11
+	vec3 n_out11p0 = n_out23p0 * vec3(n_out16p0);
+
+// VectorOp:13
+	vec3 n_out13p0 = n_out14p0 + n_out11p0;
+
+// Output:0
+	COLOR.rgb = n_out13p0;
+
+}
+
+void light() {
+// Output:0
+
+}
+"
+graph_offset = Vector2( 117.084, 111.699 )
+mode = 1
+flags/light_only = false
+nodes/fragment/0/position = Vector2( 1140, 140 )
+nodes/fragment/3/node = SubResource( 12 )
+nodes/fragment/3/position = Vector2( -1680, 260 )
+nodes/fragment/6/node = SubResource( 13 )
+nodes/fragment/6/position = Vector2( -400, 400 )
+nodes/fragment/7/node = SubResource( 14 )
+nodes/fragment/7/position = Vector2( -160, 260 )
+nodes/fragment/8/node = SubResource( 15 )
+nodes/fragment/8/position = Vector2( 80, 280 )
+nodes/fragment/11/node = SubResource( 2 )
+nodes/fragment/11/position = Vector2( 620, 300 )
+nodes/fragment/13/node = SubResource( 3 )
+nodes/fragment/13/position = Vector2( 860, 120 )
+nodes/fragment/14/node = SubResource( 4 )
+nodes/fragment/14/position = Vector2( 360, 120 )
+nodes/fragment/16/node = SubResource( 5 )
+nodes/fragment/16/position = Vector2( 340, 460 )
+nodes/fragment/18/node = SubResource( 6 )
+nodes/fragment/18/position = Vector2( -440, 200 )
+nodes/fragment/19/node = SubResource( 7 )
+nodes/fragment/19/position = Vector2( -680, 200 )
+nodes/fragment/20/node = SubResource( 8 )
+nodes/fragment/20/position = Vector2( -1680, 180 )
+nodes/fragment/21/node = SubResource( 9 )
+nodes/fragment/21/position = Vector2( -1440, 180 )
+nodes/fragment/22/node = SubResource( 10 )
+nodes/fragment/22/position = Vector2( 120, 40 )
+nodes/fragment/23/node = SubResource( 11 )
+nodes/fragment/23/position = Vector2( 360, 300 )
+nodes/fragment/connections = PoolIntArray( 6, 0, 7, 1, 7, 0, 8, 0, 11, 0, 13, 1, 14, 0, 13, 0, 8, 0, 14, 1, 8, 0, 16, 0, 16, 0, 11, 1, 18, 0, 7, 0, 19, 0, 18, 0, 21, 0, 19, 0, 3, 0, 21, 2, 20, 0, 21, 0, 13, 0, 0, 0, 22, 0, 14, 0, 23, 0, 11, 0 )
+
+[resource]
+shader = SubResource( 16 )
+shader_param/Sauce = Color( 0.937255, 0.960784, 0.960784, 1 )
+shader_param/BG = Color( 0.0627451, 0.0784314, 0.0862745, 1 )
+script = SubResource( 1 )

@@ -1,6 +1,6 @@
 extends KinematicBody2D
 
-var style = 0
+var style = Global.initial_style
 
 var velocity = Vector2.ZERO
 export var speed = 300
@@ -86,7 +86,7 @@ func _on_Verse_Jump(verse):
 	
 	get_node("Style%d" % style).show()
 	
-	for i in range(3):
+	for i in range(Global.total_style):
 		if i != style:
 			get_node("Style%d" % i).hide()
 			print("Style%d" % style)
