@@ -21,3 +21,4 @@ color = Color( 1, 0, 0.890196, 0.498039 )
 polygon = PoolVector2Array( -9, -258, -10, 260, 10, 260, 11, -258 )
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_Area2D_body_exited"]
