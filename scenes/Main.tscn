@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://objects/characters/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://objects/characters/Boss.tscn" type="PackedScene" id=2]
@@ -8,6 +8,11 @@
 [ext_resource path="res://arts/temp/HTB1KALUazuhSKJjSspmq6AQDpXad.jpg" type="Texture" id=6]
 [ext_resource path="res://arts/temp/9b54aeb05d88665c605dd650a643b794.jpg" type="Texture" id=7]
 [ext_resource path="res://scripts/BackgroundScript.gd" type="Script" id=8]
+
+[sub_resource type="Shader" id=1]
+
+[sub_resource type="ShaderMaterial" id=2]
+shader = SubResource( 1 )
 
 [node name="Main" type="Node"]
 
@@ -52,10 +57,18 @@ modulate = Color( 0.360784, 0.360784, 0.360784, 1 )
 scale = Vector2( 2.47001, 1.74668 )
 texture = ExtResource( 6 )
 
-[node name="Control" type="Control" parent="."]
+[node name="Console" type="Node" parent="."]
+script = ExtResource( 3 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="CanvasLayer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 
-[node name="Console" type="Node" parent="."]
-script = ExtResource( 3 )
+[node name="BloomShader" type="ColorRect" parent="CanvasLayer/Control"]
+visible = false
+material = SubResource( 2 )
+anchor_right = 1.0
+anchor_bottom = 1.0
