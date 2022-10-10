@@ -79,7 +79,7 @@ autostart = true
 [node name="FiringPositions" type="Node2D" parent="."]
 
 [node name="LeftShot" type="Node2D" parent="FiringPositions"]
-position = Vector2( 20, -21 )
+position = Vector2( 16, -20 )
 
 [node name="RightShot" type="Node2D" parent="FiringPositions"]
-position = Vector2( 21, 20 )
+position = Vector2( 16, 20 )
