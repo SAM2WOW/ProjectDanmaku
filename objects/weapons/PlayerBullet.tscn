@@ -1,8 +1,29 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://arts/abstrastArt/playerbullet.png" type="Texture" id=1]
 [ext_resource path="res://objects/weapons/PlayerBullet.gd" type="Script" id=2]
 [ext_resource path="res://arts/pixelArt/bullet.png" type="Texture" id=3]
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends Timer
+
+
+# Declare member variables here. Examples:
+# var a = 2
+# var b = \"text\"
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+
+func _on_Timer_timeout():
+	print(\"done\");
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+#func _process(delta):
+#	pass
+"
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 45.2769
@@ -30,6 +51,10 @@ visible = false
 scale = Vector2( 4.99223, 5 )
 texture = ExtResource( 3 )
 
+[node name="ExplodeTimer" type="Timer" parent="Style1"]
+one_shot = true
+script = SubResource( 2 )
+
 [node name="Style2" type="Node2D" parent="."]
 visible = false
 
@@ -43,4 +68,5 @@ shape = SubResource( 1 )
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
 
 [connection signal="body_entered" from="." to="." method="_on_PlayerBullet_body_entered"]
+[connection signal="timeout" from="Style1/ExplodeTimer" to="." method="_on_ExplodeTimer_timeout"]
 [connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]

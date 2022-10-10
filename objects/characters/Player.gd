@@ -4,7 +4,7 @@ var style = Global.initial_style
 
 var velocity = Vector2.ZERO
 export var speed = 300
-var shooting = false;
+# var shooting = false;
 
 var health = 100
 
@@ -17,12 +17,12 @@ func _ready():
 
 func _process(delta):
 	if Input.is_action_pressed("mouse_action"):
-		shooting = true;
+		# shooting = true;
 		if ($FireTimer.is_stopped()):
 			fire_bullet();
 			$FireTimer.start();
-		else:
-			shooting = false;
+	# else:
+		# shooting = false;
 	
 	# rotate the sprite toward player in minimalistic style
 	if style == 0:
@@ -70,21 +70,26 @@ func fire_bullet():
 	var b_speed = 700;
 	var b = bullet.instance()
 
-	b.style = style
+	# b.style = style
 	b._on_Verse_Jump(style)
 	
 	get_parent().add_child(b)
 	b.set_global_position(get_global_position())
 	
 	var dir = get_global_position().direction_to(get_global_mouse_position())
+	b.dir = dir;
 	b.rotation = 2*PI + atan2(dir.y, dir.x);
-	# b.add_force(Vector2.ZERO, dir * 200)
 	b.set_linear_velocity(dir*b_speed);
 	
+	if (style == 1):
+		instance_pixel_bullet(b);
 
-func _on_Timer_timeout():
-	pass
-
+func instance_pixel_bullet(b):
+	var linear_vel = sqrt(pow(b.linear_velocity.x,2)+pow(b.linear_velocity.y,2));
+	var dist = sqrt(pow(get_global_mouse_position().x-get_global_position().x, 2)+pow(get_global_mouse_position().y-get_global_position().y, 2));
+	# the amt of time it takes the bullet to reach the distance it explodes
+	var explode_timer = (dist*0.75)/linear_vel;
+	b.get_node("Style1/ExplodeTimer").start(explode_timer);
 
 func damage(amount):
 	print("Player have been damaged %d" % amount)
