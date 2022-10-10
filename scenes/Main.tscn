@@ -5,11 +5,11 @@
 [ext_resource path="res://scripts/Console.gd" type="Script" id=3]
 [ext_resource path="res://objects/system/portal.tscn" type="PackedScene" id=4]
 [ext_resource path="res://arts/shaders/BG.jpg" type="Texture" id=5]
-[ext_resource path="res://arts/shaders/Style1.tres" type="Material" id=6]
-[ext_resource path="res://arts/shaders/Style3.tres" type="Material" id=7]
+[ext_resource path="res://arts/shaders/Style0.tres" type="Material" id=6]
+[ext_resource path="res://arts/shaders/Style2.tres" type="Material" id=7]
 [ext_resource path="res://scripts/BackgroundScript.gd" type="Script" id=8]
 [ext_resource path="res://arts/shaders/MetalBall/Gel_Shader.tres" type="Material" id=9]
-[ext_resource path="res://arts/shaders/Style2.tres" type="Material" id=10]
+[ext_resource path="res://arts/shaders/Style1.tres" type="Material" id=10]
 
 [node name="Main" type="Node"]
 
@@ -25,15 +25,8 @@ position = Vector2( -701, -7 )
 position = Vector2( 779, -2 )
 
 [node name="Portal" parent="Node2D" instance=ExtResource( 4 )]
-position = Vector2( -246, -316 )
-
-[node name="Portal2" parent="Node2D" instance=ExtResource( 4 )]
-position = Vector2( 61, -328 )
+position = Vector2( -2, 188 )
 style = 1
-
-[node name="Portal3" parent="Node2D" instance=ExtResource( 4 )]
-position = Vector2( 351, -234 )
-style = 2
 
 [node name="Background" type="Node2D" parent="Node2D" groups=["style"]]
 z_index = -500
