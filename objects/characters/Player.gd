@@ -6,6 +6,8 @@ var velocity = Vector2.ZERO
 export var speed = 300
 var shooting = false;
 
+var health = 100
+
 var bullet = preload("res://objects/weapons/PlayerBullet.tscn")
 
 
@@ -86,6 +88,12 @@ func _on_Timer_timeout():
 
 func damage(amount):
 	print("Player have been damaged %d" % amount)
+	health -= amount
+	
+	if health <= 0:
+		print("You DEAD!!!")
+		
+		get_tree().reload_current_scene()
 
 
 func _on_Verse_Jump(verse):
