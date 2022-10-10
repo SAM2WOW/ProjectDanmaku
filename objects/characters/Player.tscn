@@ -3,7 +3,7 @@
 [ext_resource path="res://objects/characters/Player.gd" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
 [ext_resource path="res://arts/pixelArt/witch_idle.png" type="Texture" id=3]
-[ext_resource path="res://scripts/flip_script.gd" type="Script" id=4]
+[ext_resource path="res://objects/characters/flip_script.gd" type="Script" id=4]
 [ext_resource path="res://arts/abstrastArt/player.png" type="Texture" id=5]
 
 [sub_resource type="AtlasTexture" id=9]

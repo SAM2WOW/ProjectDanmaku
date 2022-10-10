@@ -23,5 +23,5 @@ func _on_Verse_Jump(verse):
 	for i in range(Global.total_style):
 		if i != style:
 			get_node("Style%d" % i).hide()
-			print("Style%d" % style)
+			#print("Style%d" % style)
 	

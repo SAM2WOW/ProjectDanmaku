@@ -6,29 +6,38 @@ var velocity = Vector2.ZERO
 export var speed = 300
 var shooting = false;
 
+var health = 100
+
 var bullet = preload("res://objects/weapons/PlayerBullet.tscn")
 
 
 func _ready():
 	Global.player = self
-	
+
+
 func _process(delta):
 	if Input.is_action_pressed("mouse_action"):
 		shooting = true;
 		if ($FireTimer.is_stopped()):
 			fire_bullet();
 			$FireTimer.start();
-	else:
-		shooting = false;
+		else:
+			shooting = false;
+	
+	# rotate the sprite toward player in minimalistic style
+	if style == 0:
+		$Style0/Icon.look_at(get_global_mouse_position())
 
 
 func _input(event):
 	if event is InputEventKey:
 		var keyPressed = event.scancode
 		if keyPressed in [48,49,50]:
+			var new_style = keyPressed - 48
+			Global.current_style = new_style
 			for node in get_tree().get_nodes_in_group('style'):
-				node._on_Verse_Jump(keyPressed - 48)
-				# print(keyPressed - 48)
+				node._on_Verse_Jump(new_style)
+				# print(new_style)
 
 # Andrew: for some reason the input functions didnt work every frame, so I moved the code to process
 func _unhandled_input(event):
@@ -79,6 +88,12 @@ func _on_Timer_timeout():
 
 func damage(amount):
 	print("Player have been damaged %d" % amount)
+	health -= amount
+	
+	if health <= 0:
+		print("You DEAD!!!")
+		
+		get_tree().reload_current_scene()
 
 
 func _on_Verse_Jump(verse):
