@@ -15,3 +15,8 @@ func damage_boss(amount):
 	boss_health -= amount
 	
 	$"../CanvasLayer/Control/HealthBar".set_value(boss_health)
+	
+	if boss_health <= 0:
+		print("You Win")
+		
+		get_tree().reload_current_scene()
