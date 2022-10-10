@@ -10,6 +10,8 @@ var health = 100
 
 var bullet = preload("res://objects/weapons/PlayerBullet.tscn")
 
+onready var firingPositions = $FiringPositions
+
 
 func _ready():
 	Global.player = self
@@ -68,21 +70,24 @@ func _physics_process(delta):
 # fires a bullet at the mouse position
 func fire_bullet():
 	var b_speed = 700;
-	var b = bullet.instance()
-
-	# b.style = style
-	b._on_Verse_Jump(style)
-	
-	get_parent().add_child(b)
-	b.set_global_position(get_global_position())
-	
-	var dir = get_global_position().direction_to(get_global_mouse_position())
-	b.dir = dir;
-	b.rotation = 2*PI + atan2(dir.y, dir.x);
-	b.set_linear_velocity(dir*b_speed);
-	
-	if (style == 1):
-		instance_pixel_bullet(b);
+	var shotLocations = [Global.player]
+	if (style == 0):
+		shotLocations = firingPositions.get_children()
+		
+	for shot in shotLocations:
+		var b = bullet.instance()
+		
+		b._on_Verse_Jump(style)
+		get_parent().add_child(b)
+		b.set_global_position(shot.get_global_position())
+		
+		var dir = get_global_position().direction_to(get_global_mouse_position())
+		b.dir = dir;
+		b.rotation = 2*PI + atan2(dir.y, dir.x);
+		b.set_linear_velocity(dir*b_speed);
+		
+		if (style == 1):
+			instance_pixel_bullet(b);
 
 func instance_pixel_bullet(b):
 	var linear_vel = sqrt(pow(b.linear_velocity.x,2)+pow(b.linear_velocity.y,2));
