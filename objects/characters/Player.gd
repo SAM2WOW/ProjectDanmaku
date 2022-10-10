@@ -31,9 +31,11 @@ func _input(event):
 	if event is InputEventKey:
 		var keyPressed = event.scancode
 		if keyPressed in [48,49,50]:
+			var new_style = keyPressed - 48
+			Global.current_style = new_style
 			for node in get_tree().get_nodes_in_group('style'):
-				node._on_Verse_Jump(keyPressed - 48)
-				# print(keyPressed - 48)
+				node._on_Verse_Jump(new_style)
+				# print(new_style)
 
 # Andrew: for some reason the input functions didnt work every frame, so I moved the code to process
 func _unhandled_input(event):
