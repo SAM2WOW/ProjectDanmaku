@@ -8,6 +8,7 @@ var basic_bullet = preload("res://objects/weapons/BasicBullet.tscn")
 
 func damage(amount):
 	print("Boss have been damaged %d" % amount)
+	Global.console.damage_boss(amount)
 
 
 func _on_Verse_Jump(verse):
