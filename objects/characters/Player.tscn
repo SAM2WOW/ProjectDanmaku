@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://objects/characters/Player.gd" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
@@ -39,6 +39,14 @@ animations = [ {
 "speed": 5.0
 } ]
 
+[sub_resource type="SpriteFrames" id=15]
+animations = [ {
+"frames": [ ExtResource( 6 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
 [sub_resource type="CircleShape2D" id=1]
 radius = 20.0
 
@@ -65,7 +73,7 @@ visible = false
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Style1"]
 scale = Vector2( 3, 3 )
 frames = SubResource( 8 )
-frame = 3
+frame = 2
 speed_scale = 2.0
 playing = true
 script = ExtResource( 4 )
@@ -73,10 +81,11 @@ script = ExtResource( 4 )
 [node name="Style2" type="Node2D" parent="."]
 visible = false
 
-[node name="Sprite" type="Sprite" parent="Style2"]
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Style2"]
 position = Vector2( -2, 0 )
 scale = Vector2( 0.152315, 0.152315 )
-texture = ExtResource( 6 )
+frames = SubResource( 15 )
+script = ExtResource( 4 )
 
 [node name="Style3" type="Node2D" parent="."]
 visible = false

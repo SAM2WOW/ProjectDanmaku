@@ -1,20 +1,14 @@
 extends AnimatedSprite
 
-
-# Declare member variables here. Examples:
-var player_node;
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	player_node = $"../.."
-	
+	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	var player_sprite = player_node.get_node("./Style1/AnimatedSprite");
 	var dir = get_global_position().direction_to(get_global_mouse_position());
 	if (dir.x >= 0):
-		player_sprite.set_flip_h(true);
+		self.set_flip_h(true);
 	else:
-		player_sprite.set_flip_h(false);
+		self.set_flip_h(false);
 		
