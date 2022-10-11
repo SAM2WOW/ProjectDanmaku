@@ -52,7 +52,7 @@ scale_amount_curve = SubResource( 7 )
 [node name="Style1" type="Node2D" parent="."]
 visible = false
 
-[node name="Icon" type="AnimatedSprite" parent="Style1"]
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Style1"]
 position = Vector2( 1, -2 )
 scale = Vector2( 5, 5 )
 frames = SubResource( 5 )
@@ -65,6 +65,12 @@ visible = false
 modulate = Color( 0.631373, 0.14902, 0.623529, 1 )
 position = Vector2( 1, 0 )
 scale = Vector2( 3, 3 )
+texture = ExtResource( 2 )
+
+[node name="Style3" type="Node2D" parent="."]
+visible = false
+
+[node name="Sprite" type="Sprite" parent="Style3"]
 texture = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

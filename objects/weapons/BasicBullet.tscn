@@ -35,6 +35,11 @@ visible = false
 color = Color( 1, 0, 0, 1 )
 polygon = PoolVector2Array( -15, 16, -15, -13, 21, -3 )
 
+[node name="Style3" type="Node2D" parent="."]
+visible = false
+
+[node name="Polygon2D" type="Polygon2D" parent="Style3"]
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
 
