@@ -44,32 +44,30 @@ func show_verse_style(verse):
 # determines how it moves and appearance
 func init_pixel_bullet(pos, verse):
 	set_global_position(pos);
-	damage = Global.player_bullet_properties[style]["damage"];
 	show_verse_style(verse);
-	style = verse;
-	add_force(Vector2.ZERO, dir*Global.player_bullet_properties[style]["speed"]);
+	damage = Global.player_bullet_properties[verse]["damage"];
+	add_force(Vector2.ZERO, dir*Global.player_bullet_properties[verse]["speed"]);
 
-func init_normal_bullet(pos, style):
+func init_normal_bullet(pos, verse):
 	set_global_position(pos);
-	damage = Global.player_bullet_properties[style]["damage"];
-	show_verse_style(style);
-	set_linear_velocity(dir*Global.player_bullet_properties[style]["speed"]);
+	show_verse_style(verse);
+	damage = Global.player_bullet_properties[verse]["damage"];
+	set_linear_velocity(dir*Global.player_bullet_properties[verse]["speed"]);
 
-func init_3d_bullet(pos, style, _charge):
+func init_3d_bullet(pos, verse, _charge):
 	set_global_position(pos)
+	show_verse_style(verse)
 	charge = _charge;
-	damage = Global.player_bullet_properties[style]["damage"] * charge;
+	damage = Global.player_bullet_properties[verse]["damage"] * charge;
 	if charge >= 1:
 		damage *= 1.5;
-	show_verse_style(style)
-	set_linear_velocity(dir*Global.player_bullet_properties[style]["speed"])
-	scale = Vector2(5*charge, 5*charge);
+	set_linear_velocity(dir*Global.player_bullet_properties[verse]["speed"])
 
-func init_minimal_bullet(pos, style):
+func init_minimal_bullet(pos, verse):
 	set_global_position(pos);
-	damage = Global.player_bullet_properties[style]["damage"];
-	show_verse_style(style);
-	set_linear_velocity(dir*Global.player_bullet_properties[style]["speed"]);
+	show_verse_style(verse);
+	damage = Global.player_bullet_properties[verse]["damage"];
+	set_linear_velocity(dir*Global.player_bullet_properties[verse]["speed"]);
 	
 func explode():
 	pass
@@ -79,10 +77,23 @@ func _on_Verse_Jump(verse):
 	Global.prev_style = style
 	style = verse
 	show_verse_style(style)
-	damage = Global.player_bullet_properties[style].damage;
+	damage = Global.player_bullet_properties[style].damage * (1+charge);
 
 	match style:
+		0:
+			pass
 		1:
+			pass
+		2:
+			# bullet gets a bit more charged if it enters and slower
+			if (charge == 0.0): 
+				charge = 0.2;
+			else: 
+				charge *= 1.5;
+			if (charge > 1.0): charge = 1.0
+			damage *= charge + 1;
+			linear_velocity *= (1-(charge/2));
+		3:
 			pass
 		_:
 			pass
@@ -91,13 +102,22 @@ func _on_Verse_Jump(verse):
 func _on_Verse_Exit(prev_verse, new_verse):
 	match prev_verse:
 		0:
-			pass
+			# on exiting 0, bullets get weaker but go faster
+			damage = Global.player_bullet_properties[new_verse].damage*0.75;
+			set_linear_velocity(get_linear_velocity()*1.2);
 		1:
-			var new_dmg =  Global.player_bullet_properties[new_verse].damage;
-			fire_spread(get_global_position(), new_verse, 3, 20, new_dmg/2, curr_vel);
+			# on exiting 1, bullet splits into 3
+			var new_dmg = Global.player_bullet_properties[new_verse].damage;
+			var speed = curr_vel;
+			if (new_verse == 2): 
+				damage = 50;
+				new_dmg = damage*charge;
+				speed *= (1-(charge/2));
+			fire_spread(get_global_position(), new_verse, 3, 20, new_dmg/2, speed);
 			queue_free();
 		2:
-			pass
+			# on exiting 2, damage of bullet scales with charge upwards
+			damage = Global.player_bullet_properties[new_verse].damage * (charge+1);
 		3:
 			pass
 		_:
@@ -121,10 +141,13 @@ func fire_spread(pos, style, num, deg, damage, speed):
 	for i in num:
 		var b = bullet.instance();
 		# b._on_Verse_Jump(style)
+		b.charge = charge;
 		b.show_verse_style(style);
 		get_parent().add_child(b)
 		b.set_global_position(pos);
-		b.damage = damage;
+		
+		# if charged, scale the bullet damage
+		b.damage = damage * (charge+1);
 		
 		if (!odd):
 			new_deg = ((deg*1.5)+(i*deg))-(deg*(num-1));
@@ -139,12 +162,14 @@ func fire_spread(pos, style, num, deg, damage, speed):
 		# print("fire bullet at %d" % new_deg);
 		b.set_linear_velocity(new_dir*speed);
 		b.rotation = 2*PI + atan2(new_dir.y, new_dir.x);
-
+	
 func _physics_process(delta):
 	curr_vel = sqrt(pow(linear_velocity.x,2)+pow(linear_velocity.y,2));
-	if (style == 2):
-		scale = Vector2(5*charge, 5*charge);
-	elif (style == 3 && num_bounces > 0):
+	# if (style == 2):
+		# scale = Vector2(1+charge, 1+charge);
+	if (charge > 0):
+		scale = Vector2(1+charge, 1+charge);
+	if (style == 3 && num_bounces > 0):
 		bounce_bullet();
 
 # bursts after 1/2 way to dest perhaps
