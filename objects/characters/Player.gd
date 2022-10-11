@@ -82,36 +82,6 @@ func _physics_process(delta):
 	position.x = clamp(position.x, -get_viewport_rect().size.x/2, get_viewport_rect().size.x/2)
 	position.y = clamp(position.y, -get_viewport_rect().size.y/2, get_viewport_rect().size.y/2)
 
-
-# fires a bullet at the mouse position
-func fire_bullet(charge):
-	var b_speed = 700;
-	var shotLocations = [Global.player]
-	if (style == 0):
-		shotLocations = get_tree().get_nodes_in_group('shots')
-		
-	for shot in shotLocations:
-		var b = bullet.instance()
-		
-		b.damage += charge * 20
-		b.scale *= charge * 10
-		if charge == 1:
-			b.damage = 100
-		
-		print(b.damage)
-		
-		b._on_Verse_Jump(style)
-		get_parent().add_child(b)
-		b.set_global_position(shot.get_global_position())
-		
-		var dir = get_global_position().direction_to(get_global_mouse_position())
-		b.dir = dir;
-		b.rotation = 2*PI + atan2(dir.y, dir.x);
-		b.set_linear_velocity(dir*b_speed);
-		
-		if (style == 1):
-			instance_pixel_bullet(b);
-
 # func for calculating charge amount of bullet
 func calculate_charge(time):
 	var charge = time
@@ -119,24 +89,29 @@ func calculate_charge(time):
 		charge = 1
 	return charge
 
-func instance_pixel_bullet(b):
-	var linear_vel = sqrt(pow(b.linear_velocity.x,2)+pow(b.linear_velocity.y,2));
-	var dist = sqrt(pow(get_global_mouse_position().x-get_global_position().x, 2)+pow(get_global_mouse_position().y-get_global_position().y, 2));
-	# the amt of time it takes the bullet to reach the distance it explodes
-	var explode_timer = (dist*0.75)/linear_vel;
-	b.get_node("Style1/ExplodeTimer").start(explode_timer);
-func fire_bullet():
-	var b = bullet.instance()
-	b.dir = get_global_position().direction_to(get_global_mouse_position());
-	b.rotation = 2*PI + atan2(b.dir.y, b.dir.x);
-	b.bullet_properties = Global.player_bullet_properties[style];
-	get_parent().add_child(b)
+func fire_bullet(charge):
+	var shotLocations = [Global.player]
+	if (style == 0):
+		shotLocations = get_tree().get_nodes_in_group('shots')
+	for shot in shotLocations:
+		var b = bullet.instance()
+		b.set_global_position(shot.get_global_position())
+		b.dir = get_global_position().direction_to(get_global_mouse_position());
+		b.rotation = 2*PI + atan2(b.dir.y, b.dir.x);
+		b.bullet_properties = Global.player_bullet_properties[style];
+		b.scale *= charge * 5
+		if charge == 1:
+			b.damage = 100
+		print(b.damage)
+		get_parent().add_child(b)
 
-	match style:
-		1:
-			b.init_pixel_bullet(get_global_position(), style);
-		_:
-			b.init_normal_bullet(get_global_position(), style);
+		match style:
+			1:
+				b.init_pixel_bullet(shot.get_global_position(), style);
+			2:
+				b.init_minimal_bullet(shot.get_global_position(), style, charge)
+			_:
+				b.init_normal_bullet(shot.get_global_position(), style);
 	
 func damage(amount):
 	print("Player have been damaged %d" % amount)
