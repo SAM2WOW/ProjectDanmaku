@@ -4,7 +4,7 @@
 [ext_resource path="res://objects/weapons/PlayerExplosion.gd" type="Script" id=2]
 
 [sub_resource type="CircleShape2D" id=1]
-radius = 92.0217
+radius = 115.004
 
 [sub_resource type="AtlasTexture" id=2]
 atlas = ExtResource( 1 )
@@ -43,7 +43,7 @@ script = ExtResource( 2 )
 shape = SubResource( 1 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
-scale = Vector2( 6, 6 )
+scale = Vector2( 10, 10 )
 frames = SubResource( 7 )
 
 [connection signal="body_entered" from="." to="." method="_on_Area2D_body_entered"]
