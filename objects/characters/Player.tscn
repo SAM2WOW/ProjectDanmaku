@@ -75,3 +75,11 @@ shape = SubResource( 1 )
 wait_time = 0.2
 one_shot = true
 autostart = true
+
+[node name="FiringPositions" type="Node2D" parent="."]
+
+[node name="LeftShot" type="Node2D" parent="FiringPositions"]
+position = Vector2( 16, -20 )
+
+[node name="RightShot" type="Node2D" parent="FiringPositions"]
+position = Vector2( 16, 20 )
