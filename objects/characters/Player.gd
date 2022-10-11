@@ -8,28 +8,40 @@ export var speed = 300
 
 var health = 100
 
+var holdTime = 0
+
 var bullet = preload("res://objects/weapons/PlayerBullet.tscn")
-
-onready var firingPositions = $FiringPositions
-
 
 func _ready():
 	Global.player = self
 
 
 func _process(delta):
-	if Input.is_action_pressed("mouse_action"):
-		# shooting = true;
-		if ($FireTimer.is_stopped()):
-			fire_bullet();
-			$FireTimer.start();
-	# else:
-		# shooting = false;
+	if (style == 2):
+		if Input.is_action_pressed("mouse_action"):
+			var tween_values = [Color(1,1,1), Color(2,2,2)]
+			if holdTime >= 1 && (self.modulate == tween_values[0] || self.modulate == tween_values[1]):
+				$ReadyFlash.interpolate_property(self, "modulate", tween_values[1], tween_values[0], 1, Tween.TRANS_LINEAR)
+				$ReadyFlash.start()
+			holdTime += delta
+		if Input.is_action_just_released("mouse_action"):
+			$ReadyFlash.remove_all()
+			self.modulate = Color(1,1,1)
+			fire_bullet(calculate_charge(holdTime))
+			holdTime = 0
+			$FireTimer.start()
+	else:
+		if Input.is_action_pressed("mouse_action"):
+			# shooting = true;
+			if ($FireTimer.is_stopped()):
+				fire_bullet(0)
+				$FireTimer.start()
+		# else:
+			# shooting = false;
 	
 	# rotate the sprite toward player in minimalistic style
 	if style == 0:
 		$Style0/Icon.look_at(get_global_mouse_position())
-
 
 func _input(event):
 	if event is InputEventKey:
@@ -68,14 +80,21 @@ func _physics_process(delta):
 
 
 # fires a bullet at the mouse position
-func fire_bullet():
+func fire_bullet(charge):
 	var b_speed = 700;
 	var shotLocations = [Global.player]
 	if (style == 0):
-		shotLocations = firingPositions.get_children()
+		shotLocations = get_tree().get_nodes_in_group('shots')
 		
 	for shot in shotLocations:
 		var b = bullet.instance()
+		
+		b.damage += charge * 20
+		b.scale *= charge * 10
+		if charge == 1:
+			b.damage = 100
+		
+		print(b.damage)
 		
 		b._on_Verse_Jump(style)
 		get_parent().add_child(b)
@@ -88,6 +107,13 @@ func fire_bullet():
 		
 		if (style == 1):
 			instance_pixel_bullet(b);
+
+# func for calculating charge amount of bullet
+func calculate_charge(time):
+	var charge = time
+	if time > 1:
+		charge = 1
+	return charge
 
 func instance_pixel_bullet(b):
 	var linear_vel = sqrt(pow(b.linear_velocity.x,2)+pow(b.linear_velocity.y,2));
