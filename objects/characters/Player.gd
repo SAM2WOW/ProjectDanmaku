@@ -95,6 +95,8 @@ func fire_bullet():
 			init_pixel_bullets();
 		2:
 			init_3d_bullets();
+		3:
+			init_collage_bullets();
 		_:
 			var b = bullet.instance();
 			b.style = 2;
@@ -122,7 +124,6 @@ func init_pixel_bullets():
 
 func init_3d_bullets():
 	var charge = holdTime / maxHoldTime;
-	print(charge);
 	if (charge > 1.0): charge = 1.0;
 	
 	var b = bullet.instance();
@@ -131,6 +132,12 @@ func init_3d_bullets():
 	get_parent().add_child(b)
 	b.init_3d_bullet(get_global_position(), style, charge);
 	
+func init_collage_bullets():
+	var b = bullet.instance();
+	b.dir = get_global_position().direction_to(get_global_mouse_position());
+	b.rotation = 2*PI + atan2(b.dir.y, b.dir.x);
+	get_parent().add_child(b)
+	b.init_collage_bullet(get_global_position(), style);
 
 func damage(amount):
 	print("Player have been damaged %d" % amount)

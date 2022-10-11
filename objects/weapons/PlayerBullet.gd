@@ -71,6 +71,11 @@ func init_minimal_bullet(pos, verse):
 	show_verse_style(verse);
 	damage = Global.player_bullet_properties[verse]["damage"];
 	set_linear_velocity(dir*Global.player_bullet_properties[verse]["speed"]);
+
+func init_collage_bullet(pos, verse):
+	damage = Global.player_bullet_properties[verse]["damage"];
+	fire_spread(pos, verse, 3, 30, damage, Global.player_bullet_properties[verse]["speed"]);
+	queue_free();
 	
 func explode():
 	var e = explosion.instance();
