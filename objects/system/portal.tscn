@@ -1,11 +1,17 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://objects/system/portal.gd" type="Script" id=1]
 [ext_resource path="res://arts/shaders/MetalBall/background.png" type="Texture" id=2]
 [ext_resource path="res://arts/shaders/Style0.tres" type="Material" id=3]
+[ext_resource path="res://arts/shaders/Style1.tres" type="Material" id=4]
+[ext_resource path="res://arts/particles/whitecircle.png" type="Texture" id=5]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 247, 247.5 )
+
+[sub_resource type="Curve" id=2]
+bake_resolution = 24
+_data = [ Vector2( 0, 0.595455 ), 0.0, 1.90438, 0, 0, Vector2( 0.361386, 0.95 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.0590909 ), -4.04, 0.0, 0, 0 ]
 
 [node name="Portal" type="Node2D"]
 script = ExtResource( 1 )
@@ -22,6 +28,20 @@ scale = Vector2( 3.83188, 3.83188 )
 z_index = -300
 z_as_relative = false
 texture = ExtResource( 2 )
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="Sprite"]
+material = ExtResource( 4 )
+scale = Vector2( 0.260969, 0.260969 )
+texture = ExtResource( 5 )
+emission_shape = 2
+emission_rect_extents = Vector2( 300, 300 )
+spread = 180.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 100.0
+initial_velocity_random = 0.5
+scale_amount = 0.1
+scale_amount_random = 0.3
+scale_amount_curve = SubResource( 2 )
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
 [connection signal="body_exited" from="Area2D" to="." method="_on_Area2D_body_exited"]
