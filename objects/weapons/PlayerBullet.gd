@@ -54,14 +54,14 @@ func init_normal_bullet(pos, style):
 	show_verse_style(style);
 	set_linear_velocity(dir*Global.player_bullet_properties[style]["speed"]);
 
-func init_minimal_bullet(pos, style, charge):
+func init_3d_bullet(pos, style, charge):
 	set_global_position(pos)
-	damage = bullet_properties["damage"]
-	damage += charge * 20
-	if charge == 1:
-		damage = 100
+	damage = Global.player_bullet_properties[style]["damage"] * charge;
+	if charge >= 1:
+		damage *= 1.5;
 	show_verse_style(style)
-	set_linear_velocity(dir*bullet_properties["speed"])
+	set_linear_velocity(dir*Global.player_bullet_properties[style]["speed"])
+
 func init_minimal_bullet(pos, style):
 	set_global_position(pos);
 	damage = Global.player_bullet_properties[style]["damage"];
@@ -139,7 +139,7 @@ func fire_spread(pos, style, num, deg, damage, speed):
 
 func _physics_process(delta):
 	curr_vel = sqrt(pow(linear_velocity.x,2)+pow(linear_velocity.y,2));
-	if (style == 2 && num_bounces > 0):
+	if (style == 3 && num_bounces > 0):
 		bounce_bullet();
 
 # bursts after 1/2 way to dest perhaps
