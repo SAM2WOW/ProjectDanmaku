@@ -9,6 +9,9 @@ var curr_vel = 0.0;
 var num_bounces = 2;
 var charge = 0.0;
 
+var init_dist = Vector2();
+var dest = Vector2.ZERO;
+
 func _ready():
 	pass;
 
@@ -22,15 +25,12 @@ func _on_PlayerBullet_body_entered(body):
 	if "Boss" in body.name:
 		# spawns an explosion at collision area if pixel bullet
 		if (style==1):
-			var e = explosion.instance();
-			e.get_node("AnimatedSprite").play();
-			get_tree().root.add_child(e);
-			e.set_global_position(get_global_position());
-			e.damage = damage;
+			explode();
 		else:
 			body.damage(damage)
 		
 		queue_free()
+	
 
 func show_verse_style(verse):
 	# show all the styles
@@ -41,17 +41,20 @@ func show_verse_style(verse):
 		if i != verse:
 			get_node("Style%d" % i).hide()
 
-# determines how it moves and appearance
-func init_pixel_bullet(pos, verse):
-	set_global_position(pos);
-	show_verse_style(verse);
-	damage = Global.player_bullet_properties[verse]["damage"];
-	add_force(Vector2.ZERO, dir*Global.player_bullet_properties[verse]["speed"]);
-
 func init_normal_bullet(pos, verse):
 	set_global_position(pos);
 	show_verse_style(verse);
 	damage = Global.player_bullet_properties[verse]["damage"];
+	set_linear_velocity(dir*Global.player_bullet_properties[verse]["speed"]);
+
+# determines how it moves and appearance
+func init_pixel_bullet(pos, verse, _dest):
+	set_global_position(pos);
+	show_verse_style(verse);
+	dest = _dest;
+	init_dist =	sqrt(pow(dest.x-pos.x,2)+pow(dest.y-pos.y,2));
+	damage = Global.player_bullet_properties[verse]["damage"];
+	# add_force(Vector2.ZERO, dir*Global.player_bullet_properties[verse]["speed"]);
 	set_linear_velocity(dir*Global.player_bullet_properties[verse]["speed"]);
 
 func init_3d_bullet(pos, verse, _charge):
@@ -70,7 +73,11 @@ func init_minimal_bullet(pos, verse):
 	set_linear_velocity(dir*Global.player_bullet_properties[verse]["speed"]);
 	
 func explode():
-	pass
+	var e = explosion.instance();
+	e.get_node("AnimatedSprite").play();
+	get_tree().root.add_child(e);
+	e.set_global_position(get_global_position());
+	e.damage = damage;
 
 # verse enter function
 func _on_Verse_Jump(verse):
@@ -142,6 +149,7 @@ func fire_spread(pos, style, num, deg, damage, speed):
 		var b = bullet.instance();
 		# b._on_Verse_Jump(style)
 		b.charge = charge;
+		b.num_bounces = num_bounces;
 		b.show_verse_style(style);
 		get_parent().add_child(b)
 		b.set_global_position(pos);
@@ -169,7 +177,17 @@ func _physics_process(delta):
 		# scale = Vector2(1+charge, 1+charge);
 	if (charge > 0):
 		scale = Vector2(1+charge, 1+charge);
-	if (style == 3 && num_bounces > 0):
+	if (style == 1 && dest != Vector2.ZERO):
+		var pos = get_global_position();
+		var dest_dist = sqrt(pow(dest.x-pos.x,2)+pow(dest.y-pos.y,2));
+		var dest_ratio = dest_dist/init_dist;
+		var speed = Global.player_bullet_properties[style]["speed"];
+		var base_speed = 100;
+		linear_velocity = Vector2(dir.x*(base_speed+speed*dest_ratio), dir.y*(base_speed+speed*dest_ratio));
+		if (dest_ratio < 0.01):
+			explode();
+			queue_free();
+	elif (style == 3 && num_bounces > 0):
 		bounce_bullet();
 
 # bursts after 1/2 way to dest perhaps
