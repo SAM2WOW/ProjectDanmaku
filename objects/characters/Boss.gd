@@ -1,8 +1,7 @@
 extends KinematicBody2D
 
 var style = Global.initial_style
-var hit_by = [1]; # once its hit by this once it cant be hit by it again
-var test = "hello"
+
 
 var basic_bullet = preload("res://objects/weapons/BasicBullet.tscn")
 
