@@ -6,6 +6,9 @@ var style = Global.initial_style
 
 var velocity = Vector2.ZERO
 export var speed = 300
+
+onready var firingPositions = $FiringPositions
+
 # var shooting = false;
 
 var health = 100
@@ -113,6 +116,39 @@ func fire_bullet(charge):
 			_:
 				b.init_normal_bullet(shot.get_global_position(), style);
 	
+
+# fires a bullet at the mouse position
+func fire_bullet():
+	match style:
+		0:
+			init_minimal_bullets();
+		1:
+			init_pixel_bullets();
+		_:
+			var b = bullet.instance();
+			b.style = 2;
+			b.dir = get_global_position().direction_to(get_global_mouse_position());
+			b.rotation = 2*PI + atan2(b.dir.y, b.dir.x);
+			get_parent().add_child(b)
+			b.init_normal_bullet(get_global_position(), style);
+
+func init_minimal_bullets():
+	var shotLocations = [Global.player];
+	shotLocations = firingPositions.get_children()
+	for shot in shotLocations:
+		var b = bullet.instance()
+		b.dir = get_global_position().direction_to(get_global_mouse_position());
+		get_parent().add_child(b);
+		b.rotation = 2*PI + atan2(b.dir.y, b.dir.x);
+		b.init_minimal_bullet(shot.get_global_position(), style);
+
+func init_pixel_bullets():
+	var b = bullet.instance();
+	b.dir = get_global_position().direction_to(get_global_mouse_position());
+	b.rotation = 2*PI + atan2(b.dir.y, b.dir.x);
+	get_parent().add_child(b)
+	b.init_pixel_bullet(get_global_position(), style);
+
 func damage(amount):
 	print("Player have been damaged %d" % amount)
 	health -= amount

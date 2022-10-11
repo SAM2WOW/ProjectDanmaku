@@ -4,15 +4,16 @@ var style = Global.initial_style
 var damage = 10;
 var dir = Vector2();
 var bullet = load("res://objects/weapons/PlayerBullet.tscn");
-var bullet_properties = Global.player_bullet_properties[style];
 var explosion = preload("res://objects/weapons/PlayerExplosion.tscn");
 var curr_vel = 0.0;
+var num_bounces = 2;
 
 func _ready():
 	pass;
 
 func _on_VisibilityNotifier2D_screen_exited():
 	queue_free()
+	pass
 
 
 func _on_PlayerBullet_body_entered(body):
@@ -32,6 +33,7 @@ func _on_PlayerBullet_body_entered(body):
 
 func show_verse_style(verse):
 	# show all the styles
+	style = verse;
 	get_node("Style%d" % verse).show()
 	# hide the styles that aren't said style
 	for i in range(Global.total_style):
@@ -41,16 +43,16 @@ func show_verse_style(verse):
 # determines how it moves and appearance
 func init_pixel_bullet(pos, verse):
 	set_global_position(pos);
-	damage = bullet_properties["damage"];
+	damage = Global.player_bullet_properties[style]["damage"];
 	show_verse_style(verse);
 	style = verse;
-	add_force(Vector2.ZERO, dir*bullet_properties["speed"]);
+	add_force(Vector2.ZERO, dir*Global.player_bullet_properties[style]["speed"]);
 
 func init_normal_bullet(pos, style):
 	set_global_position(pos);
-	damage = bullet_properties["damage"];
+	damage = Global.player_bullet_properties[style]["damage"];
 	show_verse_style(style);
-	set_linear_velocity(dir*bullet_properties["speed"]);
+	set_linear_velocity(dir*Global.player_bullet_properties[style]["speed"]);
 
 func init_minimal_bullet(pos, style, charge):
 	set_global_position(pos)
@@ -60,6 +62,11 @@ func init_minimal_bullet(pos, style, charge):
 		damage = 100
 	show_verse_style(style)
 	set_linear_velocity(dir*bullet_properties["speed"])
+func init_minimal_bullet(pos, style):
+	set_global_position(pos);
+	damage = Global.player_bullet_properties[style]["damage"];
+	show_verse_style(style);
+	set_linear_velocity(dir*Global.player_bullet_properties[style]["speed"]);
 	
 func explode():
 	pass
@@ -80,13 +87,29 @@ func _on_Verse_Jump(verse):
 # verse exit function
 func _on_Verse_Exit(prev_verse, new_verse):
 	match prev_verse:
+		0:
+			pass
 		1:
 			var new_dmg =  Global.player_bullet_properties[new_verse].damage;
-			fire_spread(get_position(), new_verse, 3, 10, new_dmg/2, curr_vel);
+			fire_spread(get_global_position(), new_verse, 3, 20, new_dmg/2, curr_vel);
 			queue_free();
+		2:
+			pass
+		3:
+			pass
 		_:
 			pass
 	pass
+	
+func bounce_bullet():
+	if (get_global_position().y < -Global.window_height/2 || get_global_position().y >= Global.window_height/2):
+		dir = Vector2(dir.x, -dir.y);
+		set_linear_velocity(dir*curr_vel);
+		num_bounces-=1;
+	if (get_global_position().x < -Global.window_width/2 || get_global_position().x >= Global.window_width/2):
+		dir = Vector2(-dir.x, dir.y);
+		set_linear_velocity(dir*curr_vel);
+		num_bounces-=1;
 
 func fire_spread(pos, style, num, deg, damage, speed):
 	var new_dir = Vector2();
@@ -116,6 +139,8 @@ func fire_spread(pos, style, num, deg, damage, speed):
 
 func _physics_process(delta):
 	curr_vel = sqrt(pow(linear_velocity.x,2)+pow(linear_velocity.y,2));
+	if (style == 2 && num_bounces > 0):
+		bounce_bullet();
 
 # bursts after 1/2 way to dest perhaps
 func pixel_verse_properties():
