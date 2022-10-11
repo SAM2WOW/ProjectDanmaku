@@ -1,10 +1,11 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://objects/characters/Player.gd" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
 [ext_resource path="res://arts/pixelArt/witch_idle.png" type="Texture" id=3]
 [ext_resource path="res://objects/characters/flip_script.gd" type="Script" id=4]
 [ext_resource path="res://arts/abstrastArt/player.png" type="Texture" id=5]
+[ext_resource path="res://arts/3D/Witch.png" type="Texture" id=6]
 
 [sub_resource type="AtlasTexture" id=9]
 atlas = ExtResource( 3 )
@@ -73,8 +74,9 @@ script = ExtResource( 4 )
 visible = false
 
 [node name="Sprite" type="Sprite" parent="Style2"]
-modulate = Color( 0.243137, 0.909804, 0.54902, 1 )
-texture = ExtResource( 2 )
+position = Vector2( -2, 0 )
+scale = Vector2( 0.152315, 0.152315 )
+texture = ExtResource( 6 )
 
 [node name="Style3" type="Node2D" parent="."]
 visible = false
