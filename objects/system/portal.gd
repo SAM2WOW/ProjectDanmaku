@@ -5,8 +5,8 @@ export var style = 0
 
 
 func _ready():
-	$Sprite.set_material(load("res://arts/shaders/Style%d.tres" % style))
-	$Sprite/CPUParticles2D.set_material(load("res://arts/shaders/Style%d.tres" % style))
+	#$Sprite.set_material(load("res://arts/shaders/Style%d.tres" % style))
+	#$Sprite/CPUParticles2D.set_material(load("res://arts/shaders/Style%d.tres" % style))
 	
 	set_scale(Vector2(0, 0))
 	var tween = create_tween().set_trans(Tween.TRANS_ELASTIC)
