@@ -1,12 +1,14 @@
 extends RigidBody2D
 
+var prev_style = Global.initial_style;
 var style = Global.initial_style
 var damage = 10;
 var dir = Vector2();
 var bullet = load("res://objects/weapons/PlayerBullet.tscn");
 var explosion = preload("res://objects/weapons/PlayerExplosion.tscn");
 var curr_vel = 0.0;
-var num_bounces = 2;
+var num_bounces = 0;
+var bouncing = false;
 var charge = 0.0;
 
 var init_dist = Vector2();
@@ -74,7 +76,9 @@ func init_minimal_bullet(pos, verse):
 
 func init_collage_bullet(pos, verse):
 	damage = Global.player_bullet_properties[verse]["damage"];
-	fire_spread(pos, verse, 3, 30, damage, Global.player_bullet_properties[verse]["speed"]);
+	var bullets = fire_spread(pos, verse, 3, 30, damage, Global.player_bullet_properties[verse]["speed"]);
+	for b in bullets:
+		b.num_bounces = 2;
 	queue_free();
 	
 func explode():
@@ -87,6 +91,7 @@ func explode():
 # verse enter function
 func _on_Verse_Jump(verse):
 	Global.prev_style = style
+	prev_style = style;
 	style = verse
 	show_verse_style(style)
 	damage = Global.player_bullet_properties[style].damage * (1+charge);
@@ -106,7 +111,9 @@ func _on_Verse_Jump(verse):
 			damage *= charge + 1;
 			linear_velocity *= (1-(charge/2));
 		3:
-			pass
+			if (!bouncing):
+				bouncing = true;
+				num_bounces = 2;
 		_:
 			pass
 
@@ -131,7 +138,9 @@ func _on_Verse_Exit(prev_verse, new_verse):
 			# on exiting 2, damage of bullet scales with charge upwards
 			damage = Global.player_bullet_properties[new_verse].damage * (charge+1);
 		3:
-			pass
+			if (!bouncing):
+				bouncing = true;
+				num_bounces = 2;
 		_:
 			pass
 	pass
@@ -140,20 +149,24 @@ func bounce_bullet():
 	if (get_global_position().y < -Global.window_height/2 || get_global_position().y >= Global.window_height/2):
 		dir = Vector2(dir.x, -dir.y);
 		set_linear_velocity(dir*curr_vel);
+		rotation = 2*PI + atan2(dir.y, dir.x);
 		num_bounces-=1;
 	if (get_global_position().x < -Global.window_width/2 || get_global_position().x >= Global.window_width/2):
 		dir = Vector2(-dir.x, dir.y);
 		set_linear_velocity(dir*curr_vel);
+		rotation = 2*PI + atan2(dir.y, dir.x);
 		num_bounces-=1;
 
 func fire_spread(pos, style, num, deg, damage, speed):
 	var new_dir = Vector2();
 	var new_deg = 0.0;
 	var odd = (num%2 != 0);
+	var bullets = [];
 	for i in num:
 		var b = bullet.instance();
 		# b._on_Verse_Jump(style)
 		b.charge = charge;
+		b.bouncing = bouncing;
 		b.num_bounces = num_bounces;
 		b.show_verse_style(style);
 		get_parent().add_child(b)
@@ -175,6 +188,8 @@ func fire_spread(pos, style, num, deg, damage, speed):
 		# print("fire bullet at %d" % new_deg);
 		b.set_linear_velocity(new_dir*speed);
 		b.rotation = 2*PI + atan2(new_dir.y, new_dir.x);
+		bullets.append(b);
+	return bullets;
 	
 func _physics_process(delta):
 	curr_vel = sqrt(pow(linear_velocity.x,2)+pow(linear_velocity.y,2));
@@ -192,10 +207,5 @@ func _physics_process(delta):
 		if (dest_ratio < 0.01):
 			explode();
 			queue_free();
-	elif (style == 3 && num_bounces > 0):
+	if (bouncing && num_bounces > 0):
 		bounce_bullet();
-
-# bursts after 1/2 way to dest perhaps
-func pixel_verse_properties():
-	pass;
-
