@@ -1,7 +1,7 @@
 extends KinematicBody2D
 
 var style = Global.initial_style
-
+var hit_by = []
 
 var basic_bullet = preload("res://objects/weapons/BasicBullet.tscn")
 
