@@ -54,7 +54,7 @@ func _process(delta):
 func _input(event):
 	if event is InputEventKey:
 		var keyPressed = event.scancode
-		if keyPressed in [48,49,50]:
+		if keyPressed in [48,49,50,51]:
 			var new_style = keyPressed - 48
 			Global.current_style = new_style
 			for node in get_tree().get_nodes_in_group('style'):
