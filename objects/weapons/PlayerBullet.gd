@@ -7,6 +7,7 @@ var bullet = load("res://objects/weapons/PlayerBullet.tscn");
 var explosion = preload("res://objects/weapons/PlayerExplosion.tscn");
 var curr_vel = 0.0;
 var num_bounces = 2;
+var charge = 0.0;
 
 func _ready():
 	pass;
@@ -54,13 +55,15 @@ func init_normal_bullet(pos, style):
 	show_verse_style(style);
 	set_linear_velocity(dir*Global.player_bullet_properties[style]["speed"]);
 
-func init_3d_bullet(pos, style, charge):
+func init_3d_bullet(pos, style, _charge):
 	set_global_position(pos)
+	charge = _charge;
 	damage = Global.player_bullet_properties[style]["damage"] * charge;
 	if charge >= 1:
 		damage *= 1.5;
 	show_verse_style(style)
 	set_linear_velocity(dir*Global.player_bullet_properties[style]["speed"])
+	scale = Vector2(5*charge, 5*charge);
 
 func init_minimal_bullet(pos, style):
 	set_global_position(pos);
@@ -139,7 +142,9 @@ func fire_spread(pos, style, num, deg, damage, speed):
 
 func _physics_process(delta):
 	curr_vel = sqrt(pow(linear_velocity.x,2)+pow(linear_velocity.y,2));
-	if (style == 3 && num_bounces > 0):
+	if (style == 2):
+		scale = Vector2(5*charge, 5*charge);
+	elif (style == 3 && num_bounces > 0):
 		bounce_bullet();
 
 # bursts after 1/2 way to dest perhaps
