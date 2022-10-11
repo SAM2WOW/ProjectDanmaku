@@ -70,42 +70,25 @@ func _physics_process(delta):
 # fires a bullet at the mouse position
 func fire_bullet():
 
+	# var b_instances = [];
+	
 	var b = bullet.instance()
 	b.dir = get_global_position().direction_to(get_global_mouse_position());
 	b.rotation = 2*PI + atan2(b.dir.y, b.dir.x);
 	b.bullet_properties = Global.player_bullet_properties[style];
 	get_parent().add_child(b)
-=======
-	var b_speed = 700;
+	
 	var shotLocations = [Global.player]
 	if (style == 0):
-		shotLocations = firingPositions.get_children()
-		
-	for shot in shotLocations:
-		var b = bullet.instance()
-		
-		b._on_Verse_Jump(style)
-		get_parent().add_child(b)
-		b.set_global_position(shot.get_global_position())
-		
-		var dir = get_global_position().direction_to(get_global_mouse_position())
-		b.dir = dir;
-		b.rotation = 2*PI + atan2(dir.y, dir.x);
-		b.set_linear_velocity(dir*b_speed);
-		
-		if (style == 1):
-			instance_pixel_bullet(b);
-
-func instance_pixel_bullet(b):
-	var linear_vel = sqrt(pow(b.linear_velocity.x,2)+pow(b.linear_velocity.y,2));
-	var dist = sqrt(pow(get_global_mouse_position().x-get_global_position().x, 2)+pow(get_global_mouse_position().y-get_global_position().y, 2));
-	# the amt of time it takes the bullet to reach the distance it explodes
-	var explode_timer = (dist*0.75)/linear_vel;
-	b.get_node("Style1/ExplodeTimer").start(explode_timer);
-
-
+		shotLocations = firingPositions.get_children();
+	
 	match style:
+#		0:
+#			print("min bullet");
+#			for shot in shotLocations:
+#				b.init_minimal_bullet(shotLocations, style);
 		1:
+			# for bu in b_instances:
 			b.init_pixel_bullet(get_global_position(), style);
 		_:
 			b.init_normal_bullet(get_global_position(), style);

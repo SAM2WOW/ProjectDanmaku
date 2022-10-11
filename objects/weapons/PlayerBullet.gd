@@ -52,8 +52,11 @@ func init_normal_bullet(pos, style):
 	show_verse_style(style);
 	set_linear_velocity(dir*bullet_properties["speed"]);
 
-func init_minimal_verse():
-	pass
+func init_minimal_bullet(pos, style):
+	set_global_position(pos)
+	damage = bullet_properties["damage"];
+	show_verse_style(style);
+	set_linear_velocity(dir*bullet_properties["speed"]);
 	
 func explode():
 	pass
