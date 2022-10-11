@@ -9,9 +9,9 @@ export var speed = 300
 var health = 100
 
 var bullet = preload("res://objects/weapons/PlayerBullet.tscn")
-var pixel_bullet = preload("res://arts/pixelArt/fireball.png")
-var bullet_properties = Global.player_bullet_properties[style];
+
 onready var firingPositions = $FiringPositions
+
 
 func _ready():
 	Global.player = self
@@ -70,6 +70,7 @@ func _physics_process(delta):
 # fires a bullet at the mouse position
 func fire_bullet():
 
+
 	# var b_instances = [];
 	
 	var b = bullet.instance()
@@ -102,6 +103,7 @@ func damage(amount):
 		
 		get_tree().reload_current_scene()
 
+
 func _on_Verse_Jump(verse):
 	style = verse
 	
@@ -111,7 +113,3 @@ func _on_Verse_Jump(verse):
 		if i != style:
 			get_node("Style%d" % i).hide()
 			print("Style%d" % style)
-	
-	bullet_properties = Global.player_bullet_properties[style];
-	get_node("FireTimer").wait_time = bullet_properties["fire rate"];
-	
