@@ -24,9 +24,9 @@ func _on_Verse_Jump(verse):
 
 
 func _on_FireTimer_timeout():
-	fire_bullet();
+	fire_bullets();
 
-func fire_bullet():
+func fire_bullets():
 	match style:
 		0:
 			init_minimal_bullets();
@@ -42,42 +42,50 @@ func fire_bullet():
 
 # boss will have two attacks per style
 
-# 1.) shoot like 4-5 waves of minimal bullets around boss
-# 2.) yo mama
+# 0.) shoot like 4~ waves of minimal bullets around boss
+# 1.) gatling 3~ waves of blobs of bullets towards the players position at fire
 func init_minimal_bullets():
 	match attack_pattern:
 		0:
+			var num_waves = 4;
+			var wave_interval = 0.3;
+			var timer = get_node("Style0/PatternTimer0");
+			var offset_inc = 0.2;
 			# instantiate the bullets
 			# set the bullets properties to the one of the style
-			var bullets = fire_pulse(get_global_position(), 8, 0, style);
-			for b in bullets:
-				b.init_minimal_bullet(style);
-				b.set_linear_velocity(b.dir*300);
+			for i in num_waves:
+				fire_pulse(get_global_position(), 8, offset_inc*i, style);
+				timer.start(0.3);
+				yield(timer, "timeout");
+			get_node("FireTimer").start();
 		1:
 			pass
 		_:
 			pass
 
+# 0: fire a wave of 4~ bullets towards the players position on firing, and blow them up when they reach there
+# 1: fire a series of bullets that; start from the center and extend to the outside.
 func init_pixel_bullets():
 	pass
 
+# 0: fires a wave of 4~ quick lasers towards the players position
+# 1: shoot lasers in all directions, then rotate the lasers slowly around the boss (hades style)
 func init_3d_bullets():
 	pass
 
+# 0: fire 2~ waves of shotgun shots of bouncing bullets towards the player
+# 1: tbf
 func init_collage_bullets():
 	pass
 
-func fire_pulse(pos, num, offset, style):
-	var degrees = offset;
-	var degree_inc = 360.0/num;
-	var bullets = [];
+func fire_pulse(pos, num, offset, _style):
+	var degrees = 360.0/num;
 	for i in num:
 		var b = basic_bullet.instance();
-		var radians = degrees*PI/180;
-		degrees += degree_inc;
+		var radians = (offset+(i*degrees))*PI/180;
 		b.dir = Vector2(cos(radians), sin(radians));
 		b.rotation = 2*PI + atan2(b.dir.y, b.dir.x);
 		b.set_global_position(get_global_position());
-		get_parent().add_child(b)
-		bullets.append(b);
-	return bullets;
+		get_parent().add_child(b);
+		b.init_style(_style);
+		b.set_linear_velocity(b.dir*300);

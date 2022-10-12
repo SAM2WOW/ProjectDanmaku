@@ -17,19 +17,33 @@ func _on_PlayerBullet_body_entered(body):
 		
 		queue_free()
 
-
-func _on_Verse_Jump(verse):
-	style = verse
-	
+func show_verse_style(verse):
 	get_node("Style%d" % style).show()
-	
 	for i in range(Global.total_style):
 		if i != style:
 			get_node("Style%d" % i).hide()
-			#print("Style%d" % style)
+
+func _on_Verse_Jump(verse):
+	style = verse
+	show_verse_style(verse);
+
+func init_style(_style):
+	style = _style;
+	show_verse_style(_style);
+	match _style:
+		0:
+			init_minimal_bullet();
+		1:
+			init_pixel_bullet();
+		2:
+			init_3d_bullet();
+		3:
+			init_collage_bullet();
+		_:
+			pass
 
 # initialize the properties of these bullets
-func init_minimal_bullet(verse):
+func init_minimal_bullet():
 	# ie.) init damage, speed, trajectory, etc: bullet properties of this verse
 	pass
 
