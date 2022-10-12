@@ -12,6 +12,10 @@ var transbullet_cd = 1
 
 var basic_bullet = preload("res://objects/weapons/BasicBullet.tscn")
 
+var laserInd = preload("res://objects/weapons/LaserIndicator.tscn")
+var laserBeam = preload("res://objects/weapons/LaserBeam.tscn")
+
+
 func _ready():
 	Global.boss = self;
 	attack_pattern = rng.randi()%2;
@@ -31,7 +35,6 @@ func _on_Verse_Jump(verse):
 	if style == verse:
 		return
 	style = verse
-	finish_attack();
 	
 	get_node("Style%d" % style).show()
 	
@@ -39,6 +42,37 @@ func _on_Verse_Jump(verse):
 		if i != style:
 			get_node("Style%d" % i).hide()
 			#print("Style%d" % style)
+
+func fireLaser(fireFrom, fireAt):
+	
+	var ind = laserInd.instance();
+	var timeBeforeBeam = 0.8
+	var beamDuration = 0.5
+	var particleDuration = 1
+	
+	get_parent().add_child(ind)
+	ind.set_global_position(fireFrom)
+	
+	ind.add_point(Vector2.ZERO)
+#	ind.add_point(get_global_position())
+	# Makes sure laser always extends past viewport
+	ind.add_point((fireAt - fireFrom) * 150)
+	
+	yield(get_tree().create_timer(timeBeforeBeam), "timeout")
+	
+	var beam = laserBeam.instance();
+	beam.set_global_position(fireFrom)
+	get_parent().add_child(beam)
+	var beamPoint = ind.points[1]
+#	beamPoint[1] /= 5
+	beam.set_cast_to(beamPoint)
+	
+	ind.queue_free()
+	yield(get_tree().create_timer(beamDuration), "timeout")
+	beam.is_casting = false
+	
+	yield(get_tree().create_timer(particleDuration), "timeout")
+	beam.queue_free()
 
 func finish_attack():
 	rng.randomize();
@@ -130,7 +164,37 @@ func init_pixel_bullets():
 # 0: fires a wave of 4~ quick lasers towards the players position
 # 1: shoot lasers in all directions, then rotate the lasers slowly around the boss (hades style)
 func init_3d_bullets():
-	pass
+	match attack_pattern:
+		0:
+			var timeBetweenAttacks = 1.5
+			var beamDuration = 0.5
+			var maxX = get_viewport().size.x / 2
+			var maxY = get_viewport().size.y / 2
+			var xArr = [0, maxX, -maxX]
+			var yArr = [0, maxY, -maxY]
+			for x in xArr:
+				for y in yArr:
+					# Don't shoot a laser at (0,0)
+					if (x!=0 || y!=0):
+						fireLaser(get_global_position(), Vector2(x,y))
+			yield(get_tree().create_timer(timeBetweenAttacks), "timeout")
+			
+			var xArr2 = [maxX, -maxX, maxX / 2, -maxX / 2]
+			var yArr2 = [maxY, -maxY, maxY / 2, -maxY / 2]
+			for x2 in xArr2:
+				for y2 in yArr2:
+					if (!(abs(x2) == maxX && abs(y2) == maxY) && !(abs(x2) == maxX/2 && abs(y2) == maxY/2)):
+						fireLaser(get_global_position(), Vector2(x2,y2))
+			yield(get_tree().create_timer(beamDuration), "timeout")
+			finish_attack()
+		1:
+			var timeBetweenAttacks = 0.8
+			for i in range(10):
+				fireLaser(get_global_position(), Global.player.get_global_position())
+				yield(get_tree().create_timer(timeBetweenAttacks), "timeout")
+			finish_attack()
+		_:
+			pass
 
 # 0: fire 2~ waves of shotgun shots of bouncing bullets towards the player
 # 1: fire a singular circular shot

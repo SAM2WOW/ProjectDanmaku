@@ -73,7 +73,8 @@ func _on_Verse_Jump(verse):
 			linear_velocity *= 0.8;
 		# into 3d; laser gets charged
 		2:
-			pass
+			Global.boss.fireLaser(get_global_position(), get_global_position() + (dir * 50))
+			queue_free()
 		# into collage; bullets can bounce and gets slower
 		3:
 			linear_velocity *= 0.7;
@@ -83,16 +84,17 @@ func _on_Verse_Jump(verse):
 		_:
 			pass
 	
-func _on_Verse_Exit(verse):
+func _on_Verse_Exit(verse, new_verse):
 	match verse:
 		# on leaving minimal verse, nothing
 		0:
 			pass
 		# on leaving pixel verse, splits into 2
 		1:
-			var bullets = Global.boss.fire_spread(2, 20, curr_vel*0.8, dir, get_global_position());
-			for b in bullets:
-				init_clone_instance(b);
+			if (new_verse != 2):
+				var bullets = Global.boss.fire_spread(2, 20, curr_vel*0.8, dir, get_global_position());
+				for b in bullets:
+					init_clone_instance(b);
 			queue_free();
 		# on leaving 3d verse, bullets increase in size? and are slower?
 		2:

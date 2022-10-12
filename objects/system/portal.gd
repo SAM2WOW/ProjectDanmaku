@@ -63,4 +63,4 @@ func _on_Area2D_body_exited(body):
 		if body.has_method('_on_Verse_Jump'):
 			body._on_Verse_Jump(Global.current_style)
 		if body.has_method('_on_Verse_Exit'):
-			body._on_Verse_Exit(style)
+			body._on_Verse_Exit(style, Global.current_style)

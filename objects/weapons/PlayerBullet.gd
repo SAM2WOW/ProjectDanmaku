@@ -142,7 +142,7 @@ func _on_Verse_Jump(verse):
 			pass
 
 # verse exit function
-func _on_Verse_Exit(verse):
+func _on_Verse_Exit(verse, new_verse):
 	match verse:
 		0:
 			# on exiting 0, bullets get weaker but go faster
