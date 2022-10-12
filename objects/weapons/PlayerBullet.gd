@@ -10,6 +10,7 @@ var curr_vel = 0.0;
 var num_bounces = 0;
 var bouncing = false;
 var charge = 0.0;
+var can_explode = false;
 
 var init_dist = Vector2();
 var dest = Vector2.ZERO;
@@ -26,7 +27,7 @@ func _on_PlayerBullet_body_entered(body):
 	print("Bullet Collide %s" % body.name)
 	if "Boss" in body.name:
 		# spawns an explosion at collision area if pixel bullet
-		if (style==1):
+		if (can_explode):
 			explode();
 		else:
 			body.damage(damage)
@@ -56,7 +57,7 @@ func init_pixel_bullet(pos, verse, _dest):
 	dest = _dest;
 	init_dist =	sqrt(pow(dest.x-pos.x,2)+pow(dest.y-pos.y,2));
 	damage = Global.player_bullet_properties[verse]["damage"];
-	# add_force(Vector2.ZERO, dir*Global.player_bullet_properties[verse]["speed"]);
+	can_explode = true;
 	set_linear_velocity(dir*Global.player_bullet_properties[verse]["speed"]);
 
 func init_3d_bullet(pos, verse, _charge):
@@ -78,6 +79,7 @@ func init_collage_bullet(pos, verse):
 	damage = Global.player_bullet_properties[verse]["damage"];
 	var bullets = fire_spread(pos, verse, 3, 30, damage, Global.player_bullet_properties[verse]["speed"]);
 	for b in bullets:
+		b.bouncing = true;
 		b.num_bounces = 2;
 	queue_free();
 	
@@ -97,14 +99,16 @@ func _on_Verse_Jump(verse):
 	damage = Global.player_bullet_properties[style].damage * (1+charge);
 
 	match style:
+		# on entering minimal
 		0:
 			pass
+		# on entering pixel
 		1:
 			pass
 		2:
 			# bullet gets a bit more charged if it enters and slower
 			if (charge == 0.0): 
-				charge = 0.2;
+				charge = 0.4;
 			else: 
 				charge *= 1.5;
 			if (charge > 1.0): charge = 1.0
@@ -125,7 +129,7 @@ func _on_Verse_Exit(prev_verse, new_verse):
 			damage = Global.player_bullet_properties[new_verse].damage*0.75;
 			set_linear_velocity(get_linear_velocity()*1.2);
 		1:
-			# on exiting 1, bullet splits into 3
+			# on exiting pixel, bullet splits into 3
 			var new_dmg = Global.player_bullet_properties[new_verse].damage;
 			var speed = curr_vel;
 			if (new_verse == 2): 
@@ -138,12 +142,12 @@ func _on_Verse_Exit(prev_verse, new_verse):
 			# on exiting 2, damage of bullet scales with charge upwards
 			damage = Global.player_bullet_properties[new_verse].damage * (charge+1);
 		3:
+			# on exiting, can bounce twice if it cant bounce already
 			if (!bouncing):
 				bouncing = true;
 				num_bounces = 2;
 		_:
 			pass
-	pass
 	
 func bounce_bullet():
 	if (get_global_position().y < -Global.window_height/2 || get_global_position().y >= Global.window_height/2):
@@ -168,6 +172,7 @@ func fire_spread(pos, style, num, deg, damage, speed):
 		b.charge = charge;
 		b.bouncing = bouncing;
 		b.num_bounces = num_bounces;
+		# b.can_explode = can_explode;
 		b.show_verse_style(style);
 		get_parent().add_child(b)
 		b.set_global_position(pos);
