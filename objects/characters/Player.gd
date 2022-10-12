@@ -155,6 +155,8 @@ func damage(amount):
 		print("You DEAD!!!")
 		
 		get_tree().reload_current_scene()
+		Global.prev_style = Global.initial_style
+		Global.current_style = Global.initial_style
 
 func _on_Verse_Jump(verse):
 	get_node("Style%d" % style).hide()

@@ -32,7 +32,6 @@ func _physics_process(delta: float) -> void:
 		$CollisionParticle2D.position = cast_point
 		if "Player" in get_collider().name:
 			get_collider().damage(10)
-		print(laserBulletInterval)
 		if "Area2D" in get_collider().name && laserBulletInterval >= 0.25:
 			var b = basic_bullet.instance()
 			var pos = get_collision_point()

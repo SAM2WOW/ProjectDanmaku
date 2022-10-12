@@ -20,3 +20,5 @@ func damage_boss(amount):
 		print("You Win")
 		
 		get_tree().reload_current_scene()
+		Global.prev_style = Global.initial_style
+		Global.current_style = Global.initial_style

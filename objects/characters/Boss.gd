@@ -23,7 +23,6 @@ func damage(amount):
 
 func _on_Verse_Jump(verse):
 	style = verse
-	finish_attack();
 	
 	get_node("Style%d" % style).show()
 	
