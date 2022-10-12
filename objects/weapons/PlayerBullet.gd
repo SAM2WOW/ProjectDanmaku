@@ -4,12 +4,18 @@ var style = Global.initial_style
 var damage = 10;
 var dir = Vector2();
 var bullet = load("res://objects/weapons/PlayerBullet.tscn");
+
+# detonate variables
+var detonate = false;
+var detonate_at_pos = false;
+var detonate_pos = Vector2();
+var detonate_init_dist = 0.0;
 var explosion = preload("res://objects/weapons/PlayerExplosion.tscn");
+
 var curr_vel = 0.0;
 var num_bounces = 0;
 var bouncing = false;
 var charge = 0.0;
-var can_explode = false;
 
 var init_dist = Vector2();
 var dest = Vector2.ZERO;
@@ -26,16 +32,15 @@ func _on_PlayerBullet_body_entered(body):
 	print("Bullet Collide %s" % body.name)
 	if "Boss" in body.name:
 		# spawns an explosion at collision area if pixel bullet
-		if (can_explode):
+		if (detonate):
 			explode();
 		else:
 			body.damage(damage)
 		
 		queue_free()
-	
 
+# show the bullet style
 func show_verse_style(verse):
-	# show all the styles
 	style = verse;
 	get_node("Style%d" % verse).show()
 	# hide the styles that aren't said style
@@ -43,45 +48,57 @@ func show_verse_style(verse):
 		if i != verse:
 			get_node("Style%d" % i).hide()
 
-func init_normal_bullet(pos, verse):
-	set_global_position(pos);
-	show_verse_style(verse);
-	damage = Global.player_bullet_properties[verse]["damage"];
-	set_linear_velocity(dir*Global.player_bullet_properties[verse]["speed"]);
+# set the position, dir, rotation, and style
+func init_bullet(_pos, _dir, _style):
+	set_global_position(_pos);
+	dir = _dir;
+	set_bullet_rotation(_dir);
+	style = _style;
+	init_style(_style);
 
-# determines how it moves and appearance
-func init_pixel_bullet(pos, verse, _dest):
-	set_global_position(pos);
-	show_verse_style(verse);
-	dest = _dest;
-	init_dist =	sqrt(pow(dest.x-pos.x,2)+pow(dest.y-pos.y,2));
-	damage = Global.player_bullet_properties[verse]["damage"];
-	can_explode = true;
-	set_linear_velocity(dir*Global.player_bullet_properties[verse]["speed"]);
+func init_style(_style):
+	style = _style;
+	show_verse_style(_style);
+	match _style:
+		0:
+			init_minimal_bullet();
+		1:
+			pass
+			# init_pixel_bullet();
+		2:
+			pass
+			# init_3d_bullet();
+		3:
+			pass
+			# init_collage_bullet();
+		_:
+			pass
 
-func init_3d_bullet(pos, verse, _charge):
-	set_global_position(pos)
-	show_verse_style(verse)
-	charge = _charge;
-	damage = Global.player_bullet_properties[verse]["damage"] * charge;
+# init bullet types
+func init_pixel_bullet():
+	damage = Global.player_bullet_properties[style]["damage"];
+	
+func set_detonate(dest=get_global_mouse_position()):
+	var pos = get_global_position();
+	detonate = true;
+	detonate_at_pos = true;
+	detonate_pos = dest;
+	detonate_init_dist =	sqrt(pow(dest.x-pos.x,2)+pow(dest.y-pos.y,2));
+
+func init_3d_bullet():
+	charge = 0.5;
+	damage = Global.player_bullet_properties[style]["damage"] * charge;
 	if charge >= 1:
 		damage *= 1.5;
-	set_linear_velocity(dir*Global.player_bullet_properties[verse]["speed"])
 
-func init_minimal_bullet(pos, verse):
-	set_global_position(pos);
-	show_verse_style(verse);
-	damage = Global.player_bullet_properties[verse]["damage"];
-	set_linear_velocity(dir*Global.player_bullet_properties[verse]["speed"]);
+func init_minimal_bullet():
+	damage = Global.player_bullet_properties[style]["damage"];
 
-func init_collage_bullet(pos, verse):
-	damage = Global.player_bullet_properties[verse]["damage"];
-	var bullets = fire_spread(pos, verse, 3, 30, damage, Global.player_bullet_properties[verse]["speed"]);
-	for b in bullets:
-		b.bouncing = true;
-		b.num_bounces = 2;
-	queue_free();
-	
+func init_collage_bullet():
+	damage = Global.player_bullet_properties[style]["damage"];
+	bouncing = true;
+	num_bounces = 2;
+
 func explode():
 	var e = explosion.instance();
 	e.get_node("AnimatedSprite").play();
@@ -93,7 +110,7 @@ func explode():
 func _on_Verse_Jump(verse):
 	style = verse
 	show_verse_style(style)
-	damage = Global.player_bullet_properties[style].damage * (1+charge);
+	# damage = Global.player_bullet_properties[style].damage * (1+charge);
 
 	match style:
 		# on entering minimal
@@ -119,25 +136,25 @@ func _on_Verse_Jump(verse):
 			pass
 
 # verse exit function
-func _on_Verse_Exit(prev_verse, new_verse):
-	match prev_verse:
+func _on_Verse_Exit(verse):
+	match verse:
 		0:
 			# on exiting 0, bullets get weaker but go faster
-			damage = Global.player_bullet_properties[new_verse].damage*0.75;
+			damage = Global.player_bullet_properties[verse].damage*0.75;
 			set_linear_velocity(get_linear_velocity()*1.2);
 		1:
 			# on exiting pixel, bullet splits into 3
-			var new_dmg = Global.player_bullet_properties[new_verse].damage;
+			var new_dmg = Global.player_bullet_properties[verse].damage;
 			var speed = curr_vel;
-			if (new_verse == 2): 
+			if (verse == 2): 
 				damage = 50;
 				new_dmg = damage*charge;
 				speed *= (1-(charge/2));
-			fire_spread(get_global_position(), new_verse, 3, 20, new_dmg/2, speed);
+			Global.player.fire_spread(3, 20, speed, dir, get_global_position());
 			queue_free();
 		2:
 			# on exiting 2, damage of bullet scales with charge upwards
-			damage = Global.player_bullet_properties[new_verse].damage * (charge+1);
+			damage = Global.player_bullet_properties[verse].damage * (charge+1);
 		3:
 			# on exiting, can bounce twice if it cant bounce already
 			if (!bouncing):
@@ -157,6 +174,9 @@ func bounce_bullet():
 		set_linear_velocity(dir*curr_vel);
 		rotation = 2*PI + atan2(dir.y, dir.x);
 		num_bounces-=1;
+
+func set_bullet_rotation(_dir):
+	rotation = 2*PI + atan2(_dir.y, _dir.x);
 
 func fire_spread(pos, style, num, deg, damage, speed):
 	var new_dir = Vector2();
@@ -195,18 +215,22 @@ func fire_spread(pos, style, num, deg, damage, speed):
 	
 func _physics_process(delta):
 	curr_vel = sqrt(pow(linear_velocity.x,2)+pow(linear_velocity.y,2));
+	# dir = Vector2.UP.rotated(get_rotation());
+	dir = linear_velocity.normalized();
 	# if (style == 2):
 		# scale = Vector2(1+charge, 1+charge);
 	if (charge > 0):
 		scale = Vector2(1+charge, 1+charge);
-	if (style == 1 && dest != Vector2.ZERO):
-		var pos = get_global_position();
-		var dest_dist = sqrt(pow(dest.x-pos.x,2)+pow(dest.y-pos.y,2));
-		var dest_ratio = dest_dist/init_dist;
-		var speed = Global.player_bullet_properties[style]["speed"];
-		var base_speed = 100;
-		linear_velocity = Vector2(dir.x*(base_speed+speed*dest_ratio), dir.y*(base_speed+speed*dest_ratio));
-		if (dest_ratio < 0.01):
+	if (detonate_at_pos):
+		var speed = Global.player_bullet_properties[style]["speed"]; var base_speed = 100; var pos = get_global_position();
+		
+		var detonate_dist = sqrt(pow(detonate_pos.x-pos.x,2)+pow(detonate_pos.y-pos.y,2));
+		var dist_ratio = detonate_dist/detonate_init_dist;
+		set_linear_velocity(Vector2(
+			dir.x*(base_speed+speed*dist_ratio), 
+			dir.y*(base_speed+speed*dist_ratio)
+		));
+		if (dist_ratio < 0.01):
 			explode();
 			queue_free();
 	if (bouncing && num_bounces > 0):
