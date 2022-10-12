@@ -191,6 +191,10 @@ func damage(amount):
 	print("Player have been damaged %d" % amount)
 	health -= amount
 	
+	$HealthBar.show()
+	# wait a bit before regenerate health
+	$RegenerateTimer.start()
+	
 	Global.camera.shake(0.3, 12, 4)
 	
 	if health <= 0:
