@@ -3,6 +3,8 @@ extends Node2D
 
 var style = 0
 
+func _ready():
+	Global.background = self
 
 func _on_Verse_Jump(verse):
 	style = verse

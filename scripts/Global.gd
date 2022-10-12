@@ -5,6 +5,8 @@ var console
 var player
 var boss
 var camera
+var background
+var portal
 
 var initial_style = 0
 var total_style = 4

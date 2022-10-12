@@ -2,6 +2,7 @@ extends Node
 
 
 var boss_health = 5000
+var portal
 
 func _ready():
 	Global.console = self
