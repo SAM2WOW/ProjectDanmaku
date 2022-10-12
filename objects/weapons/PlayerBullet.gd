@@ -43,11 +43,10 @@ func _on_PlayerBullet_body_entered(body):
 
 # show the bullet style
 func show_verse_style(verse):
-	get_node("Style%d" % style).hide()
-	
-	style = verse
-	
 	get_node("Style%d" % style).show()
+	for i in range(Global.total_style):
+		if i != style:
+			get_node("Style%d" % i).hide()
 	
 	$TransEffect.restart()
 	$TransEffect.set_emitting(true)
@@ -74,14 +73,11 @@ func init_style(_style):
 		0:
 			init_minimal_bullet();
 		1:
-			pass
-			# init_pixel_bullet();
+			init_pixel_bullet();
 		2:
-			pass
-			# init_3d_bullet();
+			init_3d_bullet();
 		3:
-			pass
-			# init_collage_bullet();
+			init_collage_bullet();
 		_:
 			pass
 
@@ -97,7 +93,6 @@ func set_detonate(dest=get_global_mouse_position()):
 	detonate_init_dist =	sqrt(pow(dest.x-pos.x,2)+pow(dest.y-pos.y,2));
 
 func init_3d_bullet():
-	charge = 0.5;
 	damage = Global.player_bullet_properties[style]["damage"] * charge;
 	if charge >= 1:
 		damage *= 1.5;
@@ -188,41 +183,6 @@ func bounce_bullet():
 
 func set_bullet_rotation(_dir):
 	rotation = 2*PI + atan2(_dir.y, _dir.x);
-
-func fire_spread(pos, style, num, deg, damage, speed):
-	var new_dir = Vector2();
-	var new_deg = 0.0;
-	var odd = (num%2 != 0);
-	var bullets = [];
-	for i in num:
-		var b = bullet.instance();
-		# b._on_Verse_Jump(style)
-		b.charge = charge;
-		b.bouncing = bouncing;
-		b.num_bounces = num_bounces;
-		# b.can_explode = can_explode;
-		b.show_verse_style(style);
-		get_parent().add_child(b)
-		b.set_global_position(pos);
-		
-		# if charged, scale the bullet damage
-		b.damage = damage * (charge+1);
-		
-		if (!odd):
-			new_deg = (i-(num*0.5)+0.5)*deg;
-		else:
-			new_deg = (deg*(int(num/2))-(i*deg));
-		new_deg *= PI/180;
-		new_dir = Vector2(
-			dir.x * (cos(new_deg)) + dir.y * (sin(new_deg)),
-			dir.y * (cos(new_deg)) - dir.x * (sin(new_deg))
-		);
-		b.dir = new_dir;
-		# print("fire bullet at %d" % new_deg);
-		b.set_linear_velocity(new_dir*speed);
-		b.rotation = 2*PI + atan2(new_dir.y, new_dir.x);
-		bullets.append(b);
-	return bullets;
 	
 func _physics_process(delta):
 	curr_vel = sqrt(pow(linear_velocity.x,2)+pow(linear_velocity.y,2));

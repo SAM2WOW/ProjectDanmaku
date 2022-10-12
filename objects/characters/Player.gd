@@ -122,10 +122,29 @@ func fire_bullet():
 	match style:
 		0:
 			init_minimal_bullets();
+			
+			# effects
+			$Style0/Icon.set_scale(Vector2(0.7, 0.7))
+			$Style0/Icon/Playercircle.set_scale(Vector2(4, 4))
+			$Style0/Icon/Playercircle2.set_scale(Vector2(4, 4))
+			var tween = create_tween().set_trans(Tween.TRANS_SINE)
+			tween.tween_property($Style0/Icon/Playercircle, "scale", Vector2(1, 1), 0.2)
+			tween.parallel().tween_property($Style0/Icon/Playercircle2, "scale", Vector2(1, 1), 0.2)
+			tween.parallel().tween_property($Style0/Icon, "scale", Vector2(1, 1), 0.2)
 		1:
 			init_pixel_bullets();
+			
+			# effects
+			$Style1/AnimatedSprite.set_scale(Vector2(2.5, 2.5))
+			var tween = create_tween().set_trans(Tween.TRANS_SINE)
+			tween.tween_property($Style1/AnimatedSprite, "scale", Vector2(3, 3), 0.2)
 		2:
 			init_3d_bullets();
+			
+			# effects
+			$Style2/AnimatedSprite.set_scale(Vector2(0.12, 0.12))
+			var tween = create_tween().set_trans(Tween.TRANS_SINE)
+			tween.tween_property($Style2/AnimatedSprite, "scale", Vector2(0.137, 0.137), 0.2)
 		3:
 			init_collage_bullets();
 		_:
@@ -156,6 +175,7 @@ func init_3d_bullets():
 	if (charge > 1.0): charge = 1.0;
 
 	var b = bullet.instance();
+	b.charge = charge;
 	var dir = get_global_position().direction_to(get_global_mouse_position());
 	b.init_bullet(get_global_position(), dir, style);
 	b.set_linear_velocity(dir*Global.player_bullet_properties[style]["speed"]);

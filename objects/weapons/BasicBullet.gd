@@ -46,11 +46,10 @@ func _on_PlayerBullet_body_entered(body):
 		queue_free()
 
 func show_verse_style(verse):
-	get_node("Style%d" % style).hide()
-	
-	style = verse
-	
 	get_node("Style%d" % style).show()
+	for i in range(Global.total_style):
+		if i != style:
+			get_node("Style%d" % i).hide()
 	
 	$TransEffect.restart()
 	$TransEffect.set_emitting(true)
