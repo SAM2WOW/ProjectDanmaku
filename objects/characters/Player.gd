@@ -178,6 +178,8 @@ func damage(amount):
 		get_tree().reload_current_scene()
 
 func _on_Verse_Jump(verse):
+	if style == verse:
+		return
 	get_node("Style%d" % style).hide()
 	
 	style = verse
