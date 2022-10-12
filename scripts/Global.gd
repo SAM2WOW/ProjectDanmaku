@@ -4,6 +4,8 @@ extends Node
 var console
 var player
 var boss
+var background
+var portal
 
 var initial_style = 0
 var total_style = 4

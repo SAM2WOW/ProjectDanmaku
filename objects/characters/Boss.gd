@@ -7,6 +7,9 @@ var fire_rate = 1;
 var rng = RandomNumberGenerator.new();
 onready var fire_timer = get_node("FireTimer");
 
+var transbullet_state = false
+var transbullet_cd = 1
+
 var basic_bullet = preload("res://objects/weapons/BasicBullet.tscn")
 
 func _ready():
@@ -34,6 +37,18 @@ func finish_attack():
 	rng.randomize();
 	attack_pattern = rng.randi()%2;
 	fire_timer.start();
+	
+	if transbullet_state == false:
+		transbullet_cd -= 1
+		if transbullet_cd < 1:
+			transbullet_cd = 10
+			var t = load("res://objects/weapons/TransBullet.tscn").instance()
+			t.style = randi()%2
+			if t.style == style:
+				t.style =(style+1)%2
+			get_parent().add_child(t);
+			t.set_global_position(get_global_position());
+			transbullet_state = true
 
 func _on_FireTimer_timeout():
 	fire_bullets();

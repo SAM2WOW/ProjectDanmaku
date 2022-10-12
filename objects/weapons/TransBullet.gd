@@ -24,7 +24,14 @@ func _on_VisibilityNotifier2D_screen_exited():
 	queue_free()
 
 func _ready():
-	set_linear_velocity(Vector2(1000,100-randi() % 200).rotated(get_global_rotation()))
+	set_linear_velocity(Vector2(-1000,100-randi() % 200).rotated(get_global_rotation()))
+	$area/Sprite.set_material(load("res://arts/shaders/Portal%d.tres" % style))
+
+func self_destroy():
+	var tween = create_tween().set_trans(Tween.TRANS_BACK)
+	tween.tween_property($area, "scale", Vector2(0, 0), 0.2)
+	tween.tween_callback(self, "queue_free")
+	spawn_portal()
 
 func spawn_portal():
 	dead = true
@@ -33,7 +40,7 @@ func spawn_portal():
 	p.style = style
 	get_parent().add_child(p);
 	p.set_global_position(get_global_position());
-	queue_free()
+	
 
 func verse_jump_init():
 	dead = true
@@ -61,15 +68,19 @@ func _physics_process(delta):
 	if not dead:
 		$area.scale = lerp($area.scale, Vector2(2.5,2.5),0.01 * growth_rate)
 		if $area.scale.x > 2.4:
-			spawn_portal()
+			self_destroy()
 	else:
 		set_linear_velocity(lerp(get_linear_velocity(),Vector2.ZERO,0.15))
+
+func _on_Verse_Jump(style):
+	if style == self.style:
+		queue_free()
 
 func _on_Area2D_body_entered(body):
 	if not dead:
 		if body == Global.player:
 			body.damage(10)
-			spawn_portal()
+			self_destroy()
 		if "PlayerBullet" in body.name:
 			$area.scale -= Vector2(0.1,0.1)
 			health -= 1

@@ -38,4 +38,4 @@ void fragment() {
 [resource]
 shader = SubResource( 3 )
 shader_param/bg_color = Color( 0, 0, 0, 1 )
-shader_param/circle_size = 1.0
+shader_param/circle_size = 0.5
