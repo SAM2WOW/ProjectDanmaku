@@ -27,6 +27,10 @@ window/dpi/allow_hidpi=true
 window/stretch/mode="viewport"
 window/stretch/aspect="expand"
 
+[global]
+
+layer=false
+
 [gui]
 
 common/drop_mouse_on_gui_input_disabled=true
@@ -77,6 +81,7 @@ mouse_action={
 2d_physics/layer_2="Player"
 2d_physics/layer_3="Bullet"
 2d_physics/layer_4="Enemy"
+2d_physics/layer_5="VerseBullet"
 
 [physics]
 

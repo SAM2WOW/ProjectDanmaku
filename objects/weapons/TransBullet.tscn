@@ -1,30 +1,53 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://arts/shaders/MetalBall/background.png" type="Texture" id=1]
 [ext_resource path="res://objects/weapons/TransBullet.gd" type="Script" id=2]
-[ext_resource path="res://arts/shaders/Style0.tres" type="Material" id=3]
+[ext_resource path="res://arts/particles/whitecircle.png" type="Texture" id=3]
+[ext_resource path="res://arts/shaders/portal1.tres" type="Material" id=4]
+
+[sub_resource type="PhysicsMaterial" id=2]
+friction = 0.85
+bounce = 0.6
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 45.2769
 
+[sub_resource type="CircleShape2D" id=5]
+radius = 46.1736
+
 [node name="TransBullet" type="RigidBody2D" groups=["bullet"]]
-collision_layer = 4
+collision_layer = 16
 collision_mask = 3
+physics_material_override = SubResource( 2 )
 gravity_scale = 0.0
 contacts_reported = 1
 contact_monitor = true
-linear_damp = 0.0
+linear_damp = 0.1
 angular_damp = 0.0
 script = ExtResource( 2 )
 
-[node name="Sprite" type="Sprite" parent="."]
-material = ExtResource( 3 )
-texture = ExtResource( 1 )
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2( 0.858117, 0.858117 )
 shape = SubResource( 1 )
 
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
 
-[connection signal="body_entered" from="." to="." method="_on_PlayerBullet_body_entered"]
+[node name="area" type="Node2D" parent="."]
+
+[node name="Area2D" type="Area2D" parent="area"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="area/Area2D"]
+scale = Vector2( 0.782012, 0.782012 )
+shape = SubResource( 5 )
+
+[node name="Sprite2" type="Sprite" parent="area"]
+scale = Vector2( 0.881413, 0.881413 )
+texture = ExtResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="area"]
+material = ExtResource( 4 )
+scale = Vector2( 0.55585, 0.55585 )
+texture = ExtResource( 1 )
+
 [connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
+[connection signal="body_entered" from="area/Area2D" to="." method="_on_Area2D_body_entered"]

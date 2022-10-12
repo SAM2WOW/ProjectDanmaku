@@ -200,6 +200,7 @@ func _physics_process(delta):
 	curr_vel = sqrt(pow(linear_velocity.x,2)+pow(linear_velocity.y,2));
 	# if (style == 2):
 		# scale = Vector2(1+charge, 1+charge);
+
 	if (charge > 0):
 		scale = Vector2(1+charge, 1+charge);
 	if (style == 1 && dest != Vector2.ZERO):

@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://objects/characters/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://objects/characters/Boss.tscn" type="PackedScene" id=2]
@@ -10,6 +10,10 @@
 [ext_resource path="res://scripts/BackgroundScript.gd" type="Script" id=8]
 [ext_resource path="res://arts/shaders/MetalBall/Gel_Shader.tres" type="Material" id=9]
 [ext_resource path="res://arts/shaders/Style1.tres" type="Material" id=10]
+[ext_resource path="res://objects/weapons/TransBullet.tscn" type="PackedScene" id=11]
+
+[sub_resource type="PhysicsMaterial" id=3]
+bounce = 0.54
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.956863, 0.341176, 0.141176, 1 )
@@ -31,7 +35,7 @@ position = Vector2( -701, -7 )
 position = Vector2( 779, -2 )
 
 [node name="Portal" parent="Node2D" instance=ExtResource( 4 )]
-position = Vector2( -2, 188 )
+position = Vector2( -1600, -27 )
 style = 1
 
 [node name="Background" type="Node2D" parent="Node2D" groups=["style"]]
@@ -57,6 +61,19 @@ texture = ExtResource( 5 )
 
 [node name="Style3" type="Sprite" parent="Node2D/Background"]
 visible = false
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Node2D/Background"]
+collision_layer = 0
+collision_mask = 16
+physics_material_override = SubResource( 3 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Node2D/Background/StaticBody2D"]
+polygon = PoolVector2Array( -1024, -576, -1088, -640, 1088, -640, 1088, 640, -1088, 640, -1088, -640, -1024, -576, -1024, 576, 1024, 576, 1024, -576 )
+
+[node name="TransBullet" parent="Node2D/Background" instance=ExtResource( 11 )]
+position = Vector2( -456, -79 )
+mass = 100.0
+gravity_scale = 1.0
 
 [node name="Console" type="Node" parent="."]
 script = ExtResource( 3 )

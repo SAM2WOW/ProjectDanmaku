@@ -3,7 +3,6 @@ extends Node
 
 var boss_health = 1000
 
-
 func _ready():
 	Global.console = self
 	
