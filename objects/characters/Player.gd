@@ -13,6 +13,7 @@ onready var firingPositions = $FiringPositions
 # var shooting = false;
 
 var health = 100
+var health_regen_speed = 8
 
 var holdTime = 0
 var maxHoldTime = 1.0;
@@ -55,6 +56,19 @@ func _process(delta):
 	# rotate the sprite toward player in minimalistic style
 	if style == 0:
 		$Style0/Icon.look_at(get_global_mouse_position())
+	
+	# regenerate health
+	if $RegenerateTimer.is_stopped():
+		health = clamp(health + delta * health_regen_speed, 0, 100)
+		
+		if health >= 100.0:
+			$HealthBar.hide()
+	
+	# update health ui
+	if $HealthBar.is_visible():
+		#$HealthBar.set_value(lerp($HealthBar.get_value(), health, delta * 5))
+		$HealthBar.set_value(health)
+
 
 func _input(event):
 	if event is InputEventKey:
@@ -152,6 +166,11 @@ func init_collage_bullets():
 func damage(amount):
 	print("Player have been damaged %d" % amount)
 	health -= amount
+	
+	$HealthBar.show()
+	
+	# wait a bit before regenerate health
+	$RegenerateTimer.start()
 	
 	if health <= 0:
 		print("You DEAD!!!")

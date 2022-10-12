@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://objects/characters/Player.gd" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
@@ -8,6 +8,8 @@
 [ext_resource path="res://arts/3D/Witch.png" type="Texture" id=6]
 [ext_resource path="res://sounds/AbstractFire.wav" type="AudioStream" id=7]
 [ext_resource path="res://scripts/AudioRandomizer.gd" type="Script" id=8]
+[ext_resource path="res://sounds/AbstractBullet.wav" type="AudioStream" id=9]
+[ext_resource path="res://arts/ui/bosshealth.png" type="Texture" id=10]
 
 [sub_resource type="Gradient" id=17]
 offsets = PoolRealArray( 0, 0.150838, 1 )
@@ -64,9 +66,25 @@ radius = 18.0
 collision_layer = 2
 script = ExtResource( 1 )
 
+[node name="HealthBar" type="TextureProgress" parent="."]
+anchor_right = 1.0
+margin_left = -82.0
+margin_top = -83.0
+margin_right = 267.0
+margin_bottom = 267.0
+rect_scale = Vector2( 0.5, 0.5 )
+value = 100.0
+texture_under = ExtResource( 10 )
+texture_progress = ExtResource( 10 )
+fill_mode = 5
+tint_under = Color( 0, 0, 0, 0.0352941 )
+tint_progress = Color( 0.517647, 0.878431, 0.960784, 0.172549 )
+
 [node name="Style0" type="Node2D" parent="."]
 
 [node name="Icon" type="Sprite" parent="Style0"]
+self_modulate = Color( 0.517647, 0.878431, 0.960784, 1 )
+position = Vector2( 3, 0 )
 texture = ExtResource( 5 )
 
 [node name="FiringPositions" type="Node2D" parent="Style0/Icon"]
@@ -97,19 +115,20 @@ scale_amount_random = 0.62
 color_ramp = SubResource( 17 )
 
 [node name="FireSound" type="AudioStreamPlayer2D" parent="Style0"]
-stream = ExtResource( 7 )
+stream = ExtResource( 9 )
 bus = "Audio"
 script = ExtResource( 8 )
-base_volume = -10.0
+pitch_low = 0.784
+ptch_high = 1.376
+base_volume = -20.0
 
 [node name="Style1" type="Node2D" parent="."]
 visible = false
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Style1"]
-position = Vector2( 4, -17 )
+position = Vector2( 0, -5 )
 scale = Vector2( 3, 3 )
 frames = SubResource( 8 )
-frame = 3
 speed_scale = 2.0
 playing = true
 script = ExtResource( 4 )
@@ -144,8 +163,8 @@ script = ExtResource( 8 )
 visible = false
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Style2"]
-position = Vector2( -6, -7 )
-scale = Vector2( 0.152315, 0.152315 )
+position = Vector2( -5, 5 )
+scale = Vector2( 0.137318, 0.137318 )
 frames = SubResource( 15 )
 script = ExtResource( 4 )
 
@@ -216,3 +235,6 @@ one_shot = true
 autostart = true
 
 [node name="ReadyFlash" type="Tween" parent="."]
+
+[node name="RegenerateTimer" type="Timer" parent="."]
+one_shot = true
