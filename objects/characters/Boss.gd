@@ -16,6 +16,11 @@ func _ready():
 func damage(amount):
 	print("Boss have been damaged %d" % amount)
 	Global.console.damage_boss(amount)
+	
+	# effects
+	get_node("Style%d" % style).set_scale(Vector2(0.7, 0.7))
+	var tween = create_tween().set_trans(Tween.TRANS_SINE)
+	tween.tween_property(get_node("Style%d" % style), "scale", Vector2(1, 1), 0.2)
 
 func _on_Verse_Jump(verse):
 	if style == verse:
@@ -28,7 +33,7 @@ func _on_Verse_Jump(verse):
 	for i in range(Global.total_style):
 		if i != style:
 			get_node("Style%d" % i).hide()
-			print("Style%d" % style)
+			#print("Style%d" % style)
 
 func finish_attack():
 	rng.randomize();

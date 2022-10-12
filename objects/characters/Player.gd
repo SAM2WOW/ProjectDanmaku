@@ -122,10 +122,29 @@ func fire_bullet():
 	match style:
 		0:
 			init_minimal_bullets();
+			
+			# effects
+			$Style0/Icon.set_scale(Vector2(0.7, 0.7))
+			$Style0/Icon/Playercircle.set_scale(Vector2(4, 4))
+			$Style0/Icon/Playercircle2.set_scale(Vector2(4, 4))
+			var tween = create_tween().set_trans(Tween.TRANS_SINE)
+			tween.tween_property($Style0/Icon/Playercircle, "scale", Vector2(1, 1), 0.2)
+			tween.parallel().tween_property($Style0/Icon/Playercircle2, "scale", Vector2(1, 1), 0.2)
+			tween.parallel().tween_property($Style0/Icon, "scale", Vector2(1, 1), 0.2)
 		1:
 			init_pixel_bullets();
+			
+			# effects
+			$Style1/AnimatedSprite.set_scale(Vector2(2.5, 2.5))
+			var tween = create_tween().set_trans(Tween.TRANS_SINE)
+			tween.tween_property($Style1/AnimatedSprite, "scale", Vector2(3, 3), 0.2)
 		2:
 			init_3d_bullets();
+			
+			# effects
+			$Style2/AnimatedSprite.set_scale(Vector2(0.12, 0.12))
+			var tween = create_tween().set_trans(Tween.TRANS_SINE)
+			tween.tween_property($Style2/AnimatedSprite, "scale", Vector2(0.137, 0.137), 0.2)
 		3:
 			init_collage_bullets();
 		_:
