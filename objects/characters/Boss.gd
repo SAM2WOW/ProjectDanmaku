@@ -3,6 +3,7 @@ extends KinematicBody2D
 var style = Global.initial_style
 var hit_by = []
 var attack_pattern = 0;
+onready var fire_timer = get_node("FireTimer");
 
 var basic_bullet = preload("res://objects/weapons/BasicBullet.tscn")
 
@@ -53,9 +54,9 @@ func init_minimal_bullets():
 			# instantiate the bullets
 			# set the bullets properties to the one of the style
 			for i in num_waves:
-				fire_pulse(get_global_position(), 8, offset_inc*i, style);
+				fire_pulse(get_global_position(), 8, 300, offset_inc*i, style);
 				yield(get_tree().create_timer(wave_interval), "timeout");
-			get_node("FireTimer").start();
+			fire_timer.start();
 		1:
 			pass
 		_:
@@ -76,14 +77,18 @@ func init_3d_bullets():
 func init_collage_bullets():
 	pass
 
-func fire_pulse(pos, num, offset, _style):
+func fire_pulse(pos, num, speed, offset, _style):
 	var degrees = 360.0/num;
 	for i in num:
 		var b = basic_bullet.instance();
 		var radians = (offset+(i*degrees))*PI/180;
-		b.dir = Vector2(cos(radians), sin(radians));
-		b.rotation = 2*PI + atan2(b.dir.y, b.dir.x);
-		b.set_global_position(get_global_position());
+		var dir = Vector2(cos(radians), sin(radians));
+		b.init_bullet(get_global_position(), dir, _style);
+		b.set_linear_velocity(b.dir*speed);
+		
 		get_parent().add_child(b);
-		b.init_style(_style);
-		b.set_linear_velocity(b.dir*300);
+
+# 6~ bullets at the approximate position of the player
+# dir and speed are randomized within a range
+func fire_blob():
+	pass
