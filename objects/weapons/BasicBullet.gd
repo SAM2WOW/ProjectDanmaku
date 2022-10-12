@@ -3,7 +3,15 @@ extends RigidBody2D
 var style = Global.initial_style
 var basic_bullet = load("res://objects/weapons/BasicBullet.tscn");
 var dir = Vector2();
-var damage = 0.0;
+
+# for detonation bullets
+var detonate = false;
+var detonate_at_pos = false;
+var detonate_init_dist = Vector2.ZERO;
+var detonate_pos = Vector2.ZERO;
+var explosion = preload("res://objects/weapons/EnemyExplosion.tscn");
+
+var damage = 1.0;
 
 
 func init_bullet(_pos, _dir, _style):
@@ -65,14 +73,31 @@ func init_collage_bullet():
 	
 func set_bullet_rotation(_dir):
 	rotation = 2*PI + atan2(_dir.y, _dir.x);
+	
+func set_detonate(dest=Global.player.get_global_position()):
+	var pos = get_global_position();
+	detonate_at_pos = true;
+	detonate_pos = dest;
+	detonate_init_dist =	sqrt(pow(dest.x-pos.x,2)+pow(dest.y-pos.y,2));
 
-func fire_pulse(num, offset, style):
-	var degrees = offset;
-	var degree_inc = 360.0/num;
-	for i in num:
-		var b = basic_bullet.instance();
-		var radians = degrees*PI/180;
-		b.dir = Vector2(cos(radians), sin(radians));
-		# b.bouncing = bouncing;
-		# b.num_bounces = num_bounces;
-		pass
+func explode():
+	var e = explosion.instance();
+	e.get_node("AnimatedSprite").play();
+	get_parent().add_child(e);
+	e.set_global_position(get_global_position());
+	e.damage = damage;
+	
+func _physics_process(delta):
+	if (detonate_at_pos):
+		var speed = 1000; var base_speed = 100; var pos = get_global_position();
+		
+		var detonate_dist = sqrt(pow(detonate_pos.x-pos.x,2)+pow(detonate_pos.y-pos.y,2));
+		var dist_ratio = detonate_dist/detonate_init_dist;
+		set_linear_velocity(Vector2(
+			dir.x*(base_speed+speed*dist_ratio), 
+			dir.y*(base_speed+speed*dist_ratio)
+		));
+		if (dist_ratio < 0.01):
+			explode();
+			queue_free();
+
