@@ -1,7 +1,7 @@
 extends Node
 
 
-var boss_health = 1000
+var boss_health = 5000
 
 
 func _ready():

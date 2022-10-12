@@ -3,6 +3,7 @@ extends Node
 
 var console
 var player
+var boss
 
 var initial_style = 0
 var total_style = 4

@@ -5,7 +5,8 @@ extends KinematicBody2D
 var style = Global.initial_style
 
 var velocity = Vector2.ZERO
-export var speed = 300
+export var speed = 500
+var speed_mult = 1.0;
 
 # var shooting = false;
 
@@ -42,6 +43,10 @@ func _process(delta):
 			if ($FireTimer.is_stopped()):
 				fire_bullet()
 				$FireTimer.start()
+	if (Input.is_action_pressed("holding_shift")):
+		speed_mult = 0.5;
+	else:
+		speed_mult = 1.0;
 		# else:
 			# shooting = false;
 	
@@ -54,6 +59,7 @@ func _input(event):
 		var keyPressed = event.scancode
 		if keyPressed in [48,49,50,51]:
 			var new_style = keyPressed - 48
+			Global.prev_style = Global.current_style
 			Global.current_style = new_style
 			for node in get_tree().get_nodes_in_group('style'):
 				node._on_Verse_Jump(new_style)
@@ -78,7 +84,7 @@ func _physics_process(delta):
 	if Input.is_action_pressed("move_left"):
 		velocity.x = -1
 	
-	move_and_slide(velocity * speed, Vector2.UP)
+	move_and_slide(velocity * speed*speed_mult, Vector2.UP)
 	
 	# bound the player to the viewport
 	position.x = clamp(position.x, -get_viewport_rect().size.x/2, get_viewport_rect().size.x/2)
@@ -102,6 +108,10 @@ func fire_bullet():
 			b.rotation = 2*PI + atan2(b.dir.y, b.dir.x);
 			get_parent().add_child(b)
 			b.init_normal_bullet(get_global_position(), style);
+	
+	# play sounds
+	get_node("Style%d/FireSound" % style).play()
+
 
 func init_minimal_bullets():
 	var shotLocations = [Global.player];
@@ -147,14 +157,17 @@ func damage(amount):
 		get_tree().reload_current_scene()
 
 func _on_Verse_Jump(verse):
+	get_node("Style%d" % style).hide()
+	
 	style = verse
 	
 	get_node("Style%d" % style).show()
+	get_node("Style%d/TransEffect" % style).restart()
+	get_node("Style%d/TransEffect" % style).set_emitting(true)
 	
-	for i in range(Global.total_style):
-		if i != style:
-			get_node("Style%d" % i).hide()
-			print("Style%d" % style)
+	get_node("Style%d" % style).set_scale(Vector2(0.7, 0.7))
+	var tween = create_tween().set_trans(Tween.TRANS_BOUNCE)
+	tween.tween_property(get_node("Style%d" % style), "scale", Vector2(1, 1), 0.2)
 	
 	bullet_properties = Global.player_bullet_properties[style];
 	get_node("FireTimer").wait_time = bullet_properties["fire rate"];
