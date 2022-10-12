@@ -13,6 +13,7 @@ onready var firingPositions = $FiringPositions
 # var shooting = false;
 
 var health = 100
+var health_regen_speed = 8
 
 var holdTime = 0
 var maxHoldTime = 1.0;
@@ -52,6 +53,19 @@ func _process(delta):
 	# rotate the sprite toward player in minimalistic style
 	if style == 0:
 		$Style0/Icon.look_at(get_global_mouse_position())
+	
+	# regenerate health
+	if $RegenerateTimer.is_stopped():
+		health = clamp(health + delta * health_regen_speed, 0, 100)
+		
+		if health >= 100.0:
+			$HealthBar.hide()
+	
+	# update health ui
+	if $HealthBar.is_visible():
+		#$HealthBar.set_value(lerp($HealthBar.get_value(), health, delta * 5))
+		$HealthBar.set_value(health)
+
 
 func _physics_process(delta):
 	velocity = Vector2.ZERO
@@ -85,14 +99,19 @@ func _input(event):
 				# print(new_style)
 
 func _on_Verse_Jump(verse):
+	if style == verse:
+		return
+	get_node("Style%d" % style).hide()
+	
 	style = verse
 	
 	get_node("Style%d" % style).show()
+	get_node("Style%d/TransEffect" % style).restart()
+	get_node("Style%d/TransEffect" % style).set_emitting(true)
 	
-	for i in range(Global.total_style):
-		if i != style:
-			get_node("Style%d" % i).hide()
-			print("Style%d" % style)
+	get_node("Style%d" % style).set_scale(Vector2(0.7, 0.7))
+	var tween = create_tween().set_trans(Tween.TRANS_BOUNCE)
+	tween.tween_property(get_node("Style%d" % style), "scale", Vector2(1, 1), 0.2)
 	
 	bullet_properties = Global.player_bullet_properties[style];
 	get_node("FireTimer").wait_time = bullet_properties["fire rate"];

@@ -18,6 +18,8 @@ func damage(amount):
 	Global.console.damage_boss(amount)
 
 func _on_Verse_Jump(verse):
+	if style == verse:
+		return
 	style = verse
 	finish_attack();
 	

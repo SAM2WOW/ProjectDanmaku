@@ -13,11 +13,16 @@ config_version=4
 config/name="Project Danmaku"
 config/description="CMPM 170"
 run/main_scene="res://scenes/Main.tscn"
-config/icon="res://icon.png"
+boot_splash/image="res://new_icon.png"
+boot_splash/fullsize=false
+boot_splash/use_filter=false
+boot_splash/bg_color=Color( 0.160784, 0.0862745, 0.203922, 1 )
+config/icon="res://new_icon.png"
 
 [autoload]
 
 Global="*res://scripts/Global.gd"
+MusicPlayer="*res://scripts/MusicPlayer.gd"
 
 [display]
 
@@ -26,6 +31,10 @@ window/size/height=1080
 window/dpi/allow_hidpi=true
 window/stretch/mode="viewport"
 window/stretch/aspect="expand"
+
+[global]
+
+layer=false
 
 [gui]
 
@@ -82,6 +91,7 @@ holding_shift={
 2d_physics/layer_2="Player"
 2d_physics/layer_3="Bullet"
 2d_physics/layer_4="Enemy"
+2d_physics/layer_5="VerseBullet"
 
 [physics]
 

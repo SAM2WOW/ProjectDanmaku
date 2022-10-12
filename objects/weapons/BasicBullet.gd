@@ -46,10 +46,21 @@ func _on_PlayerBullet_body_entered(body):
 		queue_free()
 
 func show_verse_style(verse):
+	get_node("Style%d" % style).hide()
+	
+	style = verse
+	
 	get_node("Style%d" % style).show()
-	for i in range(Global.total_style):
-		if i != style:
-			get_node("Style%d" % i).hide()
+	
+	$TransEffect.restart()
+	$TransEffect.set_emitting(true)
+
+	var tween = create_tween()
+	if tween:
+		get_node("Style%d" % style).set_scale(Vector2(0.7, 0.7))
+		tween.set_trans(Tween.TRANS_BOUNCE)
+		tween.tween_property(get_node("Style%d" % style), "scale", Vector2(1, 1), 0.2)
+
 
 func _on_Verse_Jump(verse):
 	style = verse
@@ -135,7 +146,7 @@ func set_detonate(dest=Global.player.get_global_position()):
 	detonate = true;
 	detonate_at_pos = true;
 	detonate_pos = dest;
-	detonate_init_dist =	sqrt(pow(dest.x-pos.x,2)+pow(dest.y-pos.y,2));
+	detonate_init_dist = sqrt(pow(dest.x-pos.x,2)+pow(dest.y-pos.y,2));
 
 func explode():
 	var e = explosion.instance();
