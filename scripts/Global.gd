@@ -4,6 +4,7 @@ extends Node
 var console
 var player
 var boss
+var camera
 var background
 var portal
 

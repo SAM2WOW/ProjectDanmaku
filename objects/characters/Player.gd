@@ -186,15 +186,19 @@ func init_collage_bullets():
 	var dir = get_global_position().direction_to(get_global_mouse_position());
 	var bullets = fire_spread(3, 15, Global.player_bullet_properties[style]["speed"], dir);
 
+
 func damage(amount):
 	print("Player have been damaged %d" % amount)
 	health -= amount
+	
+	Global.camera.shake(0.3, 12, 4)
 	
 	if health <= 0:
 		print("You DEAD!!!")
 		
 		get_tree().reload_current_scene()
-	
+
+
 func fire_spread(
 	num, deg, speed, dir, pos=get_global_position(), _style=style
 ):
