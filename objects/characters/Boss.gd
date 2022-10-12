@@ -78,15 +78,17 @@ func finish_attack():
 	rng.randomize();
 	attack_pattern = rng.randi()%2;
 	fire_timer.start();
-	
+	#print(transbullet_state)
 	if transbullet_state == false:
 		transbullet_cd -= 1
+		#print(transbullet_cd)
 		if transbullet_cd < 1:
-			transbullet_cd = 10
+			transbullet_cd = 5
 			var t = load("res://objects/weapons/TransBullet.tscn").instance()
 			t.style = randi()%2
 			if t.style == style:
 				t.style =(style+1)%2
+			
 			get_parent().add_child(t);
 			t.set_global_position(get_global_position());
 			transbullet_state = true
