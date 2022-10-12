@@ -104,6 +104,10 @@ func fire_bullet():
 			b.rotation = 2*PI + atan2(b.dir.y, b.dir.x);
 			get_parent().add_child(b)
 			b.init_normal_bullet(get_global_position(), style);
+	
+	# play sounds
+	get_node("Style%d/FireSound" % style).play()
+
 
 func init_minimal_bullets():
 	var shotLocations = [Global.player];
