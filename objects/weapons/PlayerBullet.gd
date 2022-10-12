@@ -181,7 +181,7 @@ func fire_spread(pos, style, num, deg, damage, speed):
 		b.damage = damage * (charge+1);
 		
 		if (!odd):
-			new_deg = ((deg*1.5)+(i*deg))-(deg*(num-1));
+			new_deg = (i-(num*0.5)+0.5)*deg;
 		else:
 			new_deg = (deg*(int(num/2))-(i*deg));
 		new_deg *= PI/180;
