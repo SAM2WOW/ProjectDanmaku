@@ -46,6 +46,7 @@ script = ExtResource( 2 )
 [node name="Style0" type="Node2D" parent="."]
 
 [node name="Sprite" type="Sprite" parent="Style0"]
+self_modulate = Color( 0.517647, 0.878431, 0.960784, 1 )
 scale = Vector2( -0.945869, -0.945869 )
 texture = ExtResource( 1 )
 
@@ -55,6 +56,7 @@ visible = false
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Style1"]
 scale = Vector2( 4, 4 )
 frames = SubResource( 5 )
+frame = 1
 playing = true
 
 [node name="Style2" type="Node2D" parent="."]

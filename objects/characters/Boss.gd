@@ -7,6 +7,9 @@ var fire_rate = 1;
 var rng = RandomNumberGenerator.new();
 onready var fire_timer = get_node("FireTimer");
 
+var transbullet_state = false
+var transbullet_cd = 1
+
 var basic_bullet = preload("res://objects/weapons/BasicBullet.tscn")
 
 var laserInd = preload("res://objects/weapons/LaserIndicator.tscn")
@@ -16,12 +19,21 @@ var laserBeam = preload("res://objects/weapons/LaserBeam.tscn")
 func _ready():
 	Global.boss = self;
 	attack_pattern = rng.randi()%2;
-	
+
 func damage(amount):
 	print("Boss have been damaged %d" % amount)
 	Global.console.damage_boss(amount)
+	
+	# effects
+	get_node("Style%d" % style).set_scale(Vector2(0.7, 0.7))
+	var tween = create_tween().set_trans(Tween.TRANS_SINE)
+	tween.tween_property(get_node("Style%d" % style), "scale", Vector2(1, 1), 0.2)
+	
+	Global.camera.shake(0.2, 6, 3)
 
 func _on_Verse_Jump(verse):
+	if style == verse:
+		return
 	style = verse
 	
 	get_node("Style%d" % style).show()
@@ -29,7 +41,7 @@ func _on_Verse_Jump(verse):
 	for i in range(Global.total_style):
 		if i != style:
 			get_node("Style%d" % i).hide()
-			print("Style%d" % style)
+			#print("Style%d" % style)
 
 func fireLaser(fireFrom, fireAt):
 	
@@ -66,6 +78,18 @@ func finish_attack():
 	rng.randomize();
 	attack_pattern = rng.randi()%2;
 	fire_timer.start();
+	
+	if transbullet_state == false:
+		transbullet_cd -= 1
+		if transbullet_cd < 1:
+			transbullet_cd = 10
+			var t = load("res://objects/weapons/TransBullet.tscn").instance()
+			t.style = randi()%2
+			if t.style == style:
+				t.style =(style+1)%2
+			get_parent().add_child(t);
+			t.set_global_position(get_global_position());
+			transbullet_state = true
 
 func _on_FireTimer_timeout():
 	fire_bullets();

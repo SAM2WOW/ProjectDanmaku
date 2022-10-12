@@ -1,68 +1,91 @@
 extends RigidBody2D
 
-var style = 0
+var style = 1
 var dir = Vector2();
 
 # for detonation bullets
-var detonate = false;
-var detonate_at_pos = false;
-var detonate_init_dist = Vector2.ZERO;
-var detonate_pos = Vector2.ZERO;
-var explosion = preload("res://objects/weapons/EnemyExplosion.tscn");
+var health = 12
+var moving = true
+var damage = 1.0
+var max_speed = 1000
+var speed = 1000
 
-var damage = 1.0;
+var portal = preload("res://objects/system/portal.tscn")
+var dead = false
 
+var growth_rate = 1
 
 func init_bullet(_pos, _dir, _style):
 	set_global_position(_pos);
-	dir = _dir;
-	set_bullet_rotation(_dir);
 	style = _style;
-
+	set_linear_velocity(Vector2(1000,0).rotated(dir))
 
 func _on_VisibilityNotifier2D_screen_exited():
 	queue_free()
 
+func _ready():
+	set_linear_velocity(Vector2(-1000,100-randi() % 200).rotated(get_global_rotation()))
+	$area/Sprite.set_material(load("res://arts/shaders/Portal%d.tres" % style))
 
-func _on_PlayerBullet_body_entered(body):
-	print("Collide %s" % body.name)
-	if "Player" in body.name:
-		body.damage(10)
-		
-		queue_free()
+func self_destroy():
+	var tween = create_tween().set_trans(Tween.TRANS_BACK)
+	tween.tween_property($area, "scale", Vector2(0, 0), 0.2)
+	tween.tween_callback(self, "queue_free")
+	spawn_portal()
 
+func spawn_portal():
+	dead = true
+	var p = portal.instance();
+	#p.get_node("AnimatedSprite").play();
+	p.style = style
+	get_parent().add_child(p);
+	p.set_global_position(get_global_position());
+	
 
-func bounce_bullet():
-	if (get_global_position().y < -Global.window_height/2 || get_global_position().y >= Global.window_height/2):
-		dir = Vector2(dir.x, -dir.y);
-		set_linear_velocity(dir * get_linear_velocity());
-		rotation = 2*PI + atan2(dir.y, dir.x);
-	if (get_global_position().x < -Global.window_width/2 || get_global_position().x >= Global.window_width/2):
-		dir = Vector2(-dir.x, dir.y);
-		set_linear_velocity(dir * get_linear_velocity());
-		rotation = 2*PI + atan2(dir.y, dir.x);
-
-
-func set_bullet_rotation(_dir):
-	rotation = 2*PI + atan2(_dir.y, _dir.x);
-
-
-func explode():
-	var tween = create_tween().set_trans(Tween.TRANS_CUBIC)
-	tween.tween_property(self, "scale", Vector2(50, 50), 1)
-
+func verse_jump_init():
+	dead = true
+	mode = MODE_STATIC
+	#set_linear_velocity(Vector2(0,0))
+	var tween = create_tween().set_trans(Tween.TRANS_QUAD)
+	tween.tween_property($area, "scale", Vector2(5, 5), 0.28)
+	tween.set_trans(Tween.TRANS_LINEAR)
+	tween.tween_property($area, "scale", Vector2(5.2, 5.2), 0.1)
+	tween.set_trans(Tween.TRANS_CUBIC)
+	tween.tween_property($area, "scale", Vector2(0, 0), 0.15)
+	tween.tween_callback(self, "verse_jump_explode")
+	
+func verse_jump_explode():
+	var p = portal.instance();
+	#p.get_node("AnimatedSprite").play();
+	p.exploding = true
+	p.style = style
+	get_parent().add_child(p);
+	p.set_global_position(get_global_position());
+	p.exploding = true
+	queue_free()
 
 func _physics_process(delta):
-	if (detonate_at_pos):
-		var speed = 1000; var base_speed = 100; var pos = get_global_position();
-		
-		var detonate_dist = sqrt(pow(detonate_pos.x-pos.x,2)+pow(detonate_pos.y-pos.y,2));
-		var dist_ratio = detonate_dist/detonate_init_dist;
-		set_linear_velocity(Vector2(
-			dir.x*(base_speed+speed*dist_ratio), 
-			dir.y*(base_speed+speed*dist_ratio)
-		));
-		if (dist_ratio < 0.01):
-			explode;
-			queue_free();
+	if not dead:
+		$area.scale = lerp($area.scale, Vector2(2.5,2.5),0.01 * growth_rate)
+		if $area.scale.x > 2.4:
+			self_destroy()
+	else:
+		set_linear_velocity(lerp(get_linear_velocity(),Vector2.ZERO,0.15))
+
+func _on_Verse_Jump(style):
+	if style == self.style:
+		queue_free()
+
+func _on_Area2D_body_entered(body):
+	if not dead:
+		if body == Global.player:
+			body.damage(10)
+			self_destroy()
+		if "PlayerBullet" in body.name:
+			$area.scale -= Vector2(0.1,0.1)
+			health -= 1
+			if health <= 0:
+				growth_rate = 0.5
+			if $area.scale.x < 0.7:
+				verse_jump_init()
 
