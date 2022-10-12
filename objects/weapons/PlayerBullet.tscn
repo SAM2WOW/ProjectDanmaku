@@ -49,7 +49,6 @@ visible = false
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Style1"]
 scale = Vector2( 4, 4 )
 frames = SubResource( 5 )
-frame = 1
 playing = true
 
 [node name="Style2" type="Node2D" parent="."]

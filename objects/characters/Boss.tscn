@@ -56,7 +56,6 @@ visible = false
 position = Vector2( 1, -2 )
 scale = Vector2( 5, 5 )
 frames = SubResource( 5 )
-frame = 1
 playing = true
 
 [node name="Style2" type="Node2D" parent="."]
@@ -67,13 +66,6 @@ modulate = Color( 0.631373, 0.14902, 0.623529, 1 )
 position = Vector2( 1, 0 )
 scale = Vector2( 3, 3 )
 texture = ExtResource( 2 )
-
-[node name="LaserIndicator" type="Line2D" parent="Style2"]
-default_color = Color( 1, 0, 0, 1 )
-
-[node name="LaserBeam" type="Line2D" parent="Style2"]
-width = 50.0
-default_color = Color( 0, 1, 0.976471, 1 )
 
 [node name="Style3" type="Node2D" parent="."]
 visible = false
