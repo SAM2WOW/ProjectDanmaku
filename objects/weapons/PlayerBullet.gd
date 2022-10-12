@@ -14,8 +14,10 @@ var can_explode = false;
 var init_dist = Vector2();
 var dest = Vector2.ZERO;
 
+
 func _ready():
-	pass;
+	pass
+
 
 func _on_VisibilityNotifier2D_screen_exited():
 	queue_free()
@@ -35,13 +37,21 @@ func _on_PlayerBullet_body_entered(body):
 	
 
 func show_verse_style(verse):
-	# show all the styles
-	style = verse;
-	get_node("Style%d" % verse).show()
-	# hide the styles that aren't said style
-	for i in range(Global.total_style):
-		if i != verse:
-			get_node("Style%d" % i).hide()
+	get_node("Style%d" % style).hide()
+	
+	style = verse
+	
+	get_node("Style%d" % style).show()
+	
+	$TransEffect.restart()
+	$TransEffect.set_emitting(true)
+
+	var tween = create_tween()
+	if tween:
+		get_node("Style%d" % style).set_scale(Vector2(0.7, 0.7))
+		tween.set_trans(Tween.TRANS_BOUNCE)
+		tween.tween_property(get_node("Style%d" % style), "scale", Vector2(1, 1), 0.2)
+	
 
 func init_normal_bullet(pos, verse):
 	set_global_position(pos);

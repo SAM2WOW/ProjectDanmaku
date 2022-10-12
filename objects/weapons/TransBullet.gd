@@ -49,7 +49,7 @@ func set_bullet_rotation(_dir):
 
 func explode():
 	var tween = create_tween().set_trans(Tween.TRANS_CUBIC)
-	twee.tween_property
+	tween.tween_property(self, "scale", Vector2(50, 50), 1)
 
 
 func _physics_process(delta):
