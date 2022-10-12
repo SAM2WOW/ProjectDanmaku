@@ -49,14 +49,12 @@ func init_minimal_bullets():
 		0:
 			var num_waves = 4;
 			var wave_interval = 0.3;
-			var timer = get_node("Style0/PatternTimer0");
-			var offset_inc = 0.2;
+			var offset_inc = 10;
 			# instantiate the bullets
 			# set the bullets properties to the one of the style
 			for i in num_waves:
 				fire_pulse(get_global_position(), 8, offset_inc*i, style);
-				timer.start(0.3);
-				yield(timer, "timeout");
+				yield(get_tree().create_timer(wave_interval), "timeout");
 			get_node("FireTimer").start();
 		1:
 			pass
