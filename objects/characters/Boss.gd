@@ -6,6 +6,9 @@ var attack_pattern = 0;
 
 var basic_bullet = preload("res://objects/weapons/BasicBullet.tscn")
 
+onready var laserInd = get_node("Style2/LaserIndicator")
+onready var laserBeam = get_node("Style2/LaserBeam")
+
 
 func damage(amount):
 	print("Boss have been damaged %d" % amount)
@@ -23,8 +26,12 @@ func _on_Verse_Jump(verse):
 			print("Style%d" % style)
 
 func fireLaserBeam():
-	var laserInd = get_node("Style2/LaserIndicator")
-	laserInd.set_cast_to(Global.player.get_global_position())
+	laserInd.add_point(Vector2(0,0))
+	# Makes sure laser always extends past viewport
+	laserInd.add_point((Global.player.get_global_position() - get_global_position()) * 150)
+	
+	laserBeam.set_points(laserInd.get_points()) 
+	laserInd.clear_points()
 
 func _on_FireTimer_timeout():
 	fire_bullet();
@@ -65,7 +72,7 @@ func init_pixel_bullets():
 	pass
 
 func init_3d_bullets():
-	pass
+	fireLaserBeam()
 
 func init_collage_bullets():
 	pass
