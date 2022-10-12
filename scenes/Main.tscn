@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://objects/characters/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://objects/characters/Boss.tscn" type="PackedScene" id=2]
@@ -10,16 +10,7 @@
 [ext_resource path="res://scripts/BackgroundScript.gd" type="Script" id=8]
 [ext_resource path="res://arts/shaders/MetalBall/Gel_Shader.tres" type="Material" id=9]
 [ext_resource path="res://arts/shaders/Style1.tres" type="Material" id=10]
-[ext_resource path="res://objects/weapons/TransBullet.tscn" type="PackedScene" id=11]
-
-[sub_resource type="PhysicsMaterial" id=3]
-bounce = 0.54
-
-[sub_resource type="StyleBoxFlat" id=1]
-bg_color = Color( 0.956863, 0.341176, 0.141176, 1 )
-
-[sub_resource type="StyleBoxFlat" id=2]
-bg_color = Color( 0.235294, 0.235294, 0.235294, 1 )
+[ext_resource path="res://arts/shaders/MetalBall/background.png" type="Texture" id=11]
 
 [node name="Main" type="Node"]
 
@@ -35,7 +26,7 @@ position = Vector2( -701, -7 )
 position = Vector2( 779, -2 )
 
 [node name="Portal" parent="Node2D" instance=ExtResource( 4 )]
-position = Vector2( -1600, -27 )
+position = Vector2( -2, 188 )
 style = 1
 
 [node name="Background" type="Node2D" parent="Node2D" groups=["style"]]
@@ -62,19 +53,6 @@ texture = ExtResource( 5 )
 [node name="Style3" type="Sprite" parent="Node2D/Background"]
 visible = false
 
-[node name="StaticBody2D" type="StaticBody2D" parent="Node2D/Background"]
-collision_layer = 0
-collision_mask = 16
-physics_material_override = SubResource( 3 )
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Node2D/Background/StaticBody2D"]
-polygon = PoolVector2Array( -1024, -576, -1088, -640, 1088, -640, 1088, 640, -1088, 640, -1088, -640, -1024, -576, -1024, 576, 1024, 576, 1024, -576 )
-
-[node name="TransBullet" parent="Node2D/Background" instance=ExtResource( 11 )]
-position = Vector2( -456, -79 )
-mass = 100.0
-gravity_scale = 1.0
-
 [node name="Console" type="Node" parent="."]
 script = ExtResource( 3 )
 
@@ -91,9 +69,18 @@ material = ExtResource( 9 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="HealthBar" type="ProgressBar" parent="CanvasLayer/Control"]
+[node name="HealthBar" type="TextureProgress" parent="CanvasLayer/Control"]
+anchor_left = 1.0
 anchor_right = 1.0
-margin_bottom = 14.0
-custom_styles/fg = SubResource( 1 )
-custom_styles/bg = SubResource( 2 )
-value = 50.0
+anchor_bottom = 1.0
+margin_left = -18.0
+margin_right = 55.0
+margin_bottom = -743.0
+rect_scale = Vector2( 0.246382, 3.20165 )
+value = 88.0
+texture_under = ExtResource( 11 )
+texture_progress = ExtResource( 11 )
+fill_mode = 3
+tint_under = Color( 0.172549, 0.172549, 0.172549, 0.47451 )
+tint_progress = Color( 0.956863, 0.380392, 0.380392, 1 )
+nine_patch_stretch = true
