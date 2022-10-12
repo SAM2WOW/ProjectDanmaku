@@ -3,18 +3,23 @@ extends KinematicBody2D
 var style = Global.initial_style
 var hit_by = []
 var attack_pattern = 0;
+var fire_rate = 1;
 var rng = RandomNumberGenerator.new();
 onready var fire_timer = get_node("FireTimer");
 
 var basic_bullet = preload("res://objects/weapons/BasicBullet.tscn")
 
+func _ready():
+	Global.boss = self;
+	attack_pattern = rng.randi()%2;
+	
 func damage(amount):
 	print("Boss have been damaged %d" % amount)
 	Global.console.damage_boss(amount)
 
-
 func _on_Verse_Jump(verse):
 	style = verse
+	finish_attack();
 	
 	get_node("Style%d" % style).show()
 	
@@ -25,7 +30,7 @@ func _on_Verse_Jump(verse):
 
 func finish_attack():
 	rng.randomize();
-	# attack_pattern = rng.randi()%2;
+	attack_pattern = rng.randi()%2;
 	fire_timer.start();
 
 func _on_FireTimer_timeout():
@@ -62,18 +67,19 @@ func init_minimal_bullets():
 			var num_waves = 3; var wave_interval = 0.6; var num_bullets = 5;
 			var bullet_speed = 600;
 			for i in num_waves:
-				fire_blob(num_bullets, bullet_speed);
+				var dir = get_global_position().direction_to(Global.player.get_global_position());
+				fire_blob(num_bullets, bullet_speed, dir);
 				yield(get_tree().create_timer(wave_interval), "timeout");
 			finish_attack();
 		_:
 			pass
 
 # 0: fire a wave of 4~ bullets towards the players position on firing, and blow them up when they reach there
-# 1: fire a series of bullets that; start from the center and extend to the outside.
+# 1: fire bullets at random positions 7 times in quick successeon
 func init_pixel_bullets():
 	match attack_pattern:
 		0:
-			var num_waves = 4; var wave_interval = 0.5;
+			var num_waves = 6; var wave_interval = 0.3;
 			for i in num_waves:
 				var fire_pos = Global.player.get_global_position()
 				var b = fire_at(fire_pos, 1000);
@@ -81,7 +87,17 @@ func init_pixel_bullets():
 				yield(get_tree().create_timer(wave_interval), "timeout");
 			finish_attack();
 		1:
-			pass
+			var num_waves = 8; var wave_interval = 0.1;
+			for i in num_waves:
+				rng.randomize();
+				var rand_pos = Vector2(
+					rng.randi_range(-Global.window_width/2, Global.window_width/2), 
+					rng.randi_range(-Global.window_height/2, Global.window_height/2)
+				);
+				var b = fire_at(rand_pos, 1000);
+				b.set_detonate(rand_pos);
+				yield(get_tree().create_timer(wave_interval), "timeout");
+			finish_attack();
 		_:
 			pass
 
@@ -91,9 +107,21 @@ func init_3d_bullets():
 	pass
 
 # 0: fire 2~ waves of shotgun shots of bouncing bullets towards the player
-# 1: tbf
+# 1: fire a singular circular shot
 func init_collage_bullets():
-	pass
+	match attack_pattern:
+		0:
+			var num_waves = 2; var wave_interval = 0.6;
+			var dir = get_global_position().direction_to(Global.player.get_global_position());
+			for i in num_waves:
+				fire_spread(3, 30, 300, dir);
+				yield(get_tree().create_timer(wave_interval), "timeout");
+			finish_attack();
+		1:
+			fire_pulse(6, 300);
+			finish_attack();
+		_:
+			pass
 
 # fire one bullet at fire_pos
 func fire_at(fire_pos, speed, pos=get_global_position(), _style=style):
@@ -120,11 +148,11 @@ func fire_pulse(num, speed, offset=0.0, pos=get_global_position(), _style=style)
 		
 		get_parent().add_child(b);
 		bullets.append(b);
+	return bullets;
 
 
 func fire_spread(
-	num, deg, speed, pos=get_global_position(), 
-	fire_pos=Global.player.get_global_position(), _style=style
+	num, deg, speed, dir, pos=get_global_position(), _style=style
 ):
 	var bullets = [];
 	var odd = (num%2 != 0);
@@ -132,29 +160,26 @@ func fire_spread(
 		var b = basic_bullet.instance();
 		var new_deg = 0.0;
 		if !odd:
-			new_deg = ((deg*1.5)+(i*deg))-(deg*(num-1));
+			new_deg = (i-(num*0.5)+0.5)*deg;
 		else:
 			new_deg = (deg*(int(num/2))-(i*deg));
 		new_deg *= PI/180;
 		
-		var dir = pos.direction_to(fire_pos);
-		dir = Vector2(
+		var new_dir = Vector2(
 			dir.x * (cos(new_deg)) + dir.y * (sin(new_deg)),
 			dir.y * (cos(new_deg)) - dir.x * (sin(new_deg))
 		);
 		
-		b.init_bullet(pos, dir, _style);
-		b.set_linear_velocity(dir*speed);
+		b.init_bullet(pos, new_dir, _style);
+		b.set_linear_velocity(new_dir*speed);
 		
 		get_parent().add_child(b);
 		bullets.append(b);
+	return bullets;
 
 # num bullets at the approximate position of the player
 # dir and speed are randomized within a range (deg and pixel respectfully)
-func fire_blob(
-	num, speed, degree_offset=30, speed_offset=200, 
-	_style=style, pos=get_global_position(), fire_pos=Global.player.get_global_position()
-):
+func fire_blob(num, speed, dir, degree_offset=30, speed_offset=200, _style=style, pos=get_global_position()):
 	var bullets = [];
 	for i in num:
 		var b = basic_bullet.instance();
@@ -163,14 +188,14 @@ func fire_blob(
 		var new_deg = rng.randi_range(-degree_offset/2, degree_offset/2) * PI/180;
 		var new_speed = rng.randi_range(-speed_offset/2, speed_offset/2) + speed;
 		
-		var dir = pos.direction_to(fire_pos);
-		dir = Vector2(
+		var new_dir = Vector2(
 			dir.x * (cos(new_deg)) + dir.y * (sin(new_deg)),
 			dir.y * (cos(new_deg)) - dir.x * (sin(new_deg))
 		)
 		
-		b.init_bullet(pos, dir, _style);
-		b.set_linear_velocity(dir*new_speed);
+		b.init_bullet(pos, new_dir, _style);
+		b.set_linear_velocity(new_dir*new_speed);
 		
 		get_parent().add_child(b);
 		bullets.append(b);
+	return bullets;
