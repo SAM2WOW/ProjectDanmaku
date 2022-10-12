@@ -6,10 +6,12 @@ var dir = Vector2();
 var curr_vel = 0.0;
 
 # for detonation bullets
+var detonate = false;
 var detonate_at_pos = false;
 var detonate_init_dist = Vector2.ZERO;
 var detonate_pos = Vector2.ZERO;
 var explosion = preload("res://objects/weapons/EnemyExplosion.tscn");
+var detonate_at_speed = false;
 
 # for bouncing bullets
 var bouncing = false;
@@ -30,7 +32,7 @@ func _on_VisibilityNotifier2D_screen_exited():
 func _on_PlayerBullet_body_entered(body):
 	print("Collide %s" % body.name)
 	if "Player" in body.name:
-		if detonate_at_pos:
+		if detonate:
 			explode();
 		else:
 			body.damage(10)
@@ -46,9 +48,47 @@ func show_verse_style(verse):
 func _on_Verse_Jump(verse):
 	style = verse
 	show_verse_style(verse);
+	match verse:
+		# into minimal; bullets get faster
+		0:
+			linear_velocity *= 1.2;
+		# into pixel; bullets go slower
+		1:
+			linear_velocity *= 0.8;
+		# into 3d; laser gets charged
+		2:
+			pass
+		# into collage; bullets can bounce and gets slower
+		3:
+			linear_velocity *= 0.7;
+			if !bouncing:
+				bouncing = true;
+				num_bounces = 1;
+		_:
+			pass
 	
 func _on_Verse_Exit(prev_verse, new_verse):
-	pass
+	# get_node.fire_spread(2, 20, 500);
+	# $Boss.fire_spread(2, 20, 500);
+	match prev_verse:
+		# on leaving minimal verse, nothing
+		0:
+			pass
+		# on leaving pixel verse, splits into 2
+		1:
+			var bullets = Global.boss.fire_spread(2, 20, curr_vel*0.8, dir, get_global_position());
+			queue_free();
+		# on leaving 3d verse, bullets increase in size? and are slower?
+		2:
+			pass
+		# on leaving collage verse, can bounce once and are slower
+		3:
+			if !bouncing:
+				linear_velocity *= 0.7;
+				bouncing = true;
+				num_bounces = 1;
+		_:
+			pass
 
 func init_style(_style):
 	style = _style;
@@ -86,6 +126,7 @@ func set_bullet_rotation(_dir):
 	
 func set_detonate(dest=Global.player.get_global_position()):
 	var pos = get_global_position();
+	detonate = true;
 	detonate_at_pos = true;
 	detonate_pos = dest;
 	detonate_init_dist =	sqrt(pow(dest.x-pos.x,2)+pow(dest.y-pos.y,2));
@@ -124,6 +165,12 @@ func _physics_process(delta):
 		if (dist_ratio < 0.01):
 			explode();
 			queue_free();
+	elif (detonate_at_speed):
+		if (curr_vel < 100):
+			explode();
+			queue_free();
+		else:
+			linear_velocity *= 0.95;
 	
 	if (bouncing && num_bounces > 0):
 		bounce_bullet();

@@ -5,7 +5,8 @@ extends KinematicBody2D
 var style = Global.initial_style
 
 var velocity = Vector2.ZERO
-export var speed = 300
+export var speed = 500
+var speed_mult = 1.0;
 
 onready var firingPositions = $FiringPositions
 
@@ -44,6 +45,10 @@ func _process(delta):
 			if ($FireTimer.is_stopped()):
 				fire_bullet()
 				$FireTimer.start()
+	if (Input.is_action_pressed("holding_shift")):
+		speed_mult = 0.5;
+	else:
+		speed_mult = 1.0;
 		# else:
 			# shooting = false;
 	
@@ -56,6 +61,7 @@ func _input(event):
 		var keyPressed = event.scancode
 		if keyPressed in [48,49,50,51]:
 			var new_style = keyPressed - 48
+			Global.prev_style = Global.current_style
 			Global.current_style = new_style
 			for node in get_tree().get_nodes_in_group('style'):
 				node._on_Verse_Jump(new_style)
@@ -80,7 +86,7 @@ func _physics_process(delta):
 	if Input.is_action_pressed("move_left"):
 		velocity.x = -1
 	
-	move_and_slide(velocity * speed, Vector2.UP)
+	move_and_slide(velocity * speed*speed_mult, Vector2.UP)
 	
 	# bound the player to the viewport
 	position.x = clamp(position.x, -get_viewport_rect().size.x/2, get_viewport_rect().size.x/2)

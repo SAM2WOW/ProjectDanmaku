@@ -1,6 +1,5 @@
 extends RigidBody2D
 
-var prev_style = Global.initial_style;
 var style = Global.initial_style
 var damage = 10;
 var dir = Vector2();
@@ -92,8 +91,6 @@ func explode():
 
 # verse enter function
 func _on_Verse_Jump(verse):
-	Global.prev_style = style
-	prev_style = style;
 	style = verse
 	show_verse_style(style)
 	damage = Global.player_bullet_properties[style].damage * (1+charge);
