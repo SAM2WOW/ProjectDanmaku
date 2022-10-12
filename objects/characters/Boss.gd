@@ -23,6 +23,8 @@ func damage(amount):
 	tween.tween_property(get_node("Style%d" % style), "scale", Vector2(1, 1), 0.2)
 
 func _on_Verse_Jump(verse):
+	if style == verse:
+		return
 	style = verse
 	finish_attack();
 	

@@ -26,6 +26,12 @@ func init_bullet(_pos, _dir, _style):
 	style = _style;
 	init_style(_style);
 
+func init_clone_instance(b):
+	b.bouncing = bouncing;
+	b.num_bounces = num_bounces;
+	b.detonate = detonate;
+	b.get_node("DespawnTimer").start($DespawnTimer.time_left);
+
 func _on_VisibilityNotifier2D_screen_exited():
 	queue_free()
 
@@ -40,11 +46,10 @@ func _on_PlayerBullet_body_entered(body):
 		queue_free()
 
 func show_verse_style(verse):
-	get_node("Style%d" % style).hide()
-	
-	style = verse
-	
 	get_node("Style%d" % style).show()
+	for i in range(Global.total_style):
+		if i != style:
+			get_node("Style%d" % i).hide()
 	
 	$TransEffect.restart()
 	$TransEffect.set_emitting(true)
@@ -78,16 +83,16 @@ func _on_Verse_Jump(verse):
 		_:
 			pass
 	
-func _on_Verse_Exit(prev_verse, new_verse):
-	# get_node.fire_spread(2, 20, 500);
-	# $Boss.fire_spread(2, 20, 500);
-	match prev_verse:
+func _on_Verse_Exit(verse):
+	match verse:
 		# on leaving minimal verse, nothing
 		0:
 			pass
 		# on leaving pixel verse, splits into 2
 		1:
 			var bullets = Global.boss.fire_spread(2, 20, curr_vel*0.8, dir, get_global_position());
+			for b in bullets:
+				init_clone_instance(b);
 			queue_free();
 		# on leaving 3d verse, bullets increase in size? and are slower?
 		2:
@@ -186,3 +191,7 @@ func _physics_process(delta):
 	if (bouncing && num_bounces > 0):
 		bounce_bullet();
 
+
+func _on_DespawnTimer_timeout():
+	print("bullet despawned")
+	queue_free();

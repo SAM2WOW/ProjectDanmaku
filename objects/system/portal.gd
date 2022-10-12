@@ -25,12 +25,16 @@ func verse_jump_explode():
 	tween.tween_callback(self, "queue_free")
 
 func _on_Area2D_body_entered(body):
+	if style == body.style:
+		 return;
 	if body.has_method('_on_Verse_Jump'):
 		body._on_Verse_Jump(style)
 
 
 func _on_Area2D_body_exited(body):
+	if (style == Global.current_style): 
+		return;
 	if body.has_method('_on_Verse_Jump'):
 		body._on_Verse_Jump(Global.current_style)
 	if body.has_method('_on_Verse_Exit'):
-		body._on_Verse_Exit(style, Global.current_style)
+		body._on_Verse_Exit(style)
