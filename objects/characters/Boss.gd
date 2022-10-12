@@ -3,6 +3,7 @@ extends KinematicBody2D
 var style = Global.initial_style
 var hit_by = []
 var attack_pattern = 0;
+onready var fire_timer = get_node("FireTimer");
 
 var basic_bullet = preload("res://objects/weapons/BasicBullet.tscn")
 
@@ -34,9 +35,9 @@ func fireLaserBeam():
 	laserInd.clear_points()
 
 func _on_FireTimer_timeout():
-	fire_bullet();
+	fire_bullets();
 
-func fire_bullet():
+func fire_bullets():
 	match style:
 		0:
 			init_minimal_bullets();
@@ -52,42 +53,52 @@ func fire_bullet():
 
 # boss will have two attacks per style
 
-# 1.) shoot like 4-5 waves of minimal bullets around boss
-# 2.) yo mama
+# 0.) shoot like 4~ waves of minimal bullets around boss
+# 1.) gatling 3~ waves of blobs of bullets towards the players position at fire
 func init_minimal_bullets():
 	match attack_pattern:
 		0:
+			var num_waves = 4;
+			var wave_interval = 0.3;
+			var offset_inc = 10;
 			# instantiate the bullets
 			# set the bullets properties to the one of the style
-			var bullets = fire_pulse(get_global_position(), 8, 0, style);
-			for b in bullets:
-				b.init_minimal_bullet(style);
-				b.set_linear_velocity(b.dir*300);
+			for i in num_waves:
+				fire_pulse(get_global_position(), 8, 300, offset_inc*i, style);
+				yield(get_tree().create_timer(wave_interval), "timeout");
+			fire_timer.start();
 		1:
 			pass
 		_:
 			pass
 
+# 0: fire a wave of 4~ bullets towards the players position on firing, and blow them up when they reach there
+# 1: fire a series of bullets that; start from the center and extend to the outside.
 func init_pixel_bullets():
 	pass
 
+# 0: fires a wave of 4~ quick lasers towards the players position
+# 1: shoot lasers in all directions, then rotate the lasers slowly around the boss (hades style)
 func init_3d_bullets():
 	fireLaserBeam()
 
+# 0: fire 2~ waves of shotgun shots of bouncing bullets towards the player
+# 1: tbf
 func init_collage_bullets():
 	pass
 
-func fire_pulse(pos, num, offset, style):
-	var degrees = offset;
-	var degree_inc = 360.0/num;
-	var bullets = [];
+func fire_pulse(pos, num, speed, offset, _style):
+	var degrees = 360.0/num;
 	for i in num:
 		var b = basic_bullet.instance();
-		var radians = degrees*PI/180;
-		degrees += degree_inc;
-		b.dir = Vector2(cos(radians), sin(radians));
-		b.rotation = 2*PI + atan2(b.dir.y, b.dir.x);
-		b.set_global_position(get_global_position());
-		get_parent().add_child(b)
-		bullets.append(b);
-	return bullets;
+		var radians = (offset+(i*degrees))*PI/180;
+		var dir = Vector2(cos(radians), sin(radians));
+		b.init_bullet(get_global_position(), dir, _style);
+		b.set_linear_velocity(b.dir*speed);
+		
+		get_parent().add_child(b);
+
+# 6~ bullets at the approximate position of the player
+# dir and speed are randomized within a range
+func fire_blob():
+	pass
