@@ -32,7 +32,7 @@ func _on_Verse_Jump(verse):
 			get_node("Style%d" % i).hide()
 			print("Style%d" % style)
 
-func fireLaser(fireAt):
+func fireLaser(fireFrom, fireAt):
 	
 	var ind = laserInd.instance();
 	var timeBeforeBeam = 0.8
@@ -40,20 +40,20 @@ func fireLaser(fireAt):
 	var particleDuration = 1
 	
 	get_parent().add_child(ind)
-	ind.set_global_position(get_global_position())
+	ind.set_global_position(fireFrom)
 	
-	ind.add_point(Vector2(0,0))
+	ind.add_point(Vector2.ZERO)
 #	ind.add_point(get_global_position())
 	# Makes sure laser always extends past viewport
-	ind.add_point((fireAt - get_global_position()) * 150)
+	ind.add_point((fireAt - fireFrom) * 150)
 	
 	yield(get_tree().create_timer(timeBeforeBeam), "timeout")
 	
 	var beam = laserBeam.instance();
-	beam.set_global_position(get_global_position())
+	beam.set_global_position(fireFrom)
 	get_parent().add_child(beam)
 	var beamPoint = ind.points[1]
-	beamPoint[1] /= 5
+#	beamPoint[1] /= 5
 	beam.set_cast_to(beamPoint)
 	
 	ind.queue_free()
@@ -151,7 +151,7 @@ func init_3d_bullets():
 				for y in yArr:
 					# Don't shoot a laser at (0,0)
 					if (x!=0 || y!=0):
-						fireLaser(Vector2(x,y))
+						fireLaser(get_global_position(), Vector2(x,y))
 			yield(get_tree().create_timer(timeBetweenAttacks), "timeout")
 			
 			var xArr2 = [maxX, -maxX, maxX / 2, -maxX / 2]
@@ -159,13 +159,13 @@ func init_3d_bullets():
 			for x2 in xArr2:
 				for y2 in yArr2:
 					if (!(abs(x2) == maxX && abs(y2) == maxY) && !(abs(x2) == maxX/2 && abs(y2) == maxY/2)):
-						fireLaser(Vector2(x2,y2))
+						fireLaser(get_global_position(), Vector2(x2,y2))
 			yield(get_tree().create_timer(beamDuration), "timeout")
 			finish_attack()
 		1:
 			var timeBetweenAttacks = 0.8
 			for i in range(10):
-				fireLaser(Global.player.get_global_position())
+				fireLaser(get_global_position(), Global.player.get_global_position())
 				yield(get_tree().create_timer(timeBetweenAttacks), "timeout")
 			finish_attack()
 		_:

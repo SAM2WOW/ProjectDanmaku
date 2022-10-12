@@ -108,7 +108,6 @@ visible = false
 position = Vector2( 4, -17 )
 scale = Vector2( 3, 3 )
 frames = SubResource( 8 )
-frame = 3
 speed_scale = 2.0
 playing = true
 script = ExtResource( 4 )

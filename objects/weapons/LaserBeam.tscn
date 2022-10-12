@@ -24,7 +24,6 @@ glow_bicubic_upscale = true
 [node name="LaserBeam" type="RayCast2D"]
 light_mask = 3
 position = Vector2( 166, 274 )
-scale = Vector2( 1, 5 )
 cast_to = Vector2( 2000, 0 )
 collision_mask = 3
 collide_with_areas = true
