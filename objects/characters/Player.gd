@@ -156,6 +156,7 @@ func init_3d_bullets():
 	if (charge > 1.0): charge = 1.0;
 
 	var b = bullet.instance();
+	b.charge = charge;
 	var dir = get_global_position().direction_to(get_global_mouse_position());
 	b.init_bullet(get_global_position(), dir, style);
 	b.set_linear_velocity(dir*Global.player_bullet_properties[style]["speed"]);
