@@ -7,8 +7,6 @@ var style = Global.initial_style
 var velocity = Vector2.ZERO
 export var speed = 300
 
-onready var firingPositions = $FiringPositions
-
 # var shooting = false;
 
 var health = 100

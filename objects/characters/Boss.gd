@@ -21,10 +21,16 @@ func _on_Verse_Jump(verse):
 			get_node("Style%d" % i).hide()
 			print("Style%d" % style)
 
+func fireLaserBeam():
+	var laserInd = get_node("Style2/LaserIndicator")
+	laserInd.set_cast_to(Global.player.get_global_position())
 
 func _on_FireTimer_timeout():
 	# fire bullets
 	var b = basic_bullet.instance()
+	
+	if style == 2:
+		fireLaserBeam()
 	
 	b.style = style
 	b._on_Verse_Jump(style)
