@@ -19,6 +19,10 @@ func init_bullet(_pos, _dir, _style):
 	set_global_position(_pos);
 	style = _style;
 	set_linear_velocity(Vector2(1000,0).rotated(dir))
+	self.connect("tree_exited", self, "boss_transState_cleanup")
+
+func boss_transState_cleanup():
+	Global.boss.transbullet_state = false
 
 func _on_VisibilityNotifier2D_screen_exited():
 	queue_free()
@@ -32,6 +36,7 @@ func self_destroy():
 	tween.tween_property($area, "scale", Vector2(0, 0), 0.2)
 	tween.tween_callback(self, "queue_free")
 	spawn_portal()
+	Global.boss.transbullet_state = false
 
 func spawn_portal():
 	dead = true
@@ -63,7 +68,8 @@ func verse_jump_explode():
 	p.set_global_position(get_global_position());
 	p.exploding = true
 	queue_free()
-
+	Global.boss.transbullet_state = false
+	
 func _physics_process(delta):
 	if not dead:
 		$area.scale = lerp($area.scale, Vector2(2.5,2.5),0.01 * growth_rate)
