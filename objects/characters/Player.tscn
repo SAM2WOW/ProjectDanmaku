@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://objects/characters/Player.gd" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://arts/3D/Witch.png" type="Texture" id=6]
 [ext_resource path="res://sounds/AbstractFire.wav" type="AudioStream" id=7]
 [ext_resource path="res://scripts/AudioRandomizer.gd" type="Script" id=8]
+[ext_resource path="res://sounds/AbstractBullet.wav" type="AudioStream" id=9]
 
 [sub_resource type="Gradient" id=17]
 offsets = PoolRealArray( 0, 0.150838, 1 )
@@ -97,10 +98,12 @@ scale_amount_random = 0.62
 color_ramp = SubResource( 17 )
 
 [node name="FireSound" type="AudioStreamPlayer2D" parent="Style0"]
-stream = ExtResource( 7 )
+stream = ExtResource( 9 )
 bus = "Audio"
 script = ExtResource( 8 )
-base_volume = -10.0
+pitch_low = 0.784
+ptch_high = 1.376
+base_volume = -20.0
 
 [node name="Style1" type="Node2D" parent="."]
 visible = false
@@ -109,7 +112,6 @@ visible = false
 position = Vector2( 4, -17 )
 scale = Vector2( 3, 3 )
 frames = SubResource( 8 )
-frame = 3
 speed_scale = 2.0
 playing = true
 script = ExtResource( 4 )
