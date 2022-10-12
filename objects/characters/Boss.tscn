@@ -48,6 +48,7 @@ initial_velocity = 36.7
 scale_amount = 2.0
 scale_amount_random = 0.56
 scale_amount_curve = SubResource( 7 )
+color = Color( 0.956863, 0.380392, 0.380392, 1 )
 
 [node name="Style1" type="Node2D" parent="."]
 visible = false
