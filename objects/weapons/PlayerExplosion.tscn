@@ -53,9 +53,8 @@ stream = ExtResource( 4 )
 autoplay = true
 bus = "Sound"
 script = ExtResource( 3 )
-pitch_low = 0.784
-ptch_high = 1.376
-base_volume = -10.0
+ptch_high = 1.406
+base_volume = -5.0
 
 [connection signal="body_entered" from="." to="." method="_on_Area2D_body_entered"]
 [connection signal="animation_finished" from="AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]
