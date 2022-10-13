@@ -10,6 +10,10 @@ var laserBulletInterval = 0.25
 var playerDamageInterval = 0.2
 var laserDamage = 5
 
+var style = 2;
+
+var damage = Global.boss_bullet_properties[style]["damage"];
+
 func _ready() -> void:
 	set_physics_process(false)
 	self.is_casting = true

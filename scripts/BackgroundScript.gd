@@ -8,7 +8,7 @@ func _ready():
 
 func _on_Verse_Jump(verse):
 	style = verse
-	
+	Global.current_style = verse
 	get_node("Style%d" % style).show()
 	
 	for i in range(Global.total_style):

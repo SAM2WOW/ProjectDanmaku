@@ -10,7 +10,8 @@ var speed_mult = 1.0;
 
 # var shooting = false;
 
-var health = 100
+var max_health = 10000;
+var health = max_health;
 var health_regen_speed = 8
 
 var holdTime = 0
@@ -22,6 +23,7 @@ var bullet_properties = Global.player_bullet_properties[style];
 
 func _ready():
 	Global.player = self
+	$FireTimer.wait_time = Global.player_bullet_properties[style]["fire rate"];
 
 func _process(delta):
 	if (style == 2):
@@ -54,9 +56,9 @@ func _process(delta):
 	
 	# regenerate health
 	if $RegenerateTimer.is_stopped():
-		health = clamp(health + delta * health_regen_speed, 0, 100)
+		health = clamp(health + delta * health_regen_speed, 0, max_health)
 		
-		if health >= 100.0:
+		if health >= max_health:
 			$HealthBar.hide()
 	
 	# update health ui
@@ -112,7 +114,7 @@ func _on_Verse_Jump(verse):
 	tween.tween_property(get_node("Style%d" % style), "scale", Vector2(1, 1), 0.2)
 	
 	bullet_properties = Global.player_bullet_properties[style];
-	get_node("FireTimer").wait_time = bullet_properties["fire rate"];
+	$FireTimer.wait_time = bullet_properties["fire rate"];
 
 
 # fires a bullet at the mouse position
@@ -150,7 +152,7 @@ func fire_bullet():
 
 func init_minimal_bullets():
 	var shotLocations = [Global.player];
-	shotLocations = get_tree().get_nodes_in_group('shots')
+	shotLocations = Global.player.get_tree().get_nodes_in_group("shots")
 	for shot in shotLocations:
 		var b = bullet.instance()
 		var dir = get_global_position().direction_to(get_global_mouse_position());
@@ -222,6 +224,7 @@ func fire_spread(
 		
 		b.init_bullet(pos, new_dir, _style);
 		b.set_linear_velocity(new_dir*speed);
+		b.damage = Global.player_bullet_properties[_style]["damage"];
 		
 		get_parent().add_child(b);
 		bullets.append(b);

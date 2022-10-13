@@ -87,14 +87,6 @@ tint_progress = Color( 0.517647, 0.878431, 0.960784, 0.172549 )
 self_modulate = Color( 0.517647, 0.878431, 0.960784, 1 )
 texture = ExtResource( 5 )
 
-[node name="FiringPositions" type="Node2D" parent="Style0/Icon"]
-
-[node name="LeftShot" type="Node2D" parent="Style0/Icon/FiringPositions" groups=["shots"]]
-position = Vector2( 30, -15 )
-
-[node name="RightShot" type="Node2D" parent="Style0/Icon/FiringPositions" groups=["shots"]]
-position = Vector2( 30, 16 )
-
 [node name="Playercircle" type="Sprite" parent="Style0/Icon"]
 self_modulate = Color( 0.517647, 0.878431, 0.960784, 1 )
 position = Vector2( 30, -15 )
@@ -235,6 +227,14 @@ script = ExtResource( 8 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
+
+[node name="FiringPositions" type="Node2D" parent="."]
+
+[node name="LeftShot" type="Node2D" parent="FiringPositions" groups=["shots"]]
+position = Vector2( 30, -15 )
+
+[node name="RightShot" type="Node2D" parent="FiringPositions" groups=["shots"]]
+position = Vector2( 30, 16 )
 
 [node name="FireTimer" type="Timer" parent="."]
 wait_time = 0.2

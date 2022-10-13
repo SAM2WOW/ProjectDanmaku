@@ -36,11 +36,18 @@ func _on_PlayerBullet_body_entered(body):
 		# spawns an explosion at collision area if pixel bullet
 		if (detonate):
 			explode();
-		else:
-			body.damage(damage)
+			queue_free();
+			return;
+		body.damage(damage)
+		queue_free()
+	
+
+func _on_destroy():
+		if (detonate):
+			explode();
 		
 		queue_free()
-
+		
 # show the bullet style
 func show_verse_style(verse):
 	get_node("Style%d" % style).show()
@@ -116,25 +123,27 @@ func explode():
 func _on_Verse_Jump(verse):
 	style = verse
 	show_verse_style(style)
-	# damage = Global.player_bullet_properties[style].damage * (1+charge);
-
-	match style:
-		# on entering minimal
+	damage = Global.player_bullet_properties[verse]["damage"];
+	
+	match verse:
+		# on entering minimal, goes faster
 		0:
-			pass
-		# on entering pixel
+			linear_velocity *= 1.2;
+		# on entering pixel, goes slower and can explode
 		1:
-			pass
+			linear_velocity *= 0.8;
+			detonate = true;
+		# on entering 3d, gets charged
 		2:
-			# bullet gets a bit more charged if it enters and slower
-			if (charge == 0.0): 
-				charge = 0.4;
-			else: 
-				charge *= 1.5;
+			# if uncharged on entering, gets a charge of 0.4
+			charge += 0.4;
 			if (charge > 1.0): charge = 1.0
-			damage *= charge + 1;
+			# scale damage and speed by charge
+			if (charge >= 1.0): damage += 30;
 			linear_velocity *= (1-(charge/2));
+		# on entering collage, bullets get faster and can bounce
 		3:
+			linear_velocity *= 1.2;
 			if (!bouncing):
 				bouncing = true;
 				num_bounces = 2;
@@ -143,24 +152,24 @@ func _on_Verse_Jump(verse):
 
 # verse exit function
 func _on_Verse_Exit(verse, new_verse):
+	damage = Global.player_bullet_properties[new_verse]["damage"];
 	match verse:
+		# on exiting minimal, bullets go faster
 		0:
-			# on exiting 0, bullets get weaker but go faster
-			damage = Global.player_bullet_properties[verse].damage*0.75;
-			set_linear_velocity(get_linear_velocity()*1.2);
+			linear_velocity *= 1.2;
+		# on exiting pixel, bullet splits into 3
 		1:
-			# on exiting pixel, bullet splits into 3
-			var new_dmg = Global.player_bullet_properties[verse].damage;
-			var speed = curr_vel;
-			if (verse == 2): 
-				damage = 50;
-				new_dmg = damage*charge;
-				speed *= (1-(charge/2));
-			Global.player.fire_spread(3, 20, speed, dir, get_global_position());
+			var bullets = Global.player.fire_spread(3, 25, curr_vel, dir, get_global_position(), new_verse);
+			for b in bullets:
+				if new_verse == 2:
+					b.damage = b.damage*charge/2.0;
+				else:
+					b.damage = (b.damage*(charge+1))/2.0;
+				b.linear_velocity *= (1-(charge/2));
 			queue_free();
 		2:
 			# on exiting 2, damage of bullet scales with charge upwards
-			damage = Global.player_bullet_properties[verse].damage * (charge+1);
+			damage *= charge+1;
 		3:
 			# on exiting, can bounce twice if it cant bounce already
 			if (!bouncing):
