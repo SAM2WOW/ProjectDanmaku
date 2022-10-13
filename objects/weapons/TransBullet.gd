@@ -88,19 +88,6 @@ func _on_Verse_Jump(style):
 	if style == self.style:
 		queue_free()
 
-func _on_Area2D_body_entered(body):
-	if not dead and not start_protect:
-		if body == Global.player:
-			body.damage(10)
-			self_destroy()
-		elif "Player" in body.name:
-			if detect_failsafe != body:
-				detect_failsafe = body
-				damage(body.damage)
-				#print(body)
-				body._on_destroy()
-			#body.queue_free()
-
 
 func damage(damage):
 	damage = damage * 0.1
@@ -110,12 +97,12 @@ func damage(damage):
 	$Timer.start()
 	print('trans damage%d' % damage)
 	if $area.scale.x > 0.7:
-		$area.scale -= Vector2(0.1,0.1) * damage
+		$area.scale -= Vector2(0.12,0.12) * damage
 		health -= 1 * damage
 
 	if health <= 0:
 		growth_rate = 0.5
-	if $area.scale.x < 0.7 and start_protect:
+	if $area.scale.x < 0.8 and start_protect:
 		verse_jump_init()
 	
 	
@@ -125,3 +112,15 @@ func _on_Timer_timeout():
 	base_growth_rate += 0.003
 	start_protect = true
 	
+
+
+func _on_DetectionArea_body_entered(body):
+	if not dead and start_protect:
+		if body == Global.player:
+			body.damage(10)
+			self_destroy()
+		elif "Player" in body.name:
+			damage(body.damage)
+			#print(body)
+			body._on_destroy()
+			#body.queue_free()
