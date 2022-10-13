@@ -85,7 +85,9 @@ func fireLaser(fireFrom, fireAt):
 	ind.add_point(Vector2.ZERO)
 #	ind.add_point(get_global_position())
 	# Makes sure laser always extends past viewport
-	ind.add_point((fireAt - fireFrom) * 150)
+	var dir = Vector2();
+	# dir *= 10000;
+	ind.add_point((fireAt - fireFrom) * 10000)
 	
 	yield(get_tree().create_timer(timeBeforeBeam), "timeout")
 	
@@ -264,6 +266,7 @@ func init_3d_bullets():
 					prev_style = style;
 					finish_attack();
 					return;
+					
 				fireLaser(get_global_position(), Global.player.get_global_position())
 				yield(get_tree().create_timer(attack_properties["interval"]), "timeout")
 			finish_attack()

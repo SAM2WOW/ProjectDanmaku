@@ -26,7 +26,7 @@ animations = [ {
 } ]
 
 [sub_resource type="CircleShape2D" id=1]
-radius = 32.7945
+radius = 45.2769
 
 [sub_resource type="Curve" id=2]
 _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.0742574, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), -2.93818, 0.0, 0, 0 ]
@@ -56,7 +56,6 @@ visible = false
 [node name="Polygon2D" type="AnimatedSprite" parent="Style1"]
 scale = Vector2( 4, 4 )
 frames = SubResource( 7 )
-frame = 2
 playing = true
 
 [node name="Style2" type="Node2D" parent="."]
