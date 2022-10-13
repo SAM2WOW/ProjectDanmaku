@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=2]
+[gd_scene load_steps=31 format=2]
 
 [ext_resource path="res://objects/characters/Boss.gd" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
@@ -103,7 +103,7 @@ visible = false
 position = Vector2( 1, -2 )
 scale = Vector2( 4, 4 )
 frames = SubResource( 18 )
-frame = 6
+frame = 2
 playing = true
 
 [node name="Style2" type="Node2D" parent="."]
