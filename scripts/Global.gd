@@ -10,7 +10,7 @@ var portal
 
 var initial_style = 0
 var total_style = 4
-var prev_style = initial_style;
+var prev_style = initial_style
 var current_style = initial_style
 
 var window_width = ProjectSettings.get_setting("display/window/size/width");

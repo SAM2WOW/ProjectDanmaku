@@ -8,8 +8,6 @@ var velocity = Vector2.ZERO
 export var speed = 500
 var speed_mult = 1.0;
 
-onready var firingPositions = $FiringPositions
-
 # var shooting = false;
 
 var health = 100

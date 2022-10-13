@@ -87,6 +87,14 @@ tint_progress = Color( 0.517647, 0.878431, 0.960784, 0.172549 )
 self_modulate = Color( 0.517647, 0.878431, 0.960784, 1 )
 texture = ExtResource( 5 )
 
+[node name="FiringPositions" type="Node2D" parent="Style0/Icon"]
+
+[node name="LeftShot" type="Node2D" parent="Style0/Icon/FiringPositions" groups=["shots"]]
+position = Vector2( 30, -15 )
+
+[node name="RightShot" type="Node2D" parent="Style0/Icon/FiringPositions" groups=["shots"]]
+position = Vector2( 30, 16 )
+
 [node name="Playercircle" type="Sprite" parent="Style0/Icon"]
 self_modulate = Color( 0.517647, 0.878431, 0.960784, 1 )
 position = Vector2( 30, -15 )
@@ -122,14 +130,6 @@ script = ExtResource( 8 )
 pitch_low = 0.784
 ptch_high = 1.376
 base_volume = -20.0
-
-[node name="FiringPositions" type="Node2D" parent="Style0"]
-
-[node name="LeftShot" type="Node2D" parent="Style0/FiringPositions" groups=["shots"]]
-position = Vector2( 30, -15 )
-
-[node name="RightShot" type="Node2D" parent="Style0/FiringPositions" groups=["shots"]]
-position = Vector2( 30, 16 )
 
 [node name="Style1" type="Node2D" parent="."]
 visible = false

@@ -16,7 +16,6 @@ func _ready():
 	set_scale(Vector2(0, 0))
 	connect("tree_exiting", self, "global_cleanup")
 	if not exploding:
-		
 		var tween = create_tween().set_trans(Tween.TRANS_ELASTIC)
 		tween.tween_property(self, "scale", Vector2(1, 1), 1)
 	else:
@@ -26,7 +25,7 @@ func self_destroy():
 	global_cleanup()
 	exploding = true
 	var tween = create_tween().set_trans(Tween.TRANS_BACK)
-	tween.tween_property(self, "back", Vector2(0, 0), 1)
+	tween.tween_property(self, "scale", Vector2(0, 0), 0.5)
 	tween.tween_callback(self, "queue_free")
 
 func global_cleanup():
@@ -64,4 +63,4 @@ func _on_Area2D_body_exited(body):
 		if body.has_method('_on_Verse_Jump'):
 			body._on_Verse_Jump(Global.current_style)
 		if body.has_method('_on_Verse_Exit'):
-			body._on_Verse_Exit(style)
+			body._on_Verse_Exit(style, Global.current_style)
