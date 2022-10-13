@@ -77,7 +77,8 @@ func _on_Verse_Jump(verse):
 		# into pixel; bullets go slower and blow at speed
 		1:
 			linear_velocity *= 0.8;
-			if (!detonate):
+			# if it jumps to the main verse
+			if (!detonate && Global.current_style == verse):
 				detonate = true;
 				detonate_at_speed = true;
 				
@@ -209,14 +210,13 @@ func _physics_process(delta):
 			return;
 	# for some reason is verse jumping when this happens?????
 	if (detonate_at_speed):
-		return;
+		var base_speed = 75.0;
 		linear_velocity *= 0.99;
-		if (curr_vel <= 100.0):
+		if (curr_vel <= base_speed):
 			detonate_at_speed = false;
-			print(curr_vel);
-			# explode();
+			explode();
 			dying = true
-			queue_free(); # this line is causing the crash...?
+			queue_free();
 			return;
 
 	
