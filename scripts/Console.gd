@@ -1,8 +1,10 @@
 extends Node
 
 
-var boss_health = 5000
+var boss_health = 500
 var portal
+var play_time = 0.0
+
 
 func _ready():
 	Global.console = self
@@ -11,16 +13,30 @@ func _ready():
 	$"../CanvasLayer/Control/HealthBar".set_value(boss_health)
 
 
+func _process(delta):
+	if boss_health > 0:
+		play_time += delta
+
+
+func boss_dead():
+	$"../CanvasLayer/Control/Gameover/CenterContainer/VBoxContainer/Time".set_text("Time: %.2fs" % play_time)
+	$"../CanvasLayer/Control/Gameover".show()
+
+
+func player_dead():
+	$"../CanvasLayer/Control/PlayerDeath".show()
+
+
 func damage_boss(amount):
 	boss_health -= amount
 	
 	$"../CanvasLayer/Control/HealthBar".set_value(boss_health)
 	
 	if boss_health <= 0:
-		print("You Win")
+		boss_dead()
+		Global.boss.queue_free()
 		
-		get_tree().reload_current_scene()
-		Global.current_style = Global.initial_style
+		Global.player.set_process(false)
 
 
 func play_shockwave(orgin):
@@ -34,3 +50,8 @@ func play_shockwave(orgin):
 	
 	#yield(tween, "finished")
 	#$"../CanvasLayer/Control/Shockwave".hide()
+
+
+func _on_Restart_pressed():
+	Global.current_style = Global.initial_style
+	get_tree().reload_current_scene()

@@ -46,8 +46,8 @@ func _physics_process(delta):
 
 
 func damage(amount,body = null):
-	print(body)
-	print("Boss have been damaged %d" % amount)
+	#print(body)
+	#print("Boss have been damaged %d" % amount)
 	Global.console.damage_boss(amount)
 	
 	# effects
@@ -55,7 +55,9 @@ func damage(amount,body = null):
 	var tween = create_tween().set_trans(Tween.TRANS_SINE)
 	tween.tween_property(get_node("Style%d" % style), "scale", Vector2(1, 1), 0.2)
 	
-	Global.camera.shake(0.2, 6, 3)
+	Global.camera.shake(0.2, 6, 8)
+	
+	$HitSound.play()
 
 func _on_Verse_Jump(verse):
 	style = verse

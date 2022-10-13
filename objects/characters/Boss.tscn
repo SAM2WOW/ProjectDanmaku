@@ -176,6 +176,13 @@ shape = SubResource( 6 )
 one_shot = true
 autostart = true
 
+[node name="HitSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 17 )
+bus = "Sound"
+script = ExtResource( 16 )
+pitch_low = 0.788
+base_volume = 5.0
+
 [node name="MovementTimer" type="Timer" parent="."]
 wait_time = 8.0
 one_shot = true
