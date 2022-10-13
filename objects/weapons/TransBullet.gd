@@ -18,7 +18,7 @@ var dead = false
 var growth_rate = 1
 var start_protect = false
 
-var detect_failsafe = null
+var dead_damp = 0.15
 
 func init_bullet(_pos, _dir, _style):
 	set_global_position(_pos);
@@ -51,7 +51,10 @@ func spawn_portal():
 	p.style = style
 	get_parent().add_child(p);
 	p.set_global_position(get_global_position());
-	
+	p = load("res://objects/VFX/portalParticle.tscn").instance()
+	p.set_global_position(get_global_position())
+	p.style = style
+	get_parent().add_child(p)
 	print(get_global_transform_with_canvas().origin)
 	Global.console.play_shockwave(get_global_transform_with_canvas().origin)
 	
@@ -79,8 +82,8 @@ func verse_jump_explode():
 	queue_free()
 	Global.boss.transbullet_state = false
 		
-	print(get_global_transform_with_canvas().origin)
-	Global.console.play_shockwave(get_global_transform_with_canvas().origin)
+	print(p.get_global_transform_with_canvas().origin)
+	Global.console.play_shockwave(get_global_transform_with_canvas().origin,0.3)
 	
 func _physics_process(delta):
 	if not dead:
@@ -88,7 +91,7 @@ func _physics_process(delta):
 		if $area.scale.x > 2.4:
 			self_destroy()
 	else:
-		set_linear_velocity(lerp(get_linear_velocity(),Vector2.ZERO,0.15))
+		set_linear_velocity(lerp(get_linear_velocity(),Vector2.ZERO,dead_damp))
 
 func _on_Verse_Jump(style):
 	if style == self.style:
@@ -118,15 +121,24 @@ func _on_Timer_timeout():
 	base_growth_rate += 0.003
 	start_protect = true
 	
+func delayed_destroy():
+	dead_damp = 0.05
+	var tween = create_tween().set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)
+	tween.tween_property($area, "scale", Vector2(0.7, 0.7), 1)
+	yield(tween,"finished")
+	self_destroy()
 
 
 func _on_DetectionArea_body_entered(body):
-	if not dead and start_protect:
+	if not dead:
 		if body == Global.player:
 			body.damage(10)
-			self_destroy()
+			#self_destroy()
+			delayed_destroy()
+			dead = true
 		elif "Player" in body.name:
-			damage(body.damage)
-			#print(body)
-			body._on_destroy()
-			#body.queue_free()
+			if start_protect:
+				damage(body.damage)
+				#print(body)
+				body._on_destroy()
+				#body.queue_free()

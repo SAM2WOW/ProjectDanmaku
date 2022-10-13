@@ -39,13 +39,15 @@ func damage_boss(amount):
 		Global.player.set_process(false)
 
 
-func play_shockwave(orgin):
+func play_shockwave(orgin, delay = 0):
 	var h = orgin.x / $"../Node2D".get_viewport_rect().size.x
 	var v = orgin.y / $"../Node2D".get_viewport_rect().size.y
+	
 	$"../CanvasLayer/Control/Shockwave".get_material().set_shader_param("center", Vector2(h, 1 - v))
 	
 	$"../CanvasLayer/Control/Shockwave".get_material().set_shader_param("radius", 0.0)
 	var tween = create_tween().set_trans(Tween.TRANS_LINEAR)
+	tween.tween_interval(delay)
 	tween.tween_property($"../CanvasLayer/Control/Shockwave".get_material(), "shader_param/radius", 2.0, 2)
 	
 	#yield(tween, "finished")
