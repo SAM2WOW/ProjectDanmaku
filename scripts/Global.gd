@@ -22,3 +22,10 @@ var player_bullet_properties = {
 	2: {"damage":100, "fire rate":0.6, "speed":900},
 	3: {"damage":10, "fire rate":0.4, "speed":1000}
 }
+
+var boss_bullet_properties = {
+	0: {"damage": 30, "speed": 300},
+	1: {"damage": 40, "speed": 1000},
+	2: {"damage": 40},
+	3: {"damage": 20, "speed": 300}
+}

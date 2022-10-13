@@ -122,18 +122,20 @@ func init_minimal_bullets():
 	match attack_pattern:
 		0:
 			var num_waves = 4; var wave_interval = 0.3; var offset_inc = 10;
+			var b_speed = Global.boss_bullet_properties[style]["speed"];
 			# instantiate the bullets
 			# set the bullets properties to the one of the style
 			for i in num_waves:
-				fire_pulse(8, 300, offset_inc*i);
+				fire_pulse(8, b_speed, offset_inc*i);
 				yield(get_tree().create_timer(wave_interval), "timeout");
 			finish_attack();
 		1:
 			var num_waves = 3; var wave_interval = 0.6; var num_bullets = 5;
-			var bullet_speed = 600;
+			var b_speed = Global.boss_bullet_properties[style]["speed"];
+			
 			for i in num_waves:
 				var dir = get_global_position().direction_to(Global.player.get_global_position());
-				fire_blob(num_bullets, bullet_speed, dir);
+				fire_blob(num_bullets, b_speed, dir);
 				yield(get_tree().create_timer(wave_interval), "timeout");
 			finish_attack();
 		_:
@@ -145,21 +147,23 @@ func init_pixel_bullets():
 	match attack_pattern:
 		0:
 			var num_waves = 6; var wave_interval = 0.3;
+			var b_speed = Global.boss_bullet_properties[style]["speed"];
 			for i in num_waves:
 				var fire_pos = Global.player.get_global_position()
-				var b = fire_at(fire_pos, 1000);
+				var b = fire_at(fire_pos, b_speed);
 				b.set_detonate(fire_pos);
 				yield(get_tree().create_timer(wave_interval), "timeout");
 			finish_attack();
 		1:
 			var num_waves = 8; var wave_interval = 0.1;
+			var b_speed = Global.boss_bullet_properties[style]["speed"];
 			for i in num_waves:
 				rng.randomize();
 				var rand_pos = Vector2(
 					rng.randi_range(-Global.window_width/2, Global.window_width/2), 
 					rng.randi_range(-Global.window_height/2, Global.window_height/2)
 				);
-				var b = fire_at(rand_pos, 1000);
+				var b = fire_at(rand_pos, b_speed);
 				b.set_detonate(rand_pos);
 				yield(get_tree().create_timer(wave_interval), "timeout");
 			finish_attack();
@@ -208,12 +212,14 @@ func init_collage_bullets():
 		0:
 			var num_waves = 2; var wave_interval = 0.6;
 			var dir = get_global_position().direction_to(Global.player.get_global_position());
+			var b_speed = Global.boss_bullet_properties[style]["speed"];
 			for i in num_waves:
-				fire_spread(3, 30, 300, dir);
+				fire_spread(3, 30, b_speed, dir);
 				yield(get_tree().create_timer(wave_interval), "timeout");
 			finish_attack();
 		1:
-			fire_pulse(6, 300);
+			var b_speed = Global.boss_bullet_properties[style]["speed"];
+			fire_pulse(6, b_speed);
 			finish_attack();
 		_:
 			pass
@@ -274,7 +280,7 @@ func fire_spread(
 
 # num bullets at the approximate position of the player
 # dir and speed are randomized within a range (deg and pixel respectfully)
-func fire_blob(num, speed, dir, degree_offset=30, speed_offset=200, _style=style, pos=get_global_position()):
+func fire_blob(num, speed, dir, degree_offset=30, speed_offset=100, _style=style, pos=get_global_position()):
 	var bullets = [];
 	for i in num:
 		var b = basic_bullet.instance();
