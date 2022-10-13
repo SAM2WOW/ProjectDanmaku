@@ -1,6 +1,6 @@
 extends RigidBody2D
 
-var style = 1
+var style = 0;
 var dir = Vector2();
 
 # for detonation bullets
@@ -17,6 +17,8 @@ var dead = false
 
 var growth_rate = 1
 var start_protect = false
+
+var detect_failsafe = null
 
 func init_bullet(_pos, _dir, _style):
 	set_global_position(_pos);
@@ -38,7 +40,8 @@ func self_destroy():
 	var tween = create_tween().set_trans(Tween.TRANS_BACK)
 	tween.tween_property($area, "scale", Vector2(0, 0), 0.2)
 	tween.tween_callback(self, "queue_free")
-	spawn_portal()
+	if style != Global.current_style:
+		spawn_portal()
 	Global.boss.transbullet_state = false
 
 func spawn_portal():
@@ -48,6 +51,9 @@ func spawn_portal():
 	p.style = style
 	get_parent().add_child(p);
 	p.set_global_position(get_global_position());
+	
+	print(get_global_transform_with_canvas().origin)
+	Global.console.play_shockwave(get_global_transform_with_canvas().origin)
 	
 
 func verse_jump_init():
@@ -72,6 +78,9 @@ func verse_jump_explode():
 	p.exploding = true
 	queue_free()
 	Global.boss.transbullet_state = false
+		
+	print(get_global_transform_with_canvas().origin)
+	Global.console.play_shockwave(get_global_transform_with_canvas().origin)
 	
 func _physics_process(delta):
 	if not dead:
@@ -85,15 +94,6 @@ func _on_Verse_Jump(style):
 	if style == self.style:
 		queue_free()
 
-func _on_Area2D_body_entered(body):
-	if not dead:
-		if body == Global.player:
-			body.damage(10)
-			self_destroy()
-		elif "Player" in body.name:
-			damage(body.damage)
-			body._on_destroy()
-
 
 func damage(damage):
 	damage = damage * 0.1
@@ -102,12 +102,13 @@ func damage(damage):
 		damage = 3
 	$Timer.start()
 	print('trans damage%d' % damage)
-	$area.scale -= Vector2(0.1,0.1) * damage
-	health -= 1 * damage
+	if $area.scale.x > 0.7:
+		$area.scale -= Vector2(0.12,0.12) * damage
+		health -= 1 * damage
 
 	if health <= 0:
 		growth_rate = 0.5
-	if $area.scale.x < 0.7 and start_protect:
+	if $area.scale.x < 0.8 and start_protect:
 		verse_jump_init()
 	
 	
@@ -117,3 +118,15 @@ func _on_Timer_timeout():
 	base_growth_rate += 0.003
 	start_protect = true
 	
+
+
+func _on_DetectionArea_body_entered(body):
+	if not dead and start_protect:
+		if body == Global.player:
+			body.damage(10)
+			self_destroy()
+		elif "Player" in body.name:
+			damage(body.damage)
+			#print(body)
+			body._on_destroy()
+			#body.queue_free()

@@ -101,7 +101,7 @@ visible = false
 position = Vector2( 1, -2 )
 scale = Vector2( 4, 4 )
 frames = SubResource( 18 )
-frame = 4
+frame = 8
 playing = true
 
 [node name="Style2" type="Node2D" parent="."]
@@ -130,4 +130,10 @@ shape = SubResource( 6 )
 one_shot = true
 autostart = true
 
+[node name="MovementTimer" type="Timer" parent="."]
+wait_time = 8.0
+one_shot = true
+autostart = true
+
 [connection signal="timeout" from="FireTimer" to="." method="_on_FireTimer_timeout"]
+[connection signal="timeout" from="MovementTimer" to="." method="_on_MovementTimer_timeout"]

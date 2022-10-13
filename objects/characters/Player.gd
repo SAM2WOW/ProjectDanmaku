@@ -10,7 +10,7 @@ var speed_mult = 1.0;
 
 # var shooting = false;
 
-var max_health = 10000;
+var max_health = 100;
 var health = max_health;
 var health_regen_speed = 8
 
@@ -92,7 +92,6 @@ func _input(event):
 		var keyPressed = event.scancode
 		if keyPressed in [48,49,50,51]:
 			var new_style = keyPressed - 48
-			Global.prev_style = Global.current_style
 			Global.current_style = new_style
 			for node in get_tree().get_nodes_in_group('style'):
 				node._on_Verse_Jump(new_style)
@@ -149,38 +148,44 @@ func fire_bullet():
 			init_collage_bullets();
 		_:
 			pass
+		
+	# play sounds
+	get_node("Style%d/FireSound" % style).play()
+
 
 func init_minimal_bullets():
 	var shotLocations = [Global.player];
-	shotLocations = Global.player.get_tree().get_nodes_in_group("shots")
+	shotLocations = get_tree().get_nodes_in_group('shots')
 	for shot in shotLocations:
 		var b = bullet.instance()
+		get_parent().add_child(b);
+		
 		var dir = get_global_position().direction_to(get_global_mouse_position());
 		b.init_bullet(shot.get_global_position(), dir, style);
 		b.set_linear_velocity(dir*Global.player_bullet_properties[style]["speed"]);
 		
-		get_parent().add_child(b);
 
 func init_pixel_bullets():
 	var b = bullet.instance();
+	get_parent().add_child(b)
+	
 	var dir = get_global_position().direction_to(get_global_mouse_position());
 	b.init_bullet(get_global_position(), dir, style);
 	b.set_detonate(get_global_mouse_position());
 	b.set_linear_velocity(dir*Global.player_bullet_properties[style]["speed"]);
 	
-	get_parent().add_child(b)
 
 func init_3d_bullets():
 	var charge = holdTime / maxHoldTime;
 	if (charge > 1.0): charge = 1.0;
 
 	var b = bullet.instance();
+	get_parent().add_child(b)
 	b.charge = charge;
 	var dir = get_global_position().direction_to(get_global_mouse_position());
 	b.init_bullet(get_global_position(), dir, style);
 	b.set_linear_velocity(dir*Global.player_bullet_properties[style]["speed"]);
 	
-	get_parent().add_child(b)
 	
 func init_collage_bullets():
 	var dir = get_global_position().direction_to(get_global_mouse_position());
@@ -210,6 +215,8 @@ func fire_spread(
 	var odd = (num%2 != 0);
 	for i in num:
 		var b = bullet.instance();
+		get_parent().add_child(b);
+		
 		var new_deg = 0.0;
 		if !odd:
 			new_deg = (i-(num*0.5)+0.5)*deg;
@@ -226,6 +233,5 @@ func fire_spread(
 		b.set_linear_velocity(new_dir*speed);
 		b.damage = Global.player_bullet_properties[_style]["damage"];
 		
-		get_parent().add_child(b);
 		bullets.append(b);
 	return bullets;
