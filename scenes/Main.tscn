@@ -58,7 +58,7 @@ position = Vector2( 0, 359 )
 position = Vector2( 0, -349 )
 
 [node name="Portal" parent="Node2D" instance=ExtResource( 4 )]
-position = Vector2( 232, -277 )
+position = Vector2( 305, -45 )
 style = 1
 
 [node name="Background" type="Node2D" parent="Node2D" groups=["style"]]
