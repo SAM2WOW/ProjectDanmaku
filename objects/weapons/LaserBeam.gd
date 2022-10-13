@@ -4,7 +4,11 @@ var is_casting := false setget set_is_casting
 
 var basic_bullet = preload("res://objects/weapons/BasicBullet.tscn")
 
-var laserBulletInterval = 0
+var laserBulletIntervalCount = 0
+var playerDamageIntervalCount = 0
+var laserBulletInterval = 0.25
+var playerDamageInterval = 0.2
+var laserDamage = 10
 
 var style = 2;
 
@@ -26,7 +30,8 @@ func _physics_process(delta: float) -> void:
 	var cast_point := cast_to
 	force_raycast_update()
 	
-	laserBulletInterval += delta
+	laserBulletIntervalCount += delta
+	playerDamageIntervalCount += delta
 	
 	$CollisionParticle2D.emitting = is_colliding()
 	
@@ -35,8 +40,11 @@ func _physics_process(delta: float) -> void:
 		$CollisionParticle2D.global_rotation = get_collision_normal().angle()
 		$CollisionParticle2D.position = cast_point
 		if "Player" in get_collider().name:
-			get_collider().damage(damage)
-		if "Area2D" in get_collider().name && laserBulletInterval >= 0.25:
+			print(playerDamageIntervalCount)
+			if playerDamageIntervalCount >= playerDamageInterval:
+				get_collider().damage(laserDamage)
+				playerDamageIntervalCount = 0
+		if "Area2D" in get_collider().name && laserBulletIntervalCount >= laserBulletInterval:
 			var b = basic_bullet.instance()
 			var pos = get_collision_point()
 			var dir = $Line2D.get_global_position().direction_to(pos)
@@ -45,7 +53,7 @@ func _physics_process(delta: float) -> void:
 			b.init_bullet(pos, dir, style);
 			b.set_linear_velocity(dir*speed);
 			get_parent().add_child(b)
-			laserBulletInterval = 0
+			laserBulletIntervalCount = 0
 	
 	$Line2D.points[1] = cast_point
 	$BeamParticle2D.position = cast_point * 0.5
