@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Witch_Idle_Flipped.png-b40182d68dd02025e35c0658a0955782.stex"
+path="res://.import/moon_clouds_sky.jpg-d8ccb3ea146a1891591bcefcf0577c26.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://arts/3D/Witch_Idle_Flipped.png"
-dest_files=[ "res://.import/Witch_Idle_Flipped.png-b40182d68dd02025e35c0658a0955782.stex" ]
+source_file="res://arts/3D/moon_clouds_sky.jpg"
+dest_files=[ "res://.import/moon_clouds_sky.jpg-d8ccb3ea146a1891591bcefcf0577c26.stex" ]
 
 [params]
 

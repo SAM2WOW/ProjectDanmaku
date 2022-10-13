@@ -67,10 +67,12 @@ func _on_Verse_Jump(verse):
 	tween.tween_property(get_node("Style%d" % style), "scale", Vector2(0.5, 0.5), 0.05)
 	
 	yield(tween, "finished")
-	get_node("Style%d" % style).hide()
 	style = verse
-	
 	get_node("Style%d" % style).show()
+	for i in range(Global.total_style):
+		if i != style:
+			get_node("Style%d" % i).hide()
+	
 	get_node("Style%d/TransEffect" % style).restart()
 	get_node("Style%d/TransEffect" % style).set_emitting(true)
 	

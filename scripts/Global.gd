@@ -8,7 +8,7 @@ var camera
 var background
 var portal
 
-var initial_style = 0
+var initial_style = 1
 var total_style = 4
 var current_style = initial_style
 
