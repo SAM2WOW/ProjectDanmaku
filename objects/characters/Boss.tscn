@@ -149,7 +149,6 @@ visible = false
 position = Vector2( 1, -2 )
 scale = Vector2( 4, 4 )
 frames = SubResource( 40 )
-frame = 7
 playing = true
 
 [node name="Style2" type="Node2D" parent="."]
@@ -159,6 +158,7 @@ visible = false
 position = Vector2( -18, -22 )
 scale = Vector2( 0.557017, 0.557017 )
 frames = SubResource( 18 )
+frame = 2
 speed_scale = 0.75
 playing = true
 
@@ -175,13 +175,6 @@ shape = SubResource( 6 )
 [node name="FireTimer" type="Timer" parent="."]
 one_shot = true
 autostart = true
-
-[node name="HitSound" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource( 17 )
-bus = "Sound"
-script = ExtResource( 16 )
-pitch_low = 0.788
-base_volume = 5.0
 
 [node name="MovementTimer" type="Timer" parent="."]
 wait_time = 8.0
