@@ -1,4 +1,4 @@
-[gd_resource type="ShaderMaterial" load_steps=24 format=2]
+[gd_resource type="ShaderMaterial" load_steps=25 format=2]
 
 [ext_resource path="res://arts/collage/Moon Sprite Sheet.png" type="Texture" id=1]
 [ext_resource path="res://arts/collage/backbar.png" type="Texture" id=2]
@@ -48,6 +48,9 @@ operator = 2
 [sub_resource type="VisualShaderNodeInput" id=24]
 input_name = "screen_uv"
 
+[sub_resource type="VisualShaderNodeTextureUniform" id=25]
+uniform_name = "TextureUniform"
+
 [sub_resource type="VisualShaderNodeInput" id=2]
 input_name = "screen_uv"
 
@@ -72,6 +75,7 @@ code = "shader_type canvas_item;
 uniform sampler2D tex_frg_20;
 uniform float Speed = 4;
 uniform sampler2D tex_frg_17;
+uniform sampler2D TextureUniform;
 
 
 
@@ -150,8 +154,18 @@ void fragment() {
 // VectorOp:21
 	vec3 n_out21p0 = n_out20p0 * n_out17p0;
 
+// TextureUniform:23
+	vec3 n_out23p0;
+	float n_out23p1;
+	{
+		vec4 n_tex_read = texture(TextureUniform, UV.xy);
+		n_out23p0 = n_tex_read.rgb;
+		n_out23p1 = n_tex_read.a;
+	}
+
 // Output:0
 	COLOR.rgb = n_out21p0;
+	COLOR.a = n_out23p1;
 
 }
 
@@ -160,7 +174,7 @@ void light() {
 
 }
 "
-graph_offset = Vector2( -582.292, -157.676 )
+graph_offset = Vector2( -317.097, -43.6935 )
 mode = 1
 flags/light_only = false
 nodes/fragment/0/position = Vector2( 720, 100 )
@@ -204,7 +218,9 @@ nodes/fragment/21/node = SubResource( 23 )
 nodes/fragment/21/position = Vector2( 397.708, 74.3241 )
 nodes/fragment/22/node = SubResource( 24 )
 nodes/fragment/22/position = Vector2( -140, -60 )
-nodes/fragment/connections = PoolIntArray( 3, 0, 4, 0, 4, 0, 5, 0, 5, 1, 6, 1, 5, 2, 6, 2, 7, 0, 8, 0, 12, 0, 11, 1, 11, 0, 8, 1, 10, 0, 11, 0, 13, 0, 10, 0, 9, 0, 14, 0, 14, 0, 13, 0, 15, 0, 14, 1, 16, 0, 12, 1, 16, 0, 10, 1, 16, 0, 7, 1, 6, 0, 17, 0, 8, 0, 6, 0, 18, 0, 19, 0, 5, 0, 18, 0, 19, 0, 7, 0, 20, 0, 21, 0, 17, 0, 21, 1, 21, 0, 0, 0, 22, 0, 20, 0 )
+nodes/fragment/23/node = SubResource( 25 )
+nodes/fragment/23/position = Vector2( 380, 220 )
+nodes/fragment/connections = PoolIntArray( 3, 0, 4, 0, 4, 0, 5, 0, 5, 1, 6, 1, 5, 2, 6, 2, 7, 0, 8, 0, 12, 0, 11, 1, 11, 0, 8, 1, 10, 0, 11, 0, 13, 0, 10, 0, 9, 0, 14, 0, 14, 0, 13, 0, 15, 0, 14, 1, 16, 0, 12, 1, 16, 0, 10, 1, 16, 0, 7, 1, 6, 0, 17, 0, 8, 0, 6, 0, 18, 0, 19, 0, 5, 0, 18, 0, 19, 0, 7, 0, 20, 0, 21, 0, 17, 0, 21, 1, 21, 0, 0, 0, 22, 0, 20, 0, 23, 1, 0, 1 )
 
 [resource]
 shader = SubResource( 18 )
