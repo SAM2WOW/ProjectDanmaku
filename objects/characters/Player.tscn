@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=2]
+[gd_scene load_steps=35 format=2]
 
 [ext_resource path="res://objects/characters/Player.gd" type="Script" id=1]
 [ext_resource path="res://arts/collage/collage_witch_girl_ani.png" type="Texture" id=2]
@@ -11,7 +11,6 @@
 [ext_resource path="res://sounds/AbstractBullet.wav" type="AudioStream" id=9]
 [ext_resource path="res://arts/ui/bosshealth.png" type="Texture" id=10]
 [ext_resource path="res://arts/abstrastArt/playercircle.png" type="Texture" id=11]
-[ext_resource path="res://arts/3D/Witch_3D_Flipped.png" type="Texture" id=12]
 
 [sub_resource type="Gradient" id=17]
 offsets = PoolRealArray( 0, 0.150838, 1 )
@@ -55,7 +54,7 @@ region = Rect2( 0, 0, 67, 61 )
 
 [sub_resource type="SpriteFrames" id=15]
 animations = [ {
-"frames": [ ExtResource( 12 ) ],
+"frames": [ ExtResource( 6 ) ],
 "loop": true,
 "name": "default",
 "speed": 5.0
@@ -163,10 +162,10 @@ texture = ExtResource( 11 )
 
 [node name="FiringPositions" type="Node2D" parent="Style0/Icon"]
 
-[node name="LeftShot" type="Node2D" parent="Style0/Icon/FiringPositions" groups=["shots"]]
+[node name="LeftShot" type="Node2D" parent="Style0/Icon/FiringPositions" groups=["shots0"]]
 position = Vector2( 30, -15 )
 
-[node name="RightShot" type="Node2D" parent="Style0/Icon/FiringPositions" groups=["shots"]]
+[node name="RightShot" type="Node2D" parent="Style0/Icon/FiringPositions" groups=["shots0"]]
 position = Vector2( 30, 16 )
 
 [node name="TransEffect" type="CPUParticles2D" parent="Style0"]
@@ -190,7 +189,6 @@ color_ramp = SubResource( 17 )
 
 [node name="FireSound" type="AudioStreamPlayer2D" parent="Style0"]
 stream = ExtResource( 9 )
-bus = "Sound"
 script = ExtResource( 8 )
 pitch_low = 0.784
 ptch_high = 1.376
@@ -203,10 +201,12 @@ visible = false
 position = Vector2( 0, -5 )
 scale = Vector2( 3, 3 )
 frames = SubResource( 8 )
-frame = 5
 speed_scale = 2.0
 playing = true
 script = ExtResource( 4 )
+
+[node name="PixelShot" type="Node2D" parent="Style1/AnimatedSprite" groups=["shots1"]]
+position = Vector2( -25, 0 )
 
 [node name="TransEffect" type="CPUParticles2D" parent="Style1"]
 position = Vector2( 0, -15 )
@@ -231,7 +231,6 @@ color_ramp = SubResource( 17 )
 
 [node name="FireSound" type="AudioStreamPlayer2D" parent="Style1"]
 stream = ExtResource( 7 )
-bus = "Sound"
 script = ExtResource( 8 )
 
 [node name="Style2" type="Node2D" parent="."]
@@ -242,6 +241,9 @@ position = Vector2( -5, 5 )
 scale = Vector2( 0.137318, 0.137318 )
 frames = SubResource( 15 )
 script = ExtResource( 4 )
+
+[node name="3DShot" type="Node2D" parent="Style2/AnimatedSprite" groups=["shots2"]]
+position = Vector2( 589.872, -43.6942 )
 
 [node name="TransEffect" type="CPUParticles2D" parent="Style2"]
 position = Vector2( 0, -15 )
@@ -266,7 +268,6 @@ color_ramp = SubResource( 17 )
 
 [node name="FireSound" type="AudioStreamPlayer2D" parent="Style2"]
 stream = ExtResource( 7 )
-bus = "Sound"
 script = ExtResource( 8 )
 
 [node name="Style3" type="Node2D" parent="."]
@@ -275,8 +276,11 @@ visible = false
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Style3"]
 scale = Vector2( 0.526513, 0.526513 )
 frames = SubResource( 29 )
-frame = 4
+frame = 8
 playing = true
+
+[node name="CollageShot" type="Node2D" parent="Style3/AnimatedSprite" groups=["shots3"]]
+position = Vector2( -140, 0 )
 
 [node name="TransEffect" type="CPUParticles2D" parent="Style3"]
 position = Vector2( 0, -15 )
@@ -301,10 +305,10 @@ color_ramp = SubResource( 17 )
 
 [node name="FireSound" type="AudioStreamPlayer2D" parent="Style3"]
 stream = ExtResource( 7 )
-bus = "Sound"
 script = ExtResource( 8 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 shape = SubResource( 1 )
 
 [node name="FireTimer" type="Timer" parent="."]

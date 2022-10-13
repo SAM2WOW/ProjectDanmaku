@@ -17,6 +17,9 @@ var health_regen_speed = 8
 var holdTime = 0
 var maxHoldTime = 1.0;
 
+var is_created = false
+var chargeShot
+
 var bullet = preload("res://objects/weapons/PlayerBullet.tscn")
 var pixel_bullet = preload("res://arts/pixelArt/fireball.png")
 var bullet_properties = Global.player_bullet_properties[style];
@@ -28,12 +31,25 @@ func _ready():
 func _process(delta):
 	if (style == 2):
 		if Input.is_action_pressed("mouse_action"):
+			var dir = get_global_position().direction_to(get_global_mouse_position());
+			if !is_created:
+				is_created = true
+				chargeShot = bullet.instance()
+				get_parent().add_child(chargeShot);
+				chargeShot.get_node("CollisionShape2D").disabled = true
+				chargeShot.init_bullet(get_node("Style2").get_node("AnimatedSprite").get_node("3DShot").get_global_position(), dir, style);
+			chargeShot.set_global_position(get_node("Style2").get_node("AnimatedSprite").get_node("3DShot").get_global_position())
+			chargeShot.set_bullet_rotation(dir)
+			chargeShot.charge = holdTime / maxHoldTime
+			if holdTime > 1.0: chargeShot.charge = 1.0
 			var tween_values = [Color(1,1,1), Color(2,2,2)]
 			if holdTime >= maxHoldTime && (self.modulate == tween_values[0] || self.modulate == tween_values[1]):
 				$ReadyFlash.interpolate_property(self, "modulate", tween_values[1], tween_values[0], 1, Tween.TRANS_LINEAR)
 				$ReadyFlash.start()
 			holdTime += delta
 		if Input.is_action_just_released("mouse_action"):
+			is_created = false
+			chargeShot.queue_free()
 			$ReadyFlash.remove_all()
 			self.modulate = Color(1,1,1)
 			fire_bullet();
@@ -154,8 +170,7 @@ func fire_bullet():
 
 
 func init_minimal_bullets():
-	var shotLocations = [Global.player];
-	shotLocations = get_tree().get_nodes_in_group('shots')
+	var shotLocations = get_tree().get_nodes_in_group('shots%d' % style)
 	for shot in shotLocations:
 		var b = bullet.instance()
 		get_parent().add_child(b);

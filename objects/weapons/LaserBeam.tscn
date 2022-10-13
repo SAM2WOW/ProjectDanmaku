@@ -77,7 +77,6 @@ environment = SubResource( 5 )
 
 [node name="FireSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 4 )
-bus = "Sound"
 script = ExtResource( 3 )
 pitch_low = 0.863
 ptch_high = 1.184
