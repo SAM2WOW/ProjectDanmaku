@@ -1,6 +1,6 @@
 extends RigidBody2D
 
-var style = 1
+var style = 0;
 var dir = Vector2();
 
 # for detonation bullets
@@ -51,12 +51,13 @@ func spawn_portal():
 	p.style = style
 	get_parent().add_child(p);
 	p.set_global_position(get_global_position());
-	
 	p = load("res://objects/VFX/portalParticle.tscn").instance()
 	p.set_global_position(get_global_position())
 	p.style = style
 	get_parent().add_child(p)
-	#p.set_emitting(true)
+	print(get_global_transform_with_canvas().origin)
+	Global.console.play_shockwave(get_global_transform_with_canvas().origin)
+	
 
 func verse_jump_init():
 	dead = true
@@ -80,6 +81,9 @@ func verse_jump_explode():
 	p.exploding = true
 	queue_free()
 	Global.boss.transbullet_state = false
+		
+	print(get_global_transform_with_canvas().origin)
+	Global.console.play_shockwave(get_global_transform_with_canvas().origin)
 	
 func _physics_process(delta):
 	if not dead:

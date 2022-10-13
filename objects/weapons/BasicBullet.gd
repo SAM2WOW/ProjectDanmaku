@@ -67,7 +67,7 @@ func show_verse_style(verse):
 
 
 func _on_Verse_Jump(verse):
-	style = verse
+	style = verse;
 	show_verse_style(verse);
 	#print(verse)
 	match verse:
@@ -83,6 +83,7 @@ func _on_Verse_Jump(verse):
 				
 		# into 3d; laser gets charged
 		2:
+			if (!is_instance_valid(Global.boss)): return;
 			Global.boss.fireLaser(get_global_position(), get_global_position() + (dir * 50))
 			dying = true
 			queue_free()
@@ -95,9 +96,8 @@ func _on_Verse_Jump(verse):
 		_:
 			pass
 	
-func _on_Verse_Exit(verse, new_verse):
-	style = new_verse;
-	match verse:
+func _on_Verse_Exit(prev_verse, new_verse):
+	match prev_verse:
 		# on leaving minimal verse, nothing
 		0:
 			init_minimal_bullet();
@@ -108,7 +108,7 @@ func _on_Verse_Exit(verse, new_verse):
 				detonate_at_pos = false;
 				detonate_at_speed = false;
 			if (new_verse != 2):
-				var bullets = Global.boss.fire_spread(2, 20, curr_vel*0.8, dir, get_global_position());
+				var bullets = Global.boss.fire_spread(2, 20, curr_vel*0.8, dir, get_global_position(), new_verse);
 				for b in bullets:
 					init_clone_instance(b);
 			dying = true
@@ -144,17 +144,21 @@ func init_style(_style):
 func init_minimal_bullet():
 	# ie.) init bullet properties
 	damage = Global.boss_bullet_properties[style]["damage"];
+	style = 0;
 
 func init_pixel_bullet():
 	damage = Global.boss_bullet_properties[style]["damage"];
+	style = 1;
 
 func init_3d_bullet():
 	damage = Global.boss_bullet_properties[style]["damage"];
+	style = 2;
 
 func init_collage_bullet():
 	damage = Global.boss_bullet_properties[style]["damage"];
 	bouncing = true;
 	num_bounces = 1;
+	style = 3;
 	
 func set_bullet_rotation(_dir):
 	rotation = 2*PI + atan2(_dir.y, _dir.x);
@@ -204,7 +208,7 @@ func _physics_process(delta):
 			return;
 	# for some reason is verse jumping when this happens?????
 	if (detonate_at_speed):
-		# return;
+		return;
 		linear_velocity *= 0.99;
 		if (curr_vel <= 100.0):
 			detonate_at_speed = false;

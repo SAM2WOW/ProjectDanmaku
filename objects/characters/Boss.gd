@@ -5,6 +5,17 @@ var hit_by = []
 var attack_pattern = 0;
 var fire_rate = 1;
 var rng = RandomNumberGenerator.new();
+
+var hp = 0.0;
+
+# movement
+var move_to_pos = Vector2();
+var move_to_dir = Vector2();
+var pos_offset = 200;
+var move_speed = 100;
+var dest_offset = 10;
+var moving = false;
+
 onready var fire_timer = get_node("FireTimer");
 
 var transbullet_state = false
@@ -20,10 +31,23 @@ var laserBeam = preload("res://objects/weapons/LaserBeam.tscn")
 func _ready():
 	Global.boss = self;
 	attack_pattern = rng.randi()%2;
+	
+func _physics_process(delta):
+	if moving:
+		var pos = get_global_position();
+		move_and_slide(move_to_dir * move_speed, Vector2.UP);
+		if (
+			pos.x < move_to_pos.x+dest_offset && pos.x > move_to_pos.x-dest_offset
+			&& pos.y < move_to_pos.y+dest_offset && pos.y > move_to_pos.y-dest_offset
+		):
+			moving = false;
+			$MovementTimer.start();
+	
+
 
 func damage(amount,body = null):
-	print(body)
-	print("Boss have been damaged %d" % amount)
+	#print(body)
+	#print("Boss have been damaged %d" % amount)
 	Global.console.damage_boss(amount)
 	
 	# effects
@@ -31,11 +55,11 @@ func damage(amount,body = null):
 	var tween = create_tween().set_trans(Tween.TRANS_SINE)
 	tween.tween_property(get_node("Style%d" % style), "scale", Vector2(1, 1), 0.2)
 	
-	Global.camera.shake(0.2, 6, 3)
+	Global.camera.shake(0.2, 6, 8)
+	
+	$HitSound.play()
 
 func _on_Verse_Jump(verse):
-	if style == verse:
-		return
 	style = verse
 	
 	get_node("Style%d" % style).show()
@@ -122,6 +146,7 @@ func init_minimal_bullets():
 	match attack_pattern:
 		0:
 			var num_waves = 4; var wave_interval = 0.3; var offset_inc = 10;
+			
 			var b_speed = Global.boss_bullet_properties[style]["speed"];
 			# instantiate the bullets
 			# set the bullets properties to the one of the style
@@ -199,6 +224,7 @@ func init_3d_bullets():
 		1:
 			var timeBetweenAttacks = 0.8
 			for i in range(10):
+				if (!is_instance_valid(Global.boss)): return;
 				fireLaser(get_global_position(), Global.player.get_global_position())
 				yield(get_tree().create_timer(timeBetweenAttacks), "timeout")
 			finish_attack()
@@ -300,3 +326,19 @@ func fire_blob(num, speed, dir, degree_offset=30, speed_offset=100, _style=style
 		get_parent().add_child(b);
 		bullets.append(b);
 	return bullets;
+
+
+func _on_MovementTimer_timeout():
+	rng.randomize();
+	var pos_limit = Vector2(
+		(Global.window_width-pos_offset)/2, 
+		(Global.window_height-pos_offset)/2
+	)
+	var rand_pos = Vector2(
+		rng.randi_range(-pos_limit.x, pos_limit.x), 
+		rng.randi_range(-pos_limit.y, pos_limit.y)
+	);
+	print("timer done");
+	moving = true;
+	move_to_pos = rand_pos;
+	move_to_dir = get_global_position().direction_to(move_to_pos);

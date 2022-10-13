@@ -26,6 +26,8 @@ func _ready():
 		$Sprite/CPUParticles2D2.show()
 	else:
 		verse_jump_explode()
+	print(style)
+
 
 func self_destroy():
 	global_cleanup()
@@ -56,16 +58,23 @@ func verse_jump_explode():
 	
 	tween.tween_callback(self, "verse_jump_end")
 
+
 func verse_jump_end():
 	Global.background._on_Verse_Jump(style)
+	Global.current_style = style;
 	queue_free()
 	
 func _on_Area2D_body_entered(body):
 	if not exploding:
 		if style == body.style:
 			 return;
+		var prev_style = body.style;
 		if body.has_method('_on_Verse_Jump'):
+			# jump to the verse style
 			body._on_Verse_Jump(style)
+		if body.has_method('_on_Verse_Exit'):
+			# exit the current verse, and enter the new style
+			body._on_Verse_Exit(prev_style, style)
 	
 
 
@@ -73,16 +82,17 @@ func _on_Area2D_body_exited(body):
 	if not exploding or dying:
 #		if (style == Global.current_style): 
 #			return;
+		var prev_style = body.style;
 		if not 'dying' in body:
 			if body.has_method('_on_Verse_Jump'):
 				body._on_Verse_Jump(Global.current_style)
 				
 			if body.has_method('_on_Verse_Exit'):
-				body._on_Verse_Exit(style, Global.current_style)
+				body._on_Verse_Exit(prev_style, Global.current_style)
 		else:
 			if not body.dying:
 				if body.has_method('_on_Verse_Jump'):
 					body._on_Verse_Jump(Global.current_style)
 					
 				if body.has_method('_on_Verse_Exit'):
-					body._on_Verse_Exit(style, Global.current_style)
+					body._on_Verse_Exit(prev_style, Global.current_style)

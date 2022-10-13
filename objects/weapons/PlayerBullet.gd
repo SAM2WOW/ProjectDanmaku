@@ -124,7 +124,7 @@ func explode():
 # verse enter function
 func _on_Verse_Jump(verse):
 	style = verse
-	show_verse_style(style)
+	show_verse_style(verse)
 	damage = Global.player_bullet_properties[verse]["damage"];
 	
 	match verse:
@@ -153,15 +153,16 @@ func _on_Verse_Jump(verse):
 			pass
 
 # verse exit function
-func _on_Verse_Exit(verse, new_verse):
+func _on_Verse_Exit(prev_verse, new_verse):
 	damage = Global.player_bullet_properties[new_verse]["damage"];
-	match verse:
-		# on exiting minimal, bullets go faster
+	match prev_verse:
+		# on exiting minimal, bullets go faster but a lot weaker
 		0:
+			damage *= 0.7;
 			linear_velocity *= 1.2;
 		# on exiting pixel, bullet splits into 3
 		1:
-			var bullets = Global.player.fire_spread(3, 25, curr_vel, dir, get_global_position(), new_verse);
+			var bullets = Global.player.fire_spread(3, 15, curr_vel, dir, get_global_position(), new_verse);
 			for b in bullets:
 				if new_verse == 2:
 					b.damage = b.damage*charge/2.0;
