@@ -69,7 +69,7 @@ animations = [ {
 "frames": [ ExtResource( 21 ), ExtResource( 15 ), ExtResource( 19 ), ExtResource( 22 ), ExtResource( 16 ), ExtResource( 20 ), ExtResource( 23 ), ExtResource( 12 ), ExtResource( 18 ), ExtResource( 13 ), ExtResource( 17 ), ExtResource( 14 ) ],
 "loop": true,
 "name": "default",
-"speed": 6.0
+"speed": 5.0
 } ]
 
 [sub_resource type="AtlasTexture" id=18]
@@ -136,7 +136,7 @@ animations = [ {
 } ]
 
 [sub_resource type="CircleShape2D" id=1]
-radius = 21.0
+radius = 20.0
 
 [node name="Player" type="KinematicBody2D" groups=["style"]]
 collision_layer = 2
@@ -214,7 +214,7 @@ visible = false
 position = Vector2( 0, -5 )
 scale = Vector2( 3, 3 )
 frames = SubResource( 8 )
-frame = 1
+frame = 4
 speed_scale = 2.0
 playing = true
 script = ExtResource( 4 )
@@ -248,13 +248,12 @@ stream = ExtResource( 7 )
 script = ExtResource( 8 )
 
 [node name="Style2" type="Node2D" parent="."]
-visible = false
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Style2"]
 position = Vector2( -5, 5 )
 scale = Vector2( -0.137, 0.137 )
 frames = SubResource( 15 )
-frame = 10
+frame = 7
 playing = true
 script = ExtResource( 4 )
 
@@ -292,7 +291,7 @@ visible = false
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Style3"]
 scale = Vector2( 0.423826, 0.423826 )
 frames = SubResource( 29 )
-frame = 8
+frame = 9
 playing = true
 script = ExtResource( 4 )
 
