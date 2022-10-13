@@ -204,7 +204,10 @@ func damage(amount):
 	if health <= 0:
 		print("You DEAD!!!")
 		
-		get_tree().reload_current_scene()
+		Global.console.player_dead()
+		
+		queue_free()
+		#get_tree().reload_current_scene()
 
 
 func fire_spread(
