@@ -24,6 +24,7 @@ var bullet_properties = Global.player_bullet_properties[style];
 
 func _ready():
 	Global.player = self
+	$FireTimer.wait_time = Global.player_bullet_properties[style]["fire rate"];
 
 func _process(delta):
 	if (style == 2):
@@ -114,7 +115,7 @@ func _on_Verse_Jump(verse):
 	tween.tween_property(get_node("Style%d" % style), "scale", Vector2(1, 1), 0.2)
 	
 	bullet_properties = Global.player_bullet_properties[style];
-	get_node("FireTimer").wait_time = bullet_properties["fire rate"];
+	$FireTimer.wait_time = bullet_properties["fire rate"];
 
 
 # fires a bullet at the mouse position
