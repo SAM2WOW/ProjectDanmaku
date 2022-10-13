@@ -210,7 +210,7 @@ func _physics_process(delta):
 			detonate_at_speed = false;
 			print(curr_vel);
 			# explode();
-      dying = true
+			dying = true
 			queue_free(); # this line is causing the crash...?
 			return;
 
