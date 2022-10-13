@@ -169,6 +169,7 @@ func _on_Verse_Exit(prev_verse, new_verse):
 				else:
 					b.damage = (b.damage*(charge+1))/2.0;
 				b.linear_velocity *= (1-(charge/2));
+				if (bouncing): b.num_bounces = num_bounces;
 			queue_free();
 		2:
 			# on exiting 2, damage of bullet scales with charge upwards
