@@ -136,7 +136,7 @@ func finish_attack():
 			#print("current style%d" % Global.current_style)
 			
 			if t.style == Global.current_style:
-				t.style =(Global.current_style+1)%4
+				t.style =(Global.current_style+randi()%3)%4
 
 			get_parent().add_child(t);
 			

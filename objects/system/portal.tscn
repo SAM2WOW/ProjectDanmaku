@@ -32,10 +32,11 @@ z_as_relative = false
 texture = ExtResource( 2 )
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="Sprite"]
-visible = false
 material = ExtResource( 4 )
 position = Vector2( -59.5008, -58.196 )
 scale = Vector2( 0.942177, 0.942177 )
+z_index = -300
+z_as_relative = false
 amount = 75
 local_coords = false
 texture = ExtResource( 5 )
@@ -48,12 +49,15 @@ initial_velocity_random = 0.5
 scale_amount = 0.8
 scale_amount_random = 0.39
 scale_amount_curve = SubResource( 12 )
+color = Color( 1, 1, 1, 0.839216 )
 
 [node name="CPUParticles2D2" type="CPUParticles2D" parent="Sprite"]
 visible = false
 material = ExtResource( 4 )
 position = Vector2( -61.8495, -60.8057 )
 scale = Vector2( 0.390111, 0.390111 )
+z_index = -300
+z_as_relative = false
 amount = 15
 lifetime_randomness = 0.25
 local_coords = false
