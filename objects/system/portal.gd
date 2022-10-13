@@ -45,7 +45,7 @@ func verse_jump_explode():
 	tween.tween_callback(self, "verse_jump_end")
 
 func verse_jump_end():
-	Global.background._on_Verse_Jump(1)
+	Global.background._on_Verse_Jump(style)
 	queue_free()
 	
 func _on_Area2D_body_entered(body):
@@ -59,8 +59,8 @@ func _on_Area2D_body_entered(body):
 func _on_Area2D_body_exited(body):
 	if !is_instance_valid(body): return;
 	if not exploding:
-		if (style == Global.current_style): 
-			return;
+#		if (style == Global.current_style): 
+#			return;
 		if body.has_method('_on_Verse_Jump'):
 			body._on_Verse_Jump(Global.current_style)
 		if body.has_method('_on_Verse_Exit'):

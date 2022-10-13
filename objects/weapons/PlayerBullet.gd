@@ -42,6 +42,12 @@ func _on_PlayerBullet_body_entered(body):
 		queue_free()
 	
 
+func _on_destroy():
+		if (detonate):
+			explode();
+		
+		queue_free()
+		
 # show the bullet style
 func show_verse_style(verse):
 	get_node("Style%d" % style).show()
