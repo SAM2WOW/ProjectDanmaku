@@ -154,7 +154,7 @@ visible = false
 position = Vector2( 1, -2 )
 scale = Vector2( 4, 4 )
 frames = SubResource( 40 )
-frame = 2
+frame = 4
 playing = true
 
 [node name="Style2" type="Node2D" parent="."]

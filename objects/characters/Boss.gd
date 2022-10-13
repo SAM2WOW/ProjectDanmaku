@@ -266,7 +266,6 @@ func init_3d_bullets():
 					prev_style = style;
 					finish_attack();
 					return;
-					
 				fireLaser(get_global_position(), Global.player.get_global_position())
 				yield(get_tree().create_timer(attack_properties["interval"]), "timeout")
 			finish_attack()
