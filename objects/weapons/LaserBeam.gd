@@ -8,7 +8,7 @@ var laserBulletIntervalCount = 0
 var playerDamageIntervalCount = 0
 var laserBulletInterval = 0.25
 var playerDamageInterval = 0.2
-var laserDamage = 5
+var laserDamage = 10
 
 var style = 2;
 
