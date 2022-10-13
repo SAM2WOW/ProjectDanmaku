@@ -44,6 +44,7 @@ func _ready():
 	$area/Node2D/Sprite.set_material(load("res://arts/shaders/Portal%d.tres" % style))
 
 func self_destroy():
+	if (!is_instance_valid(Global.boss)): return;
 	var tween = create_tween().set_trans(Tween.TRANS_BACK)
 	tween.tween_property($area, "scale", Vector2(0, 0), 0.2)
 	tween.tween_callback(self, "queue_free")

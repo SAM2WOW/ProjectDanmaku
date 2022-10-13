@@ -108,7 +108,7 @@ func _on_Verse_Exit(prev_verse, new_verse):
 				detonate_at_pos = false;
 				detonate_at_speed = false;
 			if (new_verse != 2):
-				var bullets = Global.boss.fire_spread(2, 20, curr_vel*0.8, dir, get_global_position(), new_verse);
+				var bullets = Global.boss.fire_spread(2, 20, Global.boss_bullet_properties[new_verse]["speed"]*0.8, dir, get_global_position(), new_verse);
 				for b in bullets:
 					init_clone_instance(b);
 			dying = true

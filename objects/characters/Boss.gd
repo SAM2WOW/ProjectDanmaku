@@ -1,11 +1,12 @@
 extends KinematicBody2D
 
 var style = Global.initial_style
+var prev_style = style;
 var hit_by = []
 var attack_pattern = 0;
 var fire_rate = 1;
 var rng = RandomNumberGenerator.new();
-
+var enraged = false;
 var hp = 0.0;
 
 # movement
@@ -28,6 +29,7 @@ var basic_bullet = preload("res://objects/weapons/BasicBullet.tscn")
 var laserInd = preload("res://objects/weapons/LaserIndicator.tscn")
 var laserBeam = preload("res://objects/weapons/LaserBeam.tscn")
 
+var attack_properties;
 
 
 func _ready():
@@ -44,8 +46,6 @@ func _physics_process(delta):
 		):
 			moving = false;
 			$MovementTimer.start();
-	
-
 
 func damage(amount,body = null):
 	#print(body)
@@ -138,6 +138,7 @@ func _on_FireTimer_timeout():
 	fire_bullets();
 
 func fire_bullets():
+	attack_properties = Global.boss_patterns[style][attack_pattern];
 	match style:
 		0:
 			init_minimal_bullets();
@@ -157,23 +158,31 @@ func fire_bullets():
 func init_minimal_bullets():
 	match attack_pattern:
 		0:
-			var num_waves = 4; var wave_interval = 0.3; var offset_inc = 10;
-			
+			var offset_inc = 10;
 			var b_speed = Global.boss_bullet_properties[style]["speed"];
-			# instantiate the bullets
-			# set the bullets properties to the one of the style
-			for i in num_waves:
+
+			for i in attack_properties["waves"]:
+				if (!is_instance_valid(Global.boss)): return;
+				if (prev_style != style):
+					prev_style = style;
+					finish_attack();
+					return;
 				fire_pulse(8, b_speed, offset_inc*i);
-				yield(get_tree().create_timer(wave_interval), "timeout");
+				yield(get_tree().create_timer(attack_properties["interval"]), "timeout");
 			finish_attack();
 		1:
-			var num_waves = 3; var wave_interval = 0.6; var num_bullets = 5;
+			var num_bullets = 5;
 			var b_speed = Global.boss_bullet_properties[style]["speed"];
 			
-			for i in num_waves:
+			for i in attack_properties["waves"]:
+				if (!is_instance_valid(Global.boss)): return;
+				if (prev_style != style):
+					prev_style = style;
+					finish_attack();
+					return;
 				var dir = get_global_position().direction_to(Global.player.get_global_position());
 				fire_blob(num_bullets, b_speed, dir);
-				yield(get_tree().create_timer(wave_interval), "timeout");
+				yield(get_tree().create_timer(attack_properties["interval"]), "timeout");
 			finish_attack();
 		_:
 			pass
@@ -183,18 +192,27 @@ func init_minimal_bullets():
 func init_pixel_bullets():
 	match attack_pattern:
 		0:
-			var num_waves = 6; var wave_interval = 0.3;
 			var b_speed = Global.boss_bullet_properties[style]["speed"];
-			for i in num_waves:
+			for i in attack_properties["waves"]:
+				if (!is_instance_valid(Global.boss)): return;
+				if (prev_style != style):
+					prev_style = style;
+					finish_attack();
+					return;
 				var fire_pos = Global.player.get_global_position()
 				var b = fire_at(fire_pos, b_speed);
 				b.set_detonate(fire_pos);
-				yield(get_tree().create_timer(wave_interval), "timeout");
+				yield(get_tree().create_timer(attack_properties["interval"]), "timeout");
 			finish_attack();
 		1:
 			var num_waves = 8; var wave_interval = 0.1;
 			var b_speed = Global.boss_bullet_properties[style]["speed"];
-			for i in num_waves:
+			for i in attack_properties["waves"]:
+				if (!is_instance_valid(Global.boss)): return;
+				if (prev_style != style):
+					prev_style = style;
+					finish_attack();
+					return;
 				rng.randomize();
 				var rand_pos = Vector2(
 					rng.randi_range(-Global.window_width/2, Global.window_width/2), 
@@ -202,7 +220,7 @@ func init_pixel_bullets():
 				);
 				var b = fire_at(rand_pos, b_speed);
 				b.set_detonate(rand_pos);
-				yield(get_tree().create_timer(wave_interval), "timeout");
+				yield(get_tree().create_timer(attack_properties["interval"]), "timeout");
 			finish_attack();
 		_:
 			pass
@@ -224,6 +242,10 @@ func init_3d_bullets():
 					if (x!=0 || y!=0):
 						fireLaser(get_global_position(), Vector2(x,y))
 			yield(get_tree().create_timer(timeBetweenAttacks), "timeout")
+			if (prev_style != style):
+					prev_style = style;
+					finish_attack();
+					return;
 			
 			var xArr2 = [maxX, -maxX, maxX / 2, -maxX / 2]
 			var yArr2 = [maxY, -maxY, maxY / 2, -maxY / 2]
@@ -235,10 +257,14 @@ func init_3d_bullets():
 			finish_attack()
 		1:
 			var timeBetweenAttacks = 0.8
-			for i in range(10):
+			for i in range(attack_properties["waves"]):
 				if (!is_instance_valid(Global.boss)): return;
+				if (prev_style != style):
+					prev_style = style;
+					finish_attack();
+					return;
 				fireLaser(get_global_position(), Global.player.get_global_position())
-				yield(get_tree().create_timer(timeBetweenAttacks), "timeout")
+				yield(get_tree().create_timer(attack_properties["interval"]), "timeout")
 			finish_attack()
 		_:
 			pass
@@ -252,6 +278,11 @@ func init_collage_bullets():
 			var dir = get_global_position().direction_to(Global.player.get_global_position());
 			var b_speed = Global.boss_bullet_properties[style]["speed"];
 			for i in num_waves:
+				if (!is_instance_valid(Global.boss)): return;
+				if (prev_style != style):
+					prev_style = style;
+					finish_attack();
+					return;
 				fire_spread(3, 30, b_speed, dir);
 				yield(get_tree().create_timer(wave_interval), "timeout");
 			finish_attack();
