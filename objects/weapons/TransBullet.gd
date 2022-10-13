@@ -14,6 +14,10 @@ var base_growth_rate = 0.01
 
 var portal = preload("res://objects/system/portal.tscn")
 var dead = false
+var hit = false
+var next_scale = Vector2(0,0)
+
+var damageTween
 
 var growth_rate = 1
 var start_protect = false
@@ -23,6 +27,7 @@ var dead_damp = 0.15
 func init_bullet(_pos, _dir, _style):
 	set_global_position(_pos);
 	style = _style;
+	
 	set_linear_velocity(Vector2(1000,0).rotated(dir))
 	self.connect("tree_exited", self, "boss_transState_cleanup")
 
@@ -33,8 +38,10 @@ func _on_VisibilityNotifier2D_screen_exited():
 	queue_free()
 
 func _ready():
-	set_linear_velocity(Vector2(-1000,100-randi() % 200).rotated(get_global_rotation()))
-	$area/Sprite.set_material(load("res://arts/shaders/Portal%d.tres" % style))
+	damageTween = create_tween().set_trans(Tween.TRANS_LINEAR)
+	look_at(Global.player.get_global_position())
+	set_linear_velocity(Vector2(1000,100-randi() % 200).rotated(get_global_rotation()))
+	$area/Node2D/Sprite.set_material(load("res://arts/shaders/Portal%d.tres" % style))
 
 func self_destroy():
 	if (!is_instance_valid(Global.boss)): return;
@@ -56,8 +63,9 @@ func spawn_portal():
 	p.set_global_position(get_global_position())
 	p.style = style
 	get_parent().add_child(p)
-	print(get_global_transform_with_canvas().origin)
-	Global.console.play_shockwave(get_global_transform_with_canvas().origin)
+	
+	#print(get_global_transform_with_canvas().origin)
+	Global.console.play_shockwave_small(get_global_transform_with_canvas().origin,0.08)
 	
 
 func verse_jump_init():
@@ -84,13 +92,14 @@ func verse_jump_explode():
 	Global.boss.transbullet_state = false
 		
 	print(p.get_global_transform_with_canvas().origin)
-	Global.console.play_shockwave(get_global_transform_with_canvas().origin,0.3)
+	Global.console.play_shockwave(get_global_transform_with_canvas().origin)
 	
 func _physics_process(delta):
 	if not dead:
-		$area.scale = lerp($area.scale, Vector2(2.5,2.5),base_growth_rate * growth_rate)
-		if $area.scale.x > 2.4:
-			self_destroy()
+		if not hit:
+			$area.scale = lerp($area.scale, Vector2(2.5,2.5),base_growth_rate * growth_rate)
+			if $area.scale.x > 2.4:
+				self_destroy()
 	else:
 		set_linear_velocity(lerp(get_linear_velocity(),Vector2.ZERO,dead_damp))
 
@@ -98,21 +107,40 @@ func _on_Verse_Jump(style):
 	if style == self.style:
 		queue_free()
 
+func _on_hit(damage):
+	if not hit:
+		hit = true
+
+		var damageTween = create_tween().set_trans(Tween.TRANS_CUBIC)
+		damageTween.tween_property($area/Node2D, "scale", Vector2(1.3,1.3), 0.08)
+		damageTween.parallel().tween_property($area/Node2D, "modulate", Color("ffafaf"), 0.08)
+		damageTween.set_trans(Tween.TRANS_BACK)
+		damageTween.set_ease(Tween.EASE_OUT)
+		damageTween.tween_property($area/Node2D, "scale", Vector2(1.0,1.0), 0.08)
+		damageTween.parallel().tween_property($area/Node2D, "modulate", Color("ffffff"), 0.08)
+	
+		yield(damageTween,"finished")
+		hit = false
+
+	
+
 
 func damage(damage):
-	damage = damage * 0.1
+	damage = damage #* 0.1
 	base_growth_rate = 0.01
-	if damage > 3:
-		damage = 3
+	if damage > 4:
+		damage = 4
 	$Timer.start()
 	print('trans damage%d' % damage)
+	_on_hit(damage)
 	if $area.scale.x > 0.7:
 		$area.scale -= Vector2(0.12,0.12) * damage
-		health -= 1 * damage
-
+	health -= 1 * damage
+	
+	
 	if health <= 0:
 		growth_rate = 0.5
-	if $area.scale.x < 0.8 and start_protect:
+	if $area.scale.x < 1 and start_protect:
 		verse_jump_init()
 	
 	

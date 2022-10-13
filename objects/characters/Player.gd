@@ -208,7 +208,7 @@ func init_collage_bullets():
 
 
 func damage(amount):
-	print("Player have been damaged %d" % amount)
+	#print("Player have been damaged %d" % amount)
 	health -= amount
 	
 	$HealthBar.show()
@@ -218,7 +218,7 @@ func damage(amount):
 	Global.camera.shake(0.3, 12, 4)
 	
 	if health <= 0:
-		print("You DEAD!!!")
+		#print("You DEAD!!!")
 		
 		Global.console.player_dead()
 		
