@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://objects/characters/Player.gd" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://sounds/AbstractBullet.wav" type="AudioStream" id=9]
 [ext_resource path="res://arts/ui/bosshealth.png" type="Texture" id=10]
 [ext_resource path="res://arts/abstrastArt/playercircle.png" type="Texture" id=11]
+[ext_resource path="res://arts/3D/Witch_3D_Flipped.png" type="Texture" id=12]
 
 [sub_resource type="Gradient" id=17]
 offsets = PoolRealArray( 0, 0.150838, 1 )
@@ -54,7 +55,7 @@ region = Rect2( 0, 0, 67, 61 )
 
 [sub_resource type="SpriteFrames" id=15]
 animations = [ {
-"frames": [ ExtResource( 6 ) ],
+"frames": [ ExtResource( 12 ) ],
 "loop": true,
 "name": "default",
 "speed": 5.0
@@ -130,7 +131,6 @@ visible = false
 position = Vector2( 0, -5 )
 scale = Vector2( 3, 3 )
 frames = SubResource( 8 )
-frame = 3
 speed_scale = 2.0
 playing = true
 script = ExtResource( 4 )
