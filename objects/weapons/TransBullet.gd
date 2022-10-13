@@ -52,6 +52,9 @@ func spawn_portal():
 	get_parent().add_child(p);
 	p.set_global_position(get_global_position());
 	
+	print(get_global_transform_with_canvas().origin)
+	Global.console.play_shockwave(get_global_transform_with_canvas().origin)
+	
 
 func verse_jump_init():
 	dead = true
@@ -75,6 +78,9 @@ func verse_jump_explode():
 	p.exploding = true
 	queue_free()
 	Global.boss.transbullet_state = false
+		
+	print(get_global_transform_with_canvas().origin)
+	Global.console.play_shockwave(get_global_transform_with_canvas().origin)
 	
 func _physics_process(delta):
 	if not dead:
