@@ -1,7 +1,7 @@
 [gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://objects/characters/Player.gd" type="Script" id=1]
-[ext_resource path="res://icon.png" type="Texture" id=2]
+[ext_resource path="res://arts/collage/collage_witch_girl_ani.png" type="Texture" id=2]
 [ext_resource path="res://arts/pixelArt/witch_idle.png" type="Texture" id=3]
 [ext_resource path="res://objects/characters/flip_script.gd" type="Script" id=4]
 [ext_resource path="res://arts/abstrastArt/player.png" type="Texture" id=5]
@@ -59,6 +59,69 @@ animations = [ {
 "loop": true,
 "name": "default",
 "speed": 5.0
+} ]
+
+[sub_resource type="AtlasTexture" id=18]
+flags = 4
+atlas = ExtResource( 2 )
+region = Rect2( 0, 0, 526, 526 )
+
+[sub_resource type="AtlasTexture" id=19]
+flags = 4
+atlas = ExtResource( 2 )
+region = Rect2( 526, 0, 526, 526 )
+
+[sub_resource type="AtlasTexture" id=20]
+flags = 4
+atlas = ExtResource( 2 )
+region = Rect2( 1052, 0, 526, 526 )
+
+[sub_resource type="AtlasTexture" id=21]
+flags = 4
+atlas = ExtResource( 2 )
+region = Rect2( 1578, 0, 526, 526 )
+
+[sub_resource type="AtlasTexture" id=22]
+flags = 4
+atlas = ExtResource( 2 )
+region = Rect2( 0, 526, 526, 526 )
+
+[sub_resource type="AtlasTexture" id=23]
+flags = 4
+atlas = ExtResource( 2 )
+region = Rect2( 526, 526, 526, 526 )
+
+[sub_resource type="AtlasTexture" id=24]
+flags = 4
+atlas = ExtResource( 2 )
+region = Rect2( 1052, 526, 526, 526 )
+
+[sub_resource type="AtlasTexture" id=25]
+flags = 4
+atlas = ExtResource( 2 )
+region = Rect2( 1578, 526, 526, 526 )
+
+[sub_resource type="AtlasTexture" id=26]
+flags = 4
+atlas = ExtResource( 2 )
+region = Rect2( 0, 1052, 526, 526 )
+
+[sub_resource type="AtlasTexture" id=27]
+flags = 4
+atlas = ExtResource( 2 )
+region = Rect2( 526, 1052, 526, 526 )
+
+[sub_resource type="AtlasTexture" id=28]
+flags = 4
+atlas = ExtResource( 2 )
+region = Rect2( 1052, 1052, 526, 526 )
+
+[sub_resource type="SpriteFrames" id=29]
+animations = [ {
+"frames": [ SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ), SubResource( 24 ), SubResource( 25 ), SubResource( 26 ), SubResource( 27 ), SubResource( 28 ) ],
+"loop": true,
+"name": "default",
+"speed": 12.0
 } ]
 
 [sub_resource type="CircleShape2D" id=1]
@@ -206,8 +269,11 @@ script = ExtResource( 8 )
 [node name="Style3" type="Node2D" parent="."]
 visible = false
 
-[node name="Sprite" type="Sprite" parent="Style3"]
-texture = ExtResource( 2 )
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Style3"]
+scale = Vector2( 0.526513, 0.526513 )
+frames = SubResource( 29 )
+frame = 7
+playing = true
 
 [node name="TransEffect" type="CPUParticles2D" parent="Style3"]
 position = Vector2( 0, -15 )
