@@ -85,7 +85,9 @@ func fireLaser(fireFrom, fireAt):
 	ind.add_point(Vector2.ZERO)
 #	ind.add_point(get_global_position())
 	# Makes sure laser always extends past viewport
-	ind.add_point((fireAt - fireFrom) * 150)
+	var dir = Vector2();
+	# dir *= 10000;
+	ind.add_point((fireAt - fireFrom) * 10000)
 	
 	yield(get_tree().create_timer(timeBeforeBeam), "timeout")
 	

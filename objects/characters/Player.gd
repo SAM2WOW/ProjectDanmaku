@@ -12,7 +12,7 @@ var speed_mult = 1.0;
 
 var max_health = 100;
 var health = max_health;
-var health_regen_speed = 8
+var health_regen_speed = 1
 
 var holdTime = 0
 var maxHoldTime = 1.0;

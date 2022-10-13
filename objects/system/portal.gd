@@ -83,7 +83,7 @@ func _on_Area2D_body_exited(body):
 		# if (body.name == "Boss"): return;
 #		if (style == Global.current_style): 
 #			return;
-		var prev_style = body.style;
+		var prev_style = style;
 		if not 'dying' in body:
 			if body.has_method('_on_Verse_Jump'):
 				body._on_Verse_Jump(Global.current_style)

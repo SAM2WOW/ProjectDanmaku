@@ -98,7 +98,7 @@ func _physics_process(delta):
 	if not dead:
 		if not hit:
 			$area.scale = lerp($area.scale, Vector2(2.5,2.5),base_growth_rate * growth_rate)
-			if $area.scale.x > 2.4:
+			if $area.scale.x > 3:
 				self_destroy()
 	else:
 		set_linear_velocity(lerp(get_linear_velocity(),Vector2.ZERO,dead_damp))
