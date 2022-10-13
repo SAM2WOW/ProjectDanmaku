@@ -82,8 +82,8 @@ func verse_jump_explode():
 	queue_free()
 	Global.boss.transbullet_state = false
 		
-	print(get_global_transform_with_canvas().origin)
-	Global.console.play_shockwave(get_global_transform_with_canvas().origin)
+	print(p.get_global_transform_with_canvas().origin)
+	Global.console.play_shockwave(get_global_transform_with_canvas().origin,0.3)
 	
 func _physics_process(delta):
 	if not dead:
