@@ -18,6 +18,7 @@ var bouncing = false;
 var num_bounces = 0;
 
 var damage = 1.0;
+var dying
 
 func init_bullet(_pos, _dir, _style):
 	set_global_position(_pos);
@@ -33,6 +34,7 @@ func init_clone_instance(b):
 	b.get_node("DespawnTimer").start($DespawnTimer.time_left);
 
 func _on_VisibilityNotifier2D_screen_exited():
+	dying = true
 	queue_free()
 
 func _on_PlayerBullet_body_entered(body):
@@ -42,10 +44,11 @@ func _on_PlayerBullet_body_entered(body):
 			explode();
 		else:
 			body.damage(10)
-		
-		queue_free()
+	dying = true
+	queue_free()
 
 func show_verse_style(verse):
+	#print('changing to %d' % style)
 	get_node("Style%d" % style).show()
 	for i in range(Global.total_style):
 		if i != style:
@@ -64,6 +67,7 @@ func show_verse_style(verse):
 func _on_Verse_Jump(verse):
 	style = verse
 	show_verse_style(verse);
+	#print(verse)
 	match verse:
 		# into minimal; bullets get faster
 		0:
@@ -74,6 +78,7 @@ func _on_Verse_Jump(verse):
 		# into 3d; laser gets charged
 		2:
 			Global.boss.fireLaser(get_global_position(), get_global_position() + (dir * 50))
+			dying = true
 			queue_free()
 		# into collage; bullets can bounce and gets slower
 		3:
@@ -95,6 +100,7 @@ func _on_Verse_Exit(verse, new_verse):
 				var bullets = Global.boss.fire_spread(2, 20, curr_vel*0.8, dir, get_global_position());
 				for b in bullets:
 					init_clone_instance(b);
+			dying = true
 			queue_free();
 		# on leaving 3d verse, bullets increase in size? and are slower?
 		2:
@@ -182,10 +188,12 @@ func _physics_process(delta):
 		));
 		if (dist_ratio < 0.01):
 			explode();
+			dying = true
 			queue_free();
 	elif (detonate_at_speed):
 		if (curr_vel < 100):
 			explode();
+			dying = true
 			queue_free();
 		else:
 			linear_velocity *= 0.95;
@@ -196,4 +204,5 @@ func _physics_process(delta):
 
 func _on_DespawnTimer_timeout():
 	print("bullet despawned")
+	dying = true
 	queue_free();
