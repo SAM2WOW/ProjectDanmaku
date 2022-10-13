@@ -21,6 +21,8 @@ onready var fire_timer = get_node("FireTimer");
 
 var transbullet_state = false
 var transbullet_cd = 1
+var missed_bullet_counter = 0
+var break_state = false
 
 var basic_bullet = preload("res://objects/weapons/BasicBullet.tscn")
 
@@ -110,7 +112,15 @@ func finish_attack():
 		transbullet_cd -= 1
 		#print(transbullet_cd)
 		if transbullet_cd < 1:
-			transbullet_cd = 5
+			if not break_state:
+				transbullet_cd = 5
+				missed_bullet_counter += 1
+			else:
+				transbullet_cd = 1
+				
+			if missed_bullet_counter > 1:
+				break_state = true
+				missed_bullet_counter = 0
 			var t = load("res://objects/weapons/TransBullet.tscn").instance()
 			t.style = randi()%3
 			#print("current style%d" % Global.current_style)
@@ -120,7 +130,9 @@ func finish_attack():
 
 			
 			get_parent().add_child(t);
+			
 			t.set_global_position(get_global_position());
+			
 			transbullet_state = true
 
 func _on_FireTimer_timeout():

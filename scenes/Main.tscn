@@ -17,12 +17,12 @@
 
 [sub_resource type="ShaderMaterial" id=1]
 shader = ExtResource( 12 )
-shader_param/strength = 0.039
+shader_param/strength = 0.035
 shader_param/center = Vector2( 0.408, 0.615 )
 shader_param/radius = 0.0
-shader_param/aberration = 0.554
-shader_param/width = 0.0261
-shader_param/feather = 0.04
+shader_param/aberration = 0.287
+shader_param/width = 0.0181
+shader_param/feather = 0.12
 
 [sub_resource type="DynamicFont" id=2]
 size = 94
