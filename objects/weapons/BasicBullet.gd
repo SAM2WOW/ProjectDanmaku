@@ -77,9 +77,10 @@ func _on_Verse_Jump(verse):
 		# into pixel; bullets go slower and blow at speed
 		1:
 			linear_velocity *= 0.8;
-			# if it jumps to the main verse
-			if (!detonate && Global.current_style == verse):
+			if (!detonate):
 				detonate = true;
+			# if it jumps to the main verse
+			if (Global.current_style == verse):
 				detonate_at_speed = true;
 				
 		# into 3d; laser gets charged
