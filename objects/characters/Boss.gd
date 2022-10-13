@@ -63,13 +63,18 @@ func damage(amount,body = null):
 	$HitSound.play()
 
 func _on_Verse_Jump(verse):
+	var tween = create_tween().set_trans(Tween.TRANS_BOUNCE)
+	tween.tween_property(get_node("Style%d" % style), "scale", Vector2(0.5, 0.5), 0.05)
+	
+	yield(tween, "finished")
 	get_node("Style%d" % style).hide()
 	style = verse
 	
 	get_node("Style%d" % style).show()
+	get_node("Style%d/TransEffect" % style).restart()
+	get_node("Style%d/TransEffect" % style).set_emitting(true)
 	
 	get_node("Style%d" % style).set_scale(Vector2(0.7, 0.7))
-	var tween = create_tween().set_trans(Tween.TRANS_BOUNCE)
 	tween.tween_property(get_node("Style%d" % style), "scale", Vector2(1, 1), 0.2)
 
 
