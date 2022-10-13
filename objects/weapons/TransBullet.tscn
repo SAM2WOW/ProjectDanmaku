@@ -35,9 +35,9 @@ shape = SubResource( 1 )
 
 [node name="area" type="Node2D" parent="."]
 
-[node name="Area2D" type="Area2D" parent="area"]
+[node name="DetectionArea" type="Area2D" parent="area"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="area/Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="area/DetectionArea"]
 scale = Vector2( 0.782012, 0.782012 )
 shape = SubResource( 5 )
 
@@ -54,5 +54,5 @@ texture = ExtResource( 1 )
 autostart = true
 
 [connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
-[connection signal="body_entered" from="area/Area2D" to="." method="_on_Area2D_body_entered"]
+[connection signal="body_entered" from="area/DetectionArea" to="." method="_on_Area2D_body_entered"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

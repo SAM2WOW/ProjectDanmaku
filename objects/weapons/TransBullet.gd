@@ -18,6 +18,8 @@ var dead = false
 var growth_rate = 1
 var start_protect = false
 
+var detect_failsafe = null
+
 func init_bullet(_pos, _dir, _style):
 	set_global_position(_pos);
 	style = _style;
@@ -38,7 +40,8 @@ func self_destroy():
 	var tween = create_tween().set_trans(Tween.TRANS_BACK)
 	tween.tween_property($area, "scale", Vector2(0, 0), 0.2)
 	tween.tween_callback(self, "queue_free")
-	spawn_portal()
+	if style != Global.current_style:
+		spawn_portal()
 	Global.boss.transbullet_state = false
 
 func spawn_portal():
@@ -86,13 +89,17 @@ func _on_Verse_Jump(style):
 		queue_free()
 
 func _on_Area2D_body_entered(body):
-	if not dead:
+	if not dead and not start_protect:
 		if body == Global.player:
 			body.damage(10)
 			self_destroy()
 		elif "Player" in body.name:
-			damage(body.damage)
-			body._on_destroy()
+			if detect_failsafe != body:
+				detect_failsafe = body
+				damage(body.damage)
+				#print(body)
+				body._on_destroy()
+			#body.queue_free()
 
 
 func damage(damage):
@@ -102,8 +109,9 @@ func damage(damage):
 		damage = 3
 	$Timer.start()
 	print('trans damage%d' % damage)
-	$area.scale -= Vector2(0.1,0.1) * damage
-	health -= 1 * damage
+	if $area.scale.x > 0.7:
+		$area.scale -= Vector2(0.1,0.1) * damage
+		health -= 1 * damage
 
 	if health <= 0:
 		growth_rate = 0.5

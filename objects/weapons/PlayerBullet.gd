@@ -20,12 +20,14 @@ var charge = 0.0;
 var init_dist = Vector2();
 var dest = Vector2.ZERO;
 
+var dying = false
 
 func _ready():
 	pass
 
 
 func _on_VisibilityNotifier2D_screen_exited():
+	dying = true
 	queue_free()
 	pass
 
@@ -36,17 +38,17 @@ func _on_PlayerBullet_body_entered(body):
 		# spawns an explosion at collision area if pixel bullet
 		if (detonate):
 			explode();
-			queue_free();
-			return;
-		body.damage(damage)
-		queue_free()
-	
+		else:
+			body.damage(damage,self)
+	dying = true
+	queue_free()
 
 func _on_destroy():
-		if (detonate):
-			explode();
+	if (detonate):
+		explode();
 		
-		queue_free()
+	dying = true
+	queue_free()
 		
 # show the bullet style
 func show_verse_style(verse):
@@ -213,6 +215,7 @@ func _physics_process(delta):
 		));
 		if (dist_ratio < 0.01):
 			explode();
+			dying = true
 			queue_free();
 	if (bouncing && num_bounces > 0):
 		bounce_bullet();

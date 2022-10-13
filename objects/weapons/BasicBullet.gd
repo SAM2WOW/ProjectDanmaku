@@ -17,7 +17,9 @@ var detonate_at_speed = false;
 var bouncing = false;
 var num_bounces = 0;
 
+var dying
 var damage = 0.0;
+
 
 func init_bullet(_pos, _dir, _style):
 	set_global_position(_pos);
@@ -34,8 +36,8 @@ func init_clone_instance(b):
 	b.get_node("DespawnTimer").start($DespawnTimer.time_left);
 
 func _on_VisibilityNotifier2D_screen_exited():
-	if (is_instance_valid(self)):
-		queue_free()
+	dying = true
+	queue_free()
 
 func _on_PlayerBullet_body_entered(body):
 	print("Collide %s" % body.name)
@@ -43,11 +45,12 @@ func _on_PlayerBullet_body_entered(body):
 		if detonate:
 			explode();
 		else:
-			body.damage(damage)
-		
-		queue_free()
+			body.damage(10)
+	dying = true
+	queue_free()
 
 func show_verse_style(verse):
+	#print('changing to %d' % style)
 	get_node("Style%d" % style).show()
 	for i in range(Global.total_style):
 		if i != style:
@@ -66,6 +69,7 @@ func show_verse_style(verse):
 func _on_Verse_Jump(verse):
 	style = verse
 	show_verse_style(verse);
+	#print(verse)
 	match verse:
 		# into minimal; bullets get faster
 		0:
@@ -80,6 +84,7 @@ func _on_Verse_Jump(verse):
 		# into 3d; laser gets charged
 		2:
 			Global.boss.fireLaser(get_global_position(), get_global_position() + (dir * 50))
+			dying = true
 			queue_free()
 		# into collage; bullets can bounce and gets slower
 		3:
@@ -106,6 +111,7 @@ func _on_Verse_Exit(verse, new_verse):
 				var bullets = Global.boss.fire_spread(2, 20, curr_vel*0.8, dir, get_global_position());
 				for b in bullets:
 					init_clone_instance(b);
+			dying = true
 			queue_free();
 		# on leaving 3d verse, uh who knows
 		2:
@@ -193,6 +199,7 @@ func _physics_process(delta):
 		));
 		if (dist_ratio < 0.01):
 			explode();
+			dying = true
 			queue_free();
 			return;
 	# for some reason is verse jumping when this happens?????
@@ -203,8 +210,10 @@ func _physics_process(delta):
 			detonate_at_speed = false;
 			print(curr_vel);
 			# explode();
+      dying = true
 			queue_free(); # this line is causing the crash...?
 			return;
+
 	
 	if (bouncing && num_bounces > 0):
 		bounce_bullet();
@@ -212,4 +221,5 @@ func _physics_process(delta):
 
 func _on_DespawnTimer_timeout():
 	print("bullet despawned")
+	dying = true
 	queue_free();

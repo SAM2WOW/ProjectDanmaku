@@ -16,11 +16,13 @@ var laserInd = preload("res://objects/weapons/LaserIndicator.tscn")
 var laserBeam = preload("res://objects/weapons/LaserBeam.tscn")
 
 
+
 func _ready():
 	Global.boss = self;
 	attack_pattern = rng.randi()%2;
 
-func damage(amount):
+func damage(amount,body = null):
+	print(body)
 	print("Boss have been damaged %d" % amount)
 	Global.console.damage_boss(amount)
 	
@@ -85,9 +87,12 @@ func finish_attack():
 		if transbullet_cd < 1:
 			transbullet_cd = 5
 			var t = load("res://objects/weapons/TransBullet.tscn").instance()
-			t.style = randi()%2
-			if t.style == style:
-				t.style =(style+1)%2
+			t.style = randi()%3
+			#print("current style%d" % Global.current_style)
+			
+			if t.style == Global.current_style:
+				t.style =(Global.current_style+1)%3
+
 			
 			get_parent().add_child(t);
 			t.set_global_position(get_global_position());
