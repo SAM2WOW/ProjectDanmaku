@@ -10,10 +10,13 @@ var damage = 1.0
 var max_speed = 1000
 var speed = 1000
 
+var base_growth_rate = 0.01
+
 var portal = preload("res://objects/system/portal.tscn")
 var dead = false
 
 var growth_rate = 1
+var start_protect = false
 
 func init_bullet(_pos, _dir, _style):
 	set_global_position(_pos);
@@ -72,7 +75,7 @@ func verse_jump_explode():
 	
 func _physics_process(delta):
 	if not dead:
-		$area.scale = lerp($area.scale, Vector2(2.5,2.5),0.01 * growth_rate)
+		$area.scale = lerp($area.scale, Vector2(2.5,2.5),base_growth_rate * growth_rate)
 		if $area.scale.x > 2.4:
 			self_destroy()
 	else:
@@ -87,11 +90,30 @@ func _on_Area2D_body_entered(body):
 		if body == Global.player:
 			body.damage(10)
 			self_destroy()
-		if "PlayerBullet" in body.name:
-			$area.scale -= Vector2(0.1,0.1)
-			health -= 1
-			if health <= 0:
-				growth_rate = 0.5
-			if $area.scale.x < 0.7:
-				verse_jump_init()
+		elif "Player" in body.name:
+			damage(body.damage)
+			body._on_destroy()
 
+
+func damage(damage):
+	damage = damage * 0.1
+	base_growth_rate = 0.01
+	if damage > 3:
+		damage = 3
+	$Timer.start()
+	print('trans damage%d' % damage)
+	$area.scale -= Vector2(0.1,0.1) * damage
+	health -= 1 * damage
+
+	if health <= 0:
+		growth_rate = 0.5
+	if $area.scale.x < 0.7 and start_protect:
+		verse_jump_init()
+	
+	
+
+
+func _on_Timer_timeout():
+	base_growth_rate += 0.003
+	start_protect = true
+	

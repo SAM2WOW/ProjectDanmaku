@@ -20,6 +20,9 @@ func _on_Area2D_body_entered(body):
 		for inst in body.hit_by:
 			if !is_instance_valid(inst):
 				body.hit_by.erase(inst);
+	else:
+		if body.get_collision_layer_bit(4):
+			body.damage(20)
 
 
 func _on_AnimatedSprite_animation_finished():
