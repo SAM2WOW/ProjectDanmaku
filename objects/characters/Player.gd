@@ -189,19 +189,28 @@ func init_pixel_bullets():
 
 func init_3d_bullets():
 	var charge = holdTime / maxHoldTime;
+	var num_bullets = 0;
+	var deg = 10;
 	if (charge > 1.0): charge = 1.0;
+	if (charge < 2.0/3.0):
+		num_bullets = 1;
+		deg = 0;
+	elif (charge < 1.0):
+		num_bullets = 2;
+	else:
+		num_bullets = 3;
 
-	var b = bullet.instance();
-	get_parent().add_child(b)
-	b.charge = charge;
+	# fire spread depending on charge
 	var dir = get_global_position().direction_to(get_global_mouse_position());
-	b.init_bullet(get_global_position(), dir, style);
-	b.set_linear_velocity(dir*Global.player_bullet_properties[style]["speed"]);
+	var bullets = fire_spread(num_bullets, deg, Global.player_bullet_properties[style]["speed"], dir);
+	for b in bullets:
+		b.damage *= 0.4;
+		b.charge = charge;
 	
 	
 func init_collage_bullets():
 	var dir = get_global_position().direction_to(get_global_mouse_position());
-	var bullets = fire_spread(3, 15, Global.player_bullet_properties[style]["speed"], dir);
+	var bullets = fire_spread(3, 10, Global.player_bullet_properties[style]["speed"], dir);
 
 
 func damage(amount):
