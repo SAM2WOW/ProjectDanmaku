@@ -1,7 +1,7 @@
 extends Node
 
 
-var boss_health = 500
+var boss_health = 5000
 var portal
 var play_time = 0.0
 
