@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=2]
+[gd_scene load_steps=47 format=2]
 
 [ext_resource path="res://objects/characters/Player.gd" type="Script" id=1]
 [ext_resource path="res://arts/collage/Collage_Witch_Girl.png" type="Texture" id=2]
@@ -11,7 +11,7 @@
 [ext_resource path="res://sounds/AbstractBullet.wav" type="AudioStream" id=9]
 [ext_resource path="res://arts/ui/bosshealth.png" type="Texture" id=10]
 [ext_resource path="res://arts/abstrastArt/playercircle.png" type="Texture" id=11]
-[ext_resource path="res://arts/3D/Witch_3D_Flipped.png" type="Texture" id=12]
+[ext_resource path="res://arts/3D/Witch_Idle_Flipped.png" type="Texture" id=12]
 
 [sub_resource type="Gradient" id=17]
 offsets = PoolRealArray( 0, 0.150838, 1 )
@@ -53,9 +53,64 @@ animations = [ {
 atlas = ExtResource( 3 )
 region = Rect2( 0, 0, 67, 61 )
 
+[sub_resource type="AtlasTexture" id=30]
+flags = 4
+atlas = ExtResource( 12 )
+region = Rect2( 0, 0, 1080, 1080 )
+
+[sub_resource type="AtlasTexture" id=31]
+flags = 4
+atlas = ExtResource( 12 )
+region = Rect2( 1080, 0, 1080, 1080 )
+
+[sub_resource type="AtlasTexture" id=32]
+flags = 4
+atlas = ExtResource( 12 )
+region = Rect2( 3240, 0, 1080, 1080 )
+
+[sub_resource type="AtlasTexture" id=33]
+flags = 4
+atlas = ExtResource( 12 )
+region = Rect2( 4320, 0, 1080, 1080 )
+
+[sub_resource type="AtlasTexture" id=34]
+flags = 4
+atlas = ExtResource( 12 )
+region = Rect2( 5400, 0, 1080, 1080 )
+
+[sub_resource type="AtlasTexture" id=35]
+flags = 4
+atlas = ExtResource( 12 )
+region = Rect2( 6480, 0, 1080, 1080 )
+
+[sub_resource type="AtlasTexture" id=36]
+flags = 4
+atlas = ExtResource( 12 )
+region = Rect2( 7560, 0, 1080, 1080 )
+
+[sub_resource type="AtlasTexture" id=37]
+flags = 4
+atlas = ExtResource( 12 )
+region = Rect2( 8640, 0, 1080, 1080 )
+
+[sub_resource type="AtlasTexture" id=38]
+flags = 4
+atlas = ExtResource( 12 )
+region = Rect2( 9720, 0, 1080, 1080 )
+
+[sub_resource type="AtlasTexture" id=39]
+flags = 4
+atlas = ExtResource( 12 )
+region = Rect2( 10800, 0, 1080, 1080 )
+
+[sub_resource type="AtlasTexture" id=40]
+flags = 4
+atlas = ExtResource( 12 )
+region = Rect2( 11880, 0, 1080, 1080 )
+
 [sub_resource type="SpriteFrames" id=15]
 animations = [ {
-"frames": [ ExtResource( 12 ) ],
+"frames": [ SubResource( 30 ), SubResource( 31 ), SubResource( 32 ), SubResource( 33 ), SubResource( 34 ), SubResource( 35 ), SubResource( 36 ), SubResource( 37 ), SubResource( 38 ), SubResource( 39 ), SubResource( 40 ) ],
 "loop": true,
 "name": "default",
 "speed": 5.0
@@ -203,6 +258,7 @@ visible = false
 position = Vector2( 0, -5 )
 scale = Vector2( 3, 3 )
 frames = SubResource( 8 )
+frame = 4
 speed_scale = 2.0
 playing = true
 script = ExtResource( 4 )
@@ -242,6 +298,8 @@ visible = false
 position = Vector2( -5, 5 )
 scale = Vector2( 0.137318, 0.137318 )
 frames = SubResource( 15 )
+frame = 9
+playing = true
 script = ExtResource( 4 )
 
 [node name="3DShot" type="Node2D" parent="Style2/AnimatedSprite" groups=["shots2"]]
@@ -278,7 +336,7 @@ visible = false
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Style3"]
 scale = Vector2( 0.423826, 0.423826 )
 frames = SubResource( 29 )
-frame = 3
+frame = 10
 playing = true
 script = ExtResource( 4 )
 
