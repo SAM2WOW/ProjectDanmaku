@@ -6,6 +6,7 @@ var exploding = false
 var dying = false
 
 func _ready():
+	
 	if Global.portal != null:
 		if Global.portal:
 			Global.portal.self_destroy()
@@ -14,11 +15,15 @@ func _ready():
 		Global.portal = self
 	$Sprite.set_material(load("res://arts/shaders/Portal%d.tres" % style))
 	$Sprite/CPUParticles2D.set_material(load("res://arts/shaders/Style%d.tres" % style))
+	$Sprite/CPUParticles2D2.set_material(load("res://arts/shaders/Style%d.tres" % style))
 	set_scale(Vector2(0, 0))
 	connect("tree_exiting", self, "global_cleanup")
 	if not exploding:
 		var tween = create_tween().set_trans(Tween.TRANS_ELASTIC)
 		tween.tween_property(self, "scale", Vector2(1, 1), 1)
+		yield(tween,"finished")
+		$Sprite/CPUParticles2D.show()
+		$Sprite/CPUParticles2D2.show()
 	else:
 		verse_jump_explode()
 	print(style)
@@ -26,6 +31,10 @@ func _ready():
 
 func self_destroy():
 	global_cleanup()
+	$Sprite/CPUParticles2D.speed_scale = 3
+	$Sprite/CPUParticles2D.set_emitting(false)
+	$Sprite/CPUParticles2D.speed_scale = 3
+	$Sprite/CPUParticles2D2.set_emitting(false)
 	exploding = true
 	dying = true
 	var tween = create_tween().set_trans(Tween.TRANS_BACK)

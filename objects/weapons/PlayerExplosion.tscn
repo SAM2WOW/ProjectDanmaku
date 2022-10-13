@@ -1,7 +1,9 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://arts/pixelArt/explosion.png" type="Texture" id=1]
 [ext_resource path="res://objects/weapons/PlayerExplosion.gd" type="Script" id=2]
+[ext_resource path="res://scripts/AudioRandomizer.gd" type="Script" id=3]
+[ext_resource path="res://sounds/Explosion.mp3" type="AudioStream" id=4]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 151.003
@@ -45,6 +47,14 @@ shape = SubResource( 1 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 scale = Vector2( 10, 10 )
 frames = SubResource( 7 )
+
+[node name="FireSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 4 )
+autoplay = true
+bus = "Sound"
+script = ExtResource( 3 )
+ptch_high = 1.406
+base_volume = -5.0
 
 [connection signal="body_entered" from="." to="." method="_on_Area2D_body_entered"]
 [connection signal="animation_finished" from="AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]

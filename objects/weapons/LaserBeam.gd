@@ -76,6 +76,8 @@ func appear() -> void:
 	$Tween.stop_all()
 	$Tween.interpolate_property($Line2D, "width", 0, 10.0, 0.2)
 	$Tween.start()
+	
+	$FireSound.play()
 
 func disappear() -> void:
 	$Tween.stop_all()
