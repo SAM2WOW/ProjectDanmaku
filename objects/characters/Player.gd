@@ -218,10 +218,14 @@ func damage(amount):
 	health -= amount
 	
 	$HealthBar.show()
+	$HealthBar.set_tint_progress(Color("ca84e0f5"))
+	var tween = create_tween()
+	tween.tween_property($HealthBar, "tint_progress", Color("2b84e0f5"), 0.3)
+	
 	# wait a bit before regenerate health
 	$RegenerateTimer.start()
 	
-	Global.camera.shake(0.3, 12, 4)
+	Global.camera.shake(0.3, 12, 8)
 	
 	if health <= 0:
 		#print("You DEAD!!!")
