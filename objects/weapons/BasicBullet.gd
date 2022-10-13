@@ -17,7 +17,7 @@ var detonate_at_speed = false;
 var bouncing = false;
 var num_bounces = 0;
 
-var damage = 1.0;
+var damage = 0.0;
 
 func init_bullet(_pos, _dir, _style):
 	set_global_position(_pos);
@@ -27,13 +27,15 @@ func init_bullet(_pos, _dir, _style):
 	init_style(_style);
 
 func init_clone_instance(b):
+	b.damage = damage;
 	b.bouncing = bouncing;
 	b.num_bounces = num_bounces;
 	b.detonate = detonate;
 	b.get_node("DespawnTimer").start($DespawnTimer.time_left);
 
 func _on_VisibilityNotifier2D_screen_exited():
-	queue_free()
+	if (is_instance_valid(self)):
+		queue_free()
 
 func _on_PlayerBullet_body_entered(body):
 	print("Collide %s" % body.name)
@@ -41,7 +43,7 @@ func _on_PlayerBullet_body_entered(body):
 		if detonate:
 			explode();
 		else:
-			body.damage(10)
+			body.damage(damage)
 		
 		queue_free()
 
@@ -68,9 +70,13 @@ func _on_Verse_Jump(verse):
 		# into minimal; bullets get faster
 		0:
 			linear_velocity *= 1.2;
-		# into pixel; bullets go slower
+		# into pixel; bullets go slower and blow at speed
 		1:
 			linear_velocity *= 0.8;
+			if (!detonate):
+				detonate = true;
+				detonate_at_speed = true;
+				
 		# into 3d; laser gets charged
 		2:
 			Global.boss.fireLaser(get_global_position(), get_global_position() + (dir * 50))
@@ -85,26 +91,30 @@ func _on_Verse_Jump(verse):
 			pass
 	
 func _on_Verse_Exit(verse, new_verse):
+	style = new_verse;
 	match verse:
 		# on leaving minimal verse, nothing
 		0:
-			pass
+			init_minimal_bullet();
 		# on leaving pixel verse, splits into 2
 		1:
+			if (detonate):
+				detonate = false;
+				detonate_at_pos = false;
+				detonate_at_speed = false;
 			if (new_verse != 2):
 				var bullets = Global.boss.fire_spread(2, 20, curr_vel*0.8, dir, get_global_position());
 				for b in bullets:
 					init_clone_instance(b);
 			queue_free();
-		# on leaving 3d verse, bullets increase in size? and are slower?
+		# on leaving 3d verse, uh who knows
 		2:
 			pass
 		# on leaving collage verse, can bounce once and are slower
 		3:
 			if !bouncing:
 				linear_velocity *= 0.7;
-				bouncing = true;
-				num_bounces = 1;
+				init_collage_bullet();
 		_:
 			pass
 
@@ -127,15 +137,16 @@ func init_style(_style):
 # minimal bullets have no real unique properties
 func init_minimal_bullet():
 	# ie.) init bullet properties
-	damage = 1.0;
+	damage = Global.boss_bullet_properties[style]["damage"];
 
 func init_pixel_bullet():
-	pass
+	damage = Global.boss_bullet_properties[style]["damage"];
 
 func init_3d_bullet():
-	pass
+	damage = Global.boss_bullet_properties[style]["damage"];
 
 func init_collage_bullet():
+	damage = Global.boss_bullet_properties[style]["damage"];
 	bouncing = true;
 	num_bounces = 1;
 	
@@ -183,12 +194,17 @@ func _physics_process(delta):
 		if (dist_ratio < 0.01):
 			explode();
 			queue_free();
-	elif (detonate_at_speed):
-		if (curr_vel < 100):
-			explode();
-			queue_free();
-		else:
-			linear_velocity *= 0.95;
+			return;
+	# for some reason is verse jumping when this happens?????
+	if (detonate_at_speed):
+		# return;
+		linear_velocity *= 0.99;
+		if (curr_vel <= 100.0):
+			detonate_at_speed = false;
+			print(curr_vel);
+			# explode();
+			queue_free(); # this line is causing the crash...?
+			return;
 	
 	if (bouncing && num_bounces > 0):
 		bounce_bullet();

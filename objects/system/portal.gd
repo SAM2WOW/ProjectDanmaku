@@ -57,6 +57,7 @@ func _on_Area2D_body_entered(body):
 
 
 func _on_Area2D_body_exited(body):
+	if !is_instance_valid(body): return;
 	if not exploding:
 		if (style == Global.current_style): 
 			return;

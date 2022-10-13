@@ -6,6 +6,10 @@ var basic_bullet = preload("res://objects/weapons/BasicBullet.tscn")
 
 var laserBulletInterval = 0
 
+var style = 2;
+
+var damage = Global.boss_bullet_properties[style]["damage"];
+
 func _ready() -> void:
 	set_physics_process(false)
 	self.is_casting = true
@@ -31,7 +35,7 @@ func _physics_process(delta: float) -> void:
 		$CollisionParticle2D.global_rotation = get_collision_normal().angle()
 		$CollisionParticle2D.position = cast_point
 		if "Player" in get_collider().name:
-			get_collider().damage(10)
+			get_collider().damage(damage)
 		if "Area2D" in get_collider().name && laserBulletInterval >= 0.25:
 			var b = basic_bullet.instance()
 			var pos = get_collision_point()

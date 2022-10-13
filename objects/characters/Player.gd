@@ -10,7 +10,8 @@ var speed_mult = 1.0;
 
 # var shooting = false;
 
-var health = 100
+var max_health = 10000;
+var health = max_health;
 var health_regen_speed = 8
 
 var holdTime = 0
@@ -55,9 +56,9 @@ func _process(delta):
 	
 	# regenerate health
 	if $RegenerateTimer.is_stopped():
-		health = clamp(health + delta * health_regen_speed, 0, 100)
+		health = clamp(health + delta * health_regen_speed, 0, max_health)
 		
-		if health >= 100.0:
+		if health >= max_health:
 			$HealthBar.hide()
 	
 	# update health ui
@@ -151,7 +152,7 @@ func fire_bullet():
 
 func init_minimal_bullets():
 	var shotLocations = [Global.player];
-	shotLocations = get_tree().get_nodes_in_group('shots')
+	shotLocations = Global.player.get_tree().get_nodes_in_group("shots")
 	for shot in shotLocations:
 		var b = bullet.instance()
 		var dir = get_global_position().direction_to(get_global_mouse_position());
@@ -223,6 +224,7 @@ func fire_spread(
 		
 		b.init_bullet(pos, new_dir, _style);
 		b.set_linear_velocity(new_dir*speed);
+		b.damage = Global.player_bullet_properties[_style]["damage"];
 		
 		get_parent().add_child(b);
 		bullets.append(b);

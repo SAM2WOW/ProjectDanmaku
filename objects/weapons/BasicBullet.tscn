@@ -72,6 +72,7 @@ visible = false
 polygon = PoolVector2Array( 0, 0, -28, -24, 23, -4, 17, 23, -8, 12, -37, 11 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2( 0.30645, 0.30645 )
 shape = SubResource( 1 )
 
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
