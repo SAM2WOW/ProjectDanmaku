@@ -190,7 +190,6 @@ color_ramp = SubResource( 17 )
 
 [node name="FireSound" type="AudioStreamPlayer2D" parent="Style0"]
 stream = ExtResource( 9 )
-bus = "Sound"
 script = ExtResource( 8 )
 pitch_low = 0.784
 ptch_high = 1.376
@@ -231,7 +230,6 @@ color_ramp = SubResource( 17 )
 
 [node name="FireSound" type="AudioStreamPlayer2D" parent="Style1"]
 stream = ExtResource( 7 )
-bus = "Sound"
 script = ExtResource( 8 )
 
 [node name="Style2" type="Node2D" parent="."]
@@ -266,7 +264,6 @@ color_ramp = SubResource( 17 )
 
 [node name="FireSound" type="AudioStreamPlayer2D" parent="Style2"]
 stream = ExtResource( 7 )
-bus = "Sound"
 script = ExtResource( 8 )
 
 [node name="Style3" type="Node2D" parent="."]
@@ -301,7 +298,6 @@ color_ramp = SubResource( 17 )
 
 [node name="FireSound" type="AudioStreamPlayer2D" parent="Style3"]
 stream = ExtResource( 7 )
-bus = "Sound"
 script = ExtResource( 8 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

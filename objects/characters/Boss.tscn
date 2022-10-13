@@ -151,7 +151,6 @@ visible = false
 position = Vector2( 1, -2 )
 scale = Vector2( 4, 4 )
 frames = SubResource( 40 )
-frame = 7
 playing = true
 
 [node name="Style2" type="Node2D" parent="."]
@@ -161,6 +160,7 @@ visible = false
 position = Vector2( -18, -22 )
 scale = Vector2( 0.557017, 0.557017 )
 frames = SubResource( 18 )
+frame = 2
 speed_scale = 0.75
 playing = true
 
