@@ -64,7 +64,7 @@ func show_verse_style(verse):
 
 
 func _on_Verse_Jump(verse):
-	style = verse
+	style = verse;
 	show_verse_style(verse);
 	match verse:
 		# into minimal; bullets get faster
@@ -91,7 +91,6 @@ func _on_Verse_Jump(verse):
 			pass
 	
 func _on_Verse_Exit(verse, new_verse):
-	style = new_verse;
 	match verse:
 		# on leaving minimal verse, nothing
 		0:
@@ -197,7 +196,7 @@ func _physics_process(delta):
 			return;
 	# for some reason is verse jumping when this happens?????
 	if (detonate_at_speed):
-		# return;
+		return;
 		linear_velocity *= 0.99;
 		if (curr_vel <= 100.0):
 			detonate_at_speed = false;

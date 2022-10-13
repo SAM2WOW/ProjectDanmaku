@@ -20,6 +20,7 @@ func _ready():
 		tween.tween_property(self, "scale", Vector2(1, 1), 1)
 	else:
 		verse_jump_explode()
+	print(style)
 
 func self_destroy():
 	global_cleanup()
@@ -46,21 +47,26 @@ func verse_jump_explode():
 
 func verse_jump_end():
 	Global.background._on_Verse_Jump(style)
+	Global.current_style = style;
 	queue_free()
 	
 func _on_Area2D_body_entered(body):
 	if not exploding:
 		if style == body.style:
 			 return;
+		if body.has_method('_on_Verse_Exit'):
+			# exit the current verse, and enter the new style
+			body._on_Verse_Exit(body.style, style)
 		if body.has_method('_on_Verse_Jump'):
+			# jump to the verse style
 			body._on_Verse_Jump(style)
 
 
 func _on_Area2D_body_exited(body):
-	if !is_instance_valid(body): return;
+	# current_style is the style of the world
 	if not exploding:
-#		if (style == Global.current_style): 
-#			return;
+		if (body.style == Global.current_style): 
+			return;
 		if body.has_method('_on_Verse_Jump'):
 			body._on_Verse_Jump(Global.current_style)
 		if body.has_method('_on_Verse_Exit'):
