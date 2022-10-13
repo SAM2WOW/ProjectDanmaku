@@ -11,6 +11,8 @@ var max_speed = 1000
 var speed = 1000
 
 var base_growth_rate = 0.01
+var max_scale = 2.4
+var damage_multiplier = 0.2
 
 var portal = preload("res://objects/system/portal.tscn")
 var dead = false
@@ -24,25 +26,37 @@ var start_protect = false
 
 var dead_damp = 0.15
 
-func init_bullet(_pos, _dir, _style):
-	set_global_position(_pos);
-	style = _style;
-	
-	set_linear_velocity(Vector2(1000,0).rotated(dir))
-	self.connect("tree_exited", self, "boss_transState_cleanup")
+var duel_mode = false
 
+func init_bullet():
+	damageTween = create_tween().set_trans(Tween.TRANS_LINEAR)
+	if is_instance_valid(Global.player):
+		self.look_at(Global.player.get_global_position())
+	set_linear_velocity(Vector2(1000,100-randi() % 200).rotated(get_global_rotation()))
+	$area/Node2D/Sprite.set_material(load("res://arts/shaders/Portal%d.tres" % style))
+	self.connect("tree_exited", self, "boss_transState_cleanup")
+	
+func init_duel_bullet():
+	damageTween = create_tween().set_trans(Tween.TRANS_LINEAR)
+	look_at(Global.player.get_global_position())
+	health = 24
+	max_scale = 4
+	damage_multiplier = 0.1
+	$area.set_scale(Vector2(3,3))
+	set_linear_velocity(Vector2(500,100-randi() % 200).rotated(get_global_rotation()))
+	$area/Node2D/Sprite.set_material(load("res://arts/shaders/Portal%d.tres" % style))
+	self.connect("tree_exited", self, "boss_transState_cleanup")
+	start_protect = true
+	
 func boss_transState_cleanup():
 	Global.boss.transbullet_state = false
-
+	
 func _on_VisibilityNotifier2D_screen_exited():
 	queue_free()
 
 func _ready():
-	damageTween = create_tween().set_trans(Tween.TRANS_LINEAR)
-	look_at(Global.player.get_global_position())
-	set_linear_velocity(Vector2(1000,100-randi() % 200).rotated(get_global_rotation()))
-	$area/Node2D/Sprite.set_material(load("res://arts/shaders/Portal%d.tres" % style))
-
+	init_duel_bullet()
+	
 func self_destroy():
 	if (!is_instance_valid(Global.boss)): return;
 	var tween = create_tween().set_trans(Tween.TRANS_BACK)
@@ -97,8 +111,8 @@ func verse_jump_explode():
 func _physics_process(delta):
 	if not dead:
 		if not hit:
-			$area.scale = lerp($area.scale, Vector2(2.5,2.5),base_growth_rate * growth_rate)
-			if $area.scale.x > 3:
+			$area.scale = lerp($area.scale, Vector2(2.6,2.6),base_growth_rate * growth_rate)
+			if $area.scale.x > max_scale:
 				self_destroy()
 	else:
 		set_linear_velocity(lerp(get_linear_velocity(),Vector2.ZERO,dead_damp))
@@ -126,7 +140,7 @@ func _on_hit(damage):
 
 
 func damage(damage):
-	damage = damage * 0.1
+	damage = damage * damage_multiplier
 	base_growth_rate = 0.01
 	if damage > 4:
 		damage = 4
