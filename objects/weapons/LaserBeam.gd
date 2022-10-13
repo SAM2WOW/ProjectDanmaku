@@ -44,16 +44,16 @@ func _physics_process(delta: float) -> void:
 			if playerDamageIntervalCount >= playerDamageInterval:
 				get_collider().damage(laserDamage)
 				playerDamageIntervalCount = 0
-		if "Area2D" in get_collider().name && laserBulletIntervalCount >= laserBulletInterval:
-			var b = basic_bullet.instance()
-			var pos = get_collision_point()
-			var dir = $Line2D.get_global_position().direction_to(pos)
-			var style = get_collider().get_parent().style
-			var speed = 1000
-			b.init_bullet(pos, dir, style);
-			b.set_linear_velocity(dir*speed);
-			get_parent().add_child(b)
-			laserBulletIntervalCount = 0
+		if "Area2D" in get_collider().name && laserBulletIntervalCount >= laserBulletInterval && get_collider().get_parent().style != 2:
+				var b = basic_bullet.instance()
+				var pos = get_collision_point()
+				var dir = $Line2D.get_global_position().direction_to(pos)
+				var style = get_collider().get_parent().style
+				var speed = 1000
+				b.init_bullet(pos, dir, style);
+				b.set_linear_velocity(dir*speed);
+				get_parent().add_child(b)
+				laserBulletIntervalCount = 0
 	
 	$Line2D.points[1] = cast_point
 	$BeamParticle2D.position = cast_point * 0.5
