@@ -1,7 +1,7 @@
-[gd_scene load_steps=47 format=2]
+[gd_scene load_steps=35 format=2]
 
 [ext_resource path="res://objects/characters/Player.gd" type="Script" id=1]
-[ext_resource path="res://arts/collage/Collage_Witch_Girl.png" type="Texture" id=2]
+[ext_resource path="res://arts/collage/collage_witch_girl_ani.png" type="Texture" id=2]
 [ext_resource path="res://arts/pixelArt/witch_idle.png" type="Texture" id=3]
 [ext_resource path="res://objects/characters/flip_script.gd" type="Script" id=4]
 [ext_resource path="res://arts/abstrastArt/player.png" type="Texture" id=5]
@@ -11,7 +11,6 @@
 [ext_resource path="res://sounds/AbstractBullet.wav" type="AudioStream" id=9]
 [ext_resource path="res://arts/ui/bosshealth.png" type="Texture" id=10]
 [ext_resource path="res://arts/abstrastArt/playercircle.png" type="Texture" id=11]
-[ext_resource path="res://arts/3D/Witch_Idle_Flipped.png" type="Texture" id=12]
 
 [sub_resource type="Gradient" id=17]
 offsets = PoolRealArray( 0, 0.150838, 1 )
@@ -53,64 +52,9 @@ animations = [ {
 atlas = ExtResource( 3 )
 region = Rect2( 0, 0, 67, 61 )
 
-[sub_resource type="AtlasTexture" id=30]
-flags = 4
-atlas = ExtResource( 12 )
-region = Rect2( 0, 0, 1080, 1080 )
-
-[sub_resource type="AtlasTexture" id=31]
-flags = 4
-atlas = ExtResource( 12 )
-region = Rect2( 1080, 0, 1080, 1080 )
-
-[sub_resource type="AtlasTexture" id=32]
-flags = 4
-atlas = ExtResource( 12 )
-region = Rect2( 3240, 0, 1080, 1080 )
-
-[sub_resource type="AtlasTexture" id=33]
-flags = 4
-atlas = ExtResource( 12 )
-region = Rect2( 4320, 0, 1080, 1080 )
-
-[sub_resource type="AtlasTexture" id=34]
-flags = 4
-atlas = ExtResource( 12 )
-region = Rect2( 5400, 0, 1080, 1080 )
-
-[sub_resource type="AtlasTexture" id=35]
-flags = 4
-atlas = ExtResource( 12 )
-region = Rect2( 6480, 0, 1080, 1080 )
-
-[sub_resource type="AtlasTexture" id=36]
-flags = 4
-atlas = ExtResource( 12 )
-region = Rect2( 7560, 0, 1080, 1080 )
-
-[sub_resource type="AtlasTexture" id=37]
-flags = 4
-atlas = ExtResource( 12 )
-region = Rect2( 8640, 0, 1080, 1080 )
-
-[sub_resource type="AtlasTexture" id=38]
-flags = 4
-atlas = ExtResource( 12 )
-region = Rect2( 9720, 0, 1080, 1080 )
-
-[sub_resource type="AtlasTexture" id=39]
-flags = 4
-atlas = ExtResource( 12 )
-region = Rect2( 10800, 0, 1080, 1080 )
-
-[sub_resource type="AtlasTexture" id=40]
-flags = 4
-atlas = ExtResource( 12 )
-region = Rect2( 11880, 0, 1080, 1080 )
-
 [sub_resource type="SpriteFrames" id=15]
 animations = [ {
-"frames": [ SubResource( 30 ), SubResource( 31 ), SubResource( 32 ), SubResource( 33 ), SubResource( 34 ), SubResource( 35 ), SubResource( 36 ), SubResource( 37 ), SubResource( 38 ), SubResource( 39 ), SubResource( 40 ) ],
+"frames": [ ExtResource( 6 ) ],
 "loop": true,
 "name": "default",
 "speed": 5.0
@@ -139,37 +83,37 @@ region = Rect2( 1578, 0, 526, 526 )
 [sub_resource type="AtlasTexture" id=22]
 flags = 4
 atlas = ExtResource( 2 )
-region = Rect2( 2104, 0, 526, 526 )
+region = Rect2( 0, 526, 526, 526 )
 
 [sub_resource type="AtlasTexture" id=23]
 flags = 4
 atlas = ExtResource( 2 )
-region = Rect2( 2630, 0, 526, 526 )
+region = Rect2( 526, 526, 526, 526 )
 
 [sub_resource type="AtlasTexture" id=24]
 flags = 4
 atlas = ExtResource( 2 )
-region = Rect2( 3156, 0, 526, 526 )
+region = Rect2( 1052, 526, 526, 526 )
 
 [sub_resource type="AtlasTexture" id=25]
 flags = 4
 atlas = ExtResource( 2 )
-region = Rect2( 3682, 0, 526, 526 )
+region = Rect2( 1578, 526, 526, 526 )
 
 [sub_resource type="AtlasTexture" id=26]
 flags = 4
 atlas = ExtResource( 2 )
-region = Rect2( 4208, 0, 526, 526 )
+region = Rect2( 0, 1052, 526, 526 )
 
 [sub_resource type="AtlasTexture" id=27]
 flags = 4
 atlas = ExtResource( 2 )
-region = Rect2( 4734, 0, 526, 526 )
+region = Rect2( 526, 1052, 526, 526 )
 
 [sub_resource type="AtlasTexture" id=28]
 flags = 4
 atlas = ExtResource( 2 )
-region = Rect2( 5260, 0, 526, 526 )
+region = Rect2( 1052, 1052, 526, 526 )
 
 [sub_resource type="SpriteFrames" id=29]
 animations = [ {
@@ -298,7 +242,6 @@ visible = false
 position = Vector2( -5, 5 )
 scale = Vector2( 0.137318, 0.137318 )
 frames = SubResource( 15 )
-frame = 9
 playing = true
 script = ExtResource( 4 )
 

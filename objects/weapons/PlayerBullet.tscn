@@ -94,7 +94,7 @@ animations = [ {
 } ]
 
 [sub_resource type="CircleShape2D" id=1]
-radius = 22.0227
+radius = 45.2769
 
 [sub_resource type="Curve" id=6]
 _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.0742574, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), -2.93818, 0.0, 0, 0 ]
