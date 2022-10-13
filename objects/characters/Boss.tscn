@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=2]
+[gd_scene load_steps=34 format=2]
 
 [ext_resource path="res://objects/characters/Boss.gd" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
@@ -56,7 +56,7 @@ animations = [ {
 "frames": [ SubResource( 30 ), SubResource( 31 ), SubResource( 32 ), SubResource( 33 ), SubResource( 34 ), SubResource( 35 ), SubResource( 36 ), SubResource( 37 ), SubResource( 38 ), SubResource( 39 ) ],
 "loop": true,
 "name": "default",
-"speed": 5.0
+"speed": 8.0
 } ]
 
 [sub_resource type="AtlasTexture" id=41]
@@ -119,11 +119,14 @@ animations = [ {
 "frames": [ SubResource( 41 ), SubResource( 42 ), SubResource( 43 ), SubResource( 44 ), SubResource( 45 ), SubResource( 46 ), SubResource( 47 ), SubResource( 48 ), SubResource( 49 ), SubResource( 50 ), SubResource( 51 ) ],
 "loop": true,
 "name": "New Anim",
-"speed": 8.0
+"speed": 12.0
 } ]
 
 [sub_resource type="CircleShape2D" id=6]
 radius = 138.058
+
+[sub_resource type="CircleShape2D" id=52]
+radius = 3.22096
 
 [node name="Boss" type="KinematicBody2D" groups=["style"]]
 collision_layer = 8
@@ -151,7 +154,7 @@ visible = false
 position = Vector2( 1, -2 )
 scale = Vector2( 4, 4 )
 frames = SubResource( 40 )
-frame = 8
+frame = 4
 playing = true
 
 [node name="Style2" type="Node2D" parent="."]
@@ -162,7 +165,6 @@ position = Vector2( -18, -22 )
 scale = Vector2( 0.422288, 0.422288 )
 frames = SubResource( 18 )
 animation = "New Anim"
-frame = 7
 speed_scale = 0.75
 playing = true
 
@@ -189,6 +191,12 @@ base_volume = 5.0
 wait_time = 8.0
 one_shot = true
 autostart = true
+
+[node name="BossPortalBox" type="Area2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionShape2D" parent="BossPortalBox"]
+scale = Vector2( 5.8, 5.8 )
+shape = SubResource( 52 )
 
 [connection signal="timeout" from="FireTimer" to="." method="_on_FireTimer_timeout"]
 [connection signal="timeout" from="MovementTimer" to="." method="_on_MovementTimer_timeout"]

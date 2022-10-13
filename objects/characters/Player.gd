@@ -26,7 +26,7 @@ var bullet_properties = Global.player_bullet_properties[style];
 
 func _ready():
 	Global.player = self
-	$FireTimer.wait_time = Global.player_bullet_properties[style]["fire rate"];
+	_on_Verse_Jump(Global.initial_style);
 
 func _process(delta):
 	if (style == 2):
@@ -114,10 +114,7 @@ func _input(event):
 				# print(new_style)
 
 func _on_Verse_Jump(verse):
-	if style == verse:
-		return
 	get_node("Style%d" % style).hide()
-	
 	style = verse
 	
 	get_node("Style%d" % style).show()

@@ -32,6 +32,7 @@ var attack_properties;
 
 func _ready():
 	Global.boss = self;
+	_on_Verse_Jump(Global.initial_style);
 	attack_pattern = rng.randi()%2;
 	
 func _physics_process(delta):

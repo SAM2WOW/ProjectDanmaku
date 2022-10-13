@@ -15,6 +15,7 @@ var current_style = initial_style
 var window_width = ProjectSettings.get_setting("display/window/size/width");
 var window_height = ProjectSettings.get_setting("display/window/size/height");
 
+
 var player_bullet_properties = {
 	0: {"damage":10, "fire rate":0.3, "speed":900},
 	1: {"damage":50, "fire rate":0.75, "speed":1500},

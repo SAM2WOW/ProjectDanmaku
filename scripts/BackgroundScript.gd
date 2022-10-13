@@ -5,6 +5,7 @@ var style = 0
 
 func _ready():
 	Global.background = self
+	_on_Verse_Jump(Global.initial_style);
 
 func _on_Verse_Jump(verse):
 	style = verse

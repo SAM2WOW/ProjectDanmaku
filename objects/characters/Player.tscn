@@ -146,6 +146,7 @@ tint_under = Color( 0, 0, 0, 0.0352941 )
 tint_progress = Color( 0.517647, 0.878431, 0.960784, 0.172549 )
 
 [node name="Style0" type="Node2D" parent="."]
+visible = false
 
 [node name="Icon" type="Sprite" parent="Style0"]
 self_modulate = Color( 0.517647, 0.878431, 0.960784, 1 )
@@ -277,7 +278,7 @@ visible = false
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Style3"]
 scale = Vector2( 0.423826, 0.423826 )
 frames = SubResource( 29 )
-frame = 8
+frame = 3
 playing = true
 script = ExtResource( 4 )
 
