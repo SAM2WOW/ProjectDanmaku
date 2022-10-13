@@ -52,13 +52,13 @@ current = true
 script = ExtResource( 14 )
 
 [node name="Player" parent="Node2D" instance=ExtResource( 1 )]
-position = Vector2( -701, -7 )
+position = Vector2( -701, -1 )
 
 [node name="Boss" parent="Node2D" instance=ExtResource( 2 )]
 position = Vector2( 779, -2 )
 
 [node name="Portal" parent="Node2D" instance=ExtResource( 4 )]
-position = Vector2( 970, 572 )
+position = Vector2( 0, -2 )
 style = 1
 
 [node name="Background" type="Node2D" parent="Node2D" groups=["style"]]
