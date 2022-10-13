@@ -24,11 +24,20 @@ var start_protect = false
 
 var dead_damp = 0.15
 
-func init_bullet(_pos, _dir, _style):
-	set_global_position(_pos);
-	style = _style;
+var duel_mode = false
+
+func init_bullet():
+	damageTween = create_tween().set_trans(Tween.TRANS_LINEAR)
+	look_at(Global.player.get_global_position())
+	set_linear_velocity(Vector2(1000,100-randi() % 200).rotated(get_global_rotation()))
+	$area/Node2D/Sprite.set_material(load("res://arts/shaders/Portal%d.tres" % style))
+	self.connect("tree_exited", self, "boss_transState_cleanup")
 	
-	set_linear_velocity(Vector2(1000,0).rotated(dir))
+func init_duel_bullet():
+	damageTween = create_tween().set_trans(Tween.TRANS_LINEAR)
+	look_at(Global.player.get_global_position())
+	set_linear_velocity(Vector2(1000,100-randi() % 200).rotated(get_global_rotation()))
+	$area/Node2D/Sprite.set_material(load("res://arts/shaders/Portal%d.tres" % style))
 	self.connect("tree_exited", self, "boss_transState_cleanup")
 
 func boss_transState_cleanup():
@@ -38,11 +47,9 @@ func _on_VisibilityNotifier2D_screen_exited():
 	queue_free()
 
 func _ready():
-	damageTween = create_tween().set_trans(Tween.TRANS_LINEAR)
-	look_at(Global.player.get_global_position())
-	set_linear_velocity(Vector2(1000,100-randi() % 200).rotated(get_global_rotation()))
-	$area/Node2D/Sprite.set_material(load("res://arts/shaders/Portal%d.tres" % style))
-
+	if Global.player:
+		init_bullet()
+	
 func self_destroy():
 	if (!is_instance_valid(Global.boss)): return;
 	var tween = create_tween().set_trans(Tween.TRANS_BACK)
@@ -97,8 +104,8 @@ func verse_jump_explode():
 func _physics_process(delta):
 	if not dead:
 		if not hit:
-			$area.scale = lerp($area.scale, Vector2(2.5,2.5),base_growth_rate * growth_rate)
-			if $area.scale.x > 3:
+			$area.scale = lerp($area.scale, Vector2(2.6,2.6),base_growth_rate * growth_rate)
+			if $area.scale.x > 2.4:
 				self_destroy()
 	else:
 		set_linear_velocity(lerp(get_linear_velocity(),Vector2.ZERO,dead_damp))

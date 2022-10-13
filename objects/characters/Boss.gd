@@ -111,6 +111,8 @@ func finish_attack():
 	attack_pattern = rng.randi()%2;
 	fire_timer.start();
 	#print(transbullet_state)
+	
+	#firing portal bullet
 	if transbullet_state == false:
 		transbullet_cd -= 1
 		#print(transbullet_cd)
@@ -121,17 +123,16 @@ func finish_attack():
 			else:
 				transbullet_cd = 1
 				
-			if missed_bullet_counter > 1:
+			if missed_bullet_counter > 0:
 				break_state = true
 				missed_bullet_counter = 0
 			var t = load("res://objects/weapons/TransBullet.tscn").instance()
-			t.style = randi()%3
+			t.style = randi()%4
 			#print("current style%d" % Global.current_style)
 			
 			if t.style == Global.current_style:
-				t.style =(Global.current_style+1)%3
+				t.style =(Global.current_style+1)%4
 
-			
 			get_parent().add_child(t);
 			
 			t.set_global_position(get_global_position());
