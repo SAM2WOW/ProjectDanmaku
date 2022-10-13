@@ -149,6 +149,10 @@ func fire_bullet():
 			init_collage_bullets();
 		_:
 			pass
+		
+	# play sounds
+	get_node("Style%d/FireSound" % style).play()
+
 
 func init_minimal_bullets():
 	var shotLocations = [Global.player];
