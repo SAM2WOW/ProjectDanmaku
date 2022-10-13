@@ -136,7 +136,7 @@ animations = [ {
 } ]
 
 [sub_resource type="CircleShape2D" id=1]
-radius = 20.0
+radius = 21.0
 
 [node name="Player" type="KinematicBody2D" groups=["style"]]
 collision_layer = 2
@@ -214,7 +214,7 @@ visible = false
 position = Vector2( 0, -5 )
 scale = Vector2( 3, 3 )
 frames = SubResource( 8 )
-frame = 3
+frame = 1
 speed_scale = 2.0
 playing = true
 script = ExtResource( 4 )
@@ -248,12 +248,13 @@ stream = ExtResource( 7 )
 script = ExtResource( 8 )
 
 [node name="Style2" type="Node2D" parent="."]
+visible = false
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Style2"]
 position = Vector2( -5, 5 )
 scale = Vector2( -0.137, 0.137 )
 frames = SubResource( 15 )
-frame = 2
+frame = 10
 playing = true
 script = ExtResource( 4 )
 
@@ -291,7 +292,7 @@ visible = false
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Style3"]
 scale = Vector2( 0.423826, 0.423826 )
 frames = SubResource( 29 )
-frame = 5
+frame = 8
 playing = true
 script = ExtResource( 4 )
 
