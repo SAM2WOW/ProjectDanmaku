@@ -53,6 +53,5 @@ func play_shockwave(orgin):
 
 
 func _on_Restart_pressed():
-	Global.prev_style = Global.initial_style
 	Global.current_style = Global.initial_style
 	get_tree().reload_current_scene()

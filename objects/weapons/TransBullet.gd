@@ -1,6 +1,6 @@
 extends RigidBody2D
 
-var style = 1
+var style = 0;
 var dir = Vector2();
 
 # for detonation bullets

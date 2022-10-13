@@ -1,11 +1,22 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=30 format=2]
 
 [ext_resource path="res://objects/characters/Boss.gd" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
 [ext_resource path="res://arts/pixelArt/pixel_angel_boss.png" type="Texture" id=3]
 [ext_resource path="res://arts/abstrastArt/boss.png" type="Texture" id=4]
-[ext_resource path="res://scripts/AudioRandomizer.gd" type="Script" id=5]
-[ext_resource path="res://sounds/BossHit.wav" type="AudioStream" id=6]
+[ext_resource path="res://arts/3D/Angel_Idle_009.png" type="Texture" id=5]
+[ext_resource path="res://arts/3D/Angel_Idle_011.png" type="Texture" id=6]
+[ext_resource path="res://arts/3D/Angel_Idle_002.png" type="Texture" id=7]
+[ext_resource path="res://arts/3D/Angel_Idle_001.png" type="Texture" id=8]
+[ext_resource path="res://arts/3D/Angel_Idle_005.png" type="Texture" id=9]
+[ext_resource path="res://arts/3D/Angel_Idle_003.png" type="Texture" id=10]
+[ext_resource path="res://arts/3D/Angel_Idle_008.png" type="Texture" id=11]
+[ext_resource path="res://arts/3D/Angel_Idle_006.png" type="Texture" id=12]
+[ext_resource path="res://arts/3D/Angel_Idle_010.png" type="Texture" id=13]
+[ext_resource path="res://arts/3D/Angel_Idle_004.png" type="Texture" id=14]
+[ext_resource path="res://arts/3D/Angel_Idle_007.png" type="Texture" id=15]
+[ext_resource path="res://scripts/AudioRandomizer.gd" type="Script" id=16]
+[ext_resource path="res://sounds/BossHit.wav" type="AudioStream" id=17]
 
 [sub_resource type="Curve" id=7]
 _data = [ Vector2( 0, 0 ), 0.0, 3.63099, 0, 0, Vector2( 0.519802, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.886139, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), -19.5114, 0.0, 0, 0 ]
@@ -52,6 +63,11 @@ region = Rect2( 1152, 0, 128, 128 )
 
 [sub_resource type="SpriteFrames" id=18]
 animations = [ {
+"frames": [ ExtResource( 8 ), ExtResource( 7 ), ExtResource( 10 ), ExtResource( 14 ), ExtResource( 9 ), ExtResource( 12 ), ExtResource( 15 ), ExtResource( 11 ), ExtResource( 5 ), ExtResource( 13 ), ExtResource( 6 ) ],
+"loop": true,
+"name": "New Anim",
+"speed": 8.0
+}, {
 "frames": [ SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ), SubResource( 17 ) ],
 "loop": true,
 "name": "default",
@@ -87,17 +103,20 @@ visible = false
 position = Vector2( 1, -2 )
 scale = Vector2( 4, 4 )
 frames = SubResource( 18 )
-frame = 9
+frame = 6
 playing = true
 
 [node name="Style2" type="Node2D" parent="."]
 visible = false
 
-[node name="Icon" type="Sprite" parent="Style2"]
-modulate = Color( 0.631373, 0.14902, 0.623529, 1 )
-position = Vector2( 1, 0 )
-scale = Vector2( 3, 3 )
-texture = ExtResource( 2 )
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Style2"]
+position = Vector2( -18, -22 )
+scale = Vector2( 0.557017, 0.557017 )
+frames = SubResource( 18 )
+animation = "New Anim"
+frame = 10
+speed_scale = 0.75
+playing = true
 
 [node name="Style3" type="Node2D" parent="."]
 visible = false
@@ -114,10 +133,16 @@ one_shot = true
 autostart = true
 
 [node name="HitSound" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource( 6 )
+stream = ExtResource( 17 )
 bus = "Sound"
-script = ExtResource( 5 )
+script = ExtResource( 16 )
 pitch_low = 0.788
 base_volume = 5.0
 
+[node name="MovementTimer" type="Timer" parent="."]
+wait_time = 8.0
+one_shot = true
+autostart = true
+
 [connection signal="timeout" from="FireTimer" to="." method="_on_FireTimer_timeout"]
+[connection signal="timeout" from="MovementTimer" to="." method="_on_MovementTimer_timeout"]
