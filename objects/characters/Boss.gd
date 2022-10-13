@@ -224,6 +224,7 @@ func init_3d_bullets():
 		1:
 			var timeBetweenAttacks = 0.8
 			for i in range(10):
+				if (!is_instance_valid(Global.boss)): return;
 				fireLaser(get_global_position(), Global.player.get_global_position())
 				yield(get_tree().create_timer(timeBetweenAttacks), "timeout")
 			finish_attack()

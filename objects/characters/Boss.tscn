@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=2]
+[gd_scene load_steps=33 format=2]
 
 [ext_resource path="res://objects/characters/Boss.gd" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
@@ -151,6 +151,7 @@ visible = false
 position = Vector2( 1, -2 )
 scale = Vector2( 4, 4 )
 frames = SubResource( 40 )
+frame = 1
 playing = true
 
 [node name="Style2" type="Node2D" parent="."]
@@ -160,7 +161,7 @@ visible = false
 position = Vector2( -18, -22 )
 scale = Vector2( 0.557017, 0.557017 )
 frames = SubResource( 18 )
-frame = 2
+frame = 7
 speed_scale = 0.75
 playing = true
 
@@ -180,7 +181,6 @@ autostart = true
 
 [node name="HitSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 7 )
-bus = "Sound"
 script = ExtResource( 6 )
 pitch_low = 0.788
 base_volume = 5.0
