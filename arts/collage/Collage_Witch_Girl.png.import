@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/collage_witch_girl_ani.png-1ad1ef17e8ad836578af7182026bc175.stex"
+path="res://.import/Collage_Witch_Girl.png-7c586a992d74c29ed1a6ecbad703aa77.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://arts/collage/collage_witch_girl_ani.png"
-dest_files=[ "res://.import/collage_witch_girl_ani.png-1ad1ef17e8ad836578af7182026bc175.stex" ]
+source_file="res://arts/collage/Collage_Witch_Girl.png"
+dest_files=[ "res://.import/Collage_Witch_Girl.png-7c586a992d74c29ed1a6ecbad703aa77.stex" ]
 
 [params]
 
