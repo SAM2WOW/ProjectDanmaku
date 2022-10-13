@@ -46,7 +46,7 @@ operator = 3
 [sub_resource type="VisualShaderNodeInput" id=15]
 input_name = "time"
 
-[sub_resource type="VisualShader" id=4]
+[sub_resource type="VisualShader" id=16]
 code = "shader_type canvas_item;
 uniform float Speed = 4;
 uniform sampler2D tex_frg_2;
@@ -119,7 +119,7 @@ void light() {
 
 }
 "
-graph_offset = Vector2( -839.416, -29.0379 )
+graph_offset = Vector2( -1021.12, -179.64 )
 mode = 1
 flags/light_only = false
 nodes/fragment/0/position = Vector2( 400, 180 )
@@ -154,5 +154,5 @@ nodes/fragment/15/position = Vector2( -1680, -80 )
 nodes/fragment/connections = PoolIntArray( 2, 0, 0, 0, 3, 0, 4, 0, 4, 0, 5, 0, 6, 0, 2, 0, 5, 1, 6, 1, 5, 2, 6, 2, 5, 0, 7, 0, 7, 0, 8, 0, 8, 0, 6, 0, 12, 0, 11, 1, 11, 0, 8, 1, 10, 0, 11, 0, 13, 0, 10, 0, 9, 0, 14, 0, 14, 0, 13, 0, 15, 0, 14, 1 )
 
 [resource]
-shader = SubResource( 4 )
+shader = SubResource( 16 )
 shader_param/Speed = 4.0

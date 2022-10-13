@@ -1,4 +1,4 @@
-[gd_scene load_steps=52 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://objects/characters/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://objects/characters/Boss.tscn" type="PackedScene" id=2]
@@ -14,160 +14,7 @@
 [ext_resource path="res://arts/shaders/Shockwave.tres" type="Shader" id=12]
 [ext_resource path="res://arts/ui/Poppins-Regular.ttf" type="DynamicFontData" id=13]
 [ext_resource path="res://scripts/CameraShake.gd" type="Script" id=14]
-[ext_resource path="res://arts/collage/Moon Sprite Sheet.png" type="Texture" id=15]
-
-[sub_resource type="AtlasTexture" id=7]
-flags = 4
-atlas = ExtResource( 15 )
-region = Rect2( 0, 0, 542, 542 )
-
-[sub_resource type="AtlasTexture" id=8]
-flags = 4
-atlas = ExtResource( 15 )
-region = Rect2( 542, 0, 542, 542 )
-
-[sub_resource type="AtlasTexture" id=9]
-flags = 4
-atlas = ExtResource( 15 )
-region = Rect2( 1084, 0, 542, 542 )
-
-[sub_resource type="AtlasTexture" id=10]
-flags = 4
-atlas = ExtResource( 15 )
-region = Rect2( 1626, 0, 542, 542 )
-
-[sub_resource type="AtlasTexture" id=11]
-flags = 4
-atlas = ExtResource( 15 )
-region = Rect2( 2168, 0, 542, 542 )
-
-[sub_resource type="AtlasTexture" id=12]
-flags = 4
-atlas = ExtResource( 15 )
-region = Rect2( 2710, 0, 542, 542 )
-
-[sub_resource type="AtlasTexture" id=13]
-flags = 4
-atlas = ExtResource( 15 )
-region = Rect2( 3252, 0, 542, 542 )
-
-[sub_resource type="AtlasTexture" id=14]
-flags = 4
-atlas = ExtResource( 15 )
-region = Rect2( 3794, 0, 542, 542 )
-
-[sub_resource type="AtlasTexture" id=15]
-flags = 4
-atlas = ExtResource( 15 )
-region = Rect2( 4336, 0, 542, 542 )
-
-[sub_resource type="AtlasTexture" id=16]
-flags = 4
-atlas = ExtResource( 15 )
-region = Rect2( 4878, 0, 542, 542 )
-
-[sub_resource type="AtlasTexture" id=17]
-flags = 4
-atlas = ExtResource( 15 )
-region = Rect2( 5420, 0, 542, 542 )
-
-[sub_resource type="AtlasTexture" id=18]
-flags = 4
-atlas = ExtResource( 15 )
-region = Rect2( 5962, 0, 542, 542 )
-
-[sub_resource type="AtlasTexture" id=19]
-flags = 4
-atlas = ExtResource( 15 )
-region = Rect2( 6504, 0, 542, 542 )
-
-[sub_resource type="AtlasTexture" id=20]
-flags = 4
-atlas = ExtResource( 15 )
-region = Rect2( 7046, 0, 542, 542 )
-
-[sub_resource type="AtlasTexture" id=21]
-flags = 4
-atlas = ExtResource( 15 )
-region = Rect2( 7588, 0, 542, 542 )
-
-[sub_resource type="AtlasTexture" id=22]
-flags = 4
-atlas = ExtResource( 15 )
-region = Rect2( 8130, 0, 542, 542 )
-
-[sub_resource type="AtlasTexture" id=23]
-flags = 4
-atlas = ExtResource( 15 )
-region = Rect2( 8672, 0, 542, 542 )
-
-[sub_resource type="AtlasTexture" id=24]
-flags = 4
-atlas = ExtResource( 15 )
-region = Rect2( 9214, 0, 542, 542 )
-
-[sub_resource type="AtlasTexture" id=25]
-flags = 4
-atlas = ExtResource( 15 )
-region = Rect2( 9756, 0, 542, 542 )
-
-[sub_resource type="AtlasTexture" id=26]
-flags = 4
-atlas = ExtResource( 15 )
-region = Rect2( 10298, 0, 542, 542 )
-
-[sub_resource type="AtlasTexture" id=27]
-flags = 4
-atlas = ExtResource( 15 )
-region = Rect2( 10840, 0, 542, 542 )
-
-[sub_resource type="AtlasTexture" id=28]
-flags = 4
-atlas = ExtResource( 15 )
-region = Rect2( 11382, 0, 542, 542 )
-
-[sub_resource type="AtlasTexture" id=29]
-flags = 4
-atlas = ExtResource( 15 )
-region = Rect2( 11924, 0, 542, 542 )
-
-[sub_resource type="AtlasTexture" id=30]
-flags = 4
-atlas = ExtResource( 15 )
-region = Rect2( 12466, 0, 542, 542 )
-
-[sub_resource type="AtlasTexture" id=31]
-flags = 4
-atlas = ExtResource( 15 )
-region = Rect2( 13008, 0, 542, 542 )
-
-[sub_resource type="AtlasTexture" id=32]
-flags = 4
-atlas = ExtResource( 15 )
-region = Rect2( 13550, 0, 542, 542 )
-
-[sub_resource type="AtlasTexture" id=33]
-flags = 4
-atlas = ExtResource( 15 )
-region = Rect2( 14092, 0, 542, 542 )
-
-[sub_resource type="AtlasTexture" id=34]
-flags = 4
-atlas = ExtResource( 15 )
-region = Rect2( 14634, 0, 542, 542 )
-
-[sub_resource type="AtlasTexture" id=35]
-flags = 4
-atlas = ExtResource( 15 )
-region = Rect2( 15176, 0, 542, 542 )
-
-[sub_resource type="SpriteFrames" id=36]
-animations = [ {
-"frames": [ SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ), SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ), SubResource( 24 ), SubResource( 25 ), SubResource( 26 ), SubResource( 27 ), SubResource( 28 ), SubResource( 29 ), SubResource( 30 ), SubResource( 31 ), SubResource( 32 ), SubResource( 33 ), SubResource( 34 ), SubResource( 35 ) ],
-"loop": true,
-"name": "default",
-"speed": 4.0
-} ]
+[ext_resource path="res://arts/shaders/Style3.tres" type="Material" id=16]
 
 [sub_resource type="ShaderMaterial" id=1]
 shader = ExtResource( 12 )
@@ -227,6 +74,7 @@ scale = Vector2( 2, 2 )
 texture = ExtResource( 5 )
 
 [node name="Style1" type="Sprite" parent="Node2D/Background"]
+visible = false
 material = ExtResource( 10 )
 scale = Vector2( 8, 8 )
 texture = ExtResource( 5 )
@@ -238,13 +86,8 @@ scale = Vector2( 2, 2 )
 texture = ExtResource( 5 )
 
 [node name="Style3" type="Sprite" parent="Node2D/Background"]
-visible = false
-
-[node name="MoonSprite" type="AnimatedSprite" parent="Node2D/Background/Style3"]
-scale = Vector2( 2, 2 )
-frames = SubResource( 36 )
-frame = 23
-playing = true
+material = ExtResource( 16 )
+texture = ExtResource( 5 )
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Node2D/Background"]
 collision_layer = 0
