@@ -126,7 +126,7 @@ func _on_hit(damage):
 
 
 func damage(damage):
-	damage = damage #* 0.1
+	damage = damage * 0.1
 	base_growth_rate = 0.01
 	if damage > 4:
 		damage = 4
@@ -134,7 +134,7 @@ func damage(damage):
 	print('trans damage%d' % damage)
 	_on_hit(damage)
 	if $area.scale.x > 0.7:
-		$area.scale -= Vector2(0.12,0.12) * damage
+		$area.scale -= Vector2(0.15,0.15) * damage
 	health -= 1 * damage
 	
 	
