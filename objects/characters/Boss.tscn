@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=2]
+[gd_scene load_steps=31 format=2]
 
 [ext_resource path="res://objects/characters/Boss.gd" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
@@ -15,6 +15,8 @@
 [ext_resource path="res://arts/3D/Angel_Idle_010.png" type="Texture" id=13]
 [ext_resource path="res://arts/3D/Angel_Idle_004.png" type="Texture" id=14]
 [ext_resource path="res://arts/3D/Angel_Idle_007.png" type="Texture" id=15]
+[ext_resource path="res://scripts/AudioRandomizer.gd" type="Script" id=16]
+[ext_resource path="res://sounds/BossHit.wav" type="AudioStream" id=17]
 
 [sub_resource type="Curve" id=7]
 _data = [ Vector2( 0, 0 ), 0.0, 3.63099, 0, 0, Vector2( 0.519802, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.886139, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), -19.5114, 0.0, 0, 0 ]
@@ -101,7 +103,7 @@ visible = false
 position = Vector2( 1, -2 )
 scale = Vector2( 4, 4 )
 frames = SubResource( 18 )
-frame = 6
+frame = 2
 playing = true
 
 [node name="Style2" type="Node2D" parent="."]
@@ -129,6 +131,13 @@ shape = SubResource( 6 )
 [node name="FireTimer" type="Timer" parent="."]
 one_shot = true
 autostart = true
+
+[node name="HitSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 17 )
+bus = "Sound"
+script = ExtResource( 16 )
+pitch_low = 0.788
+base_volume = 5.0
 
 [node name="MovementTimer" type="Timer" parent="."]
 wait_time = 8.0

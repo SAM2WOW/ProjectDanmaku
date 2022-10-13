@@ -4,6 +4,7 @@ extends Node2D
 export var style = 0
 var exploding = false
 var dying = false
+
 func _ready():
 	if Global.portal != null:
 		if Global.portal:
@@ -21,6 +22,7 @@ func _ready():
 	else:
 		verse_jump_explode()
 	print(style)
+
 
 func self_destroy():
 	global_cleanup()
@@ -46,6 +48,7 @@ func verse_jump_explode():
 	tween.tween_property(self, "scale", Vector2(10, 10), 0.6)
 	
 	tween.tween_callback(self, "verse_jump_end")
+
 
 func verse_jump_end():
 	Global.background._on_Verse_Jump(style)
