@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Witch_3D_Flipped.png-6e5313aab9d4f7ff2e274d349e1369e7.stex"
+path="res://.import/Witch_Horizontal_000.png-3eea5ea6326f5187d3bd1a4a18524371.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://arts/3D/Witch_3D_Flipped.png"
-dest_files=[ "res://.import/Witch_3D_Flipped.png-6e5313aab9d4f7ff2e274d349e1369e7.stex" ]
+source_file="res://arts/3D/Witch_Horizontal_000.png"
+dest_files=[ "res://.import/Witch_Horizontal_000.png-3eea5ea6326f5187d3bd1a4a18524371.stex" ]
 
 [params]
 
