@@ -44,11 +44,28 @@ func play_shockwave(orgin, delay = 0):
 	var v = orgin.y / $"../Node2D".get_viewport_rect().size.y
 	
 	$"../CanvasLayer/Control/Shockwave".get_material().set_shader_param("center", Vector2(h, 1 - v))
-	
+	$"../CanvasLayer/Control/Shockwave".get_material().set_shader_param("strength", 0.05)
+	$"../CanvasLayer/Control/Shockwave".get_material().set_shader_param("width", 0.075)
+	$"../CanvasLayer/Control/Shockwave".get_material().set_shader_param("aberration", 0.3)
+	$"../CanvasLayer/Control/Shockwave".get_material().set_shader_param("feather", 0.1)
 	$"../CanvasLayer/Control/Shockwave".get_material().set_shader_param("radius", 0.0)
-	var tween = create_tween().set_trans(Tween.TRANS_LINEAR)
+	var tween = create_tween().set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
 	tween.tween_interval(delay)
-	tween.tween_property($"../CanvasLayer/Control/Shockwave".get_material(), "shader_param/radius", 2.0, 2)
+	tween.tween_property($"../CanvasLayer/Control/Shockwave".get_material(), "shader_param/radius", 1.7, 1)
+
+func play_shockwave_small(orgin, delay = 0):
+	var h = orgin.x / $"../Node2D".get_viewport_rect().size.x
+	var v = orgin.y / $"../Node2D".get_viewport_rect().size.y
+	
+	$"../CanvasLayer/Control/Shockwave".get_material().set_shader_param("center", Vector2(h, 1 - v))
+	$"../CanvasLayer/Control/Shockwave".get_material().set_shader_param("strength", 0.035)
+	$"../CanvasLayer/Control/Shockwave".get_material().set_shader_param("width", 0.018)
+	$"../CanvasLayer/Control/Shockwave".get_material().set_shader_param("aberration", 0.28)
+	$"../CanvasLayer/Control/Shockwave".get_material().set_shader_param("feather", 0.12)
+	$"../CanvasLayer/Control/Shockwave".get_material().set_shader_param("radius", 0.0)
+	var tween = create_tween().set_trans(Tween.TRANS_CUBIC)
+	tween.tween_interval(delay)
+	tween.tween_property($"../CanvasLayer/Control/Shockwave".get_material(), "shader_param/radius", 1.5, 1.5)
 	
 	#yield(tween, "finished")
 	#$"../CanvasLayer/Control/Shockwave".hide()

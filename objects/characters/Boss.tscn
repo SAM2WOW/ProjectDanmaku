@@ -1,9 +1,10 @@
-[gd_scene load_steps=31 format=2]
+[gd_scene load_steps=34 format=2]
 
 [ext_resource path="res://objects/characters/Boss.gd" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
 [ext_resource path="res://arts/pixelArt/pixel_angel_boss.png" type="Texture" id=3]
 [ext_resource path="res://arts/abstrastArt/boss.png" type="Texture" id=4]
+[ext_resource path="res://arts/3D/Angel_Idle_Sheet.png" type="Texture" id=5]
 [ext_resource path="res://scripts/AudioRandomizer.gd" type="Script" id=6]
 [ext_resource path="res://sounds/BossHit.wav" type="AudioStream" id=7]
 
@@ -55,64 +56,77 @@ animations = [ {
 "frames": [ SubResource( 30 ), SubResource( 31 ), SubResource( 32 ), SubResource( 33 ), SubResource( 34 ), SubResource( 35 ), SubResource( 36 ), SubResource( 37 ), SubResource( 38 ), SubResource( 39 ) ],
 "loop": true,
 "name": "default",
-"speed": 5.0
+"speed": 8.0
 } ]
 
-[sub_resource type="AtlasTexture" id=8]
-atlas = ExtResource( 3 )
-region = Rect2( 0, 0, 128, 128 )
+[sub_resource type="AtlasTexture" id=41]
+flags = 4
+atlas = ExtResource( 5 )
+region = Rect2( 0, 0, 1080, 1080 )
 
-[sub_resource type="AtlasTexture" id=9]
-atlas = ExtResource( 3 )
-region = Rect2( 128, 0, 128, 128 )
+[sub_resource type="AtlasTexture" id=42]
+flags = 4
+atlas = ExtResource( 5 )
+region = Rect2( 1080, 0, 1080, 1080 )
 
-[sub_resource type="AtlasTexture" id=10]
-atlas = ExtResource( 3 )
-region = Rect2( 256, 0, 128, 128 )
+[sub_resource type="AtlasTexture" id=43]
+flags = 4
+atlas = ExtResource( 5 )
+region = Rect2( 2160, 0, 1080, 1080 )
 
-[sub_resource type="AtlasTexture" id=11]
-atlas = ExtResource( 3 )
-region = Rect2( 384, 0, 128, 128 )
+[sub_resource type="AtlasTexture" id=44]
+flags = 4
+atlas = ExtResource( 5 )
+region = Rect2( 3240, 0, 1080, 1080 )
 
-[sub_resource type="AtlasTexture" id=12]
-atlas = ExtResource( 3 )
-region = Rect2( 512, 0, 128, 128 )
+[sub_resource type="AtlasTexture" id=45]
+flags = 4
+atlas = ExtResource( 5 )
+region = Rect2( 4320, 0, 1080, 1080 )
 
-[sub_resource type="AtlasTexture" id=13]
-atlas = ExtResource( 3 )
-region = Rect2( 640, 0, 128, 128 )
+[sub_resource type="AtlasTexture" id=46]
+flags = 4
+atlas = ExtResource( 5 )
+region = Rect2( 5400, 0, 1080, 1080 )
 
-[sub_resource type="AtlasTexture" id=14]
-atlas = ExtResource( 3 )
-region = Rect2( 768, 0, 128, 128 )
+[sub_resource type="AtlasTexture" id=47]
+flags = 4
+atlas = ExtResource( 5 )
+region = Rect2( 6480, 0, 1080, 1080 )
 
-[sub_resource type="AtlasTexture" id=15]
-atlas = ExtResource( 3 )
-region = Rect2( 896, 0, 128, 128 )
+[sub_resource type="AtlasTexture" id=48]
+flags = 4
+atlas = ExtResource( 5 )
+region = Rect2( 7560, 0, 1080, 1080 )
 
-[sub_resource type="AtlasTexture" id=16]
-atlas = ExtResource( 3 )
-region = Rect2( 1024, 0, 128, 128 )
+[sub_resource type="AtlasTexture" id=49]
+flags = 4
+atlas = ExtResource( 5 )
+region = Rect2( 8640, 0, 1080, 1080 )
 
-[sub_resource type="AtlasTexture" id=17]
-atlas = ExtResource( 3 )
-region = Rect2( 1152, 0, 128, 128 )
+[sub_resource type="AtlasTexture" id=50]
+flags = 4
+atlas = ExtResource( 5 )
+region = Rect2( 9720, 0, 1080, 1080 )
+
+[sub_resource type="AtlasTexture" id=51]
+flags = 4
+atlas = ExtResource( 5 )
+region = Rect2( 10800, 0, 1080, 1080 )
 
 [sub_resource type="SpriteFrames" id=18]
 animations = [ {
-"frames": [ null, null, null, null, null, null, null, null, null, null, null ],
+"frames": [ SubResource( 41 ), SubResource( 42 ), SubResource( 43 ), SubResource( 44 ), SubResource( 45 ), SubResource( 46 ), SubResource( 47 ), SubResource( 48 ), SubResource( 49 ), SubResource( 50 ), SubResource( 51 ) ],
 "loop": true,
 "name": "New Anim",
-"speed": 8.0
-}, {
-"frames": [ SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ), SubResource( 17 ) ],
-"loop": true,
-"name": "default",
-"speed": 10.0
+"speed": 12.0
 } ]
 
 [sub_resource type="CircleShape2D" id=6]
 radius = 138.058
+
+[sub_resource type="CircleShape2D" id=52]
+radius = 3.22096
 
 [node name="Boss" type="KinematicBody2D" groups=["style"]]
 collision_layer = 8
@@ -140,7 +154,7 @@ visible = false
 position = Vector2( 1, -2 )
 scale = Vector2( 4, 4 )
 frames = SubResource( 40 )
-frame = 6
+frame = 1
 playing = true
 
 [node name="Style2" type="Node2D" parent="."]
@@ -148,14 +162,14 @@ visible = false
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Style2"]
 position = Vector2( -18, -22 )
-scale = Vector2( 0.557017, 0.557017 )
+scale = Vector2( 0.422288, 0.422288 )
 frames = SubResource( 18 )
-frame = 3
+animation = "New Anim"
+frame = 9
 speed_scale = 0.75
 playing = true
 
 [node name="Style3" type="Node2D" parent="."]
-visible = false
 
 [node name="Sprite" type="Sprite" parent="Style3"]
 texture = ExtResource( 2 )
@@ -178,6 +192,12 @@ base_volume = 5.0
 wait_time = 8.0
 one_shot = true
 autostart = true
+
+[node name="BossPortalBox" type="Area2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionShape2D" parent="BossPortalBox"]
+scale = Vector2( 5.8, 5.8 )
+shape = SubResource( 52 )
 
 [connection signal="timeout" from="FireTimer" to="." method="_on_FireTimer_timeout"]
 [connection signal="timeout" from="MovementTimer" to="." method="_on_MovementTimer_timeout"]

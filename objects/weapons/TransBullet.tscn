@@ -34,6 +34,7 @@ shape = SubResource( 1 )
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
 
 [node name="area" type="Node2D" parent="."]
+scale = Vector2( 1.2, 1.2 )
 
 [node name="DetectionArea" type="Area2D" parent="area"]
 collision_layer = 16
@@ -43,11 +44,13 @@ collision_mask = 6
 scale = Vector2( 0.782012, 0.782012 )
 shape = SubResource( 5 )
 
-[node name="Sprite2" type="Sprite" parent="area"]
+[node name="Node2D" type="Node2D" parent="area"]
+
+[node name="Sprite2" type="Sprite" parent="area/Node2D"]
 scale = Vector2( 0.881413, 0.881413 )
 texture = ExtResource( 3 )
 
-[node name="Sprite" type="Sprite" parent="area"]
+[node name="Sprite" type="Sprite" parent="area/Node2D"]
 material = ExtResource( 4 )
 scale = Vector2( 0.55585, 0.55585 )
 texture = ExtResource( 1 )

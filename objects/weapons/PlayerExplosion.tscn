@@ -51,7 +51,6 @@ frames = SubResource( 7 )
 [node name="FireSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 4 )
 autoplay = true
-bus = "Sound"
 script = ExtResource( 3 )
 ptch_high = 1.406
 base_volume = -5.0

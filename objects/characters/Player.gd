@@ -12,7 +12,7 @@ var speed_mult = 1.0;
 
 var max_health = 100;
 var health = max_health;
-var health_regen_speed = 8
+var health_regen_speed = 1
 
 var holdTime = 0
 var maxHoldTime = 1.0;
@@ -26,7 +26,7 @@ var bullet_properties = Global.player_bullet_properties[style];
 
 func _ready():
 	Global.player = self
-	$FireTimer.wait_time = Global.player_bullet_properties[style]["fire rate"];
+	_on_Verse_Jump(Global.initial_style);
 
 func _process(delta):
 	if (style == 2):
@@ -114,10 +114,7 @@ func _input(event):
 				# print(new_style)
 
 func _on_Verse_Jump(verse):
-	if style == verse:
-		return
 	get_node("Style%d" % style).hide()
-	
 	style = verse
 	
 	get_node("Style%d" % style).show()
@@ -208,7 +205,7 @@ func init_collage_bullets():
 
 
 func damage(amount):
-	print("Player have been damaged %d" % amount)
+	#print("Player have been damaged %d" % amount)
 	health -= amount
 	
 	$HealthBar.show()
@@ -218,7 +215,7 @@ func damage(amount):
 	Global.camera.shake(0.3, 12, 4)
 	
 	if health <= 0:
-		print("You DEAD!!!")
+		#print("You DEAD!!!")
 		
 		Global.console.player_dead()
 		

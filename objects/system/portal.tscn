@@ -34,9 +34,9 @@ texture = ExtResource( 2 )
 [node name="CPUParticles2D" type="CPUParticles2D" parent="Sprite"]
 visible = false
 material = ExtResource( 4 )
-position = Vector2( -60, -60 )
+position = Vector2( -59.5008, -58.196 )
 scale = Vector2( 0.942177, 0.942177 )
-amount = 50
+amount = 75
 local_coords = false
 texture = ExtResource( 5 )
 emission_shape = 3
@@ -46,7 +46,7 @@ spread = 180.0
 gravity = Vector2( 0, 0 )
 initial_velocity_random = 0.5
 scale_amount = 0.8
-scale_amount_random = 0.35
+scale_amount_random = 0.39
 scale_amount_curve = SubResource( 12 )
 
 [node name="CPUParticles2D2" type="CPUParticles2D" parent="Sprite"]
@@ -75,5 +75,7 @@ stream = ExtResource( 6 )
 autoplay = true
 script = ExtResource( 7 )
 
+[connection signal="area_entered" from="Area2D" to="." method="_on_Area2D_area_entered"]
+[connection signal="area_exited" from="Area2D" to="." method="_on_Area2D_area_exited"]
 [connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
 [connection signal="body_exited" from="Area2D" to="." method="_on_Area2D_body_exited"]

@@ -8,7 +8,6 @@ var laserBulletIntervalCount = 0
 var playerDamageIntervalCount = 0
 var laserBulletInterval = 0.25
 var playerDamageInterval = 0.2
-var laserDamage = 10
 
 var style = 2;
 
@@ -42,7 +41,7 @@ func _physics_process(delta: float) -> void:
 		if "Player" in get_collider().name:
 			print(playerDamageIntervalCount)
 			if playerDamageIntervalCount >= playerDamageInterval:
-				get_collider().damage(laserDamage)
+				get_collider().damage(damage)
 				playerDamageIntervalCount = 0
 		if "Area2D" in get_collider().name && laserBulletIntervalCount >= laserBulletInterval && get_collider().get_parent().style != 2:
 				var b = basic_bullet.instance()
