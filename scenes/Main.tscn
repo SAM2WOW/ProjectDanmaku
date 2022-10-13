@@ -260,6 +260,7 @@ texture = ExtResource( 5 )
 [node name="Style1" type="AnimatedSprite" parent="Node2D/Background"]
 scale = Vector2( 8, 8 )
 frames = SubResource( 43 )
+frame = 2
 playing = true
 
 [node name="Style2" type="Sprite" parent="Node2D/Background"]
@@ -274,6 +275,7 @@ visible = false
 [node name="MoonSprite" type="AnimatedSprite" parent="Node2D/Background/Style3"]
 scale = Vector2( 2, 2 )
 frames = SubResource( 36 )
+frame = 14
 playing = true
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Node2D/Background"]
