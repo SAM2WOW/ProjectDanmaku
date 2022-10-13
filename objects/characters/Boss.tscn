@@ -1,72 +1,120 @@
-[gd_scene load_steps=29 format=2]
+[gd_scene load_steps=31 format=2]
 
 [ext_resource path="res://objects/characters/Boss.gd" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
 [ext_resource path="res://arts/pixelArt/pixel_angel_boss.png" type="Texture" id=3]
 [ext_resource path="res://arts/abstrastArt/boss.png" type="Texture" id=4]
-[ext_resource path="res://arts/3D/Angel_Idle_009.png" type="Texture" id=5]
-[ext_resource path="res://arts/3D/Angel_Idle_011.png" type="Texture" id=6]
-[ext_resource path="res://arts/3D/Angel_Idle_002.png" type="Texture" id=7]
-[ext_resource path="res://arts/3D/Angel_Idle_001.png" type="Texture" id=8]
-[ext_resource path="res://arts/3D/Angel_Idle_005.png" type="Texture" id=9]
-[ext_resource path="res://arts/3D/Angel_Idle_003.png" type="Texture" id=10]
-[ext_resource path="res://arts/3D/Angel_Idle_008.png" type="Texture" id=11]
-[ext_resource path="res://arts/3D/Angel_Idle_006.png" type="Texture" id=12]
-[ext_resource path="res://arts/3D/Angel_Idle_010.png" type="Texture" id=13]
-[ext_resource path="res://arts/3D/Angel_Idle_004.png" type="Texture" id=14]
-[ext_resource path="res://arts/3D/Angel_Idle_007.png" type="Texture" id=15]
+[ext_resource path="res://arts/3D/Angel_Idle_Sheet.png" type="Texture" id=5]
 
 [sub_resource type="Curve" id=7]
 _data = [ Vector2( 0, 0 ), 0.0, 3.63099, 0, 0, Vector2( 0.519802, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.886139, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), -19.5114, 0.0, 0, 0 ]
 
-[sub_resource type="AtlasTexture" id=8]
+[sub_resource type="AtlasTexture" id=30]
 atlas = ExtResource( 3 )
 region = Rect2( 0, 0, 128, 128 )
 
-[sub_resource type="AtlasTexture" id=9]
+[sub_resource type="AtlasTexture" id=31]
 atlas = ExtResource( 3 )
 region = Rect2( 128, 0, 128, 128 )
 
-[sub_resource type="AtlasTexture" id=10]
+[sub_resource type="AtlasTexture" id=32]
 atlas = ExtResource( 3 )
 region = Rect2( 256, 0, 128, 128 )
 
-[sub_resource type="AtlasTexture" id=11]
+[sub_resource type="AtlasTexture" id=33]
 atlas = ExtResource( 3 )
 region = Rect2( 384, 0, 128, 128 )
 
-[sub_resource type="AtlasTexture" id=12]
+[sub_resource type="AtlasTexture" id=34]
 atlas = ExtResource( 3 )
 region = Rect2( 512, 0, 128, 128 )
 
-[sub_resource type="AtlasTexture" id=13]
+[sub_resource type="AtlasTexture" id=35]
 atlas = ExtResource( 3 )
 region = Rect2( 640, 0, 128, 128 )
 
-[sub_resource type="AtlasTexture" id=14]
+[sub_resource type="AtlasTexture" id=36]
 atlas = ExtResource( 3 )
 region = Rect2( 768, 0, 128, 128 )
 
-[sub_resource type="AtlasTexture" id=15]
+[sub_resource type="AtlasTexture" id=37]
 atlas = ExtResource( 3 )
 region = Rect2( 896, 0, 128, 128 )
 
-[sub_resource type="AtlasTexture" id=16]
+[sub_resource type="AtlasTexture" id=38]
 atlas = ExtResource( 3 )
 region = Rect2( 1024, 0, 128, 128 )
 
-[sub_resource type="AtlasTexture" id=17]
+[sub_resource type="AtlasTexture" id=39]
 atlas = ExtResource( 3 )
 region = Rect2( 1152, 0, 128, 128 )
 
+[sub_resource type="SpriteFrames" id=40]
+animations = [ {
+"frames": [ SubResource( 30 ), SubResource( 31 ), SubResource( 32 ), SubResource( 33 ), SubResource( 34 ), SubResource( 35 ), SubResource( 36 ), SubResource( 37 ), SubResource( 38 ), SubResource( 39 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="AtlasTexture" id=19]
+flags = 4
+atlas = ExtResource( 5 )
+region = Rect2( 0, 0, 1080, 1080 )
+
+[sub_resource type="AtlasTexture" id=20]
+flags = 4
+atlas = ExtResource( 5 )
+region = Rect2( 1080, 0, 1080, 1080 )
+
+[sub_resource type="AtlasTexture" id=21]
+flags = 4
+atlas = ExtResource( 5 )
+region = Rect2( 2160, 0, 1080, 1080 )
+
+[sub_resource type="AtlasTexture" id=22]
+flags = 4
+atlas = ExtResource( 5 )
+region = Rect2( 3240, 0, 1080, 1080 )
+
+[sub_resource type="AtlasTexture" id=23]
+flags = 4
+atlas = ExtResource( 5 )
+region = Rect2( 4320, 0, 1080, 1080 )
+
+[sub_resource type="AtlasTexture" id=24]
+flags = 4
+atlas = ExtResource( 5 )
+region = Rect2( 5400, 0, 1080, 1080 )
+
+[sub_resource type="AtlasTexture" id=25]
+flags = 4
+atlas = ExtResource( 5 )
+region = Rect2( 6480, 0, 1080, 1080 )
+
+[sub_resource type="AtlasTexture" id=26]
+flags = 4
+atlas = ExtResource( 5 )
+region = Rect2( 7560, 0, 1080, 1080 )
+
+[sub_resource type="AtlasTexture" id=27]
+flags = 4
+atlas = ExtResource( 5 )
+region = Rect2( 8640, 0, 1080, 1080 )
+
+[sub_resource type="AtlasTexture" id=28]
+flags = 4
+atlas = ExtResource( 5 )
+region = Rect2( 9720, 0, 1080, 1080 )
+
+[sub_resource type="AtlasTexture" id=29]
+flags = 4
+atlas = ExtResource( 5 )
+region = Rect2( 10800, 0, 1080, 1080 )
+
 [sub_resource type="SpriteFrames" id=18]
 animations = [ {
-"frames": [ ExtResource( 8 ), ExtResource( 7 ), ExtResource( 10 ), ExtResource( 14 ), ExtResource( 9 ), ExtResource( 12 ), ExtResource( 15 ), ExtResource( 11 ), ExtResource( 5 ), ExtResource( 13 ), ExtResource( 6 ) ],
-"loop": true,
-"name": "New Anim",
-"speed": 8.0
-}, {
-"frames": [ SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ), SubResource( 17 ) ],
+"frames": [ SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ), SubResource( 24 ), SubResource( 25 ), SubResource( 26 ), SubResource( 27 ), SubResource( 28 ), SubResource( 29 ) ],
 "loop": true,
 "name": "default",
 "speed": 10.0
@@ -100,8 +148,8 @@ visible = false
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Style1"]
 position = Vector2( 1, -2 )
 scale = Vector2( 4, 4 )
-frames = SubResource( 18 )
-frame = 6
+frames = SubResource( 40 )
+frame = 7
 playing = true
 
 [node name="Style2" type="Node2D" parent="."]
@@ -111,8 +159,6 @@ visible = false
 position = Vector2( -18, -22 )
 scale = Vector2( 0.557017, 0.557017 )
 frames = SubResource( 18 )
-animation = "New Anim"
-frame = 10
 speed_scale = 0.75
 playing = true
 

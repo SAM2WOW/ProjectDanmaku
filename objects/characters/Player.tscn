@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=36 format=2]
 
 [ext_resource path="res://objects/characters/Player.gd" type="Script" id=1]
 [ext_resource path="res://arts/collage/collage_witch_girl_ani.png" type="Texture" id=2]
@@ -202,7 +202,7 @@ visible = false
 position = Vector2( 0, -5 )
 scale = Vector2( 3, 3 )
 frames = SubResource( 8 )
-frame = 1
+frame = 3
 speed_scale = 2.0
 playing = true
 script = ExtResource( 4 )
@@ -272,7 +272,7 @@ visible = false
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Style3"]
 scale = Vector2( 0.526513, 0.526513 )
 frames = SubResource( 29 )
-frame = 7
+frame = 10
 playing = true
 
 [node name="TransEffect" type="CPUParticles2D" parent="Style3"]
