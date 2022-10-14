@@ -215,7 +215,7 @@ void fragment() {
 	vec3 n_out28p0 = n_out21p0 + n_out26p0;
 
 // Texture:27
-	vec4 tex_frg_27_read = texture(tex_frg_27, n_out6p0.xy);
+	vec4 tex_frg_27_read = texture(tex_frg_27, n_out33p0.xy);
 	vec3 n_out27p0 = tex_frg_27_read.rgb;
 	float n_out27p1 = tex_frg_27_read.a;
 
@@ -269,7 +269,7 @@ void light() {
 
 }
 "
-graph_offset = Vector2( -433.073, 80.5189 )
+graph_offset = Vector2( -307.303, 143.071 )
 mode = 1
 flags/light_only = false
 nodes/fragment/0/position = Vector2( 1600, 280 )
@@ -280,7 +280,7 @@ nodes/fragment/4/position = Vector2( -1620, 180 )
 nodes/fragment/5/node = SubResource( 5 )
 nodes/fragment/5/position = Vector2( -1280, 180 )
 nodes/fragment/6/node = SubResource( 6 )
-nodes/fragment/6/position = Vector2( -140, 240 )
+nodes/fragment/6/position = Vector2( -140, 180 )
 nodes/fragment/7/node = SubResource( 7 )
 nodes/fragment/7/position = Vector2( -720, 60 )
 nodes/fragment/8/node = SubResource( 14 )
@@ -339,7 +339,7 @@ nodes/fragment/39/node = SubResource( 37 )
 nodes/fragment/39/position = Vector2( 1240, 420 )
 nodes/fragment/40/node = SubResource( 38 )
 nodes/fragment/40/position = Vector2( 1380, 280 )
-nodes/fragment/connections = PoolIntArray( 3, 0, 4, 0, 4, 0, 5, 0, 5, 1, 6, 1, 5, 2, 6, 2, 7, 0, 8, 0, 12, 0, 11, 1, 11, 0, 8, 1, 10, 0, 11, 0, 13, 0, 10, 0, 9, 0, 14, 0, 14, 0, 13, 0, 15, 0, 14, 1, 16, 0, 12, 1, 16, 0, 10, 1, 16, 0, 7, 1, 6, 0, 17, 0, 8, 0, 6, 0, 18, 0, 19, 0, 5, 0, 18, 0, 19, 0, 7, 0, 20, 0, 21, 0, 17, 0, 21, 1, 22, 0, 20, 0, 21, 0, 28, 0, 27, 0, 29, 0, 27, 1, 29, 1, 31, 0, 32, 0, 32, 1, 34, 0, 33, 0, 26, 0, 34, 0, 33, 1, 32, 0, 33, 0, 28, 0, 35, 0, 29, 0, 35, 1, 17, 1, 37, 0, 37, 0, 36, 1, 26, 0, 36, 0, 26, 0, 28, 1, 35, 0, 40, 0, 39, 0, 40, 1, 40, 0, 0, 0, 6, 0, 27, 0 )
+nodes/fragment/connections = PoolIntArray( 3, 0, 4, 0, 4, 0, 5, 0, 5, 1, 6, 1, 5, 2, 6, 2, 7, 0, 8, 0, 12, 0, 11, 1, 11, 0, 8, 1, 10, 0, 11, 0, 13, 0, 10, 0, 9, 0, 14, 0, 14, 0, 13, 0, 15, 0, 14, 1, 16, 0, 12, 1, 16, 0, 10, 1, 16, 0, 7, 1, 6, 0, 17, 0, 8, 0, 6, 0, 18, 0, 19, 0, 5, 0, 18, 0, 19, 0, 7, 0, 20, 0, 21, 0, 17, 0, 21, 1, 22, 0, 20, 0, 21, 0, 28, 0, 27, 0, 29, 0, 27, 1, 29, 1, 31, 0, 32, 0, 32, 1, 34, 0, 33, 0, 26, 0, 33, 0, 27, 0, 34, 0, 33, 1, 32, 0, 33, 0, 28, 0, 35, 0, 29, 0, 35, 1, 17, 1, 37, 0, 37, 0, 36, 1, 26, 0, 36, 0, 26, 0, 28, 1, 35, 0, 40, 0, 39, 0, 40, 1, 40, 0, 0, 0 )
 
 [resource]
 shader = SubResource( 18 )

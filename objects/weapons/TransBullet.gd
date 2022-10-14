@@ -186,7 +186,8 @@ func bad_verse_jump_init():
 	$AnimationPlayer.play("glich")
 	tween.tween_property($area, "scale", Vector2(0, 0), 0.3)
 	yield(tween,"finished")
-	Global.boss.fire_circle(get_global_position().x,get_global_position().y,16)
+	if not tutorial_mode:
+		Global.boss.fire_circle(get_global_position().x,get_global_position().y,16)
 	queue_free()
 	
 
