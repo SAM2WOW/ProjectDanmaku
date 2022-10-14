@@ -14,9 +14,14 @@ var hp = 0.0;
 var move_to_pos = Vector2();
 var move_to_dir = Vector2();
 var pos_offset = 200;
-var move_speed = 100;
+var base_speed = 150;
+var move_speed = base_speed;
 var dest_offset = 10;
 var moving = false;
+
+# for moving to the center
+var move_to_center = false;
+var init_dist_to_center = Vector2();
 
 onready var fire_timer = get_node("FireTimer");
 
@@ -41,13 +46,30 @@ func _ready():
 func _physics_process(delta):
 	if moving:
 		var pos = get_global_position();
-		move_and_slide(move_to_dir * move_speed, Vector2.UP);
-		if (
-			pos.x < move_to_pos.x+dest_offset && pos.x > move_to_pos.x-dest_offset
-			&& pos.y < move_to_pos.y+dest_offset && pos.y > move_to_pos.y-dest_offset
-		):
-			moving = false;
-			$MovementTimer.start();
+		if (move_to_center):
+			var min_speed = 20; 
+			
+			var dist_to_center = sqrt(pow(move_to_pos.x-pos.x,2)+pow(move_to_pos.y-pos.y,2));
+			var dist_ratio = dist_to_center/init_dist_to_center;
+			
+			var move_vel = Vector2(
+				move_to_dir.x*(min_speed+move_speed*dist_ratio), 
+				move_to_dir.y*(min_speed+move_speed*dist_ratio)
+			);
+			move_and_slide(move_vel, Vector2.UP);
+			if (dist_ratio < 0.01):
+				$FireTimer.paused = false;
+				moving = false;
+				move_to_center = false;
+
+		else:
+			move_and_slide(move_to_dir * move_speed, Vector2.UP);
+			if (
+				pos.x < move_to_pos.x+dest_offset && pos.x > move_to_pos.x-dest_offset
+				&& pos.y < move_to_pos.y+dest_offset && pos.y > move_to_pos.y-dest_offset
+			):
+				moving = false;
+				$MovementTimer.start();
 
 func damage(amount,body = null):
 	#print(body)
@@ -64,6 +86,9 @@ func damage(amount,body = null):
 	$HitSound.play()
 
 func _on_Verse_Jump(verse):
+	if ($MovementTimer.is_stopped()):
+		$MovementTimer.start();
+	
 	var tween = create_tween().set_trans(Tween.TRANS_BOUNCE)
 	tween.tween_property(get_node("Style%d" % style), "scale", Vector2(0.5, 0.5), 0.05)
 	
@@ -129,10 +154,13 @@ func finish_attack():
 				transbullet_cd = 5
 				missed_bullet_counter += 1
 			else:
+				
 				transbullet_cd = 1
 				
 			if missed_bullet_counter > 0:
+				#enter break_state here
 				break_state = true
+				move_to_center();
 				missed_bullet_counter = 0
 			var t = load("res://objects/weapons/TransBullet.tscn").instance()
 			
@@ -391,6 +419,7 @@ func fire_blob(num, speed, dir, degree_offset=30, speed_offset=100, _style=style
 
 
 func _on_MovementTimer_timeout():
+	move_speed = base_speed;
 	rng.randomize();
 	var pos_limit = Vector2(
 		(Global.window_width-pos_offset)/2, 
@@ -404,3 +433,15 @@ func _on_MovementTimer_timeout():
 	moving = true;
 	move_to_pos = rand_pos;
 	move_to_dir = get_global_position().direction_to(move_to_pos);
+	
+
+func move_to_center():
+	var pos = get_global_position();
+	$MovementTimer.stop();
+	$FireTimer.paused = true;
+	move_speed = 600;
+	moving = true;
+	move_to_center = true;
+	move_to_pos = Vector2(0, 0);
+	move_to_dir = get_global_position().direction_to(move_to_pos);
+	init_dist_to_center = sqrt(pow(move_to_pos.x-pos.x,2)+pow(move_to_pos.y-pos.y,2));
