@@ -286,7 +286,7 @@ visible = false
 position = Vector2( 0, -5 )
 scale = Vector2( 3, 3 )
 frames = SubResource( 8 )
-frame = 2
+frame = 5
 speed_scale = 2.0
 playing = true
 script = ExtResource( 4 )
@@ -338,9 +338,9 @@ base_volume = 10.0
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Style2"]
 position = Vector2( 6, -7 )
-scale = Vector2( -0.191595, 0.191595 )
+scale = Vector2( -0.192, 0.192 )
 frames = SubResource( 15 )
-frame = 5
+frame = 4
 playing = true
 script = ExtResource( 4 )
 
@@ -392,7 +392,7 @@ visible = false
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Style3"]
 scale = Vector2( 0.423826, 0.423826 )
 frames = SubResource( 29 )
-frame = 9
+frame = 10
 playing = true
 script = ExtResource( 4 )
 
