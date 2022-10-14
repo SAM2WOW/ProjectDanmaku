@@ -130,6 +130,7 @@ func self_destroy():
 	if duel_mode:
 		verse_jump_init()
 		return
+
 	var tween = create_tween().set_trans(Tween.TRANS_BACK)
 	tween.tween_property($area, "scale", Vector2(0, 0), 0.2)
 	if style != Global.current_style:
@@ -300,6 +301,11 @@ func _on_Timer_timeout():
 	base_growth_rate += 0.003
 	
 func delayed_destroy():
+	var tween1 = create_tween().set_trans(Tween.TRANS_CUBIC)
+	tween1.tween_property($area, "modulate", Color("e60000"), 0.1)
+	tween1.set_trans(Tween.TRANS_LINEAR)
+	tween1.tween_property($area, "modulate", Color("ffffff"), 0.15)
+	_on_hit(0)
 	dead_damp = 0.05
 	var tween = create_tween().set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)
 	tween.tween_property($area, "scale", Vector2(0.7, 0.7), 1)

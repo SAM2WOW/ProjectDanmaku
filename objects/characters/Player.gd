@@ -7,12 +7,11 @@ var style = Global.initial_style
 var velocity = Vector2.ZERO
 export var speed = 500
 var speed_mult = 1.0;
-
 # var shooting = false;
 
 var max_health = 100;
 var health = max_health;
-var health_regen_speed = 1
+var health_regen_speed = 5
 
 var holdTime = 0.0
 var maxHoldTime = 1.0;
@@ -239,9 +238,18 @@ func damage(amount):
 	
 	$HealthBar.show()
 	$HealthBar.set_modulate(Color.white)
+	
 	var tween = create_tween()
 	tween.tween_property($HealthBar, "modulate", Color("64ffffff"), 0.3)
-	
+	#tween.tween_property(self, "scale", Vector2(1.0,1.0), 0.08)
+	var tween1 = create_tween().set_trans(Tween.TRANS_CUBIC)
+	#var tween2 = create_tween().set_trans(Tween.TRANS_CUBIC)
+	tween1.tween_property(self, "modulate", Color("e60000"), 0.08)
+	#tween2.tween_property($HealthBar, "rect_scale", Vector2(1.5,1.5), 0.08)
+	tween1.set_trans(Tween.TRANS_LINEAR)
+	#tween1.tween_property($HealthBar, "scale", Vector2(1,1), 0.12)
+	tween1.tween_property(self, "modulate", Color("ffffff"), 0.12)
+	#tween2.tween_property($HealthBar, "rect_scale", Vector2(1,1), 0.12)
 	# wait a bit before regenerate health
 	$RegenerateTimer.start()
 	get_node("Style%d/HitSound" % style).play()
