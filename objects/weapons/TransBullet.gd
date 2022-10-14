@@ -173,21 +173,28 @@ func bad_verse_jump_init():
 	$area/CPUParticles2D4.set_emitting(false)
 	#set_linear_velocity(Vector2(0,0))
 	var tween = create_tween().set_trans(Tween.TRANS_QUAD)
-	tween.tween_property($area, "scale", Vector2(1, 1), 0.28)
+	tween.tween_property($area, "scale", Vector2(1, 1), 0.4)
+	tween.parallel().tween_property($indi, "scale", Vector2(0.8, 0.8), 0.2)
 	tween.set_trans(Tween.TRANS_LINEAR)
-	tween.tween_property($area, "scale", Vector2(1.2, 1.2), 0.1)
+	tween.tween_property($area, "scale", Vector2(1.2, 1.2), 0.4)
+	tween.parallel().tween_property($indi, "scale", Vector2(0.6, 0.6), 0.7)
 	tween.set_trans(Tween.TRANS_CUBIC)
-	tween.tween_property($area, "scale", Vector2(0.8, 0.8), 0.15)
+	tween.tween_property($area, "scale", Vector2(0.8, 0.8), 0.4)
 	tween.set_trans(Tween.TRANS_ELASTIC)
 	tween.set_trans(Tween.TRANS_ELASTIC)
 	tween.tween_callback(self, "verse_jump_explode")
 	$AnimationPlayer.play("glich")
 	tween.tween_property($area, "scale", Vector2(0, 0), 0.3)
-	tween.tween_callback(self, "queue_free")
+	yield(tween,"finished")
+	Global.boss.fire_circle(get_global_position().x,get_global_position().y,16)
+	queue_free()
 	
 
 # on portal bullet changing verses
 func verse_jump_explode():
+	if hurt_player == true:
+		if is_instance_valid(Global.boss):
+			Global.boss.fire_circle(get_global_position().x,get_global_position().y)
 	$badParticle.set_emitting(false)
 	if tutorial_mode:
 		Global.console.start_game()

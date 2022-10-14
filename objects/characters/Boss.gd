@@ -167,7 +167,7 @@ func finish_attack():
 	rng.randomize();
 	attack_pattern = rng.randi()%2;
 	fire_timer.start();
-
+	
 	#firing portal bullet when theres no transbullet on the screen
 	print(last_trans_bullet)
 	print('duel bullet is: %s' % duel_bullet)
@@ -393,6 +393,24 @@ func fire_pulse(num, speed, offset=0.0, pos=get_global_position(), _style=style)
 		get_parent().add_child(b);
 		bullets.append(b);
 	return bullets;
+
+func fire_circle(x,y,count = 24):
+	var radius = 50.0
+	var center = Vector2(x, y)
+	# Get how much of an angle objects will be spaced around the circle.
+	# Angles are in radians so 2.0*PI = 360 degrees
+	var angle_step = 2.0*PI / count
+
+	var angle = 0
+	# For each node to spawn
+	for i in range(0, count):
+
+		var direction = Vector2(cos(angle), sin(angle))
+		var pos = center + direction * radius
+		var target_pos = center + direction * (radius+50)
+		fire_at(target_pos,base_speed *2,pos)
+		# Rotate one step
+		angle += angle_step
 
 
 func fire_spread(
