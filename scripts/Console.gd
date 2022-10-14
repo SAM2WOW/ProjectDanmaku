@@ -25,6 +25,8 @@ func boss_dead():
 
 func player_dead():
 	$"../CanvasLayer/Control/PlayerDeath".show()
+	Global.player.set_process(false)
+	Global.boss.set_process(false)
 
 
 func damage_boss(amount):
@@ -34,9 +36,9 @@ func damage_boss(amount):
 	
 	if boss_health <= 0:
 		boss_dead()
-		Global.boss.queue_free()
 		
 		Global.player.set_process(false)
+		Global.boss.set_process(false)
 
 
 func play_shockwave(orgin, delay = 0):

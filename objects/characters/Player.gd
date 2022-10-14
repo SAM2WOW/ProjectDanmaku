@@ -233,8 +233,6 @@ func damage(amount):
 		#print("You DEAD!!!")
 		
 		Global.console.player_dead()
-		
-		queue_free()
 		#get_tree().reload_current_scene()
 
 
