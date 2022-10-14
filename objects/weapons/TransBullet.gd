@@ -4,7 +4,7 @@ var style = 0;
 var dir = Vector2();
 
 # for detonation bullets
-var health = 15
+var health = 18
 var moving = true
 var damage = 50
 var max_speed = 1000
@@ -53,7 +53,7 @@ func init_duel_bullet():
 	start_protect = true
 
 	$area.look_at(Global.player.get_global_position())
-	health = 15
+	health = 24
 	max_scale = 4
 	max_scale_plus = 4.2
 	damage_multiplier = 0.1
@@ -168,6 +168,8 @@ func bad_verse_jump_init():
 	dead = true
 	hurt_player = true;
 	mode = MODE_STATIC
+	$badParticle.set_material(load("res://arts/shaders/Portal%d.tres" % style))
+	$badParticle2.set_material(load("res://arts/shaders/Portal%d.tres" % style))
 	$badParticle.set_emitting(true)
 	$badParticle2.set_emitting(true)
 	$area/CPUParticles2D4.set_emitting(false)
@@ -307,3 +309,8 @@ func _on_DetectionArea_body_entered(body):
 				#print(body)
 				body._on_destroy()
 				#body.queue_free()
+	else:
+		if tutorial_mode:
+			if body != Global.player and "Player" in body.name:
+				body._on_destroy()
+				_on_hit(0)
