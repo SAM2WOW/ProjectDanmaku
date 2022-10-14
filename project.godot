@@ -23,6 +23,7 @@ config/icon="res://new_icon.png"
 
 Global="*res://scripts/Global.gd"
 MusicPlayer="*res://scripts/MusicPlayer.gd"
+SoundPlayer="*res://scripts/SoundPlayer.gd"
 
 [display]
 
