@@ -108,11 +108,11 @@ func self_destroy():
 		return
 	var tween = create_tween().set_trans(Tween.TRANS_BACK)
 	tween.tween_property($area, "scale", Vector2(0, 0), 0.2)
-	tween.tween_callback(self, "queue_free")
 	if style != Global.current_style:
 		spawn_portal()
 	if (!is_instance_valid(Global.boss)): return;
 	Global.boss.transbullet_state = false
+	tween.tween_callback(self, "queue_free")
 
 func spawn_portal():
 	dead = true
@@ -128,6 +128,7 @@ func spawn_portal():
 	
 	#print(get_global_transform_with_canvas().origin)
 	Global.console.play_shockwave_small(get_global_transform_with_canvas().origin,0.08)
+	Global.boss.transbullet_state = false
 
 func verse_jump_init():
 	dead = true
@@ -159,6 +160,7 @@ func bad_verse_jump_init():
 	$AnimationPlayer.play("glich")
 	tween.tween_property($area, "scale", Vector2(0, 0), 0.3)
 	tween.tween_callback(self, "queue_free")
+	
 
 	
 func verse_jump_explode():
@@ -214,6 +216,10 @@ func damage(damage):
 	if start_protect and not dead:
 		damage = damage * damage_multiplier
 		base_growth_rate = 0.01
+		health -= damage
+		if health > 6:
+			if damage > 2:
+				damage = 2
 		if damage > 3:
 			damage = 3
 		elif damage < 1:
@@ -223,11 +229,12 @@ func damage(damage):
 		_on_hit(damage)
 		if $area.scale.x > 0.7:
 			$area.scale -= Vector2(0.125,0.125) * damage
-		health -= damage
 		
 		
 		if health <= 0:
 			growth_rate = 0.5
+			if duel_mode:
+				growth_rate = 0.2
 		if $area.scale.x < 1 and start_protect:
 			if tutorial_mode:
 				bad_verse_jump_init()
