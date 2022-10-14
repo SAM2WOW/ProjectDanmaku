@@ -4,7 +4,7 @@ var style = 0;
 var dir = Vector2();
 
 # for detonation bullets
-var health = 15
+var health = 18
 var moving = true
 var damage = 50
 var max_speed = 1000
@@ -53,7 +53,7 @@ func init_duel_bullet():
 	start_protect = true
 
 	$area.look_at(Global.player.get_global_position())
-	health = 15
+	health = 24
 	max_scale = 4
 	max_scale_plus = 4.2
 	damage_multiplier = 0.1

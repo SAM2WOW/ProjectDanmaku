@@ -82,7 +82,7 @@ physics_material_override = SubResource( 2 )
 gravity_scale = 0.0
 contacts_reported = 1
 contact_monitor = true
-linear_damp = 0.1
+linear_damp = 0.0
 angular_damp = 0.0
 script = ExtResource( 2 )
 
@@ -254,7 +254,6 @@ ptch_high = 1.182
 volume_low = -3.0
 volume_high = 3.0
 
-[connection signal="body_entered" from="." to="." method="_on_TransBullet_body_entered"]
 [connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
 [connection signal="body_entered" from="area/DetectionArea" to="." method="_on_DetectionArea_body_entered"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
