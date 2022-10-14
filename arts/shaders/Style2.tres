@@ -1,6 +1,6 @@
 [gd_resource type="ShaderMaterial" load_steps=35 format=2]
 
-[ext_resource path="res://arts/3D/Bullet_Hell_Sky.png" type="Texture" id=1]
+[ext_resource path="res://arts/3D/Bullet_Hell_Sky.jpg" type="Texture" id=1]
 [ext_resource path="res://arts/3D/star.png" type="Texture" id=2]
 
 [sub_resource type="VisualShaderNodeScalarOp" id=13]
@@ -250,7 +250,7 @@ void light() {
 
 }
 "
-graph_offset = Vector2( -1121.96, 629.156 )
+graph_offset = Vector2( -610.391, 101.83 )
 mode = 1
 flags/light_only = false
 nodes/fragment/0/position = Vector2( 820, 300 )
