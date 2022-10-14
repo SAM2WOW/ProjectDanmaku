@@ -12,7 +12,8 @@ func _ready():
 	
 	$"../CanvasLayer/Control/HealthBar".set_max(boss_health)
 	$"../CanvasLayer/Control/HealthBar".set_value(boss_health)
-
+	
+	$"../CanvasLayer/Control/Shockwave".get_material().set_shader_param("radius", 0.0)
 
 func _process(delta):
 	if boss_health > 0:
