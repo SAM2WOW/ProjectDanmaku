@@ -344,6 +344,7 @@ frames = SubResource( 15 )
 frame = 5
 playing = true
 script = ExtResource( 4 )
+wrong_direction = true
 
 [node name="Shot" type="Node2D" parent="Style2/AnimatedSprite" groups=["shots2"]]
 position = Vector2( 589.872, -43.6942 )
