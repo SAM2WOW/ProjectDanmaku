@@ -216,8 +216,14 @@ func finish_attack():
 func randomize_transbullet(t):
 	# style pesudo randomize
 	print("======= Current Style Pool" + str(style_pool))
+	
 	var new_style = style_pool[0]
-	style_pool.remove(0)
+	if new_style == Global.current_style:
+		new_style = style_pool[1]
+		style_pool.remove(1)
+	else:
+		style_pool.remove(0)
+	
 	style_pool.insert(2 + randi()%2, new_style)
 	
 	print("======= New Style Pool" + str(style_pool))

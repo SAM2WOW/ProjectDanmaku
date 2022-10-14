@@ -10,7 +10,7 @@ var speed_mult = 1.0;
 
 # var shooting = false;
 
-var max_health = 10000;
+var max_health = 100;
 var health = max_health;
 var health_regen_speed = 1
 
