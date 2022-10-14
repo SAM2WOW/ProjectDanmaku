@@ -29,62 +29,62 @@ animations = [ {
 [sub_resource type="AtlasTexture" id=21]
 flags = 4
 atlas = ExtResource( 4 )
-region = Rect2( 0, 0, 1080, 1080 )
+region = Rect2( 0, 0, 100, 100 )
 
 [sub_resource type="AtlasTexture" id=22]
 flags = 4
 atlas = ExtResource( 4 )
-region = Rect2( 1080, 0, 1080, 1080 )
+region = Rect2( 100, 0, 100, 100 )
 
 [sub_resource type="AtlasTexture" id=23]
 flags = 4
 atlas = ExtResource( 4 )
-region = Rect2( 2160, 0, 1080, 1080 )
+region = Rect2( 200, 0, 100, 100 )
 
 [sub_resource type="AtlasTexture" id=24]
 flags = 4
 atlas = ExtResource( 4 )
-region = Rect2( 3240, 0, 1080, 1080 )
+region = Rect2( 300, 0, 100, 100 )
 
 [sub_resource type="AtlasTexture" id=25]
 flags = 4
 atlas = ExtResource( 4 )
-region = Rect2( 4320, 0, 1080, 1080 )
+region = Rect2( 400, 0, 100, 100 )
 
 [sub_resource type="AtlasTexture" id=26]
 flags = 4
 atlas = ExtResource( 4 )
-region = Rect2( 5400, 0, 1080, 1080 )
+region = Rect2( 500, 0, 100, 100 )
 
 [sub_resource type="AtlasTexture" id=27]
 flags = 4
 atlas = ExtResource( 4 )
-region = Rect2( 7560, 0, 1080, 1080 )
+region = Rect2( 600, 0, 100, 100 )
 
 [sub_resource type="AtlasTexture" id=28]
 flags = 4
 atlas = ExtResource( 4 )
-region = Rect2( 6480, 0, 1080, 1080 )
+region = Rect2( 700, 0, 100, 100 )
 
 [sub_resource type="AtlasTexture" id=29]
 flags = 4
 atlas = ExtResource( 4 )
-region = Rect2( 8640, 0, 1080, 1080 )
+region = Rect2( 800, 0, 100, 100 )
 
 [sub_resource type="AtlasTexture" id=30]
 flags = 4
 atlas = ExtResource( 4 )
-region = Rect2( 9720, 0, 1080, 1080 )
+region = Rect2( 900, 0, 100, 100 )
 
 [sub_resource type="AtlasTexture" id=31]
 flags = 4
 atlas = ExtResource( 4 )
-region = Rect2( 10800, 0, 1080, 1080 )
+region = Rect2( 1000, 0, 100, 100 )
 
 [sub_resource type="AtlasTexture" id=32]
 flags = 4
 atlas = ExtResource( 4 )
-region = Rect2( 11880, 0, 1080, 1080 )
+region = Rect2( 1100, 0, 100, 100 )
 
 [sub_resource type="SpriteFrames" id=20]
 animations = [ {
@@ -126,17 +126,15 @@ visible = false
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Style1"]
 scale = Vector2( 4, 4 )
 frames = SubResource( 5 )
-frame = 2
 playing = true
 
 [node name="Style2" type="Node2D" parent="."]
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Style2"]
 light_mask = 0
-position = Vector2( -1.75002, -1.75002 )
-scale = Vector2( 0.0662037, 0.0662037 )
+scale = Vector2( 0.657676, 0.657676 )
 frames = SubResource( 20 )
-frame = 9
+frame = 1
 playing = true
 
 [node name="Style3" type="Node2D" parent="."]

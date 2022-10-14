@@ -71,64 +71,64 @@ animations = [ {
 atlas = ExtResource( 3 )
 region = Rect2( 131, 4, 124, 99 )
 
-[sub_resource type="AtlasTexture" id=56]
+[sub_resource type="AtlasTexture" id=68]
 flags = 4
 atlas = ExtResource( 8 )
-region = Rect2( 0, 0, 1080, 1080 )
+region = Rect2( 0, 0, 500, 500 )
 
-[sub_resource type="AtlasTexture" id=57]
+[sub_resource type="AtlasTexture" id=69]
 flags = 4
 atlas = ExtResource( 8 )
-region = Rect2( 1080, 0, 1080, 1080 )
+region = Rect2( 500, 0, 500, 500 )
 
-[sub_resource type="AtlasTexture" id=58]
+[sub_resource type="AtlasTexture" id=70]
 flags = 4
 atlas = ExtResource( 8 )
-region = Rect2( 2160, 0, 1080, 1080 )
+region = Rect2( 1000, 0, 500, 500 )
 
-[sub_resource type="AtlasTexture" id=59]
+[sub_resource type="AtlasTexture" id=71]
 flags = 4
 atlas = ExtResource( 8 )
-region = Rect2( 3240, 0, 1080, 1080 )
+region = Rect2( 1500, 0, 500, 500 )
 
-[sub_resource type="AtlasTexture" id=60]
+[sub_resource type="AtlasTexture" id=72]
 flags = 4
 atlas = ExtResource( 8 )
-region = Rect2( 4320, 0, 1080, 1080 )
+region = Rect2( 2000, 0, 500, 500 )
 
-[sub_resource type="AtlasTexture" id=61]
+[sub_resource type="AtlasTexture" id=73]
 flags = 4
 atlas = ExtResource( 8 )
-region = Rect2( 5400, 0, 1080, 1080 )
+region = Rect2( 2500, 0, 500, 500 )
 
-[sub_resource type="AtlasTexture" id=62]
+[sub_resource type="AtlasTexture" id=74]
 flags = 4
 atlas = ExtResource( 8 )
-region = Rect2( 6480, 0, 1080, 1080 )
+region = Rect2( 3000, 0, 500, 500 )
 
-[sub_resource type="AtlasTexture" id=63]
+[sub_resource type="AtlasTexture" id=75]
 flags = 4
 atlas = ExtResource( 8 )
-region = Rect2( 7560, 0, 1080, 1080 )
+region = Rect2( 3500, 0, 500, 500 )
 
-[sub_resource type="AtlasTexture" id=64]
+[sub_resource type="AtlasTexture" id=76]
 flags = 4
 atlas = ExtResource( 8 )
-region = Rect2( 8640, 0, 1080, 1080 )
+region = Rect2( 4000, 0, 500, 500 )
 
-[sub_resource type="AtlasTexture" id=65]
+[sub_resource type="AtlasTexture" id=77]
 flags = 4
 atlas = ExtResource( 8 )
-region = Rect2( 9720, 0, 1080, 1080 )
+region = Rect2( 4500, 0, 500, 500 )
 
-[sub_resource type="AtlasTexture" id=66]
+[sub_resource type="AtlasTexture" id=78]
 flags = 4
 atlas = ExtResource( 8 )
-region = Rect2( 10800, 0, 1080, 1080 )
+region = Rect2( 5000, 0, 500, 500 )
 
 [sub_resource type="SpriteFrames" id=18]
 animations = [ {
-"frames": [ SubResource( 56 ), SubResource( 57 ), SubResource( 58 ), SubResource( 59 ), SubResource( 60 ), SubResource( 61 ), SubResource( 62 ), SubResource( 63 ), SubResource( 64 ), SubResource( 65 ), SubResource( 66 ) ],
+"frames": [ SubResource( 68 ), SubResource( 69 ), SubResource( 70 ), SubResource( 71 ), SubResource( 72 ), SubResource( 73 ), SubResource( 74 ), SubResource( 75 ), SubResource( 76 ), SubResource( 77 ), SubResource( 78 ) ],
 "loop": true,
 "name": "New Anim",
 "speed": 12.0
@@ -216,7 +216,7 @@ visible = false
 position = Vector2( 1, -2 )
 scale = Vector2( 4, 4 )
 frames = SubResource( 40 )
-frame = 7
+frame = 2
 playing = true
 
 [node name="TransEffect" type="CPUParticles2D" parent="Style1"]
@@ -259,10 +259,10 @@ base_volume = 5.0
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Style2"]
 position = Vector2( -18, -22 )
-scale = Vector2( 0.422288, 0.422288 )
+scale = Vector2( 0.897591, 0.897591 )
 frames = SubResource( 18 )
 animation = "New Anim"
-frame = 6
+frame = 7
 speed_scale = 0.75
 playing = true
 
