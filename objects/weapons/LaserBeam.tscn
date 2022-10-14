@@ -1,9 +1,7 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://objects/weapons/LaserBeam.gd" type="Script" id=1]
 [ext_resource path="res://arts/temp/glowing_circle.png" type="Texture" id=2]
-[ext_resource path="res://scripts/AudioRandomizer.gd" type="Script" id=3]
-[ext_resource path="res://sounds/Lazer.wav" type="AudioStream" id=4]
 
 [sub_resource type="Curve" id=2]
 _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.5, 0.991273 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.000281572 ), 0.0, 0.0, 0, 0 ]
@@ -74,9 +72,3 @@ color_ramp = SubResource( 3 )
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource( 5 )
-
-[node name="FireSound" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource( 4 )
-script = ExtResource( 3 )
-pitch_low = 0.863
-ptch_high = 1.184
