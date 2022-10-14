@@ -172,6 +172,11 @@ func finish_attack():
 			t.style = style_pool[0]
 			if style_pool.size() == 1:
 				style_pool = [0, 1, 2, 3].shuffle()
+				
+				# check for accident repeat
+				if t.style == style_pool[0]:
+					style_pool.remove(0)
+					style_pool.append(t.style)
 			else:
 				style_pool.remove(0)
 			
