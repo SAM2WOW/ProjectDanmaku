@@ -29,35 +29,38 @@ func _ready():
 	_on_Verse_Jump(Global.initial_style);
 
 func _process(delta):
-	if (style == 2):
+	if (style == 2 && is_instance_valid(chargeShot)):
 		if Input.is_action_pressed("mouse_action"):
 			var dir = get_global_position().direction_to(get_global_mouse_position());
+			var shot_pos = $Style2/AnimatedSprite/Shot.get_global_position();
 			if !is_created:
 				is_created = true
 				chargeShot = bullet.instance()
 				get_parent().add_child(chargeShot);
 				chargeShot.get_node("CollisionShape2D").disabled = true
-				chargeShot.init_bullet(get_node("Style2").get_node("AnimatedSprite").get_node("3DShot").get_global_position(), dir, style);
+				chargeShot.init_bullet(shot_pos, dir, style);
 				
 			# BUG: CRASH HERE(?)
-			chargeShot.set_global_position(get_node("Style2").get_node("AnimatedSprite").get_node("3DShot").get_global_position())
+			holdTime += delta
+			chargeShot.set_global_position(shot_pos);
 			chargeShot.set_bullet_rotation(dir)
 			chargeShot.charge = holdTime / maxHoldTime
-			if holdTime > 1.0: chargeShot.charge = 1.0
-			var tween_values = [Color(1,1,1), Color(2,2,2)]
-			if holdTime >= maxHoldTime && (self.modulate == tween_values[0] || self.modulate == tween_values[1]):
-				$ReadyFlash.interpolate_property(self, "modulate", tween_values[1], tween_values[0], 1, Tween.TRANS_LINEAR)
-				$ReadyFlash.start()
-			holdTime += delta
+			if holdTime >= 1.0: 
+				chargeShot.charge = 1.0;
+				is_created = false
+				chargeShot.queue_free()
+				# self.modulate = Color(1,1,1)
+				fire_bullet();
+				holdTime = 0.0;
+				$FireTimer.start()
+			
 		if Input.is_action_just_released("mouse_action"):
-			is_created = false
-			chargeShot.queue_free()
-			$ReadyFlash.remove_all()
-			self.modulate = Color(1,1,1)
-			fire_bullet();
-			holdTime = 0.0;
-			$FireTimer.start()
+			chargeShot.queue_free();
 	else:
+		if (is_instance_valid(chargeShot)):
+			chargeShot.queue_free();
+			is_created = false;
+			holdTime = 0.0;
 		if Input.is_action_pressed("mouse_action"):
 			# shooting = true;
 			if ($FireTimer.is_stopped()):
@@ -135,63 +138,64 @@ func _on_Verse_Jump(verse):
 
 # fires a bullet at the mouse position
 func fire_bullet():
-	match style:
-		0:
-			init_minimal_bullets();
+	var shotLocations = get_tree().get_nodes_in_group('shots%d' % style)
+	print(shotLocations);
+	for shot in shotLocations:
+		match style:
+			0:
+				init_minimal_bullets(shot);
+				
+				# effects
+				$Style0/Icon.set_scale(Vector2(0.7, 0.7))
+				$Style0/Icon/Playercircle.set_scale(Vector2(4, 4))
+				$Style0/Icon/Playercircle2.set_scale(Vector2(4, 4))
+				var tween = create_tween().set_trans(Tween.TRANS_SINE)
+				tween.tween_property($Style0/Icon/Playercircle, "scale", Vector2(1, 1), 0.2)
+				tween.parallel().tween_property($Style0/Icon/Playercircle2, "scale", Vector2(1, 1), 0.2)
+				tween.parallel().tween_property($Style0/Icon, "scale", Vector2(1, 1), 0.2)
+			1:
+				init_pixel_bullets(shot);
+				
+				# effects
+				$Style1/AnimatedSprite.set_scale(Vector2(2.5, 2.5))
+				var tween = create_tween().set_trans(Tween.TRANS_SINE)
+				tween.tween_property($Style1/AnimatedSprite, "scale", Vector2(3, 3), 0.2)
+			2:
+				init_3d_bullets(shot);
+				
+				# effects
+				$Style2/AnimatedSprite.set_scale(Vector2(0.12, 0.12))
+				var tween = create_tween().set_trans(Tween.TRANS_SINE)
+				tween.tween_property($Style2/AnimatedSprite, "scale", Vector2(0.137, 0.137), 0.2)
+			3:
+				init_collage_bullets(shot);
+			_:
+				pass
 			
-			# effects
-			$Style0/Icon.set_scale(Vector2(0.7, 0.7))
-			$Style0/Icon/Playercircle.set_scale(Vector2(4, 4))
-			$Style0/Icon/Playercircle2.set_scale(Vector2(4, 4))
-			var tween = create_tween().set_trans(Tween.TRANS_SINE)
-			tween.tween_property($Style0/Icon/Playercircle, "scale", Vector2(1, 1), 0.2)
-			tween.parallel().tween_property($Style0/Icon/Playercircle2, "scale", Vector2(1, 1), 0.2)
-			tween.parallel().tween_property($Style0/Icon, "scale", Vector2(1, 1), 0.2)
-		1:
-			init_pixel_bullets();
-			
-			# effects
-			$Style1/AnimatedSprite.set_scale(Vector2(2.5, 2.5))
-			var tween = create_tween().set_trans(Tween.TRANS_SINE)
-			tween.tween_property($Style1/AnimatedSprite, "scale", Vector2(3, 3), 0.2)
-		2:
-			init_3d_bullets();
-			
-			# effects
-			$Style2/AnimatedSprite.set_scale(Vector2(0.12, 0.12))
-			var tween = create_tween().set_trans(Tween.TRANS_SINE)
-			tween.tween_property($Style2/AnimatedSprite, "scale", Vector2(0.137, 0.137), 0.2)
-		3:
-			init_collage_bullets();
-		_:
-			pass
-		
 	# play sounds
 	get_node("Style%d/FireSound" % style).play()
 
 
-func init_minimal_bullets():
-	var shotLocations = get_tree().get_nodes_in_group('shots%d' % style)
-	for shot in shotLocations:
-		var b = bullet.instance()
-		get_parent().add_child(b);
-		
-		var dir = get_global_position().direction_to(get_global_mouse_position());
-		b.init_bullet(shot.get_global_position(), dir, style);
-		b.set_linear_velocity(dir*Global.player_bullet_properties[style]["speed"]);
+func init_minimal_bullets(shot):
+	var b = bullet.instance()
+	get_parent().add_child(b);
+	
+	var dir = get_global_position().direction_to(get_global_mouse_position());
+	b.init_bullet(shot.get_global_position(), dir, style);
+	b.set_linear_velocity(dir*Global.player_bullet_properties[style]["speed"]);
 		
 
-func init_pixel_bullets():
+func init_pixel_bullets(shot):
 	var b = bullet.instance();
 	get_parent().add_child(b)
 	
-	var dir = get_global_position().direction_to(get_global_mouse_position());
-	b.init_bullet(get_global_position(), dir, style);
+	var dir = shot.get_global_position().direction_to(get_global_mouse_position());
+	b.init_bullet(shot.get_global_position(), dir, style);
 	b.set_detonate(get_global_mouse_position());
 	b.set_linear_velocity(dir*Global.player_bullet_properties[style]["speed"]);
 	
 
-func init_3d_bullets():
+func init_3d_bullets(shot):
 	var charge = holdTime / maxHoldTime;
 	var num_bullets = 0;
 	var deg = 10;
@@ -205,16 +209,16 @@ func init_3d_bullets():
 		num_bullets = 3;
 
 	# fire spread depending on charge
-	var dir = get_global_position().direction_to(get_global_mouse_position());
-	var bullets = fire_spread(num_bullets, deg, Global.player_bullet_properties[style]["speed"], dir);
+	var dir = shot.get_global_position().direction_to(get_global_mouse_position());
+	var bullets = fire_spread(num_bullets, deg, Global.player_bullet_properties[style]["speed"], dir, shot.get_global_position());
 	for b in bullets:
 		b.damage *= 0.4;
 		b.charge = charge;
 	
 	
-func init_collage_bullets():
-	var dir = get_global_position().direction_to(get_global_mouse_position());
-	var bullets = fire_spread(3, 10, Global.player_bullet_properties[style]["speed"], dir);
+func init_collage_bullets(shot):
+	var dir = shot.get_global_position().direction_to(get_global_mouse_position());
+	var bullets = fire_spread(3, 10, Global.player_bullet_properties[style]["speed"], dir, shot.get_global_position());
 
 
 func damage(amount):
@@ -262,7 +266,6 @@ func fire_spread(
 			dir.x * (cos(new_deg)) + dir.y * (sin(new_deg)),
 			dir.y * (cos(new_deg)) - dir.x * (sin(new_deg))
 		);
-		
 		b.init_bullet(pos, new_dir, _style);
 		b.set_linear_velocity(new_dir*speed);
 		b.damage = Global.player_bullet_properties[_style]["damage"];

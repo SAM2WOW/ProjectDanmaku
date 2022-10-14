@@ -27,9 +27,9 @@ func _ready():
 
 
 func _on_VisibilityNotifier2D_screen_exited():
-	dying = true
-	queue_free()
-	pass
+	if get_node("CollisionShape2D").disabled == false:
+		dying = true
+		queue_free()
 
 
 func _on_PlayerBullet_body_entered(body):

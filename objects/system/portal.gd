@@ -4,6 +4,7 @@ extends Node2D
 export var style = 0
 var exploding = false
 var dying = false
+var hurt_player = false;
 
 var smallparticle = preload("res://objects/VFX/small.tscn")
 
@@ -55,6 +56,9 @@ func _process(delta):
 		if not dying:
 			for i in $Area2D.get_overlapping_bodies():
 				if i.style != style:
+					if (i.name == "Player" && hurt_player):
+						Global.player.damage(70);
+						hurt_player = false;
 					i._on_Verse_Jump(style)
 			
 func verse_jump_explode():

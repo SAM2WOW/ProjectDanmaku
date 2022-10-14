@@ -1,7 +1,7 @@
 extends KinematicBody2D
 
 var style = Global.initial_style
-var style_pool = [0, 2, 3, 1]
+var style_pool = [0, 2, 3]
 var prev_style = style;
 var hit_by = []
 var attack_pattern = 0;
@@ -49,6 +49,7 @@ func _ready():
 	attack_pattern = rng.randi()%2;
 	
 	style_pool.shuffle()
+	style_pool.append(1)
 	
 func _physics_process(delta):
 	if moving:
@@ -125,9 +126,10 @@ func _on_Verse_Jump(verse):
 	
 	transbullet_cd = transbullet_max_cd;
 	missed_bullet_counter = 0;
+	transbullet_state = false
 
 
-func fireLaser(fireFrom, fireAt):
+func fireLaser(fireFrom, fireAt, inPortal):
 	
 	var ind = laserInd.instance();
 	var timeBeforeBeam = 0.8
@@ -148,6 +150,7 @@ func fireLaser(fireFrom, fireAt):
 	
 	var beam = laserBeam.instance();
 	beam.set_global_position(fireFrom)
+	beam.inPortal = inPortal;
 	get_parent().add_child(beam)
 	var beamPoint = ind.points[1]
 #	beamPoint[1] /= 5
@@ -307,7 +310,7 @@ func init_3d_bullets():
 				for y in yArr:
 					# Don't shoot a laser at (0,0)
 					if (x!=0 || y!=0):
-						fireLaser(get_global_position(), Vector2(x,y))
+						fireLaser(get_global_position(), Vector2(x,y), false)
 			yield(get_tree().create_timer(timeBetweenAttacks), "timeout")
 			if (prev_style != style):
 					prev_style = style;
@@ -319,7 +322,7 @@ func init_3d_bullets():
 			for x2 in xArr2:
 				for y2 in yArr2:
 					if (!(abs(x2) == maxX && abs(y2) == maxY) && !(abs(x2) == maxX/2 && abs(y2) == maxY/2)):
-						fireLaser(get_global_position(), Vector2(x2,y2))
+						fireLaser(get_global_position(), Vector2(x2,y2), false)
 			yield(get_tree().create_timer(beamDuration), "timeout")
 			finish_attack()
 		1:
@@ -330,7 +333,7 @@ func init_3d_bullets():
 					prev_style = style;
 					finish_attack();
 					return;
-				fireLaser(get_global_position(), Global.player.get_global_position())
+				fireLaser(get_global_position(), Global.player.get_global_position(), false)
 				yield(get_tree().create_timer(attack_properties["interval"]), "timeout")
 			finish_attack()
 		_:
