@@ -82,9 +82,8 @@ func _on_Area2D_body_entered(body):
 
 func _on_Area2D_body_exited(body):
 	if not exploding or dying:
-		# if (body.name == "Boss"): return;
-#		if (style == Global.current_style): 
-#			return;
+		if (style == Global.current_style): 
+			return;
 		var prev_style = style;
 		if not 'dying' in body:
 			if body.has_method('_on_Verse_Jump'):
