@@ -7,7 +7,7 @@ var play_time = 0.0
 var gameover = false
 
 var tutorial_bullet = preload("res://objects/weapons/TransBullet.tscn")
-
+var portal_scene = preload("res://objects/system/portal.tscn")
 
 func _ready():
 	Global.console = self
@@ -33,7 +33,17 @@ func _ready():
 	
 	else:
 		$"../CanvasLayer/Control/Tutorial".hide()
+		
 		yield(get_tree().create_timer(0.2), "timeout")
+		var t = portal_scene.instance()
+		t.style = 1
+		t.exploding = true
+		$"../Node2D".add_child(t)
+		t.set_global_position(Vector2(0, -300))
+		
+		play_shockwave(t.get_global_transform_with_canvas().origin)
+		
+		$"../CanvasLayer/Control/Tutorial".hide()
 		start_game()
 
 
