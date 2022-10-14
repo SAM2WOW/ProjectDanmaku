@@ -28,10 +28,10 @@ var duel_bullet;
 onready var fire_timer = get_node("FireTimer");
 
 var transbullet_state = false
-var transbullet_max_cd = 1;
+var transbullet_max_cd = 5;
 var transbullet_cd = transbullet_max_cd
 var missed_bullet_counter = 0
-var max_missed_bullets = 1;
+var max_missed_bullets = 3;
 var break_state = false
 
 var basic_bullet = preload("res://objects/weapons/BasicBullet.tscn")

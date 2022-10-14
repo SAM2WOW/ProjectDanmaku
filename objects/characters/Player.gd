@@ -14,7 +14,7 @@ var max_health = 100;
 var health = max_health;
 var health_regen_speed = 1
 
-var holdTime = 0
+var holdTime = 0.0
 var maxHoldTime = 1.0;
 
 var is_created = false
@@ -29,33 +29,40 @@ func _ready():
 	_on_Verse_Jump(Global.initial_style);
 
 func _process(delta):
-	if (style == 2 && is_instance_valid(chargeShot)):
+	if (style == 2):
 		if Input.is_action_pressed("mouse_action"):
 			var dir = get_global_position().direction_to(get_global_mouse_position());
 			var shot_pos = $Style2/AnimatedSprite/Shot.get_global_position();
+			
 			if !is_created:
 				is_created = true
 				chargeShot = bullet.instance()
 				get_parent().add_child(chargeShot);
 				chargeShot.get_node("CollisionShape2D").disabled = true
 				chargeShot.init_bullet(shot_pos, dir, style);
-				
-			# BUG: CRASH HERE(?)
-			holdTime += delta
-			chargeShot.set_global_position(shot_pos);
-			chargeShot.set_bullet_rotation(dir)
-			chargeShot.charge = holdTime / maxHoldTime
-			if holdTime >= 1.0: 
-				chargeShot.charge = 1.0;
-				is_created = false
-				chargeShot.queue_free()
-				# self.modulate = Color(1,1,1)
-				fire_bullet();
-				holdTime = 0.0;
-				$FireTimer.start()
+				print("init");
+			if (is_instance_valid(chargeShot)):
+				# BUG: CRASH HERE(?)
+				chargeShot.set_global_position(shot_pos);
+				chargeShot.set_bullet_rotation(dir)
+				chargeShot.charge = holdTime / maxHoldTime
+				print("hold time:", holdTime);
+				if holdTime >= 1.0: 
+					chargeShot.charge = 1.0;
+					is_created = false
+					chargeShot.queue_free()
+					fire_bullet();
+					holdTime = 0.0;
+					$FireTimer.start()
+				else:
+					holdTime += delta
 			
-		if Input.is_action_just_released("mouse_action"):
-			chargeShot.queue_free();
+		if Input.is_action_just_released("mouse_action") && is_instance_valid(chargeShot):
+			is_created = false
+			chargeShot.queue_free()
+			fire_bullet();
+			holdTime = 0.0;
+			$FireTimer.start()
 	else:
 		if (is_instance_valid(chargeShot)):
 			chargeShot.queue_free();
