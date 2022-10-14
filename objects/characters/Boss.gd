@@ -161,19 +161,20 @@ func finish_attack():
 		transbullet_cd -= 1
 		#print(transbullet_cd)
 		if transbullet_cd < 1:
+			var t = load("res://objects/weapons/TransBullet.tscn").instance()
 			if not break_state:
 				transbullet_cd = 5
 				missed_bullet_counter += 1
 			else:
-				
-				transbullet_cd = 1
+				t.duel_mode = true
+				transbullet_cd = 2
 				
 			if missed_bullet_counter > 0:
 				#enter break_state here
 				break_state = true
 				move_to_center();
 				missed_bullet_counter = 0
-			var t = load("res://objects/weapons/TransBullet.tscn").instance()
+			#var t = load("res://objects/weapons/TransBullet.tscn").instance()
 			
 			#t.style = randi()%4
 			#if t.style == Global.current_style:

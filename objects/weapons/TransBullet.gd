@@ -53,7 +53,7 @@ func init_duel_bullet():
 	max_scale = 4
 	max_scale_plus = 4.2
 	damage_multiplier = 0.1
-	$area.set_scale(Vector2(2.5,2.5))
+	$area.set_scale(Vector2(2.2,2.2))
 	set_linear_velocity(Vector2(500,100-randi() % 200).rotated(get_global_rotation()))
 	self.connect("tree_exited", self, "boss_transState_cleanup")
 	start_protect = true
@@ -67,6 +67,7 @@ func ready_bullet():
 func ready_duel_bullet():
 	var tween = create_tween().set_trans(Tween.TRANS_ELASTIC)
 	tween.tween_property($area, "scale", Vector2(2.5, 2.5), 2)
+	$area/Node2D/Sprite2.modulate = Color('ff3f3f')
 	#tween.tween_callback(self, "init_duel_bullet")
 	tween.tween_interval(0.3)
 	tween.tween_callback(self, "init_duel_bullet")
