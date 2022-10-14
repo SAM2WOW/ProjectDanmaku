@@ -109,13 +109,14 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="HealthBar" type="ProgressBar" parent="CanvasLayer/Control"]
+modulate = Color( 1, 1, 1, 0 )
 anchor_right = 1.0
-margin_bottom = 14.0
+margin_bottom = 99.0
 custom_styles/fg = SubResource( 7 )
 custom_styles/bg = SubResource( 8 )
 value = 88.0
 
-[node name="Label" type="Label" parent="CanvasLayer/Control"]
+[node name="Label" type="Label" parent="CanvasLayer/Control/HealthBar"]
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -90.0

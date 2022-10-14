@@ -18,7 +18,7 @@ func _ready():
 	
 	$"../CanvasLayer/Control/Shockwave".get_material().set_shader_param("radius", 0.0)
 	
-	yield(get_tree().create_timer(2), "timeout")
+	yield(get_tree().create_timer(1), "timeout")
 	
 	var t = tutorial_bullet.instance()
 	t.tutorial_mode = true
@@ -102,9 +102,11 @@ func start_game():
 	b.set_global_position(Vector2(0, -300))
 	b.style = 1
 	
-	var tween = create_tween()
+	var tween = create_tween().set_trans(Tween.TRANS_SINE)
 	tween.tween_property($"../Node2D/Background", "modulate", Color.white, 0.7)
 	tween.parallel().tween_property($"../CanvasLayer/Control/Tutorial", "modulate", Color("00ffffff"), 0.4)
+	tween.parallel().tween_property($"../CanvasLayer/Control/HealthBar", "modulate", Color.white, 0.4)
+	tween.tween_property($"../CanvasLayer/Control/HealthBar", "rect_size", Vector2($"../CanvasLayer/Control/HealthBar".get_size().x, 14), 0.5)
 	
 	yield(tween, "finished")
 	$"../CanvasLayer/Control/Tutorial".hide()
