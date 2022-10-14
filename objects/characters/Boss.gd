@@ -32,7 +32,7 @@ var transbullet_state = false
 var transbullet_max_cd = 5;
 var transbullet_cd = transbullet_max_cd
 var missed_bullet_counter = 0
-var max_missed_bullets = 1;
+var max_missed_bullets = 2;
 var break_state = false
 var last_trans_bullet = null
 
@@ -80,17 +80,19 @@ func _physics_process(delta):
 				$FireTimer.paused = false;
 				moving = false;
 				move_to_center = false;
-				get_parent().add_child(last_trans_bullet);
-				last_trans_bullet.set_global_position(get_global_position());
+				if (is_instance_valid(last_trans_bullet)):
+					get_parent().add_child(last_trans_bullet);
+					last_trans_bullet.set_global_position(get_global_position());
 				return;
 			move_and_slide(move_vel, Vector2.UP);
 			# once it reaches center
-			if (dist_ratio < 0.1):
+			if (dist_ratio < 0.05):
 				$FireTimer.paused = false;
 				moving = false;
 				move_to_center = false;
-				get_parent().add_child(last_trans_bullet);
-				last_trans_bullet.set_global_position(get_global_position());
+				if (is_instance_valid(last_trans_bullet)):
+					get_parent().add_child(last_trans_bullet);
+					last_trans_bullet.set_global_position(get_global_position());
 
 		else:
 			move_and_slide(move_to_dir * move_speed, Vector2.UP);
@@ -196,8 +198,9 @@ func finish_attack():
 			# fire duel mode bullet
 			if (missed_bullet_counter >= max_missed_bullets):
 				missed_bullet_counter = 0;
-				move_to_center();
 				t.duel_mode = true;
+				last_trans_bullet = t
+				move_to_center();
 			# increment missed bullet counter
 			else:
 				missed_bullet_counter += 1;
@@ -528,6 +531,7 @@ func move_to_center():
 		move_to_center = false;
 		$MovementTimer.start(movement_interval);
 		$FireTimer.paused = false;
-		get_parent().add_child(last_trans_bullet);
-		last_trans_bullet.set_global_position(get_global_position());
+		if (is_instance_valid(last_trans_bullet)):
+			get_parent().add_child(last_trans_bullet);
+			last_trans_bullet.set_global_position(get_global_position());
 		
