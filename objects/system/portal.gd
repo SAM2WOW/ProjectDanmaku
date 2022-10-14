@@ -66,19 +66,21 @@ func _process(delta):
 					i._on_Verse_Jump(style)
 			
 func verse_jump_explode():
-	Engine.set_time_scale(0.7)
-	var tween = create_tween().set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
-	tween.tween_property(self, "scale", Vector2(8, 8), 0.8)
-	tween.parallel().tween_property(Engine, "time_scale", 1.0, 0.8)
-	
-	$SpawnSound.play()
+	if is_instance_valid(Global.boss):
+		Engine.set_time_scale(0.7)
+		var tween = create_tween().set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
+		tween.tween_property(self, "scale", Vector2(8, 8), 0.8)
+		tween.parallel().tween_property(Engine, "time_scale", 1.0, 0.8)
 		
-	Global.boss.transbullet_cd = Global.boss.transbullet_max_cd;
-	Global.boss.missed_bullet_counter = 0;
-	Global.boss.transbullet_state = false
-	Global.boss.last_trans_bullet = null;
+		$SpawnSound.play()
+		
+		Global.boss.transbullet_cd = Global.boss.transbullet_max_cd;
+		Global.boss.missed_bullet_counter = 0;
+		Global.boss.transbullet_state = false
+		Global.boss.last_trans_bullet = null;
+		
+		tween.tween_callback(self, "verse_jump_end")
 	
-	tween.tween_callback(self, "verse_jump_end")
 
 
 func verse_jump_end():
