@@ -36,7 +36,7 @@ var boss_patterns = {
 	},
 	2: {
 		0: {"waves": 2, "interval": 1.5},
-		1: {"waves": 10, "interval": 0.5}
+		1: {"waves": 6, "interval": 0.5}
 	},
 	3: {
 		0: {"waves": 2, "interval": 0.6},

@@ -29,7 +29,7 @@ func _ready():
 	_on_Verse_Jump(Global.initial_style);
 
 func _process(delta):
-	if (style == 2):
+	if (style == 2 && is_instance_valid(chargeShot)):
 		if Input.is_action_pressed("mouse_action"):
 			var dir = get_global_position().direction_to(get_global_mouse_position());
 			var shot_pos = $Style2/AnimatedSprite/Shot.get_global_position();
@@ -41,23 +41,21 @@ func _process(delta):
 				chargeShot.init_bullet(shot_pos, dir, style);
 				
 			# BUG: CRASH HERE(?)
+			holdTime += delta
 			chargeShot.set_global_position(shot_pos);
 			chargeShot.set_bullet_rotation(dir)
 			chargeShot.charge = holdTime / maxHoldTime
-			if holdTime > 1.0: chargeShot.charge = 1.0
-			var tween_values = [Color(1,1,1), Color(2,2,2)]
-			if holdTime >= maxHoldTime && (self.modulate == tween_values[0] || self.modulate == tween_values[1]):
-				$ReadyFlash.interpolate_property(self, "modulate", tween_values[1], tween_values[0], 1, Tween.TRANS_LINEAR)
-				$ReadyFlash.start()
-			holdTime += delta
+			if holdTime >= 1.0: 
+				chargeShot.charge = 1.0;
+				is_created = false
+				chargeShot.queue_free()
+				# self.modulate = Color(1,1,1)
+				fire_bullet();
+				holdTime = 0.0;
+				$FireTimer.start()
+			
 		if Input.is_action_just_released("mouse_action"):
-			is_created = false
-			chargeShot.queue_free()
-			$ReadyFlash.remove_all()
-			self.modulate = Color(1,1,1)
-			fire_bullet();
-			holdTime = 0.0;
-			$FireTimer.start()
+			chargeShot.queue_free();
 	else:
 		if (is_instance_valid(chargeShot)):
 			chargeShot.queue_free();
