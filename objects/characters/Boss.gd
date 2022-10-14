@@ -58,6 +58,7 @@ func _process(delta):
 	if (hp <= Global.console.max_boss_health*0.5 && !enraged):
 		print("enraged!");
 		movement_interval = 5.0;
+		transbullet_max_cd = 1;
 		base_speed = 300;
 		enraged = true;
 		attack_interval = 0.7;
@@ -138,7 +139,7 @@ func _on_Verse_Jump(verse):
 	get_node("Style%d/TransEffect" % style).set_emitting(true)
 	
 	transbullet_cd = transbullet_max_cd;
-	missed_bullet_counter = 0;
+	#missed_bullet_counter = 0;
 	transbullet_state = false
 	last_trans_bullet = null;
 
@@ -181,13 +182,10 @@ func fireLaser(fireFrom, fireAt, inPortal, bossSpawned=true):
 func finish_attack():
 	if Global.console.gameover:
 		return
+	
 	if stunned:
-#		for i in get_node("Style%d" % style).get_children():
-#			i.set_process_internal(false)
 		yield(get_tree().create_timer(3), "timeout");
 		stunned = false
-#		for i in get_node("Style%d" % style).get_children():
-#			i.set_process_internal(true)
 		
 	rng.randomize();
 	attack_pattern = rng.randi()%2;
@@ -204,7 +202,9 @@ func finish_attack():
 			# reset transbullet cd
 			transbullet_cd = transbullet_max_cd
 			# fire duel mode bullet
+			#print(missed_bullet_counter)
 			if (missed_bullet_counter >= max_missed_bullets):
+				print('special')
 				missed_bullet_counter = 0;
 				t.duel_mode = true;
 				last_trans_bullet = t
