@@ -1,7 +1,7 @@
 extends KinematicBody2D
 
 var style = Global.initial_style
-var style_pool = [0, 2, 3, 1]
+var style_pool = [0, 2, 3]
 var prev_style = style;
 var hit_by = []
 var attack_pattern = 0;
@@ -48,6 +48,7 @@ func _ready():
 	attack_pattern = rng.randi()%2;
 	
 	style_pool.shuffle()
+	style_pool.append(1)
 	
 func _physics_process(delta):
 	if moving:
