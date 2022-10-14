@@ -9,6 +9,8 @@ var playerDamageIntervalCount = 0
 var laserBulletInterval = 0.25
 var playerDamageInterval = 0.2
 
+var inPortal = false;
+
 var style = 2;
 
 var damage = Global.boss_bullet_properties[style]["damage"];
@@ -28,6 +30,8 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	var cast_point := cast_to
 	force_raycast_update()
+	if (inPortal):
+		set_collide_with_areas(false);
 	
 	laserBulletIntervalCount += delta
 	playerDamageIntervalCount += delta
@@ -43,7 +47,7 @@ func _physics_process(delta: float) -> void:
 			if playerDamageIntervalCount >= playerDamageInterval:
 				get_collider().damage(damage)
 				playerDamageIntervalCount = 0
-		if "Area2D" in get_collider().name && laserBulletIntervalCount >= laserBulletInterval:
+		if "Area2D" in get_collider().name && laserBulletIntervalCount >= laserBulletInterval && get_collider().get_parent().style != 2:
 			var b = basic_bullet.instance()
 			var pos = get_collision_point()
 			var dir = $Line2D.get_global_position().direction_to(pos)
