@@ -19,7 +19,7 @@ func _ready():
 	
 	a.set_volume_db(-80)
 	a.set_bus("Music")
-	a.set_autoplay(true)
+	#a.set_autoplay(true)
 	a.set_name("BGM")
 	#a.connect("finished", self, "_on_finished")
 	add_child(a)
@@ -40,6 +40,7 @@ func _on_finished():
 
 
 func fade_in():
+	$BGM.play()
 	var tween = get_node("Tween")
 	tween.interpolate_property($BGM, "volume_db",
 			-80, default_volume, 1,

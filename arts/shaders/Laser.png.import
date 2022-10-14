@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Collage_Boss.png-10ce35be76257f2564c0ad627f54f772.stex"
+path="res://.import/Laser.png-ac71f60219a186329462cbcdd15855aa.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://arts/collage/Collage_Boss.png"
-dest_files=[ "res://.import/Collage_Boss.png-10ce35be76257f2564c0ad627f54f772.stex" ]
+source_file="res://arts/shaders/Laser.png"
+dest_files=[ "res://.import/Laser.png-ac71f60219a186329462cbcdd15855aa.stex" ]
 
 [params]
 
@@ -19,7 +19,7 @@ compress/lossy_quality=0.7
 compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
-flags/repeat=0
+flags/repeat=1
 flags/filter=true
 flags/mipmaps=false
 flags/anisotropic=false
