@@ -33,7 +33,7 @@ var transbullet_state = false
 var transbullet_max_cd = 4;
 var transbullet_cd = transbullet_max_cd
 var missed_bullet_counter = 0
-var max_missed_bullets = 1;
+var max_missed_bullets = 2;
 var break_state = false
 var last_trans_bullet = null
 
@@ -180,12 +180,12 @@ func finish_attack():
 	if Global.console.gameover:
 		return
 	if stunned:
-		for i in get_node("Style%d" % style).get_childrens():
-			i.set_process(false)
+#		for i in get_node("Style%d" % style).get_children():
+#			i.set_process_internal(false)
 		yield(get_tree().create_timer(3), "timeout");
 		stunned = false
-		for i in get_node("Style%d" % style).get_childrens():
-			i.set_process(true)
+#		for i in get_node("Style%d" % style).get_children():
+#			i.set_process_internal(true)
 		
 	rng.randomize();
 	attack_pattern = rng.randi()%2;

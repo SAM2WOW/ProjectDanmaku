@@ -202,7 +202,9 @@ func verse_jump_explode():
 	if hurt_player == true:
 		if is_instance_valid(Global.boss):
 			Global.boss.fire_circle(get_global_position().x,get_global_position().y)
-		
+	else:
+		if is_instance_valid(Global.boss):
+			Global.boss.stunned = true
 	$badParticle.set_emitting(false)
 	if tutorial_mode:
 		Global.console.start_game()
@@ -214,7 +216,7 @@ func verse_jump_explode():
 		p.hurt_player = true;
 	elif (duel_mode):
 		p.hurt_boss = true;
-		Global.boss.stunned = true
+		#Global.boss.stunned = true
 	get_parent().add_child(p);
 	p.set_global_position(get_global_position());
 	p.exploding = true
