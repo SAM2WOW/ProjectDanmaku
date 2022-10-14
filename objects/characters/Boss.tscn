@@ -1,7 +1,7 @@
-[gd_scene load_steps=42 format=2]
+[gd_scene load_steps=51 format=2]
 
 [ext_resource path="res://objects/characters/Boss.gd" type="Script" id=1]
-[ext_resource path="res://arts/collage/collage_boss.png" type="Texture" id=2]
+[ext_resource path="res://arts/collage/Collage_Boss.png" type="Texture" id=2]
 [ext_resource path="res://arts/pixelArt/pixel_angel_boss.png" type="Texture" id=3]
 [ext_resource path="res://arts/abstrastArt/boss.png" type="Texture" id=4]
 [ext_resource path="res://sounds/pixel_sfx/pixel_enemy_bullet_fire.wav" type="AudioStream" id=5]
@@ -139,13 +139,58 @@ flags = 4
 atlas = ExtResource( 8 )
 region = Rect2( 78.6221, 68.5419, 370.904, 420.358 )
 
+[sub_resource type="AtlasTexture" id=80]
+flags = 4
+atlas = ExtResource( 2 )
+region = Rect2( 0, 0, 625, 625 )
+
+[sub_resource type="AtlasTexture" id=81]
+flags = 4
+atlas = ExtResource( 2 )
+region = Rect2( 625, 0, 625, 625 )
+
+[sub_resource type="AtlasTexture" id=82]
+flags = 4
+atlas = ExtResource( 2 )
+region = Rect2( 1250, 0, 625, 625 )
+
+[sub_resource type="AtlasTexture" id=83]
+flags = 4
+atlas = ExtResource( 2 )
+region = Rect2( 1875, 0, 625, 625 )
+
+[sub_resource type="AtlasTexture" id=84]
+flags = 4
+atlas = ExtResource( 2 )
+region = Rect2( 2500, 0, 625, 625 )
+
+[sub_resource type="AtlasTexture" id=85]
+flags = 4
+atlas = ExtResource( 2 )
+region = Rect2( 3125, 0, 625, 625 )
+
+[sub_resource type="AtlasTexture" id=86]
+flags = 4
+atlas = ExtResource( 2 )
+region = Rect2( 3750, 0, 625, 625 )
+
+[sub_resource type="AtlasTexture" id=87]
+flags = 4
+atlas = ExtResource( 2 )
+region = Rect2( 4375, 0, 625, 625 )
+
 [sub_resource type="SpriteFrames" id=67]
 animations = [ {
-"frames": [ ExtResource( 2 ) ],
+"frames": [ SubResource( 80 ), SubResource( 81 ), SubResource( 82 ), SubResource( 83 ), SubResource( 84 ), SubResource( 85 ), SubResource( 86 ), SubResource( 87 ) ],
 "loop": true,
 "name": "default",
 "speed": 5.0
 } ]
+
+[sub_resource type="AtlasTexture" id=88]
+flags = 4
+atlas = ExtResource( 2 )
+region = Rect2( 8.41406, 54.0591, 620.059, 499 )
 
 [sub_resource type="CircleShape2D" id=6]
 radius = 138.058
@@ -211,13 +256,12 @@ pitch_low = 0.788
 volume_low = -6.0
 
 [node name="Style1" type="Node2D" parent="."]
-visible = false
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Style1"]
 position = Vector2( 1, -2 )
 scale = Vector2( 4, 4 )
 frames = SubResource( 40 )
-frame = 3
+frame = 5
 playing = true
 
 [node name="TransEffect" type="CPUParticles2D" parent="Style1"]
@@ -257,13 +301,14 @@ pitch_low = 0.788
 base_volume = 5.0
 
 [node name="Style2" type="Node2D" parent="."]
+visible = false
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Style2"]
 position = Vector2( -18, -22 )
 scale = Vector2( 0.897591, 0.897591 )
 frames = SubResource( 18 )
 animation = "New Anim"
-frame = 7
+frame = 4
 speed_scale = 0.75
 playing = true
 
@@ -304,6 +349,7 @@ visible = false
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Style3"]
 frames = SubResource( 67 )
+frame = 3
 playing = true
 
 [node name="TransEffect" type="CPUParticles2D" parent="Style3"]
@@ -315,7 +361,7 @@ lifetime = 0.5
 one_shot = true
 explosiveness = 1.0
 randomness = 0.72
-texture = SubResource( 53 )
+texture = SubResource( 88 )
 spread = 180.0
 gravity = Vector2( 0, 0 )
 initial_velocity = 55.05
@@ -323,7 +369,7 @@ initial_velocity_random = 0.51
 angular_velocity_random = 0.41
 damping = 94.5
 damping_random = 1.0
-scale_amount = 5.0
+scale_amount = 1.2
 scale_amount_random = 0.62
 color_ramp = SubResource( 54 )
 
