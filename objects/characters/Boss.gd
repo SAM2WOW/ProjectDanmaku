@@ -1,7 +1,7 @@
 extends KinematicBody2D
 
 var style = Global.initial_style
-var style_pool = [0, 1 ,2 ,3]
+var style_pool = [0, 2, 3]
 var prev_style = style;
 var hit_by = []
 var attack_pattern = 0;
@@ -42,6 +42,8 @@ func _ready():
 	Global.boss = self;
 	_on_Verse_Jump(Global.initial_style);
 	attack_pattern = rng.randi()%2;
+	
+	style_pool.shuffle()
 	
 func _physics_process(delta):
 	if moving:
@@ -169,16 +171,21 @@ func finish_attack():
 			#	t.style =(Global.current_style+randi()%3)%4
 			
 			# style pesudo randomize
-			t.style = style_pool[0]
-			if style_pool.size() == 1:
-				style_pool = [0, 1, 2, 3].shuffle()
+			print("======= Current Style Pool" + str(style_pool))
+			var new_style = style_pool[0]
+			style_pool.remove(0)
+			
+			if style_pool.size() == 0:
+				style_pool.append_array([0, 1, 2, 3])
+				style_pool.shuffle()
 				
 				# check for accident repeat
-				if t.style == style_pool[0]:
+				if new_style == style_pool[0]:
 					style_pool.remove(0)
-					style_pool.append(t.style)
-			else:
-				style_pool.remove(0)
+					style_pool.append(new_style)
+			
+			print("======= New Style Pool" + str(style_pool))
+			t.style = new_style
 			
 			get_parent().add_child(t);
 			

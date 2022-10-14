@@ -21,6 +21,9 @@ func _ready():
 	if not exploding:
 		var tween = create_tween().set_trans(Tween.TRANS_ELASTIC)
 		tween.tween_property(self, "scale", Vector2(1, 1), 1)
+		
+		$SpawnSound.play()
+		
 		yield(tween,"finished")
 		$Sprite/CPUParticles2D.show()
 		$Sprite/CPUParticles2D2.show()
@@ -57,6 +60,8 @@ func verse_jump_explode():
 	var tween = create_tween().set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
 	tween.tween_property(self, "scale", Vector2(8, 8), 0.8)
 	tween.parallel().tween_property(Engine, "time_scale", 1.0, 0.8)
+	
+	$SpawnSound.play()
 	
 	tween.tween_callback(self, "verse_jump_end")
 
