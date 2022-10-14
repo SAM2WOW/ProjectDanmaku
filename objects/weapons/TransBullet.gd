@@ -60,7 +60,7 @@ func init_duel_bullet():
 	
 func ready_bullet():
 	var tween = create_tween().set_trans(Tween.TRANS_ELASTIC)
-	tween.tween_property($area, "scale", Vector2(1.5, 1.5), 1)
+	tween.tween_property($area, "scale", Vector2(1.6, 1.6), 1)
 	tween.tween_interval(0.2)
 	tween.tween_callback(self, "init_bullet")
 
@@ -216,11 +216,13 @@ func damage(damage):
 		base_growth_rate = 0.01
 		if damage > 3:
 			damage = 3
+		elif damage < 1:
+			damage = 0.8
 		$Timer.start()
 		print('trans damage%d' % damage)
 		_on_hit(damage)
 		if $area.scale.x > 0.7:
-			$area.scale -= Vector2(0.15,0.15) * damage
+			$area.scale -= Vector2(0.125,0.125) * damage
 		health -= damage
 		
 		

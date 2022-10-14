@@ -5,6 +5,8 @@ export var style = 0
 var exploding = false
 var dying = false
 
+var smallparticle = preload("res://objects/VFX/small.tscn")
+
 func _ready():
 	
 	if Global.portal != null:
@@ -90,6 +92,11 @@ func _on_Area2D_body_exited(body):
 		if (style == Global.current_style): 
 			return;
 		var prev_style = style;
+		var p = smallparticle.instance()
+		p.set_global_position(body.get_global_position())
+		p.style = style
+		get_parent().add_child(p)
+		p.look_at(get_global_position())
 		if not 'dying' in body:
 			if body.has_method('_on_Verse_Jump'):
 				body._on_Verse_Jump(Global.current_style)
