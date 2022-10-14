@@ -1,10 +1,11 @@
-[gd_scene load_steps=46 format=2]
+[gd_scene load_steps=47 format=2]
 
 [ext_resource path="res://objects/characters/Player.gd" type="Script" id=1]
 [ext_resource path="res://arts/collage/Collage_Witch_Girl.png" type="Texture" id=2]
 [ext_resource path="res://arts/pixelArt/witch_idle.png" type="Texture" id=3]
 [ext_resource path="res://objects/characters/flip_script.gd" type="Script" id=4]
 [ext_resource path="res://arts/abstrastArt/player.png" type="Texture" id=5]
+[ext_resource path="res://sounds/pixel_sfx/pixel_player_bullet_shot.wav" type="AudioStream" id=6]
 [ext_resource path="res://sounds/AbstractFire.wav" type="AudioStream" id=7]
 [ext_resource path="res://scripts/AudioRandomizer.gd" type="Script" id=8]
 [ext_resource path="res://sounds/AbstractBullet.wav" type="AudioStream" id=9]
@@ -213,7 +214,6 @@ visible = false
 position = Vector2( 0, -5 )
 scale = Vector2( 3, 3 )
 frames = SubResource( 8 )
-frame = 1
 speed_scale = 2.0
 playing = true
 script = ExtResource( 4 )
@@ -243,8 +243,9 @@ scale_amount_random = 0.62
 color_ramp = SubResource( 17 )
 
 [node name="FireSound" type="AudioStreamPlayer2D" parent="Style1"]
-stream = ExtResource( 7 )
+stream = ExtResource( 6 )
 script = ExtResource( 8 )
+base_volume = 1.4
 
 [node name="Style2" type="Node2D" parent="."]
 visible = false
@@ -253,7 +254,7 @@ visible = false
 position = Vector2( -5, 5 )
 scale = Vector2( -0.137, 0.137 )
 frames = SubResource( 15 )
-frame = 5
+frame = 4
 playing = true
 script = ExtResource( 4 )
 
