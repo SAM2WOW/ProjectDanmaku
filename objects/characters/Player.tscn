@@ -1,4 +1,4 @@
-[gd_scene load_steps=47 format=2]
+[gd_scene load_steps=48 format=2]
 
 [ext_resource path="res://objects/characters/Player.gd" type="Script" id=1]
 [ext_resource path="res://arts/collage/Collage_Witch_Girl.png" type="Texture" id=2]
@@ -60,10 +60,9 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="AtlasTexture" id=16]
-flags = 4
-atlas = ExtResource( 2 )
-region = Rect2( -11.8309, 46.8765, 449.028, 456.638 )
+[sub_resource type="AtlasTexture" id=30]
+atlas = ExtResource( 3 )
+region = Rect2( 74.5068, 13.4393, 41.7534, 40.0375 )
 
 [sub_resource type="SpriteFrames" id=15]
 animations = [ {
@@ -135,6 +134,11 @@ animations = [ {
 "name": "default",
 "speed": 12.0
 } ]
+
+[sub_resource type="AtlasTexture" id=16]
+flags = 4
+atlas = ExtResource( 2 )
+region = Rect2( -11.8309, 46.8765, 449.028, 456.638 )
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 20.0
@@ -217,7 +221,6 @@ base_volume = -15.0
 position = Vector2( 0, -5 )
 scale = Vector2( 3, 3 )
 frames = SubResource( 8 )
-frame = 4
 speed_scale = 2.0
 playing = true
 script = ExtResource( 4 )
@@ -234,7 +237,7 @@ lifetime = 0.5
 one_shot = true
 explosiveness = 1.0
 randomness = 0.72
-texture = SubResource( 16 )
+texture = SubResource( 30 )
 spread = 180.0
 gravity = Vector2( 0, 0 )
 initial_velocity = 55.05
@@ -247,9 +250,12 @@ scale_amount_random = 0.62
 color_ramp = SubResource( 17 )
 
 [node name="FireSound" type="AudioStreamPlayer2D" parent="Style1"]
-stream = ExtResource( 7 )
+stream = ExtResource( 6 )
 bus = "Sound"
 script = ExtResource( 8 )
+pitch_low = 0.864
+ptch_high = 1.108
+volume_low = -4.273
 
 [node name="Style2" type="Node2D" parent="."]
 visible = false
@@ -258,7 +264,7 @@ visible = false
 position = Vector2( -5, 5 )
 scale = Vector2( -0.137, 0.137 )
 frames = SubResource( 15 )
-frame = 6
+frame = 1
 playing = true
 script = ExtResource( 4 )
 
@@ -297,7 +303,7 @@ visible = false
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Style3"]
 scale = Vector2( 0.423826, 0.423826 )
 frames = SubResource( 29 )
-frame = 3
+frame = 10
 playing = true
 script = ExtResource( 4 )
 
