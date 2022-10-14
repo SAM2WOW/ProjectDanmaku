@@ -8,6 +8,7 @@ var gameover = false
 
 func _ready():
 	Global.console = self
+	randomize()
 	
 	$"../CanvasLayer/Control/HealthBar".set_max(boss_health)
 	$"../CanvasLayer/Control/HealthBar".set_value(boss_health)
