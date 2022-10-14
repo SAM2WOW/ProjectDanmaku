@@ -86,7 +86,7 @@ func _on_Verse_Jump(verse):
 		# into 3d; laser gets charged
 		2:
 			if (!is_instance_valid(Global.boss)): return;
-			Global.boss.fireLaser(get_global_position(), get_global_position() + (dir * 50), true)
+			Global.boss.fireLaser(get_global_position(), get_global_position() + (dir * 50), true, false)
 			dying = true
 			queue_free()
 		# into collage; bullets can bounce and gets slower

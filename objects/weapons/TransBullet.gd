@@ -4,9 +4,9 @@ var style = 0;
 var dir = Vector2();
 
 # for detonation bullets
-var health = 12
+var health = 15
 var moving = true
-var damage = 1.0
+var damage = 50
 var max_speed = 1000
 var speed = 1000
 

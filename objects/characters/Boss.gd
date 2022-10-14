@@ -8,11 +8,12 @@ var attack_pattern = 0;
 var fire_rate = 1;
 var rng = RandomNumberGenerator.new();
 var enraged = false;
-var hp = 0.0;
+var hp = 10000.0;
 
 # movement
 var move_to_pos = Vector2();
 var move_to_dir = Vector2();
+var movement_interval = 8.0;
 var pos_offset = 200;
 var base_speed = 150;
 var dist_offset = 200;
@@ -25,7 +26,7 @@ var move_to_center = false;
 var init_dist_to_center = Vector2();
 var duel_bullet;
 
-onready var fire_timer = get_node("FireTimer");
+var attack_interval = 1.0;
 
 var transbullet_state = false
 var transbullet_max_cd = 5;
@@ -50,6 +51,16 @@ func _ready():
 	
 	style_pool.shuffle()
 	style_pool.append(1)
+
+func _process(delta):
+	hp = Global.console.boss_health;
+	if (hp <= Global.console.max_boss_health*0.5 && !enraged):
+		print("enraged!");
+		movement_interval = 5.0;
+		base_speed = 300;
+		enraged = true;
+		attack_interval = 0.7;
+		max_missed_bullets -= 1;
 	
 func _physics_process(delta):
 	if moving:
@@ -69,8 +80,8 @@ func _physics_process(delta):
 				$FireTimer.paused = false;
 				moving = false;
 				move_to_center = false;
-				get_parent().add_child(duel_bullet);
-				duel_bullet.set_global_position(get_global_position());
+				get_parent().add_child(last_trans_bullet);
+				last_trans_bullet.set_global_position(get_global_position());
 				return;
 			move_and_slide(move_vel, Vector2.UP);
 			# once it reaches center
@@ -78,8 +89,8 @@ func _physics_process(delta):
 				$FireTimer.paused = false;
 				moving = false;
 				move_to_center = false;
-				get_parent().add_child(duel_bullet);
-				duel_bullet.set_global_position(get_global_position());
+				get_parent().add_child(last_trans_bullet);
+				last_trans_bullet.set_global_position(get_global_position());
 
 		else:
 			move_and_slide(move_to_dir * move_speed, Vector2.UP);
@@ -88,7 +99,7 @@ func _physics_process(delta):
 				&& pos.y < move_to_pos.y+dest_offset && pos.y > move_to_pos.y-dest_offset
 			):
 				moving = false;
-				$MovementTimer.start();
+				$MovementTimer.start(movement_interval);
 
 func damage(amount,body = null):
 	#print(body)
@@ -106,7 +117,7 @@ func damage(amount,body = null):
 
 func _on_Verse_Jump(verse):
 	if ($MovementTimer.is_stopped()):
-		$MovementTimer.start();
+		$MovementTimer.start(movement_interval);
 	
 	var tween = create_tween().set_trans(Tween.TRANS_BOUNCE)
 	tween.tween_property(get_node("Style%d" % style), "scale", Vector2(0.5, 0.5), 0.05)
@@ -127,9 +138,10 @@ func _on_Verse_Jump(verse):
 	transbullet_cd = transbullet_max_cd;
 	missed_bullet_counter = 0;
 	transbullet_state = false
+	last_trans_bullet = null;
 
 
-func fireLaser(fireFrom, fireAt, inPortal):
+func fireLaser(fireFrom, fireAt, inPortal, bossSpawned=true):
 	
 	var ind = laserInd.instance();
 	var timeBeforeBeam = 0.8
@@ -151,6 +163,7 @@ func fireLaser(fireFrom, fireAt, inPortal):
 	var beam = laserBeam.instance();
 	beam.set_global_position(fireFrom)
 	beam.inPortal = inPortal;
+	beam.bossSpawned = bossSpawned;
 	get_parent().add_child(beam)
 	var beamPoint = ind.points[1]
 #	beamPoint[1] /= 5
@@ -166,9 +179,9 @@ func fireLaser(fireFrom, fireAt, inPortal):
 func finish_attack():
 	rng.randomize();
 	attack_pattern = rng.randi()%2;
-	fire_timer.start();
+	$FireTimer.start(attack_interval);
 
-	#firing portal bullet when theres no transbullet on the screen
+	# firing portal bullet when the last trans bullet is freed
 	if not is_instance_valid(last_trans_bullet):
 		transbullet_cd -= 1
 		# fire the transbullet
@@ -183,7 +196,7 @@ func finish_attack():
 				missed_bullet_counter = 0;
 				move_to_center();
 				t.duel_mode = true;
-				duel_bullet = t;
+				last_trans_bullet = t;
 			# increment missed bullet counter
 			else:
 				missed_bullet_counter += 1;
@@ -198,7 +211,7 @@ func randomize_transbullet(t):
 	print("======= Current Style Pool" + str(style_pool))
 	var new_style = style_pool[0]
 	style_pool.remove(0)
-	style_pool.insert(2 + randi()%1, new_style)
+	style_pool.insert(2 + randi()%2, new_style)
 	
 	print("======= New Style Pool" + str(style_pool))
 	t.style = new_style
@@ -209,6 +222,9 @@ func _on_FireTimer_timeout():
 
 func fire_bullets():
 	attack_properties = Global.boss_patterns[style][attack_pattern];
+	if (enraged):
+		attack_properties["waves"] += 1;
+		attack_properties["interval"] *= 1.3;
 	match style:
 		0:
 			init_minimal_bullets();
@@ -344,21 +360,22 @@ func init_3d_bullets():
 func init_collage_bullets():
 	match attack_pattern:
 		0:
-			var num_waves = 2; var wave_interval = 0.6;
 			var dir = get_global_position().direction_to(Global.player.get_global_position());
 			var b_speed = Global.boss_bullet_properties[style]["speed"];
-			for i in num_waves:
+			for i in attack_properties["waves"]:
 				if (!is_instance_valid(Global.boss)): return;
 				if (prev_style != style):
 					prev_style = style;
 					finish_attack();
 					return;
 				fire_spread(3, 30, b_speed, dir);
-				yield(get_tree().create_timer(wave_interval), "timeout");
+				yield(get_tree().create_timer(attack_properties["interval"]), "timeout");
 			finish_attack();
 		1:
 			var b_speed = Global.boss_bullet_properties[style]["speed"];
-			fire_pulse(6, b_speed);
+			for i in attack_properties["waves"]:
+				fire_pulse(6, b_speed);
+				yield(get_tree().create_timer(attack_properties["interval"]), "timeout");
 			finish_attack();
 		_:
 			pass
@@ -469,7 +486,7 @@ func _on_MovementTimer_timeout():
 		max_tries -= 1;
 		if max_tries <= 0:
 			print("failed too many tries")
-			$MovementTimer.start();
+			$MovementTimer.startmovement_interval();
 			return;
 
 	moving = true;
@@ -490,6 +507,6 @@ func move_to_center():
 	if (init_dist_to_center <= 10):
 		moving = false;
 		move_to_center = false;
-		$MovementTimer.start();
+		$MovementTimer.start(movement_interval);
 		$FireTimer.paused = false;
 		

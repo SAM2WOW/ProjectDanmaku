@@ -10,6 +10,7 @@ var laserBulletInterval = 0.25
 var playerDamageInterval = 0.2
 
 var inPortal = false;
+var bossSpawned = false;
 
 var style = 2;
 
@@ -30,7 +31,7 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	var cast_point := cast_to
 	force_raycast_update()
-	if (inPortal):
+	if (inPortal && !bossSpawned):
 		set_collide_with_areas(false);
 	
 	laserBulletIntervalCount += delta
