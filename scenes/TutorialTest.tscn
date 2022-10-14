@@ -1,0 +1,230 @@
+[gd_scene load_steps=21 format=2]
+
+[ext_resource path="res://objects/characters/Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://objects/weapons/TransBullet.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scripts/Console.gd" type="Script" id=3]
+[ext_resource path="res://arts/shaders/BG.jpg" type="Texture" id=5]
+[ext_resource path="res://arts/shaders/Style0.tres" type="Material" id=6]
+[ext_resource path="res://arts/shaders/Style2.tres" type="Material" id=7]
+[ext_resource path="res://scripts/BackgroundScript.gd" type="Script" id=8]
+[ext_resource path="res://arts/shaders/MetalBall/Gel_Shader.tres" type="Material" id=9]
+[ext_resource path="res://arts/shaders/Style1.tres" type="Material" id=10]
+[ext_resource path="res://arts/shaders/MetalBall/background.png" type="Texture" id=11]
+[ext_resource path="res://arts/shaders/Shockwave.tres" type="Shader" id=12]
+[ext_resource path="res://arts/ui/Poppins-Regular.ttf" type="DynamicFontData" id=13]
+[ext_resource path="res://scripts/CameraShake.gd" type="Script" id=14]
+[ext_resource path="res://arts/shaders/Style3.tres" type="Material" id=16]
+
+[sub_resource type="ShaderMaterial" id=1]
+shader = ExtResource( 12 )
+shader_param/strength = 0.035
+shader_param/center = Vector2( 0.408, 0.615 )
+shader_param/radius = 0.0
+shader_param/aberration = 0.287
+shader_param/width = 0.0181
+shader_param/feather = 0.12
+
+[sub_resource type="DynamicFont" id=2]
+size = 94
+font_data = ExtResource( 13 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 42
+font_data = ExtResource( 13 )
+
+[sub_resource type="StyleBoxFlat" id=5]
+bg_color = Color( 1, 1, 1, 0.376471 )
+
+[sub_resource type="StyleBoxFlat" id=6]
+bg_color = Color( 1, 1, 1, 0.784314 )
+
+[sub_resource type="StyleBoxEmpty" id=4]
+
+[node name="Main" type="Node"]
+
+[node name="Console" type="Node" parent="."]
+script = ExtResource( 3 )
+
+[node name="Node2D" type="Node2D" parent="."]
+
+[node name="Camera2D" type="Camera2D" parent="Node2D"]
+current = true
+script = ExtResource( 14 )
+
+[node name="Player" parent="Node2D" instance=ExtResource( 1 )]
+position = Vector2( 0, 348 )
+
+[node name="Background" type="Node2D" parent="Node2D" groups=["style"]]
+z_index = -500
+script = ExtResource( 8 )
+
+[node name="Style0" type="Sprite" parent="Node2D/Background"]
+visible = false
+material = ExtResource( 6 )
+scale = Vector2( 8, 8 )
+texture = ExtResource( 5 )
+
+[node name="Style1" type="Sprite" parent="Node2D/Background"]
+visible = false
+material = ExtResource( 10 )
+scale = Vector2( 8, 8 )
+texture = ExtResource( 5 )
+
+[node name="Style2" type="Sprite" parent="Node2D/Background"]
+visible = false
+material = ExtResource( 7 )
+scale = Vector2( 8, 8 )
+texture = ExtResource( 5 )
+
+[node name="Style3" type="Sprite" parent="Node2D/Background"]
+visible = false
+material = ExtResource( 16 )
+scale = Vector2( 8, 8 )
+texture = ExtResource( 5 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Node2D/Background"]
+collision_layer = 0
+collision_mask = 16
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Node2D/Background/StaticBody2D"]
+polygon = PoolVector2Array( -1024, -560, -1088, -640, 1048, -640, 1048, 640, -1088, 640, -1088, -640, -1024, -560, -1024, 576, 984, 576, 984, -576 )
+
+[node name="TransBullet" parent="Node2D" instance=ExtResource( 2 )]
+position = Vector2( 0, -300 )
+tutorial_mode = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Node2D"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+pause_mode = 2
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="Style1" type="ColorRect" parent="CanvasLayer/Control"]
+visible = false
+material = ExtResource( 9 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="HealthBar" type="TextureProgress" parent="CanvasLayer/Control"]
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -18.0
+margin_right = 55.0
+margin_bottom = -743.0
+rect_scale = Vector2( 0.246382, 3.20165 )
+value = 88.0
+texture_under = ExtResource( 11 )
+texture_progress = ExtResource( 11 )
+fill_mode = 3
+tint_under = Color( 0.172549, 0.172549, 0.172549, 0.47451 )
+tint_progress = Color( 0.956863, 0.380392, 0.380392, 1 )
+nine_patch_stretch = true
+
+[node name="Shockwave" type="ColorRect" parent="CanvasLayer/Control"]
+material = SubResource( 1 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Gameover" type="Control" parent="CanvasLayer/Control"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/Control/Gameover"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 0.505882 )
+
+[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/Control/Gameover"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/Gameover/CenterContainer"]
+margin_left = 546.0
+margin_top = 358.0
+margin_right = 1374.0
+margin_bottom = 722.0
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/Gameover/CenterContainer/VBoxContainer"]
+margin_right = 828.0
+margin_bottom = 132.0
+custom_fonts/font = SubResource( 2 )
+text = "- Boss Defeated -"
+
+[node name="Time" type="Label" parent="CanvasLayer/Control/Gameover/CenterContainer/VBoxContainer"]
+margin_top = 136.0
+margin_right = 828.0
+margin_bottom = 196.0
+custom_fonts/font = SubResource( 3 )
+text = "Time: 120.2s"
+align = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control/Gameover/CenterContainer/VBoxContainer"]
+margin_top = 200.0
+margin_right = 828.0
+margin_bottom = 300.0
+custom_constants/margin_top = 100
+
+[node name="Restart" type="Button" parent="CanvasLayer/Control/Gameover/CenterContainer/VBoxContainer"]
+margin_top = 304.0
+margin_right = 828.0
+margin_bottom = 364.0
+focus_mode = 0
+custom_fonts/font = SubResource( 3 )
+custom_styles/hover = SubResource( 5 )
+custom_styles/pressed = SubResource( 6 )
+custom_styles/normal = SubResource( 4 )
+enabled_focus_mode = 0
+text = "< Retry >"
+
+[node name="PlayerDeath" type="Control" parent="CanvasLayer/Control"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/Control/PlayerDeath"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 0.505882 )
+
+[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/Control/PlayerDeath"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/PlayerDeath/CenterContainer"]
+margin_left = 678.0
+margin_top = 390.0
+margin_right = 1242.0
+margin_bottom = 690.0
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/PlayerDeath/CenterContainer/VBoxContainer"]
+margin_right = 564.0
+margin_bottom = 132.0
+custom_fonts/font = SubResource( 2 )
+text = "- You Died -"
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control/PlayerDeath/CenterContainer/VBoxContainer"]
+margin_top = 136.0
+margin_right = 564.0
+margin_bottom = 236.0
+custom_constants/margin_top = 100
+
+[node name="Restart" type="Button" parent="CanvasLayer/Control/PlayerDeath/CenterContainer/VBoxContainer"]
+margin_top = 240.0
+margin_right = 564.0
+margin_bottom = 300.0
+focus_mode = 0
+custom_fonts/font = SubResource( 3 )
+custom_styles/hover = SubResource( 5 )
+custom_styles/pressed = SubResource( 6 )
+custom_styles/normal = SubResource( 4 )
+enabled_focus_mode = 0
+text = "< Retry >"
+
+[connection signal="pressed" from="CanvasLayer/Control/Gameover/CenterContainer/VBoxContainer/Restart" to="Console" method="_on_Restart_pressed"]
+[connection signal="pressed" from="CanvasLayer/Control/PlayerDeath/CenterContainer/VBoxContainer/Restart" to="Console" method="_on_Restart_pressed"]

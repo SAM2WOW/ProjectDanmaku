@@ -3,8 +3,8 @@ extends AudioStreamPlayer2D
 export var pitch_low = 0.9
 export var ptch_high = 1.1
 
-export var volume_low = 0
-export var volume_high = 0
+export var volume_low = 0.0
+export var volume_high = 0.0
 
 export var base_volume = 0.0
 

@@ -80,3 +80,6 @@ stream = ExtResource( 4 )
 script = ExtResource( 3 )
 pitch_low = 0.863
 ptch_high = 1.184
+volume_low = 4.0
+volume_high = 6.0
+base_volume = 5.0

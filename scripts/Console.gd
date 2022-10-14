@@ -4,14 +4,16 @@ extends Node
 var boss_health = 5000
 var portal
 var play_time = 0.0
-
+var gameover = false
 
 func _ready():
 	Global.console = self
+	randomize()
 	
 	$"../CanvasLayer/Control/HealthBar".set_max(boss_health)
 	$"../CanvasLayer/Control/HealthBar".set_value(boss_health)
-
+	
+	$"../CanvasLayer/Control/Shockwave".get_material().set_shader_param("radius", 0.0)
 
 func _process(delta):
 	if boss_health > 0:
@@ -24,19 +26,28 @@ func boss_dead():
 
 
 func player_dead():
-	$"../CanvasLayer/Control/PlayerDeath".show()
+	if gameover == false:
+		$"../CanvasLayer/Control/PlayerDeath".show()
+		
+		gameover = true
+		Global.player.set_process(false)
+		Global.player.set_physics_process(false)
+		Global.boss.set_process(false)
 
 
 func damage_boss(amount):
-	boss_health -= amount
-	
-	$"../CanvasLayer/Control/HealthBar".set_value(boss_health)
-	
-	if boss_health <= 0:
-		boss_dead()
-		Global.boss.queue_free()
+	if gameover == false:
+		boss_health -= amount
 		
-		Global.player.set_process(false)
+		$"../CanvasLayer/Control/HealthBar".set_value(boss_health)
+		
+		if boss_health <= 0:
+			boss_dead()
+			
+			gameover = true
+			Global.player.set_process(false)
+			Global.boss.set_process(false)
+			Global.boss.set_physics_process(false)
 
 
 func play_shockwave(orgin, delay = 0):
@@ -51,7 +62,8 @@ func play_shockwave(orgin, delay = 0):
 	$"../CanvasLayer/Control/Shockwave".get_material().set_shader_param("radius", 0.0)
 	var tween = create_tween().set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
 	tween.tween_interval(delay)
-	tween.tween_property($"../CanvasLayer/Control/Shockwave".get_material(), "shader_param/radius", 1.7, 1)
+	tween.tween_property($"../CanvasLayer/Control/Shockwave".get_material(), "shader_param/radius", 1.7, 0.8)
+
 
 func play_shockwave_small(orgin, delay = 0):
 	var h = orgin.x / $"../Node2D".get_viewport_rect().size.x
@@ -70,7 +82,13 @@ func play_shockwave_small(orgin, delay = 0):
 	#yield(tween, "finished")
 	#$"../CanvasLayer/Control/Shockwave".hide()
 
+func start_game():
+	var b = load("res://objects/characters/Boss.tscn").instance()
+	get_node('../Node2D').add_child(b)
+	b.set_global_position(Vector2(0,-1))
+	b.style = 0
 
 func _on_Restart_pressed():
+	get_tree().set_pause(false)
 	Global.current_style = Global.initial_style
 	get_tree().reload_current_scene()

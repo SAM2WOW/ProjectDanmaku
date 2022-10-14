@@ -11,45 +11,107 @@ var max_speed = 1000
 var speed = 1000
 
 var base_growth_rate = 0.01
+var max_scale = 2.4
+var max_scale_plus = 2.8
+var damage_multiplier = 0.2
 
 var portal = preload("res://objects/system/portal.tscn")
 var dead = false
 var hit = false
 var next_scale = Vector2(0,0)
 
-var damageTween
-
 var growth_rate = 1
 var start_protect = false
 
 var dead_damp = 0.15
 
-func init_bullet(_pos, _dir, _style):
-	set_global_position(_pos);
-	style = _style;
-	
-	set_linear_velocity(Vector2(1000,0).rotated(dir))
+var duel_mode = false
+export var tutorial_mode = false
+
+func init_bullet():
+	dead = false
+	start_protect = true
+
+	if is_instance_valid(Global.player):
+		self.look_at(Global.player.get_global_position())
+	set_linear_velocity(Vector2(1000,100-randi() % 200).rotated(get_global_rotation()))
 	self.connect("tree_exited", self, "boss_transState_cleanup")
+	
+func init_tutorial_bullet():
+	dead = false
+	start_protect = true
+	max_scale = 4
+	max_scale_plus = 3
+	#set_linear_velocity(Vector2(1000,100-randi() % 200).rotated(get_global_rotation()))
+	
+func init_duel_bullet():
+	dead = false
+	start_protect = true
 
+	look_at(Global.player.get_global_position())
+	health = 15
+	max_scale = 4
+	max_scale_plus = 4.2
+	damage_multiplier = 0.1
+	$area.set_scale(Vector2(2.2,2.2))
+	set_linear_velocity(Vector2(500,100-randi() % 200).rotated(get_global_rotation()))
+	self.connect("tree_exited", self, "boss_transState_cleanup")
+	start_protect = true
+	
+func ready_bullet():
+	var tween = create_tween().set_trans(Tween.TRANS_ELASTIC)
+	tween.tween_property($area, "scale", Vector2(1.5, 1.5), 1)
+	tween.tween_interval(0.2)
+	tween.tween_callback(self, "init_bullet")
+
+func ready_duel_bullet():
+	var tween = create_tween().set_trans(Tween.TRANS_ELASTIC)
+	tween.tween_property($area, "scale", Vector2(2.5, 2.5), 2)
+	$area/Node2D/Sprite2.modulate = Color('ff3f3f')
+	#tween.tween_callback(self, "init_duel_bullet")
+	tween.tween_interval(0.3)
+	tween.tween_callback(self, "init_duel_bullet")
+	
+func ready_tutorial_bullet():
+	mode = MODE_STATIC
+	var tween = create_tween().set_trans(Tween.TRANS_CUBIC)
+	tween.tween_property($area, "scale", Vector2(3, 3), 1)
+	#tween.tween_callback(self, "init_duel_bullet")
+	$area/CPUParticles2D4.one_shot = false
+	tween.tween_interval(0.3)
+	tween.tween_callback(self, "init_tutorial_bullet")
+	
 func boss_transState_cleanup():
-	Global.boss.transbullet_state = false
-
+	if is_instance_valid(Global.boss):
+		Global.boss.transbullet_state = false
+	
 func _on_VisibilityNotifier2D_screen_exited():
 	queue_free()
 
 func _ready():
-	damageTween = create_tween().set_trans(Tween.TRANS_LINEAR)
-	look_at(Global.player.get_global_position())
-	set_linear_velocity(Vector2(1000,100-randi() % 200).rotated(get_global_rotation()))
+	$area/CPUParticles2D4.set_emitting(true)
+	$area/CPUParticles2D4.set_material(load("res://arts/shaders/Portal%d.tres" % style))
 	$area/Node2D/Sprite.set_material(load("res://arts/shaders/Portal%d.tres" % style))
-
+	dead = true
+	if tutorial_mode:
+		ready_tutorial_bullet()
+		return
+	if duel_mode:
+		ready_duel_bullet()
+	else:
+		ready_bullet()
+			
+	
 func self_destroy():
-	if (!is_instance_valid(Global.boss)): return;
+	if duel_mode:
+		verse_jump_init()
+		return
 	var tween = create_tween().set_trans(Tween.TRANS_BACK)
 	tween.tween_property($area, "scale", Vector2(0, 0), 0.2)
 	tween.tween_callback(self, "queue_free")
 	if style != Global.current_style:
 		spawn_portal()
+	if (!is_instance_valid(Global.boss)): return;
 	Global.boss.transbullet_state = false
 
 func spawn_portal():
@@ -66,7 +128,6 @@ func spawn_portal():
 	
 	#print(get_global_transform_with_canvas().origin)
 	Global.console.play_shockwave_small(get_global_transform_with_canvas().origin,0.08)
-	
 
 func verse_jump_init():
 	dead = true
@@ -79,8 +140,31 @@ func verse_jump_init():
 	tween.set_trans(Tween.TRANS_CUBIC)
 	tween.tween_property($area, "scale", Vector2(0, 0), 0.15)
 	tween.tween_callback(self, "verse_jump_explode")
+
+func bad_verse_jump_init():
+	dead = true
+	mode = MODE_STATIC
+	$badParticle.set_emitting(true)
+	$badParticle2.set_emitting(true)
+	#set_linear_velocity(Vector2(0,0))
+	var tween = create_tween().set_trans(Tween.TRANS_QUAD)
+	tween.tween_property($area, "scale", Vector2(1, 1), 0.28)
+	tween.set_trans(Tween.TRANS_LINEAR)
+	tween.tween_property($area, "scale", Vector2(1.2, 1.2), 0.1)
+	tween.set_trans(Tween.TRANS_CUBIC)
+	tween.tween_property($area, "scale", Vector2(0.8, 0.8), 0.15)
+	tween.set_trans(Tween.TRANS_ELASTIC)
+	tween.set_trans(Tween.TRANS_ELASTIC)
+	tween.tween_callback(self, "verse_jump_explode")
+	$AnimationPlayer.play("glich")
+	tween.tween_property($area, "scale", Vector2(0, 0), 0.3)
+	tween.tween_callback(self, "queue_free")
+
 	
 func verse_jump_explode():
+	$badParticle.set_emitting(false)
+	if tutorial_mode:
+		Global.console.start_game()
 	var p = portal.instance();
 	#p.get_node("AnimatedSprite").play();
 	p.exploding = true
@@ -88,8 +172,8 @@ func verse_jump_explode():
 	get_parent().add_child(p);
 	p.set_global_position(get_global_position());
 	p.exploding = true
-	queue_free()
-	Global.boss.transbullet_state = false
+	if is_instance_valid(Global.boss):
+		Global.boss.transbullet_state = false
 		
 	print(p.get_global_transform_with_canvas().origin)
 	Global.console.play_shockwave(get_global_transform_with_canvas().origin)
@@ -97,9 +181,11 @@ func verse_jump_explode():
 func _physics_process(delta):
 	if not dead:
 		if not hit:
-			$area.scale = lerp($area.scale, Vector2(2.5,2.5),base_growth_rate * growth_rate)
-			if $area.scale.x > 3:
+			$area.scale = lerp($area.scale, Vector2(max_scale_plus,max_scale_plus),base_growth_rate * growth_rate)
+			if $area.scale.x > max_scale:
 				self_destroy()
+				if duel_mode:
+					bad_verse_jump_init()
 	else:
 		set_linear_velocity(lerp(get_linear_velocity(),Vector2.ZERO,dead_damp))
 
@@ -110,7 +196,6 @@ func _on_Verse_Jump(style):
 func _on_hit(damage):
 	if not hit:
 		hit = true
-
 		var damageTween = create_tween().set_trans(Tween.TRANS_CUBIC)
 		damageTween.tween_property($area/Node2D, "scale", Vector2(1.3,1.3), 0.08)
 		damageTween.parallel().tween_property($area/Node2D, "modulate", Color("ffafaf"), 0.08)
@@ -126,29 +211,31 @@ func _on_hit(damage):
 
 
 func damage(damage):
-	damage = damage * 0.1
-	base_growth_rate = 0.01
-	if damage > 4:
-		damage = 4
-	$Timer.start()
-	print('trans damage%d' % damage)
-	_on_hit(damage)
-	if $area.scale.x > 0.7:
-		$area.scale -= Vector2(0.15,0.15) * damage
-	health -= 1 * damage
-	
-	
-	if health <= 0:
-		growth_rate = 0.5
-	if $area.scale.x < 1 and start_protect:
-		verse_jump_init()
-	
+	if start_protect and not dead:
+		damage = damage * damage_multiplier
+		base_growth_rate = 0.01
+		if damage > 3:
+			damage = 3
+		$Timer.start()
+		print('trans damage%d' % damage)
+		_on_hit(damage)
+		if $area.scale.x > 0.7:
+			$area.scale -= Vector2(0.15,0.15) * damage
+		health -= damage
+		
+		
+		if health <= 0:
+			growth_rate = 0.5
+		if $area.scale.x < 1 and start_protect:
+			if tutorial_mode:
+				bad_verse_jump_init()
+			else:
+				verse_jump_init()
 	
 
 
 func _on_Timer_timeout():
 	base_growth_rate += 0.003
-	start_protect = true
 	
 func delayed_destroy():
 	dead_damp = 0.05
@@ -161,10 +248,14 @@ func delayed_destroy():
 func _on_DetectionArea_body_entered(body):
 	if not dead:
 		if body == Global.player:
-			body.damage(10)
-			#self_destroy()
-			delayed_destroy()
-			dead = true
+			if not tutorial_mode:
+				body.damage(10)
+				if duel_mode:
+					bad_verse_jump_init()
+					return
+				#self_destroy()
+				delayed_destroy()
+				dead = true
 		elif "Player" in body.name:
 			if start_protect:
 				damage(body.damage)

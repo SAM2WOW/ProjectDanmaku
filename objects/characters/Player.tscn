@@ -1,17 +1,18 @@
-[gd_scene load_steps=47 format=2]
+[gd_scene load_steps=51 format=2]
 
 [ext_resource path="res://objects/characters/Player.gd" type="Script" id=1]
 [ext_resource path="res://arts/collage/Collage_Witch_Girl.png" type="Texture" id=2]
 [ext_resource path="res://arts/pixelArt/witch_idle.png" type="Texture" id=3]
 [ext_resource path="res://objects/characters/flip_script.gd" type="Script" id=4]
 [ext_resource path="res://arts/abstrastArt/player.png" type="Texture" id=5]
-[ext_resource path="res://arts/3D/Witch.png" type="Texture" id=6]
+[ext_resource path="res://sounds/pixel_sfx/pixel_player_bullet_shot.wav" type="AudioStream" id=6]
 [ext_resource path="res://sounds/AbstractFire.wav" type="AudioStream" id=7]
 [ext_resource path="res://scripts/AudioRandomizer.gd" type="Script" id=8]
 [ext_resource path="res://sounds/AbstractBullet.wav" type="AudioStream" id=9]
 [ext_resource path="res://arts/ui/bosshealth.png" type="Texture" id=10]
 [ext_resource path="res://arts/abstrastArt/playercircle.png" type="Texture" id=11]
-[ext_resource path="res://arts/3D/Witch_Idle_Flipped.png" type="Texture" id=12]
+[ext_resource path="res://arts/3D/3D_Witch_Idle-min.png" type="Texture" id=12]
+[ext_resource path="res://sounds/pixel_sfx/pixel_player_hit.wav" type="AudioStream" id=13]
 
 [sub_resource type="Gradient" id=17]
 offsets = PoolRealArray( 0, 0.150838, 1 )
@@ -49,72 +50,82 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="AtlasTexture" id=16]
-atlas = ExtResource( 3 )
-region = Rect2( 0, 0, 67, 61 )
-
 [sub_resource type="AtlasTexture" id=30]
-flags = 4
-atlas = ExtResource( 12 )
-region = Rect2( 0, 0, 1080, 1080 )
+atlas = ExtResource( 3 )
+region = Rect2( 74.5068, 13.4393, 41.7534, 40.0375 )
 
 [sub_resource type="AtlasTexture" id=31]
 flags = 4
 atlas = ExtResource( 12 )
-region = Rect2( 1080, 0, 1080, 1080 )
+region = Rect2( 0, 0, 1080, 1080 )
 
 [sub_resource type="AtlasTexture" id=32]
 flags = 4
 atlas = ExtResource( 12 )
-region = Rect2( 3240, 0, 1080, 1080 )
+region = Rect2( 1080, 0, 1080, 1080 )
 
 [sub_resource type="AtlasTexture" id=33]
 flags = 4
 atlas = ExtResource( 12 )
-region = Rect2( 4320, 0, 1080, 1080 )
+region = Rect2( 2160, 0, 1080, 1080 )
 
 [sub_resource type="AtlasTexture" id=34]
 flags = 4
 atlas = ExtResource( 12 )
-region = Rect2( 5400, 0, 1080, 1080 )
+region = Rect2( 3240, 0, 1080, 1080 )
 
 [sub_resource type="AtlasTexture" id=35]
 flags = 4
 atlas = ExtResource( 12 )
-region = Rect2( 6480, 0, 1080, 1080 )
+region = Rect2( 4320, 0, 1080, 1080 )
 
 [sub_resource type="AtlasTexture" id=36]
 flags = 4
 atlas = ExtResource( 12 )
-region = Rect2( 7560, 0, 1080, 1080 )
+region = Rect2( 5400, 0, 1080, 1080 )
 
 [sub_resource type="AtlasTexture" id=37]
 flags = 4
 atlas = ExtResource( 12 )
-region = Rect2( 8640, 0, 1080, 1080 )
+region = Rect2( 6480, 0, 1080, 1080 )
 
 [sub_resource type="AtlasTexture" id=38]
 flags = 4
 atlas = ExtResource( 12 )
-region = Rect2( 9720, 0, 1080, 1080 )
+region = Rect2( 7560, 0, 1080, 1080 )
 
 [sub_resource type="AtlasTexture" id=39]
 flags = 4
 atlas = ExtResource( 12 )
-region = Rect2( 10800, 0, 1080, 1080 )
+region = Rect2( 8640, 0, 1080, 1080 )
 
 [sub_resource type="AtlasTexture" id=40]
+flags = 4
+atlas = ExtResource( 12 )
+region = Rect2( 9720, 0, 1080, 1080 )
+
+[sub_resource type="AtlasTexture" id=41]
+flags = 4
+atlas = ExtResource( 12 )
+region = Rect2( 10800, 0, 1080, 1080 )
+
+[sub_resource type="AtlasTexture" id=42]
 flags = 4
 atlas = ExtResource( 12 )
 region = Rect2( 11880, 0, 1080, 1080 )
 
 [sub_resource type="SpriteFrames" id=15]
 animations = [ {
-"frames": [ SubResource( 30 ), SubResource( 31 ), SubResource( 32 ), SubResource( 33 ), SubResource( 34 ), SubResource( 35 ), SubResource( 36 ), SubResource( 37 ), SubResource( 38 ), SubResource( 39 ), SubResource( 40 ) ],
+"frames": [ SubResource( 31 ), SubResource( 32 ), SubResource( 33 ), SubResource( 34 ), SubResource( 35 ), SubResource( 36 ), SubResource( 37 ), SubResource( 38 ), SubResource( 39 ), SubResource( 40 ), SubResource( 41 ), SubResource( 42 ) ],
 "loop": true,
 "name": "default",
-"speed": 5.0
+"speed": 12.0
 } ]
+
+[sub_resource type="AtlasTexture" id=43]
+flags = 4
+atlas = ExtResource( 12 )
+region = Rect2( 106.565, 165.566, 818.873, 738.983 )
 
 [sub_resource type="AtlasTexture" id=18]
 flags = 4
@@ -179,6 +190,11 @@ animations = [ {
 "speed": 12.0
 } ]
 
+[sub_resource type="AtlasTexture" id=16]
+flags = 4
+atlas = ExtResource( 2 )
+region = Rect2( -11.8309, 46.8765, 449.028, 456.638 )
+
 [sub_resource type="CircleShape2D" id=1]
 radius = 20.0
 
@@ -198,7 +214,7 @@ texture_under = ExtResource( 10 )
 texture_progress = ExtResource( 10 )
 fill_mode = 5
 tint_under = Color( 0, 0, 0, 0.0352941 )
-tint_progress = Color( 0.517647, 0.878431, 0.960784, 0.172549 )
+tint_progress = Color( 0.517647, 0.878431, 0.960784, 0.792157 )
 
 [node name="Style0" type="Node2D" parent="."]
 visible = false
@@ -246,19 +262,30 @@ color_ramp = SubResource( 17 )
 
 [node name="FireSound" type="AudioStreamPlayer2D" parent="Style0"]
 stream = ExtResource( 9 )
+bus = "Sound"
 script = ExtResource( 8 )
 pitch_low = 0.784
 ptch_high = 1.376
-base_volume = -20.0
+volume_low = -5.0
+base_volume = -15.0
+
+[node name="HitSound" type="AudioStreamPlayer2D" parent="Style0"]
+stream = ExtResource( 13 )
+bus = "Sound"
+script = ExtResource( 8 )
+pitch_low = 0.784
+ptch_high = 1.376
+volume_low = 9.0
+volume_high = 11.0
+base_volume = 10.0
 
 [node name="Style1" type="Node2D" parent="."]
-visible = false
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Style1"]
 position = Vector2( 0, -5 )
 scale = Vector2( 3, 3 )
 frames = SubResource( 8 )
-frame = 4
+frame = 3
 speed_scale = 2.0
 playing = true
 script = ExtResource( 4 )
@@ -275,7 +302,7 @@ lifetime = 0.5
 one_shot = true
 explosiveness = 1.0
 randomness = 0.72
-texture = SubResource( 16 )
+texture = SubResource( 30 )
 spread = 180.0
 gravity = Vector2( 0, 0 )
 initial_velocity = 55.05
@@ -288,17 +315,32 @@ scale_amount_random = 0.62
 color_ramp = SubResource( 17 )
 
 [node name="FireSound" type="AudioStreamPlayer2D" parent="Style1"]
-stream = ExtResource( 7 )
+stream = ExtResource( 6 )
+bus = "Sound"
 script = ExtResource( 8 )
+pitch_low = 0.864
+ptch_high = 1.108
+volume_low = 4.0
+volume_high = 5.0
+base_volume = 6.0
+
+[node name="HitSound" type="AudioStreamPlayer2D" parent="Style1"]
+stream = ExtResource( 13 )
+bus = "Sound"
+script = ExtResource( 8 )
+pitch_low = 0.784
+ptch_high = 1.376
+volume_low = 9.0
+volume_high = 11.0
+base_volume = 10.0
 
 [node name="Style2" type="Node2D" parent="."]
 visible = false
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Style2"]
 position = Vector2( -5, 5 )
-scale = Vector2( 0.137318, 0.137318 )
+scale = Vector2( -0.137, 0.137 )
 frames = SubResource( 15 )
-frame = 9
 playing = true
 script = ExtResource( 4 )
 
@@ -314,7 +356,7 @@ lifetime = 0.5
 one_shot = true
 explosiveness = 1.0
 randomness = 0.72
-texture = ExtResource( 6 )
+texture = SubResource( 43 )
 spread = 180.0
 gravity = Vector2( 0, 0 )
 initial_velocity = 55.05
@@ -328,7 +370,21 @@ color_ramp = SubResource( 17 )
 
 [node name="FireSound" type="AudioStreamPlayer2D" parent="Style2"]
 stream = ExtResource( 7 )
+bus = "Sound"
 script = ExtResource( 8 )
+volume_low = 3.0
+volume_high = 5.0
+base_volume = 4.0
+
+[node name="HitSound" type="AudioStreamPlayer2D" parent="Style2"]
+stream = ExtResource( 13 )
+bus = "Sound"
+script = ExtResource( 8 )
+pitch_low = 0.784
+ptch_high = 1.376
+volume_low = 9.0
+volume_high = 11.0
+base_volume = 10.0
 
 [node name="Style3" type="Node2D" parent="."]
 visible = false
@@ -336,7 +392,7 @@ visible = false
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Style3"]
 scale = Vector2( 0.423826, 0.423826 )
 frames = SubResource( 29 )
-frame = 2
+frame = 10
 playing = true
 script = ExtResource( 4 )
 
@@ -344,7 +400,6 @@ script = ExtResource( 4 )
 position = Vector2( -140, 0 )
 
 [node name="TransEffect" type="CPUParticles2D" parent="Style3"]
-position = Vector2( 0, -15 )
 z_index = -1
 emitting = false
 amount = 4
@@ -360,13 +415,24 @@ initial_velocity_random = 0.51
 angular_velocity_random = 0.41
 damping = 94.5
 damping_random = 1.0
-scale_amount = 3.5
-scale_amount_random = 0.62
+scale_amount = 0.4
+scale_amount_random = 0.21
 color_ramp = SubResource( 17 )
 
 [node name="FireSound" type="AudioStreamPlayer2D" parent="Style3"]
 stream = ExtResource( 7 )
+bus = "Sound"
 script = ExtResource( 8 )
+
+[node name="HitSound" type="AudioStreamPlayer2D" parent="Style3"]
+stream = ExtResource( 13 )
+bus = "Sound"
+script = ExtResource( 8 )
+pitch_low = 0.784
+ptch_high = 1.376
+volume_low = 9.0
+volume_high = 11.0
+base_volume = 10.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false

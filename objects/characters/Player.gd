@@ -38,6 +38,8 @@ func _process(delta):
 				get_parent().add_child(chargeShot);
 				chargeShot.get_node("CollisionShape2D").disabled = true
 				chargeShot.init_bullet(get_node("Style2").get_node("AnimatedSprite").get_node("3DShot").get_global_position(), dir, style);
+				
+			# BUG: CRASH HERE(?)
 			chargeShot.set_global_position(get_node("Style2").get_node("AnimatedSprite").get_node("3DShot").get_global_position())
 			chargeShot.set_bullet_rotation(dir)
 			chargeShot.charge = holdTime / maxHoldTime
@@ -114,10 +116,12 @@ func _input(event):
 				# print(new_style)
 
 func _on_Verse_Jump(verse):
-	get_node("Style%d" % style).hide()
 	style = verse
-	
 	get_node("Style%d" % style).show()
+	for i in range(Global.total_style):
+		if i != style:
+			get_node("Style%d" % i).hide()
+	
 	get_node("Style%d/TransEffect" % style).restart()
 	get_node("Style%d/TransEffect" % style).set_emitting(true)
 	
@@ -189,19 +193,28 @@ func init_pixel_bullets():
 
 func init_3d_bullets():
 	var charge = holdTime / maxHoldTime;
+	var num_bullets = 0;
+	var deg = 10;
 	if (charge > 1.0): charge = 1.0;
+	if (charge < 2.0/3.0):
+		num_bullets = 1;
+		deg = 0;
+	elif (charge < 1.0):
+		num_bullets = 2;
+	else:
+		num_bullets = 3;
 
-	var b = bullet.instance();
-	get_parent().add_child(b)
-	b.charge = charge;
+	# fire spread depending on charge
 	var dir = get_global_position().direction_to(get_global_mouse_position());
-	b.init_bullet(get_global_position(), dir, style);
-	b.set_linear_velocity(dir*Global.player_bullet_properties[style]["speed"]);
+	var bullets = fire_spread(num_bullets, deg, Global.player_bullet_properties[style]["speed"], dir);
+	for b in bullets:
+		b.damage *= 0.4;
+		b.charge = charge;
 	
 	
 func init_collage_bullets():
 	var dir = get_global_position().direction_to(get_global_mouse_position());
-	var bullets = fire_spread(3, 15, Global.player_bullet_properties[style]["speed"], dir);
+	var bullets = fire_spread(3, 10, Global.player_bullet_properties[style]["speed"], dir);
 
 
 func damage(amount):
@@ -209,17 +222,23 @@ func damage(amount):
 	health -= amount
 	
 	$HealthBar.show()
+	$HealthBar.set_tint_progress(Color("ca84e0f5"))
+	var tween = create_tween()
+	tween.tween_property($HealthBar, "tint_progress", Color("2b84e0f5"), 0.3)
+	
 	# wait a bit before regenerate health
 	$RegenerateTimer.start()
+	get_node("Style%d/HitSound" % style).play()
 	
-	Global.camera.shake(0.3, 12, 4)
+	Global.camera.shake(0.3, 12, 8)
 	
 	if health <= 0:
 		#print("You DEAD!!!")
 		
-		Global.console.player_dead()
+		# hide all the graphics
+		hide()
 		
-		queue_free()
+		Global.console.player_dead()
 		#get_tree().reload_current_scene()
 
 
