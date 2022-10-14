@@ -128,9 +128,11 @@ func finish_attack():
 				transbullet_cd = 5
 				missed_bullet_counter += 1
 			else:
+				
 				transbullet_cd = 1
 				
 			if missed_bullet_counter > 0:
+				#enter break_state here
 				break_state = true
 				missed_bullet_counter = 0
 			var t = load("res://objects/weapons/TransBullet.tscn").instance()
