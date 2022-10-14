@@ -1,9 +1,7 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://objects/characters/Player.tscn" type="PackedScene" id=1]
-[ext_resource path="res://objects/characters/Boss.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scripts/Console.gd" type="Script" id=3]
-[ext_resource path="res://objects/system/portal.tscn" type="PackedScene" id=4]
 [ext_resource path="res://arts/shaders/BG.jpg" type="Texture" id=5]
 [ext_resource path="res://arts/shaders/Style0.tres" type="Material" id=6]
 [ext_resource path="res://arts/shaders/Style2.tres" type="Material" id=7]
@@ -60,14 +58,8 @@ script = ExtResource( 14 )
 [node name="Player" parent="Node2D" instance=ExtResource( 1 )]
 position = Vector2( 0, 359 )
 
-[node name="Boss" parent="Node2D" instance=ExtResource( 2 )]
-position = Vector2( 0, -349 )
-
-[node name="Portal" parent="Node2D" instance=ExtResource( 4 )]
-position = Vector2( 305, -45 )
-style = 1
-
 [node name="Background" type="Node2D" parent="Node2D" groups=["style"]]
+modulate = Color( 1, 1, 1, 0 )
 z_index = -500
 script = ExtResource( 8 )
 
@@ -90,6 +82,7 @@ scale = Vector2( 8, 8 )
 texture = ExtResource( 5 )
 
 [node name="Style3" type="Sprite" parent="Node2D/Background"]
+visible = false
 material = ExtResource( 16 )
 scale = Vector2( 8, 8 )
 texture = ExtResource( 5 )
@@ -116,13 +109,14 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="HealthBar" type="ProgressBar" parent="CanvasLayer/Control"]
+modulate = Color( 1, 1, 1, 0 )
 anchor_right = 1.0
-margin_bottom = 14.0
+margin_bottom = 99.0
 custom_styles/fg = SubResource( 7 )
 custom_styles/bg = SubResource( 8 )
 value = 88.0
 
-[node name="Label" type="Label" parent="CanvasLayer/Control"]
+[node name="Label" type="Label" parent="CanvasLayer/Control/HealthBar"]
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -90.0
@@ -230,6 +224,26 @@ custom_styles/pressed = SubResource( 6 )
 custom_styles/normal = SubResource( 4 )
 enabled_focus_mode = 0
 text = "< Retry >"
+
+[node name="Tutorial" type="RichTextLabel" parent="CanvasLayer/Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 401.0
+custom_fonts/normal_font = SubResource( 3 )
+bbcode_enabled = true
+bbcode_text = "[center]Hold/Click Left Mouse Button to Shoot[/center]
+
+
+
+
+[center]WASD to Move[/center]"
+text = "Hold/Click Left Mouse Button to Shoot
+
+
+
+
+WASD to Move"
+fit_content_height = true
 
 [connection signal="pressed" from="CanvasLayer/Control/Gameover/CenterContainer/VBoxContainer/Restart" to="Console" method="_on_Restart_pressed"]
 [connection signal="pressed" from="CanvasLayer/Control/PlayerDeath/CenterContainer/VBoxContainer/Restart" to="Console" method="_on_Restart_pressed"]

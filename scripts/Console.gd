@@ -6,6 +6,9 @@ var portal
 var play_time = 0.0
 var gameover = false
 
+var tutorial_bullet = preload("res://objects/weapons/TransBullet.tscn")
+
+
 func _ready():
 	Global.console = self
 	randomize()
@@ -14,6 +17,17 @@ func _ready():
 	$"../CanvasLayer/Control/HealthBar".set_value(boss_health)
 	
 	$"../CanvasLayer/Control/Shockwave".get_material().set_shader_param("radius", 0.0)
+	
+	yield(get_tree().create_timer(1), "timeout")
+	
+	var t = tutorial_bullet.instance()
+	t.tutorial_mode = true
+	t.style = 1
+	$"../Node2D".add_child(t)
+	t.set_global_position(Vector2(0, -300))
+	
+	play_shockwave(t.get_global_transform_with_canvas().origin)
+
 
 func _process(delta):
 	if boss_health > 0:
@@ -85,8 +99,17 @@ func play_shockwave_small(orgin, delay = 0):
 func start_game():
 	var b = load("res://objects/characters/Boss.tscn").instance()
 	get_node('../Node2D').add_child(b)
-	b.set_global_position(Vector2(0,-1))
-	b.style = 0
+	b.set_global_position(Vector2(0, -300))
+	b.style = 1
+	
+	var tween = create_tween().set_trans(Tween.TRANS_SINE)
+	tween.tween_property($"../Node2D/Background", "modulate", Color.white, 0.7)
+	tween.parallel().tween_property($"../CanvasLayer/Control/Tutorial", "modulate", Color("00ffffff"), 0.4)
+	tween.parallel().tween_property($"../CanvasLayer/Control/HealthBar", "modulate", Color.white, 0.4)
+	tween.tween_property($"../CanvasLayer/Control/HealthBar", "rect_size", Vector2($"../CanvasLayer/Control/HealthBar".get_size().x, 14), 0.5)
+	
+	yield(tween, "finished")
+	$"../CanvasLayer/Control/Tutorial".hide()
 
 func _on_Restart_pressed():
 	get_tree().set_pause(false)
