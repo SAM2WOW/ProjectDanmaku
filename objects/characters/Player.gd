@@ -25,7 +25,11 @@ var bullet_properties = Global.player_bullet_properties[style];
 
 func _ready():
 	Global.player = self
-	_on_Verse_Jump(Global.initial_style);
+	var init_style = Global.initial_style;
+	if (Global.in_tutorial):
+		init_style = Global.tutorial_style	;
+	print(init_style)
+	_on_Verse_Jump(init_style);
 
 func _process(delta):
 	if (style == 2):

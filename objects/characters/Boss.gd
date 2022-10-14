@@ -355,7 +355,6 @@ func init_3d_bullets():
 			yield(get_tree().create_timer(beamDuration), "timeout")
 			finish_attack()
 		1:
-			var timeBetweenAttacks = 0.8
 			for i in range(attack_properties["waves"]):
 				if (!is_instance_valid(Global.boss)): return;
 				if (prev_style != style):
@@ -387,7 +386,9 @@ func init_collage_bullets():
 		1:
 			var b_speed = Global.boss_bullet_properties[style]["speed"];
 			for i in attack_properties["waves"]:
-				fire_pulse(6, b_speed);
+				rng.randomize();
+				var rand_offset = rng.randf_range(-20.0 , 20.0);
+				fire_pulse(6, b_speed, rand_offset);
 				yield(get_tree().create_timer(attack_properties["interval"]), "timeout");
 			finish_attack();
 		_:

@@ -10,7 +10,9 @@ var portal
 
 var tutorial_played = false
 
-var initial_style = 0
+var tutorial_style = 0;
+var initial_style = 1
+var in_tutorial = true;
 var total_style = 4
 var current_style = initial_style
 
@@ -40,7 +42,7 @@ var boss_patterns = {
 	},
 	3: {
 		0: {"waves": 3, "interval": 0.6},
-		1: {"waves": 2, "interval": 0.5}
+		1: {"waves": 2, "interval": 0.3}
 	}
 }
 
