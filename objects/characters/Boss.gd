@@ -59,7 +59,7 @@ func _physics_process(delta):
 				move_to_dir.y*(min_speed+move_speed*dist_ratio)
 			);
 			move_and_slide(move_vel, Vector2.UP);
-			if (dist_ratio < 0.01):
+			if (dist_ratio < 0.1):
 				$FireTimer.paused = false;
 				moving = false;
 				move_to_center = false;
@@ -85,7 +85,7 @@ func damage(amount,body = null):
 	
 	Global.camera.shake(0.2, 6, 8)
 	
-	$HitSound.play()
+	get_node("Style%d/HitSound" % style).play()
 
 func _on_Verse_Jump(verse):
 	if ($MovementTimer.is_stopped()):

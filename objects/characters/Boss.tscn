@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=2]
+[gd_scene load_steps=39 format=2]
 
 [ext_resource path="res://objects/characters/Boss.gd" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://scripts/AudioRandomizer.gd" type="Script" id=6]
 [ext_resource path="res://sounds/BossHit.wav" type="AudioStream" id=7]
 [ext_resource path="res://arts/3D/Angel_Idle_Sheet-min.png" type="Texture" id=8]
+[ext_resource path="res://sounds/pixel_sfx/pixel_enemy_hit.wav" type="AudioStream" id=9]
 
 [sub_resource type="Curve" id=7]
 _data = [ Vector2( 0, 0 ), 0.0, 3.63099, 0, 0, Vector2( 0.519802, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.886139, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), -19.5114, 0.0, 0, 0 ]
@@ -185,6 +186,12 @@ color_ramp = SubResource( 54 )
 [node name="FireSound" type="AudioStreamPlayer2D" parent="Style0"]
 script = ExtResource( 6 )
 
+[node name="HitSound" type="AudioStreamPlayer2D" parent="Style0"]
+stream = ExtResource( 7 )
+script = ExtResource( 6 )
+pitch_low = 0.788
+base_volume = 5.0
+
 [node name="Style1" type="Node2D" parent="."]
 visible = false
 
@@ -192,7 +199,6 @@ visible = false
 position = Vector2( 1, -2 )
 scale = Vector2( 4, 4 )
 frames = SubResource( 40 )
-frame = 9
 playing = true
 
 [node name="TransEffect" type="CPUParticles2D" parent="Style1"]
@@ -219,7 +225,15 @@ color_ramp = SubResource( 54 )
 [node name="FireSound" type="AudioStreamPlayer2D" parent="Style1"]
 stream = ExtResource( 5 )
 script = ExtResource( 6 )
-base_volume = 10.0
+volume_low = 6.0
+volume_high = 8.0
+base_volume = 7.0
+
+[node name="HitSound" type="AudioStreamPlayer2D" parent="Style1"]
+stream = ExtResource( 9 )
+script = ExtResource( 6 )
+pitch_low = 0.788
+base_volume = 5.0
 
 [node name="Style2" type="Node2D" parent="."]
 
@@ -228,7 +242,7 @@ position = Vector2( -18, -22 )
 scale = Vector2( 0.422288, 0.422288 )
 frames = SubResource( 18 )
 animation = "New Anim"
-frame = 3
+frame = 2
 speed_scale = 0.75
 playing = true
 
@@ -255,6 +269,12 @@ color_ramp = SubResource( 54 )
 
 [node name="FireSound" type="AudioStreamPlayer2D" parent="Style2"]
 script = ExtResource( 6 )
+
+[node name="HitSound" type="AudioStreamPlayer2D" parent="Style2"]
+stream = ExtResource( 7 )
+script = ExtResource( 6 )
+pitch_low = 0.788
+base_volume = 5.0
 
 [node name="Style3" type="Node2D" parent="."]
 visible = false
@@ -286,6 +306,12 @@ color_ramp = SubResource( 54 )
 [node name="FireSound" type="AudioStreamPlayer2D" parent="Style3"]
 script = ExtResource( 6 )
 
+[node name="HitSound" type="AudioStreamPlayer2D" parent="Style3"]
+stream = ExtResource( 7 )
+script = ExtResource( 6 )
+pitch_low = 0.788
+base_volume = 5.0
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( -2, 1 )
 shape = SubResource( 6 )
@@ -293,12 +319,6 @@ shape = SubResource( 6 )
 [node name="FireTimer" type="Timer" parent="."]
 one_shot = true
 autostart = true
-
-[node name="HitSound" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource( 7 )
-script = ExtResource( 6 )
-pitch_low = 0.788
-base_volume = 5.0
 
 [node name="MovementTimer" type="Timer" parent="."]
 wait_time = 8.0
