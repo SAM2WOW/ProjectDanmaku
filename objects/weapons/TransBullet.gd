@@ -266,6 +266,8 @@ func damage(damage):
 				bad_verse_jump_init()
 			else:
 				verse_jump_init()
+		
+		$HitSound.play()
 	
 
 
