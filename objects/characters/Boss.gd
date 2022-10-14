@@ -23,12 +23,15 @@ var moving = false;
 # for moving to the center
 var move_to_center = false;
 var init_dist_to_center = Vector2();
+var duel_bullet;
 
 onready var fire_timer = get_node("FireTimer");
 
 var transbullet_state = false
-var transbullet_cd = 1
+var transbullet_max_cd = 1;
+var transbullet_cd = transbullet_max_cd
 var missed_bullet_counter = 0
+var max_missed_bullets = 1;
 var break_state = false
 
 var basic_bullet = preload("res://objects/weapons/BasicBullet.tscn")
@@ -61,17 +64,20 @@ func _physics_process(delta):
 			);
 			if (move_vel.x > 1500 || move_vel.y > 1500):
 				print("TOO FAST:");
-				print(move_vel);
-				print("distance ratio: %f distance to center: %f" % [dist_ratio, dist_to_center]);
 				$FireTimer.paused = false;
 				moving = false;
 				move_to_center = false;
+				get_parent().add_child(duel_bullet);
+				duel_bullet.set_global_position(get_global_position());
 				return;
 			move_and_slide(move_vel, Vector2.UP);
+			# once it reaches center
 			if (dist_ratio < 0.1):
 				$FireTimer.paused = false;
 				moving = false;
 				move_to_center = false;
+				get_parent().add_child(duel_bullet);
+				duel_bullet.set_global_position(get_global_position());
 
 		else:
 			move_and_slide(move_to_dir * move_speed, Vector2.UP);
@@ -115,6 +121,9 @@ func _on_Verse_Jump(verse):
 	
 	get_node("Style%d" % style).set_scale(Vector2(0.7, 0.7))
 	tween.tween_property(get_node("Style%d" % style), "scale", Vector2(1, 1), 0.2)
+	
+	transbullet_cd = transbullet_max_cd;
+	missed_bullet_counter = 0;
 
 
 func fireLaser(fireFrom, fireAt):
@@ -154,55 +163,51 @@ func finish_attack():
 	rng.randomize();
 	attack_pattern = rng.randi()%2;
 	fire_timer.start();
-	#print(transbullet_state)
-	
-	#firing portal bullet
+
+	#firing portal bullet when theres no transbullet on the screen
 	if transbullet_state == false:
 		transbullet_cd -= 1
-		#print(transbullet_cd)
-		if transbullet_cd < 1:
+		
+		# fire the transbullet
+		if transbullet_cd <= 0:
 			var t = load("res://objects/weapons/TransBullet.tscn").instance()
-			
-			if not break_state:
-				transbullet_cd = 5
-				missed_bullet_counter += 1
-			else:
-				t.duel_mode = true
-				transbullet_cd = 2
-				
-			if missed_bullet_counter > 0:
-				#enter break_state here
-				break_state = true
-				move_to_center();
-				missed_bullet_counter = 0
-			#var t = load("res://objects/weapons/TransBullet.tscn").instance()
-			
-			#t.style = randi()%4
-			#if t.style == Global.current_style:
-			#	t.style =(Global.current_style+randi()%3)%4
-			
 			# style pesudo randomize
-			print("======= Current Style Pool" + str(style_pool))
-			var new_style = style_pool[0]
-			style_pool.remove(0)
-			
-			if style_pool.size() == 0:
-				style_pool.append_array([0, 1, 2, 3])
-				style_pool.shuffle()
-				
-				# check for accident repeat
-				if new_style == style_pool[0]:
-					style_pool.remove(0)
-					style_pool.append(new_style)
-			
-			print("======= New Style Pool" + str(style_pool))
-			t.style = new_style
-			
-			get_parent().add_child(t);
-			
-			t.set_global_position(get_global_position());
+			randomize_transbullet(t);
+			# reset transbullet cd
+			transbullet_cd = transbullet_max_cd
+			# fire duel mode bullet
+			if (missed_bullet_counter >= max_missed_bullets):
+				missed_bullet_counter = 0;
+				move_to_center();
+				t.duel_mode = true;
+				duel_bullet = t;
+			# increment missed bullet counter
+			else:
+				missed_bullet_counter += 1;
+				get_parent().add_child(t);
+				t.set_global_position(get_global_position());
 			
 			transbullet_state = true
+			
+
+func randomize_transbullet(t):
+	# style pesudo randomize
+	print("======= Current Style Pool" + str(style_pool))
+	var new_style = style_pool[0]
+	style_pool.remove(0)
+	
+	if style_pool.size() == 0:
+		style_pool.append_array([0, 1, 2, 3])
+		style_pool.shuffle()
+		
+		# check for accident repeat
+		if new_style == style_pool[0]:
+			style_pool.remove(0)
+			style_pool.append(new_style)
+	
+	print("======= New Style Pool" + str(style_pool))
+	t.style = new_style
+
 
 func _on_FireTimer_timeout():
 	fire_bullets();
