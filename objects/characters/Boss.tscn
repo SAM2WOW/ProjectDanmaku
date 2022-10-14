@@ -188,7 +188,7 @@ visible = false
 position = Vector2( 1, -2 )
 scale = Vector2( 4, 4 )
 frames = SubResource( 40 )
-frame = 4
+frame = 2
 playing = true
 
 [node name="TransEffect" type="CPUParticles2D" parent="Style1"]
@@ -220,7 +220,6 @@ position = Vector2( -18, -22 )
 scale = Vector2( 0.422288, 0.422288 )
 frames = SubResource( 18 )
 animation = "New Anim"
-frame = 4
 speed_scale = 0.75
 playing = true
 
@@ -282,6 +281,7 @@ autostart = true
 
 [node name="HitSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 7 )
+bus = "Sound"
 script = ExtResource( 6 )
 pitch_low = 0.788
 base_volume = 5.0

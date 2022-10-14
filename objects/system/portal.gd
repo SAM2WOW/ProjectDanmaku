@@ -21,6 +21,9 @@ func _ready():
 	if not exploding:
 		var tween = create_tween().set_trans(Tween.TRANS_ELASTIC)
 		tween.tween_property(self, "scale", Vector2(1, 1), 1)
+		
+		$SpawnSound.play()
+		
 		yield(tween,"finished")
 		$Sprite/CPUParticles2D.show()
 		$Sprite/CPUParticles2D2.show()
@@ -58,6 +61,8 @@ func verse_jump_explode():
 	tween.tween_property(self, "scale", Vector2(8, 8), 0.8)
 	tween.parallel().tween_property(Engine, "time_scale", 1.0, 0.8)
 	
+	$SpawnSound.play()
+	
 	tween.tween_callback(self, "verse_jump_end")
 
 
@@ -82,9 +87,8 @@ func _on_Area2D_body_entered(body):
 
 func _on_Area2D_body_exited(body):
 	if not exploding or dying:
-		# if (body.name == "Boss"): return;
-#		if (style == Global.current_style): 
-#			return;
+		if (style == Global.current_style): 
+			return;
 		var prev_style = style;
 		if not 'dying' in body:
 			if body.has_method('_on_Verse_Jump'):

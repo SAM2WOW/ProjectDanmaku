@@ -8,6 +8,7 @@ var gameover = false
 
 func _ready():
 	Global.console = self
+	randomize()
 	
 	$"../CanvasLayer/Control/HealthBar".set_max(boss_health)
 	$"../CanvasLayer/Control/HealthBar".set_value(boss_health)
@@ -45,6 +46,7 @@ func damage_boss(amount):
 			gameover = true
 			Global.player.set_process(false)
 			Global.boss.set_process(false)
+			Global.boss.set_physics_process(false)
 
 
 func play_shockwave(orgin, delay = 0):

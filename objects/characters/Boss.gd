@@ -1,6 +1,7 @@
 extends KinematicBody2D
 
 var style = Global.initial_style
+var style_pool = [0, 2, 3]
 var prev_style = style;
 var hit_by = []
 var attack_pattern = 0;
@@ -13,9 +14,14 @@ var hp = 0.0;
 var move_to_pos = Vector2();
 var move_to_dir = Vector2();
 var pos_offset = 200;
-var move_speed = 100;
+var base_speed = 150;
+var move_speed = base_speed;
 var dest_offset = 10;
 var moving = false;
+
+# for moving to the center
+var move_to_center = false;
+var init_dist_to_center = Vector2();
 
 onready var fire_timer = get_node("FireTimer");
 
@@ -37,16 +43,35 @@ func _ready():
 	_on_Verse_Jump(Global.initial_style);
 	attack_pattern = rng.randi()%2;
 	
+	style_pool.shuffle()
+	
 func _physics_process(delta):
 	if moving:
 		var pos = get_global_position();
-		move_and_slide(move_to_dir * move_speed, Vector2.UP);
-		if (
-			pos.x < move_to_pos.x+dest_offset && pos.x > move_to_pos.x-dest_offset
-			&& pos.y < move_to_pos.y+dest_offset && pos.y > move_to_pos.y-dest_offset
-		):
-			moving = false;
-			$MovementTimer.start();
+		if (move_to_center):
+			var min_speed = 20; 
+			
+			var dist_to_center = sqrt(pow(move_to_pos.x-pos.x,2)+pow(move_to_pos.y-pos.y,2));
+			var dist_ratio = dist_to_center/init_dist_to_center;
+			
+			var move_vel = Vector2(
+				move_to_dir.x*(min_speed+move_speed*dist_ratio), 
+				move_to_dir.y*(min_speed+move_speed*dist_ratio)
+			);
+			move_and_slide(move_vel, Vector2.UP);
+			if (dist_ratio < 0.01):
+				$FireTimer.paused = false;
+				moving = false;
+				move_to_center = false;
+
+		else:
+			move_and_slide(move_to_dir * move_speed, Vector2.UP);
+			if (
+				pos.x < move_to_pos.x+dest_offset && pos.x > move_to_pos.x-dest_offset
+				&& pos.y < move_to_pos.y+dest_offset && pos.y > move_to_pos.y-dest_offset
+			):
+				moving = false;
+				$MovementTimer.start();
 
 func damage(amount,body = null):
 	#print(body)
@@ -63,6 +88,9 @@ func damage(amount,body = null):
 	$HitSound.play()
 
 func _on_Verse_Jump(verse):
+	if ($MovementTimer.is_stopped()):
+		$MovementTimer.start();
+	
 	var tween = create_tween().set_trans(Tween.TRANS_BOUNCE)
 	tween.tween_property(get_node("Style%d" % style), "scale", Vector2(0.5, 0.5), 0.05)
 	
@@ -134,14 +162,31 @@ func finish_attack():
 			if missed_bullet_counter > 0:
 				#enter break_state here
 				break_state = true
+				move_to_center();
 				missed_bullet_counter = 0
 			var t = load("res://objects/weapons/TransBullet.tscn").instance()
-			t.style = randi()%4
-			#print("current style%d" % Global.current_style)
 			
-			if t.style == Global.current_style:
-				t.style =(Global.current_style+randi()%3)%4
-
+			#t.style = randi()%4
+			#if t.style == Global.current_style:
+			#	t.style =(Global.current_style+randi()%3)%4
+			
+			# style pesudo randomize
+			print("======= Current Style Pool" + str(style_pool))
+			var new_style = style_pool[0]
+			style_pool.remove(0)
+			
+			if style_pool.size() == 0:
+				style_pool.append_array([0, 1, 2, 3])
+				style_pool.shuffle()
+				
+				# check for accident repeat
+				if new_style == style_pool[0]:
+					style_pool.remove(0)
+					style_pool.append(new_style)
+			
+			print("======= New Style Pool" + str(style_pool))
+			t.style = new_style
+			
 			get_parent().add_child(t);
 			
 			t.set_global_position(get_global_position());
@@ -386,6 +431,7 @@ func fire_blob(num, speed, dir, degree_offset=30, speed_offset=100, _style=style
 
 
 func _on_MovementTimer_timeout():
+	move_speed = base_speed;
 	rng.randomize();
 	var pos_limit = Vector2(
 		(Global.window_width-pos_offset)/2, 
@@ -399,3 +445,15 @@ func _on_MovementTimer_timeout():
 	moving = true;
 	move_to_pos = rand_pos;
 	move_to_dir = get_global_position().direction_to(move_to_pos);
+	
+
+func move_to_center():
+	var pos = get_global_position();
+	$MovementTimer.stop();
+	$FireTimer.paused = true;
+	move_speed = 600;
+	moving = true;
+	move_to_center = true;
+	move_to_pos = Vector2(0, 0);
+	move_to_dir = get_global_position().direction_to(move_to_pos);
+	init_dist_to_center = sqrt(pow(move_to_pos.x-pos.x,2)+pow(move_to_pos.y-pos.y,2));

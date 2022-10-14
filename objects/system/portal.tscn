@@ -1,12 +1,13 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://objects/system/portal.gd" type="Script" id=1]
 [ext_resource path="res://arts/shaders/MetalBall/background.png" type="Texture" id=2]
-[ext_resource path="res://arts/shaders/Portal1.tres" type="Material" id=3]
+[ext_resource path="res://arts/shaders/Portal2.tres" type="Material" id=3]
 [ext_resource path="res://arts/shaders/Style1.tres" type="Material" id=4]
 [ext_resource path="res://arts/particles/whitecircle.png" type="Texture" id=5]
 [ext_resource path="res://sounds/Shockwave.wav" type="AudioStream" id=6]
 [ext_resource path="res://scripts/AudioRandomizer.gd" type="Script" id=7]
+[ext_resource path="res://arts/shaders/Style2.tres" type="Material" id=8]
 
 [sub_resource type="CircleShape2D" id=14]
 radius = 234.676
@@ -36,8 +37,7 @@ z_as_relative = false
 texture = ExtResource( 2 )
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="Sprite"]
-visible = false
-material = ExtResource( 4 )
+material = ExtResource( 8 )
 position = Vector2( -59.5008, -58.196 )
 scale = Vector2( 0.942177, 0.942177 )
 z_index = -300
@@ -57,7 +57,6 @@ scale_amount_curve = SubResource( 12 )
 color_initial_ramp = SubResource( 15 )
 
 [node name="CPUParticles2D2" type="CPUParticles2D" parent="Sprite"]
-visible = false
 material = ExtResource( 4 )
 position = Vector2( -61.8495, -60.8057 )
 scale = Vector2( 0.390111, 0.390111 )
@@ -82,7 +81,9 @@ scale_amount_curve = SubResource( 12 )
 [node name="SpawnSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 6 )
 autoplay = true
+bus = "Sound"
 script = ExtResource( 7 )
+volume_high = 5
 
 [connection signal="area_entered" from="Area2D" to="." method="_on_Area2D_area_entered"]
 [connection signal="area_exited" from="Area2D" to="." method="_on_Area2D_area_exited"]
