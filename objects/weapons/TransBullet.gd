@@ -57,15 +57,16 @@ func _on_VisibilityNotifier2D_screen_exited():
 	queue_free()
 
 func _ready():
-	init_duel_bullet()
+	pass
 	
 func self_destroy():
-	if (!is_instance_valid(Global.boss)): return;
+	
 	var tween = create_tween().set_trans(Tween.TRANS_BACK)
 	tween.tween_property($area, "scale", Vector2(0, 0), 0.2)
 	tween.tween_callback(self, "queue_free")
 	if style != Global.current_style:
 		spawn_portal()
+	if (!is_instance_valid(Global.boss)): return;
 	Global.boss.transbullet_state = false
 
 func spawn_portal():
@@ -164,7 +165,9 @@ func damage(damage):
 
 func _on_Timer_timeout():
 	base_growth_rate += 0.003
-	start_protect = true
+	if !start_protect:
+		start_protect = true
+		init_bullet()
 	
 func delayed_destroy():
 	dead_damp = 0.05
