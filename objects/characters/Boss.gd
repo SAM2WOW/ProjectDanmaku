@@ -137,11 +137,6 @@ func _on_Verse_Jump(verse):
 	
 	get_node("Style%d/TransEffect" % style).restart()
 	get_node("Style%d/TransEffect" % style).set_emitting(true)
-	
-	transbullet_cd = transbullet_max_cd;
-	#missed_bullet_counter = 0;
-	transbullet_state = false
-	last_trans_bullet = null;
 
 
 func fireLaser(fireFrom, fireAt, inPortal, bossSpawned=true):

@@ -72,6 +72,11 @@ func verse_jump_explode():
 	tween.parallel().tween_property(Engine, "time_scale", 1.0, 0.8)
 	
 	$SpawnSound.play()
+		
+	Global.boss.transbullet_cd = Global.boss.transbullet_max_cd;
+	Global.boss.missed_bullet_counter = 0;
+	Global.boss.transbullet_state = false
+	Global.boss.last_trans_bullet = null;
 	
 	tween.tween_callback(self, "verse_jump_end")
 
