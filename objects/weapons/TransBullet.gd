@@ -34,7 +34,6 @@ func init_bullet():
 	if is_instance_valid(Global.player):
 		self.look_at(Global.player.get_global_position())
 	set_linear_velocity(Vector2(1000,100-randi() % 200).rotated(get_global_rotation()))
-	$area/Node2D/Sprite.set_material(load("res://arts/shaders/Portal%d.tres" % style))
 	self.connect("tree_exited", self, "boss_transState_cleanup")
 	
 func init_duel_bullet():
@@ -46,7 +45,6 @@ func init_duel_bullet():
 	damage_multiplier = 0.1
 	$area.set_scale(Vector2(2.5,2.5))
 	set_linear_velocity(Vector2(500,100-randi() % 200).rotated(get_global_rotation()))
-	$area/Node2D/Sprite.set_material(load("res://arts/shaders/Portal%d.tres" % style))
 	self.connect("tree_exited", self, "boss_transState_cleanup")
 	start_protect = true
 	
@@ -57,15 +55,16 @@ func _on_VisibilityNotifier2D_screen_exited():
 	queue_free()
 
 func _ready():
-	init_duel_bullet()
+	$area/Node2D/Sprite.set_material(load("res://arts/shaders/Portal%d.tres" % style))
 	
 func self_destroy():
-	if (!is_instance_valid(Global.boss)): return;
+	
 	var tween = create_tween().set_trans(Tween.TRANS_BACK)
 	tween.tween_property($area, "scale", Vector2(0, 0), 0.2)
 	tween.tween_callback(self, "queue_free")
 	if style != Global.current_style:
 		spawn_portal()
+	if (!is_instance_valid(Global.boss)): return;
 	Global.boss.transbullet_state = false
 
 func spawn_portal():
@@ -164,7 +163,9 @@ func damage(damage):
 
 func _on_Timer_timeout():
 	base_growth_rate += 0.003
-	start_protect = true
+	if !start_protect:
+		start_protect = true
+		init_bullet()
 	
 func delayed_destroy():
 	dead_damp = 0.05
