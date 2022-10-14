@@ -11,7 +11,7 @@
 
 [sub_resource type="PhysicsMaterial" id=2]
 friction = 0.0
-bounce = 0.8
+bounce = 1.2
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 45.2769
@@ -156,7 +156,6 @@ material = ExtResource( 6 )
 scale = Vector2( 4.30515, 4.30515 )
 z_index = -2
 emitting = false
-amount = 15
 lifetime = 0.4
 lifetime_randomness = 0.44
 local_coords = false
@@ -174,7 +173,7 @@ scale_amount_random = 0.03
 scale_amount_curve = SubResource( 8 )
 
 [node name="badParticle2" type="CPUParticles2D" parent="."]
-material = ExtResource( 6 )
+material = ExtResource( 4 )
 scale = Vector2( 4.30515, 4.30515 )
 z_index = -2
 emitting = false
@@ -248,6 +247,7 @@ texture = ExtResource( 8 )
 bus = "Sound"
 script = ExtResource( 8 )
 
+[connection signal="body_entered" from="." to="." method="_on_TransBullet_body_entered"]
 [connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
 [connection signal="body_entered" from="area/DetectionArea" to="." method="_on_DetectionArea_body_entered"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

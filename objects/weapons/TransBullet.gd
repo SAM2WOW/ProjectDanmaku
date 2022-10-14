@@ -168,6 +168,8 @@ func bad_verse_jump_init():
 	dead = true
 	hurt_player = true;
 	mode = MODE_STATIC
+	$badParticle.set_material(load("res://arts/shaders/Portal%d.tres" % style))
+	$badParticle2.set_material(load("res://arts/shaders/Portal%d.tres" % style))
 	$badParticle.set_emitting(true)
 	$badParticle2.set_emitting(true)
 	$area/CPUParticles2D4.set_emitting(false)
@@ -307,3 +309,8 @@ func _on_DetectionArea_body_entered(body):
 				#print(body)
 				body._on_destroy()
 				#body.queue_free()
+	else:
+		if tutorial_mode:
+			if body != Global.player and "Player" in body.name:
+				body._on_destroy()
+				_on_hit(0)
