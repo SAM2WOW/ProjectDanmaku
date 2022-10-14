@@ -19,7 +19,7 @@
 bg_color = Color( 0.898039, 0.309804, 0.278431, 0.494118 )
 
 [sub_resource type="StyleBoxFlat" id=8]
-bg_color = Color( 0, 0, 0, 0.207843 )
+bg_color = Color( 0, 0, 0, 0.827451 )
 
 [sub_resource type="ShaderMaterial" id=1]
 shader = ExtResource( 12 )
@@ -90,7 +90,6 @@ scale = Vector2( 8, 8 )
 texture = ExtResource( 5 )
 
 [node name="Style3" type="Sprite" parent="Node2D/Background"]
-visible = false
 material = ExtResource( 16 )
 scale = Vector2( 8, 8 )
 texture = ExtResource( 5 )
@@ -122,6 +121,14 @@ margin_bottom = 14.0
 custom_styles/fg = SubResource( 7 )
 custom_styles/bg = SubResource( 8 )
 value = 88.0
+
+[node name="Label" type="Label" parent="CanvasLayer/Control"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -90.0
+margin_right = -37.0
+margin_bottom = 14.0
+text = "Boss HP"
 
 [node name="Shockwave" type="ColorRect" parent="CanvasLayer/Control"]
 material = SubResource( 1 )
