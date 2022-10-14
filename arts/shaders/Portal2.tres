@@ -1,6 +1,6 @@
 [gd_resource type="ShaderMaterial" load_steps=8 format=2]
 
-[ext_resource path="res://arts/temp/HTB1KALUazuhSKJjSspmq6AQDpXad.jpg" type="Texture" id=1]
+[ext_resource path="res://arts/3D/moon_clouds_sky.jpg" type="Texture" id=1]
 [ext_resource path="res://arts/particles/whitecircle.png" type="Texture" id=2]
 
 [sub_resource type="VisualShaderNodeTexture" id=1]
@@ -59,7 +59,7 @@ void light() {
 
 }
 "
-graph_offset = Vector2( -145.84, 27.72 )
+graph_offset = Vector2( -394.667, 17.3333 )
 mode = 1
 flags/light_only = false
 nodes/fragment/2/node = SubResource( 1 )
