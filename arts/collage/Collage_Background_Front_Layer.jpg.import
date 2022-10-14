@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Collage_Background_Background.png-a6ea825d1564633685769737a3d85afe.stex"
+path="res://.import/Collage_Background_Front_Layer.jpg-f82603575a21ab186a37c672454c8378.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://arts/collage/Collage_Background_Background.png"
-dest_files=[ "res://.import/Collage_Background_Background.png-a6ea825d1564633685769737a3d85afe.stex" ]
+source_file="res://arts/collage/Collage_Background_Front_Layer.jpg"
+dest_files=[ "res://.import/Collage_Background_Front_Layer.jpg-f82603575a21ab186a37c672454c8378.stex" ]
 
 [params]
 
