@@ -1,7 +1,7 @@
 extends KinematicBody2D
 
 var style = Global.initial_style
-var style_pool = [0, 2, 3]
+var style_pool = [0, 2, 3, 1]
 var prev_style = style;
 var hit_by = []
 var attack_pattern = 0;
@@ -195,15 +195,7 @@ func randomize_transbullet(t):
 	print("======= Current Style Pool" + str(style_pool))
 	var new_style = style_pool[0]
 	style_pool.remove(0)
-	
-	if style_pool.size() == 0:
-		style_pool.append_array([0, 1, 2, 3])
-		style_pool.shuffle()
-		
-		# check for accident repeat
-		if new_style == style_pool[0]:
-			style_pool.remove(0)
-			style_pool.append(new_style)
+	style_pool.insert(2 + randi()%1, new_style)
 	
 	print("======= New Style Pool" + str(style_pool))
 	t.style = new_style
