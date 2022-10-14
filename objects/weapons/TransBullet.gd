@@ -160,7 +160,7 @@ func bad_verse_jump_init():
 	tween.tween_property($area, "scale", Vector2(0, 0), 0.3)
 	tween.tween_callback(self, "queue_free")
 
-	
+# on portal bullet changing verses
 func verse_jump_explode():
 	$badParticle.set_emitting(false)
 	if tutorial_mode:
