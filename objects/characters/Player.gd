@@ -228,6 +228,7 @@ func damage(amount):
 	
 	# wait a bit before regenerate health
 	$RegenerateTimer.start()
+	get_node("Style%d/HitSound" % style).play()
 	
 	Global.camera.shake(0.3, 12, 8)
 	

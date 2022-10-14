@@ -15,6 +15,7 @@ var move_to_pos = Vector2();
 var move_to_dir = Vector2();
 var pos_offset = 200;
 var base_speed = 150;
+var dist_offset = 200;
 var move_speed = base_speed;
 var dest_offset = 10;
 var moving = false;
@@ -58,6 +59,14 @@ func _physics_process(delta):
 				move_to_dir.x*(min_speed+move_speed*dist_ratio), 
 				move_to_dir.y*(min_speed+move_speed*dist_ratio)
 			);
+			if (move_vel.x > 1500 || move_vel.y > 1500):
+				print("TOO FAST:");
+				print(move_vel);
+				print("distance ratio: %f distance to center: %f" % [dist_ratio, dist_to_center]);
+				$FireTimer.paused = false;
+				moving = false;
+				move_to_center = false;
+				return;
 			move_and_slide(move_vel, Vector2.UP);
 			if (dist_ratio < 0.1):
 				$FireTimer.paused = false;
@@ -83,7 +92,7 @@ func damage(amount,body = null):
 	var tween = create_tween().set_trans(Tween.TRANS_SINE)
 	tween.tween_property(get_node("Style%d" % style), "scale", Vector2(1, 1), 0.2)
 	
-	Global.camera.shake(0.2, 6, 8)
+	Global.camera.shake(0.2, 10, 10);
 	
 	get_node("Style%d/HitSound" % style).play()
 
@@ -436,17 +445,31 @@ func fire_blob(num, speed, dir, degree_offset=30, speed_offset=100, _style=style
 
 
 func _on_MovementTimer_timeout():
+	var pos = get_global_position();
 	move_speed = base_speed;
-	rng.randomize();
+	var max_tries = 10;
+	var rand_pos = Vector2();
 	var pos_limit = Vector2(
 		(Global.window_width-pos_offset)/2, 
 		(Global.window_height-pos_offset)/2
 	)
-	var rand_pos = Vector2(
+	rng.randomize();
+	rand_pos = Vector2(
 		rng.randi_range(-pos_limit.x, pos_limit.x), 
 		rng.randi_range(-pos_limit.y, pos_limit.y)
 	);
-	print("timer done");
+	while sqrt(pow(rand_pos.x-pos.x,2)+pow(rand_pos.y-pos.y,2)) < dist_offset:
+		rng.randomize();
+		rand_pos = Vector2(
+			rng.randi_range(-pos_limit.x, pos_limit.x), 
+			rng.randi_range(-pos_limit.y, pos_limit.y)
+		);
+		max_tries -= 1;
+		if max_tries <= 0:
+			print("failed too many tries")
+			$MovementTimer.start();
+			return;
+
 	moving = true;
 	move_to_pos = rand_pos;
 	move_to_dir = get_global_position().direction_to(move_to_pos);
@@ -462,3 +485,9 @@ func move_to_center():
 	move_to_pos = Vector2(0, 0);
 	move_to_dir = get_global_position().direction_to(move_to_pos);
 	init_dist_to_center = sqrt(pow(move_to_pos.x-pos.x,2)+pow(move_to_pos.y-pos.y,2));
+	if (init_dist_to_center <= 10):
+		moving = false;
+		move_to_center = false;
+		$MovementTimer.start();
+		$FireTimer.paused = false;
+		
