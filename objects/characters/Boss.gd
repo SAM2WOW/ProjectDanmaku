@@ -177,6 +177,8 @@ func fireLaser(fireFrom, fireAt, inPortal, bossSpawned=true):
 	beam.queue_free()
 
 func finish_attack():
+	if hp < 0:
+		return
 	rng.randomize();
 	attack_pattern = rng.randi()%2;
 	$FireTimer.start(attack_interval);

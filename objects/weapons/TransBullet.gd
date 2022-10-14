@@ -98,6 +98,7 @@ func _on_VisibilityNotifier2D_screen_exited():
 func _ready():
 	self.connect("tree_exited", self, "boss_transState_cleanup")
 	$area/CPUParticles2D4.set_emitting(true)
+	#$Particle3.set_material(load("res://arts/shaders/Portal%d.tres" % style))
 	$area/CPUParticles2D4.set_material(load("res://arts/shaders/Portal%d.tres" % style))
 	$area/Node2D/Sprite.set_material(load("res://arts/shaders/Portal%d.tres" % style))
 	dead = true
