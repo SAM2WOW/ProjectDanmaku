@@ -27,6 +27,7 @@ func _ready():
 		var t = tutorial_bullet.instance()
 		t.tutorial_mode = true
 		t.style = 1
+		t.hurt_player = false;
 		$"../Node2D".add_child(t)
 		t.set_global_position(Vector2(0, -300))
 		
@@ -39,6 +40,7 @@ func _ready():
 		var t = portal_scene.instance()
 		t.style = 1
 		t.exploding = true
+		t.hurt_player = false;
 		$"../Node2D".add_child(t)
 		t.set_global_position(Vector2(0, -300))
 		
