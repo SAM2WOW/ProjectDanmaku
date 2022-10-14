@@ -109,7 +109,7 @@ func damage(amount,body = null):
 	
 	# effects
 	get_node("Style%d" % style).set_scale(Vector2(0.7, 0.7))
-	var tween = create_tween().set_trans(Tween.TRANS_SINE)
+	var tween = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	tween.tween_property(get_node("Style%d" % style), "scale", Vector2(1, 1), 0.2)
 	
 	Global.camera.shake(0.2, 10, 10);
@@ -120,21 +120,20 @@ func _on_Verse_Jump(verse):
 	if ($MovementTimer.is_stopped()):
 		$MovementTimer.start(movement_interval);
 	
-	var tween = create_tween().set_trans(Tween.TRANS_BOUNCE)
-	tween.tween_property(get_node("Style%d" % style), "scale", Vector2(0.5, 0.5), 0.05)
-	
-	yield(tween, "finished")
 	style = verse
+	print("BOSS STYLE: %d" % verse)
+	
 	get_node("Style%d" % style).show()
 	for i in range(Global.total_style):
 		if i != style:
 			get_node("Style%d" % i).hide()
 	
+	get_node("Style%d" % style).set_scale(Vector2(0.7, 0.7))
+	var tween = create_tween().set_trans(Tween.TRANS_BOUNCE).set_ease(Tween.EASE_OUT)
+	tween.tween_property(get_node("Style%d" % style), "scale", Vector2(1, 1), 0.2)
+	
 	get_node("Style%d/TransEffect" % style).restart()
 	get_node("Style%d/TransEffect" % style).set_emitting(true)
-	
-	get_node("Style%d" % style).set_scale(Vector2(0.7, 0.7))
-	tween.tween_property(get_node("Style%d" % style), "scale", Vector2(1, 1), 0.2)
 	
 	transbullet_cd = transbullet_max_cd;
 	missed_bullet_counter = 0;
