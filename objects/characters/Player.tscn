@@ -1,11 +1,10 @@
-[gd_scene load_steps=47 format=2]
+[gd_scene load_steps=46 format=2]
 
 [ext_resource path="res://objects/characters/Player.gd" type="Script" id=1]
 [ext_resource path="res://arts/collage/Collage_Witch_Girl.png" type="Texture" id=2]
 [ext_resource path="res://arts/pixelArt/witch_idle.png" type="Texture" id=3]
 [ext_resource path="res://objects/characters/flip_script.gd" type="Script" id=4]
 [ext_resource path="res://arts/abstrastArt/player.png" type="Texture" id=5]
-[ext_resource path="res://arts/3D/Witch.png" type="Texture" id=6]
 [ext_resource path="res://sounds/AbstractFire.wav" type="AudioStream" id=7]
 [ext_resource path="res://scripts/AudioRandomizer.gd" type="Script" id=8]
 [ext_resource path="res://sounds/AbstractBullet.wav" type="AudioStream" id=9]
@@ -214,7 +213,7 @@ visible = false
 position = Vector2( 0, -5 )
 scale = Vector2( 3, 3 )
 frames = SubResource( 8 )
-frame = 3
+frame = 1
 speed_scale = 2.0
 playing = true
 script = ExtResource( 4 )
@@ -254,7 +253,7 @@ visible = false
 position = Vector2( -5, 5 )
 scale = Vector2( -0.137, 0.137 )
 frames = SubResource( 15 )
-frame = 9
+frame = 11
 playing = true
 script = ExtResource( 4 )
 
@@ -270,7 +269,7 @@ lifetime = 0.5
 one_shot = true
 explosiveness = 1.0
 randomness = 0.72
-texture = ExtResource( 6 )
+texture = ExtResource( 21 )
 spread = 180.0
 gravity = Vector2( 0, 0 )
 initial_velocity = 55.05
@@ -292,7 +291,7 @@ visible = false
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Style3"]
 scale = Vector2( 0.423826, 0.423826 )
 frames = SubResource( 29 )
-frame = 5
+frame = 9
 playing = true
 script = ExtResource( 4 )
 
