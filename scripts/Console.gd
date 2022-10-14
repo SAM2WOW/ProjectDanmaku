@@ -27,6 +27,8 @@ func player_dead():
 	$"../CanvasLayer/Control/PlayerDeath".show()
 	Global.player.set_process(false)
 	Global.boss.set_process(false)
+	
+	get_tree().set_pause(true)
 
 
 func damage_boss(amount):
@@ -39,6 +41,8 @@ func damage_boss(amount):
 		
 		Global.player.set_process(false)
 		Global.boss.set_process(false)
+		
+		get_tree().set_pause(true)
 
 
 func play_shockwave(orgin, delay = 0):
@@ -74,5 +78,6 @@ func play_shockwave_small(orgin, delay = 0):
 
 
 func _on_Restart_pressed():
+	get_tree().set_pause(false)
 	Global.current_style = Global.initial_style
 	get_tree().reload_current_scene()
