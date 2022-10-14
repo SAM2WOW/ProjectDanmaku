@@ -1,6 +1,6 @@
 extends Node
 
-var default_volume = -10
+var default_volume = -5
 
 var song1 = preload("res://sounds/bgm.ogg")
 var playlist = [song1]
@@ -19,7 +19,7 @@ func _ready():
 	
 	a.set_volume_db(-80)
 	a.set_bus("Music")
-	a.set_autoplay(true)
+	#a.set_autoplay(true)
 	a.set_name("BGM")
 	#a.connect("finished", self, "_on_finished")
 	add_child(a)
@@ -27,8 +27,6 @@ func _ready():
 	var t = Tween.new()
 	t.set_name("Tween")
 	add_child(t)
-	
-	fade_in()
 
 
 func _on_finished():
@@ -42,6 +40,7 @@ func _on_finished():
 
 
 func fade_in():
+	$BGM.play()
 	var tween = get_node("Tween")
 	tween.interpolate_property($BGM, "volume_db",
 			-80, default_volume, 1,
