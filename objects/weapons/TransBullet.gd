@@ -214,6 +214,7 @@ func verse_jump_explode():
 		p.hurt_player = true;
 	elif (duel_mode):
 		p.hurt_boss = true;
+		Global.boss.stunned = true
 	get_parent().add_child(p);
 	p.set_global_position(get_global_position());
 	p.exploding = true
