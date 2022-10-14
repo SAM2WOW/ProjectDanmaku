@@ -9,6 +9,7 @@ var playerDamageIntervalCount = 0
 var laserBulletInterval = 0.25
 var playerDamageInterval = 0.2
 
+var inPortal = false
 var style = 2;
 
 var damage = Global.boss_bullet_properties[style]["damage"];
@@ -17,6 +18,7 @@ func _ready() -> void:
 	set_physics_process(false)
 	self.is_casting = true
 	$Line2D.points[1] = Vector2.ZERO
+
 
 #func _unhandled_input(event: InputEvent) -> void:
 #		if event is InputEventMouseButton:
@@ -28,6 +30,8 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	var cast_point := cast_to
 	force_raycast_update()
+	if (inPortal):
+		set_collide_with_areas(false)
 	
 	laserBulletIntervalCount += delta
 	playerDamageIntervalCount += delta

@@ -213,7 +213,7 @@ position = Vector2( 0, -349 )
 
 [node name="Portal" parent="Node2D" instance=ExtResource( 4 )]
 position = Vector2( 305, -45 )
-style = 1
+style = 2
 
 [node name="Background" type="Node2D" parent="Node2D" groups=["style"]]
 z_index = -500
@@ -243,7 +243,7 @@ visible = false
 [node name="MoonSprite" type="AnimatedSprite" parent="Node2D/Background/Style3"]
 scale = Vector2( 2, 2 )
 frames = SubResource( 36 )
-frame = 19
+frame = 28
 playing = true
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Node2D/Background"]
