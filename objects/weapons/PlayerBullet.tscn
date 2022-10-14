@@ -3,7 +3,7 @@
 [ext_resource path="res://arts/abstrastArt/playerbullet.png" type="Texture" id=1]
 [ext_resource path="res://objects/weapons/PlayerBullet.gd" type="Script" id=2]
 [ext_resource path="res://arts/pixelArt/fireball.png" type="Texture" id=3]
-[ext_resource path="res://arts/3D/Pumpkin_Spin_Bright.png" type="Texture" id=4]
+[ext_resource path="res://arts/3D/Pumpkin_Spin_Bright-min.png" type="Texture" id=4]
 
 [sub_resource type="AtlasTexture" id=2]
 atlas = ExtResource( 3 )
@@ -58,12 +58,12 @@ region = Rect2( 5400, 0, 1080, 1080 )
 [sub_resource type="AtlasTexture" id=27]
 flags = 4
 atlas = ExtResource( 4 )
-region = Rect2( 6480, 0, 1080, 1080 )
+region = Rect2( 7560, 0, 1080, 1080 )
 
 [sub_resource type="AtlasTexture" id=28]
 flags = 4
 atlas = ExtResource( 4 )
-region = Rect2( 7560, 0, 1080, 1080 )
+region = Rect2( 6480, 0, 1080, 1080 )
 
 [sub_resource type="AtlasTexture" id=29]
 flags = 4
@@ -90,7 +90,7 @@ animations = [ {
 "frames": [ SubResource( 21 ), SubResource( 22 ), SubResource( 23 ), SubResource( 24 ), SubResource( 25 ), SubResource( 26 ), SubResource( 27 ), SubResource( 28 ), SubResource( 29 ), SubResource( 30 ), SubResource( 31 ), SubResource( 32 ) ],
 "loop": true,
 "name": "default",
-"speed": 6.0
+"speed": 12.0
 } ]
 
 [sub_resource type="CircleShape2D" id=1]
@@ -125,17 +125,17 @@ visible = false
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Style1"]
 scale = Vector2( 4, 4 )
 frames = SubResource( 5 )
+frame = 2
 playing = true
 
 [node name="Style2" type="Node2D" parent="."]
-visible = false
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Style2"]
 light_mask = 0
 position = Vector2( -1.75002, -1.75002 )
 scale = Vector2( 0.0662037, 0.0662037 )
 frames = SubResource( 20 )
-frame = 2
+frame = 11
 playing = true
 
 [node name="Style3" type="Node2D" parent="."]
