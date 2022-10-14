@@ -43,6 +43,7 @@ func init_tutorial_bullet():
 	end_arrow()
 	dead = false
 	start_protect = true
+	hurt_player = false;
 	max_scale = 4
 	max_scale_plus = 3
 	#set_linear_velocity(Vector2(1000,100-randi() % 200).rotated(get_global_rotation()))
@@ -166,7 +167,8 @@ func verse_jump_init():
 
 func bad_verse_jump_init():
 	dead = true
-	hurt_player = true;
+	if (!tutorial_mode):
+		hurt_player = true;
 	mode = MODE_STATIC
 	$badParticle.set_material(load("res://arts/shaders/Portal%d.tres" % style))
 	$badParticle2.set_material(load("res://arts/shaders/Portal%d.tres" % style))
@@ -198,6 +200,7 @@ func verse_jump_explode():
 	if hurt_player == true:
 		if is_instance_valid(Global.boss):
 			Global.boss.fire_circle(get_global_position().x,get_global_position().y)
+		
 	$badParticle.set_emitting(false)
 	if tutorial_mode:
 		Global.console.start_game()
@@ -207,6 +210,8 @@ func verse_jump_explode():
 	p.style = style
 	if (hurt_player): 
 		p.hurt_player = true;
+	elif (duel_mode):
+		p.hurt_boss = true;
 	get_parent().add_child(p);
 	p.set_global_position(get_global_position());
 	p.exploding = true

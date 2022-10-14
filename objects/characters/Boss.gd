@@ -196,7 +196,6 @@ func finish_attack():
 				missed_bullet_counter = 0;
 				move_to_center();
 				t.duel_mode = true;
-				last_trans_bullet = t;
 			# increment missed bullet counter
 			else:
 				missed_bullet_counter += 1;
@@ -527,4 +526,6 @@ func move_to_center():
 		move_to_center = false;
 		$MovementTimer.start(movement_interval);
 		$FireTimer.paused = false;
+		get_parent().add_child(last_trans_bullet);
+		last_trans_bullet.set_global_position(get_global_position());
 		

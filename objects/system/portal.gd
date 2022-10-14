@@ -5,6 +5,7 @@ export var style = 0
 var exploding = false
 var dying = false
 var hurt_player = false;
+var hurt_boss = false;
 
 var smallparticle = preload("res://objects/VFX/small.tscn")
 
@@ -57,8 +58,11 @@ func _process(delta):
 			for i in $Area2D.get_overlapping_bodies():
 				if i.style != style:
 					if (i.name == "Player" && hurt_player):
-						Global.player.damage(70);
+						Global.player.damage(50);
 						hurt_player = false;
+					elif (i.name == "Boss" && hurt_boss):
+						Global.boss.damage(500);
+						hurt_boss = false;
 					i._on_Verse_Jump(style)
 			
 func verse_jump_explode():

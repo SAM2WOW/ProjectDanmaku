@@ -1,4 +1,4 @@
-[gd_scene load_steps=51 format=2]
+[gd_scene load_steps=52 format=2]
 
 [ext_resource path="res://objects/characters/Boss.gd" type="Script" id=1]
 [ext_resource path="res://arts/collage/Collage_Boss.png" type="Texture" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://sounds/pixel_sfx/pixel_enemy_hit.wav" type="AudioStream" id=9]
 [ext_resource path="res://sounds/AbstractBossFire.wav" type="AudioStream" id=10]
 [ext_resource path="res://sounds/AbstractBossHit.wav" type="AudioStream" id=11]
+[ext_resource path="res://arts/collage/collage_boss.png" type="Texture" id=12]
 
 [sub_resource type="Curve" id=7]
 _data = [ Vector2( 0, 0 ), 0.0, 3.63099, 0, 0, Vector2( 0.519802, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.886139, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), -19.5114, 0.0, 0, 0 ]
@@ -141,42 +142,42 @@ region = Rect2( 78.6221, 68.5419, 370.904, 420.358 )
 
 [sub_resource type="AtlasTexture" id=80]
 flags = 4
-atlas = ExtResource( 2 )
+atlas = ExtResource( 12 )
 region = Rect2( 0, 0, 625, 625 )
 
 [sub_resource type="AtlasTexture" id=81]
 flags = 4
-atlas = ExtResource( 2 )
+atlas = ExtResource( 12 )
 region = Rect2( 625, 0, 625, 625 )
 
 [sub_resource type="AtlasTexture" id=82]
 flags = 4
-atlas = ExtResource( 2 )
+atlas = ExtResource( 12 )
 region = Rect2( 1250, 0, 625, 625 )
 
 [sub_resource type="AtlasTexture" id=83]
 flags = 4
-atlas = ExtResource( 2 )
+atlas = ExtResource( 12 )
 region = Rect2( 1875, 0, 625, 625 )
 
 [sub_resource type="AtlasTexture" id=84]
 flags = 4
-atlas = ExtResource( 2 )
+atlas = ExtResource( 12 )
 region = Rect2( 2500, 0, 625, 625 )
 
 [sub_resource type="AtlasTexture" id=85]
 flags = 4
-atlas = ExtResource( 2 )
+atlas = ExtResource( 12 )
 region = Rect2( 3125, 0, 625, 625 )
 
 [sub_resource type="AtlasTexture" id=86]
 flags = 4
-atlas = ExtResource( 2 )
+atlas = ExtResource( 12 )
 region = Rect2( 3750, 0, 625, 625 )
 
 [sub_resource type="AtlasTexture" id=87]
 flags = 4
-atlas = ExtResource( 2 )
+atlas = ExtResource( 12 )
 region = Rect2( 4375, 0, 625, 625 )
 
 [sub_resource type="SpriteFrames" id=67]
@@ -261,7 +262,7 @@ volume_low = -6.0
 position = Vector2( 1, -2 )
 scale = Vector2( 4, 4 )
 frames = SubResource( 40 )
-frame = 6
+frame = 4
 playing = true
 
 [node name="TransEffect" type="CPUParticles2D" parent="Style1"]
@@ -308,7 +309,7 @@ position = Vector2( -18, -22 )
 scale = Vector2( 0.897591, 0.897591 )
 frames = SubResource( 18 )
 animation = "New Anim"
-frame = 4
+frame = 9
 speed_scale = 0.75
 playing = true
 
@@ -349,7 +350,7 @@ visible = false
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Style3"]
 frames = SubResource( 67 )
-frame = 1
+frame = 7
 playing = true
 
 [node name="TransEffect" type="CPUParticles2D" parent="Style3"]
