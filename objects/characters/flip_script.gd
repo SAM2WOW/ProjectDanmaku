@@ -1,5 +1,7 @@
 extends AnimatedSprite
 
+export var wrong_direction = false
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass
@@ -8,7 +10,7 @@ func _ready():
 func _process(delta):
 	var dir = get_global_position().direction_to(get_global_mouse_position());
 	if (dir.x >= 0):
-		self.set_flip_h(true);
+		self.set_flip_h(!wrong_direction);
 	else:
-		self.set_flip_h(false);
+		self.set_flip_h(wrong_direction);
 		
