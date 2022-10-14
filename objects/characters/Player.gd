@@ -44,7 +44,9 @@ func _process(delta):
 			print(get_node("Style2").get_node("AnimatedSprite").get_node("Shot").get_global_position())
 			chargeShot.set_bullet_rotation(dir)
 			chargeShot.charge = holdTime / maxHoldTime
-			if holdTime > 1.0: chargeShot.charge = 1.0
+			if holdTime >= 1.0:
+				chargeShot.charge = 1.0
+				Input.action_press("mouse_action")
 			var tween_values = [Color(1,1,1), Color(2,2,2)]
 			if holdTime >= maxHoldTime && (self.modulate == tween_values[0] || self.modulate == tween_values[1]):
 				$ReadyFlash.interpolate_property(self, "modulate", tween_values[1], tween_values[0], 1, Tween.TRANS_LINEAR)
