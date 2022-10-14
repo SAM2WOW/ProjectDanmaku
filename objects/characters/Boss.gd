@@ -1,6 +1,7 @@
 extends KinematicBody2D
 
 var style = Global.initial_style
+var style_pool = [0, 1 ,2 ,3]
 var prev_style = style;
 var hit_by = []
 var attack_pattern = 0;
@@ -134,12 +135,18 @@ func finish_attack():
 				break_state = true
 				missed_bullet_counter = 0
 			var t = load("res://objects/weapons/TransBullet.tscn").instance()
-			t.style = randi()%4
-			#print("current style%d" % Global.current_style)
 			
-			if t.style == Global.current_style:
-				t.style =(Global.current_style+randi()%3)%4
-
+			#t.style = randi()%4
+			#if t.style == Global.current_style:
+			#	t.style =(Global.current_style+randi()%3)%4
+			
+			# style pesudo randomize
+			t.style = style_pool[0]
+			if style_pool.size() == 1:
+				style_pool = [0, 1, 2, 3].shuffle()
+			else:
+				style_pool.remove(0)
+			
 			get_parent().add_child(t);
 			
 			t.set_global_position(get_global_position());

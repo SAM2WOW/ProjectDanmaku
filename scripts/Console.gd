@@ -45,6 +45,7 @@ func damage_boss(amount):
 			gameover = true
 			Global.player.set_process(false)
 			Global.boss.set_process(false)
+			Global.boss.set_physics_process(false)
 
 
 func play_shockwave(orgin, delay = 0):
