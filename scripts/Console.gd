@@ -59,7 +59,8 @@ func play_shockwave(orgin, delay = 0):
 	$"../CanvasLayer/Control/Shockwave".get_material().set_shader_param("radius", 0.0)
 	var tween = create_tween().set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
 	tween.tween_interval(delay)
-	tween.tween_property($"../CanvasLayer/Control/Shockwave".get_material(), "shader_param/radius", 1.7, 1)
+	tween.tween_property($"../CanvasLayer/Control/Shockwave".get_material(), "shader_param/radius", 1.7, 0.8)
+
 
 func play_shockwave_small(orgin, delay = 0):
 	var h = orgin.x / $"../Node2D".get_viewport_rect().size.x
