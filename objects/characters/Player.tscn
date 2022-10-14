@@ -201,10 +201,12 @@ color_ramp = SubResource( 17 )
 
 [node name="FireSound" type="AudioStreamPlayer2D" parent="Style0"]
 stream = ExtResource( 9 )
+bus = "Sound"
 script = ExtResource( 8 )
 pitch_low = 0.784
 ptch_high = 1.376
-base_volume = -20.0
+volume_low = -5
+base_volume = -15.0
 
 [node name="Style1" type="Node2D" parent="."]
 visible = false
@@ -213,7 +215,7 @@ visible = false
 position = Vector2( 0, -5 )
 scale = Vector2( 3, 3 )
 frames = SubResource( 8 )
-frame = 1
+frame = 2
 speed_scale = 2.0
 playing = true
 script = ExtResource( 4 )
@@ -244,7 +246,9 @@ color_ramp = SubResource( 17 )
 
 [node name="FireSound" type="AudioStreamPlayer2D" parent="Style1"]
 stream = ExtResource( 7 )
+bus = "Sound"
 script = ExtResource( 8 )
+volume_high = 5
 
 [node name="Style2" type="Node2D" parent="."]
 visible = false
@@ -283,7 +287,9 @@ color_ramp = SubResource( 17 )
 
 [node name="FireSound" type="AudioStreamPlayer2D" parent="Style2"]
 stream = ExtResource( 7 )
+bus = "Sound"
 script = ExtResource( 8 )
+volume_high = 3
 
 [node name="Style3" type="Node2D" parent="."]
 visible = false
@@ -291,7 +297,7 @@ visible = false
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Style3"]
 scale = Vector2( 0.423826, 0.423826 )
 frames = SubResource( 29 )
-frame = 3
+frame = 8
 playing = true
 script = ExtResource( 4 )
 
@@ -321,7 +327,9 @@ color_ramp = SubResource( 17 )
 
 [node name="FireSound" type="AudioStreamPlayer2D" parent="Style3"]
 stream = ExtResource( 7 )
+bus = "Sound"
 script = ExtResource( 8 )
+volume_high = 5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
