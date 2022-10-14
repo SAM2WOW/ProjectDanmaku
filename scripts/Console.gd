@@ -116,6 +116,8 @@ func start_game():
 	tween.parallel().tween_property($"../CanvasLayer/Control/HealthBar", "modulate", Color.white, 0.4)
 	tween.tween_property($"../CanvasLayer/Control/HealthBar", "rect_size", Vector2($"../CanvasLayer/Control/HealthBar".get_size().x, 14), 0.5)
 	
+	MusicPlayer.fade_in()
+	
 	yield(tween, "finished")
 	$"../CanvasLayer/Control/Tutorial".hide()
 
