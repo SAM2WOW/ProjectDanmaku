@@ -262,7 +262,7 @@ volume_low = -6.0
 position = Vector2( 1, -2 )
 scale = Vector2( 4, 4 )
 frames = SubResource( 40 )
-frame = 4
+frame = 6
 playing = true
 
 [node name="TransEffect" type="CPUParticles2D" parent="Style1"]
@@ -349,8 +349,10 @@ base_volume = 5.0
 visible = false
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Style3"]
+position = Vector2( 0, 14 )
+scale = Vector2( 0.851636, 0.851636 )
 frames = SubResource( 67 )
-frame = 7
+frame = 4
 playing = true
 
 [node name="TransEffect" type="CPUParticles2D" parent="Style3"]
