@@ -82,6 +82,11 @@ func play_shockwave_small(orgin, delay = 0):
 	#yield(tween, "finished")
 	#$"../CanvasLayer/Control/Shockwave".hide()
 
+func start_game():
+	var b = load("res://objects/characters/Boss.tscn").instance()
+	get_node('../Node2D').add_child(b)
+	b.set_global_position(Vector2(0,-1))
+	b.style = 0
 
 func _on_Restart_pressed():
 	get_tree().set_pause(false)
