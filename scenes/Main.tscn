@@ -79,6 +79,7 @@ scale = Vector2( 8, 8 )
 texture = ExtResource( 5 )
 
 [node name="Style2" type="Sprite" parent="Node2D/Background"]
+visible = false
 material = ExtResource( 7 )
 scale = Vector2( 8, 8 )
 texture = ExtResource( 5 )
