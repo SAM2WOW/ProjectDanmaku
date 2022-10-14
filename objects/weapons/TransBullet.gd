@@ -30,6 +30,8 @@ var dead_damp = 0.15
 var duel_mode = false
 
 func init_bullet():
+	dead = false
+	start_protect = true
 	damageTween = create_tween().set_trans(Tween.TRANS_LINEAR)
 	if is_instance_valid(Global.player):
 		self.look_at(Global.player.get_global_position())
@@ -37,16 +39,31 @@ func init_bullet():
 	self.connect("tree_exited", self, "boss_transState_cleanup")
 	
 func init_duel_bullet():
+	dead = false
+	start_protect = true
 	damageTween = create_tween().set_trans(Tween.TRANS_LINEAR)
 	look_at(Global.player.get_global_position())
-	health = 24
+	health = 15
 	max_scale = 4
-	max_scale_plus = 4.5
+	max_scale_plus = 4.2
 	damage_multiplier = 0.1
 	$area.set_scale(Vector2(2.5,2.5))
 	set_linear_velocity(Vector2(500,100-randi() % 200).rotated(get_global_rotation()))
 	self.connect("tree_exited", self, "boss_transState_cleanup")
 	start_protect = true
+	
+func ready_bullet():
+	var tween = create_tween().set_trans(Tween.TRANS_ELASTIC)
+	tween.tween_property($area, "scale", Vector2(1.5, 1.5), 1)
+	tween.tween_interval(0.2)
+	tween.tween_callback(self, "init_bullet")
+
+func ready_duel_bullet():
+	var tween = create_tween().set_trans(Tween.TRANS_ELASTIC)
+	tween.tween_property($area, "scale", Vector2(2.5, 2.5), 2)
+	#tween.tween_callback(self, "init_duel_bullet")
+	tween.tween_interval(0.3)
+	tween.tween_callback(self, "init_duel_bullet")
 	
 func boss_transState_cleanup():
 	Global.boss.transbullet_state = false
@@ -55,10 +72,19 @@ func _on_VisibilityNotifier2D_screen_exited():
 	queue_free()
 
 func _ready():
+	$area/CPUParticles2D4.set_emitting(true)
+	$area/CPUParticles2D4.set_material(load("res://arts/shaders/Style%d.tres" % style))
 	$area/Node2D/Sprite.set_material(load("res://arts/shaders/Portal%d.tres" % style))
+	dead = true
+	if duel_mode:
+		ready_duel_bullet()
+	else:
+		ready_bullet()
 	
 func self_destroy():
-	
+	if duel_mode:
+		verse_jump_init()
+		return
 	var tween = create_tween().set_trans(Tween.TRANS_BACK)
 	tween.tween_property($area, "scale", Vector2(0, 0), 0.2)
 	tween.tween_callback(self, "queue_free")
@@ -103,11 +129,12 @@ func verse_jump_explode():
 	get_parent().add_child(p);
 	p.set_global_position(get_global_position());
 	p.exploding = true
-	queue_free()
-	Global.boss.transbullet_state = false
+	if is_instance_valid(Global.boss):
+		Global.boss.transbullet_state = false
 		
 	print(p.get_global_transform_with_canvas().origin)
 	Global.console.play_shockwave(get_global_transform_with_canvas().origin)
+	queue_free()
 	
 func _physics_process(delta):
 	if not dead:
@@ -150,7 +177,7 @@ func damage(damage):
 	_on_hit(damage)
 	if $area.scale.x > 0.7:
 		$area.scale -= Vector2(0.15,0.15) * damage
-	health -= 1 * damage
+	health -= damage
 	
 	
 	if health <= 0:
@@ -163,9 +190,6 @@ func damage(damage):
 
 func _on_Timer_timeout():
 	base_growth_rate += 0.003
-	if !start_protect:
-		start_protect = true
-		init_bullet()
 	
 func delayed_destroy():
 	dead_damp = 0.05
@@ -179,6 +203,9 @@ func _on_DetectionArea_body_entered(body):
 	if not dead:
 		if body == Global.player:
 			body.damage(10)
+			if duel_mode:
+				verse_jump_init()
+				return
 			#self_destroy()
 			delayed_destroy()
 			dead = true
