@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://objects/weapons/LaserBeam.gd" type="Script" id=1]
 [ext_resource path="res://arts/temp/glowing_circle.png" type="Texture" id=2]
@@ -11,15 +11,6 @@ offsets = PoolRealArray( 0, 0.832117, 1 )
 colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 )
 
 [sub_resource type="CanvasItemMaterial" id=4]
-
-[sub_resource type="Environment" id=5]
-background_mode = 4
-glow_enabled = true
-glow_levels/4 = true
-glow_intensity = 0.5
-glow_blend_mode = 0
-glow_hdr_luminance_cap = 2.0
-glow_bicubic_upscale = true
 
 [node name="LaserBeam" type="RayCast2D"]
 light_mask = 3
@@ -69,6 +60,3 @@ tangential_accel = 100.0
 scale_amount = 0.7
 scale_amount_curve = SubResource( 2 )
 color_ramp = SubResource( 3 )
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource( 5 )

@@ -18,15 +18,23 @@ func _ready():
 	
 	$"../CanvasLayer/Control/Shockwave".get_material().set_shader_param("radius", 0.0)
 	
-	yield(get_tree().create_timer(1), "timeout")
+	if not Global.tutorial_played:
+		Global.tutorial_played = true
+		
+		yield(get_tree().create_timer(1), "timeout")
+		
+		var t = tutorial_bullet.instance()
+		t.tutorial_mode = true
+		t.style = 1
+		$"../Node2D".add_child(t)
+		t.set_global_position(Vector2(0, -300))
+		
+		play_shockwave(t.get_global_transform_with_canvas().origin)
 	
-	var t = tutorial_bullet.instance()
-	t.tutorial_mode = true
-	t.style = 1
-	$"../Node2D".add_child(t)
-	t.set_global_position(Vector2(0, -300))
-	
-	play_shockwave(t.get_global_transform_with_canvas().origin)
+	else:
+		$"../CanvasLayer/Control/Tutorial".hide()
+		yield(get_tree().create_timer(0.2), "timeout")
+		start_game()
 
 
 func _process(delta):
