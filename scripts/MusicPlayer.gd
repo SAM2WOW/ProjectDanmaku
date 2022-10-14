@@ -1,6 +1,6 @@
 extends Node
 
-var default_volume = -10
+var default_volume = -5
 
 var song1 = preload("res://sounds/bgm.ogg")
 var playlist = [song1]
@@ -27,8 +27,6 @@ func _ready():
 	var t = Tween.new()
 	t.set_name("Tween")
 	add_child(t)
-	
-	fade_in()
 
 
 func _on_finished():
