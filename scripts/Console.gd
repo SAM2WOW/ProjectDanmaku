@@ -4,7 +4,7 @@ extends Node
 var boss_health = 5000
 var portal
 var play_time = 0.0
-
+var gameover = false
 
 func _ready():
 	Global.console = self
@@ -24,25 +24,27 @@ func boss_dead():
 
 
 func player_dead():
-	$"../CanvasLayer/Control/PlayerDeath".show()
-	Global.player.set_process(false)
-	Global.boss.set_process(false)
-	
-	get_tree().set_pause(true)
+	if gameover == false:
+		$"../CanvasLayer/Control/PlayerDeath".show()
+		
+		gameover = true
+		Global.player.set_process(false)
+		Global.player.set_physics_process(false)
+		Global.boss.set_process(false)
 
 
 func damage_boss(amount):
-	boss_health -= amount
-	
-	$"../CanvasLayer/Control/HealthBar".set_value(boss_health)
-	
-	if boss_health <= 0:
-		boss_dead()
+	if gameover == false:
+		boss_health -= amount
 		
-		Global.player.set_process(false)
-		Global.boss.set_process(false)
+		$"../CanvasLayer/Control/HealthBar".set_value(boss_health)
 		
-		get_tree().set_pause(true)
+		if boss_health <= 0:
+			boss_dead()
+			
+			gameover = true
+			Global.player.set_process(false)
+			Global.boss.set_process(false)
 
 
 func play_shockwave(orgin, delay = 0):
