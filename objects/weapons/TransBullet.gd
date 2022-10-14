@@ -18,6 +18,7 @@ var damage_multiplier = 0.2
 var portal = preload("res://objects/system/portal.tscn")
 var dead = false
 var hit = false
+var hurt_player = false;
 var next_scale = Vector2(0,0)
 
 var growth_rate = 1
@@ -145,6 +146,7 @@ func verse_jump_init():
 
 func bad_verse_jump_init():
 	dead = true
+	hurt_player = true;
 	mode = MODE_STATIC
 	$badParticle.set_emitting(true)
 	$badParticle2.set_emitting(true)
@@ -172,6 +174,8 @@ func verse_jump_explode():
 	#p.get_node("AnimatedSprite").play();
 	p.exploding = true
 	p.style = style
+	if (hurt_player): 
+		p.hurt_player = true;
 	get_parent().add_child(p);
 	p.set_global_position(get_global_position());
 	p.exploding = true

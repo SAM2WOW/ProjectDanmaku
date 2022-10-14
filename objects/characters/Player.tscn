@@ -285,12 +285,12 @@ base_volume = 10.0
 position = Vector2( 0, -5 )
 scale = Vector2( 3, 3 )
 frames = SubResource( 8 )
-frame = 4
+frame = 2
 speed_scale = 2.0
 playing = true
 script = ExtResource( 4 )
 
-[node name="PixelShot" type="Node2D" parent="Style1/AnimatedSprite" groups=["shots1"]]
+[node name="Shot" type="Node2D" parent="Style1/AnimatedSprite" groups=["shots1"]]
 position = Vector2( -25, 0 )
 
 [node name="TransEffect" type="CPUParticles2D" parent="Style1"]
@@ -341,11 +341,11 @@ visible = false
 position = Vector2( -5, 5 )
 scale = Vector2( -0.137, 0.137 )
 frames = SubResource( 15 )
-frame = 11
+frame = 5
 playing = true
 script = ExtResource( 4 )
 
-[node name="3DShot" type="Node2D" parent="Style2/AnimatedSprite" groups=["shots2"]]
+[node name="Shot" type="Node2D" parent="Style2/AnimatedSprite" groups=["shots2"]]
 position = Vector2( 589.872, -43.6942 )
 
 [node name="TransEffect" type="CPUParticles2D" parent="Style2"]
@@ -393,11 +393,11 @@ visible = false
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Style3"]
 scale = Vector2( 0.423826, 0.423826 )
 frames = SubResource( 29 )
-frame = 8
+frame = 6
 playing = true
 script = ExtResource( 4 )
 
-[node name="CollageShot" type="Node2D" parent="Style3/AnimatedSprite" groups=["shots3"]]
+[node name="Shot" type="Node2D" parent="Style3/AnimatedSprite" groups=["shots3"]]
 position = Vector2( -140, 0 )
 
 [node name="TransEffect" type="CPUParticles2D" parent="Style3"]
