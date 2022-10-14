@@ -31,7 +31,7 @@ func _ready():
 		$Sprite/CPUParticles2D2.show()
 	else:
 		verse_jump_explode()
-	print(style)
+	#print(style)
 
 
 func self_destroy():
@@ -113,13 +113,13 @@ func _on_Area2D_body_exited(body):
 
 
 func _on_Area2D_area_entered(area):
-	print(area.name);
+	#print(area.name);
 	if not exploding:
 		if (area.name == "BossPortalBox"):
 			if (Global.boss.style == style): return;
 			Global.boss._on_Verse_Jump(style);
 func _on_Area2D_area_exited(area):
-	print(area.name);
+	#print(area.name);
 	if not exploding:
 		if (area.name == "BossPortalBox"):
 			if (Global.boss.style == Global.current_style): return;

@@ -33,6 +33,7 @@ var transbullet_cd = transbullet_max_cd
 var missed_bullet_counter = 0
 var max_missed_bullets = 1;
 var break_state = false
+var last_trans_bullet = null
 
 var basic_bullet = preload("res://objects/weapons/BasicBullet.tscn")
 
@@ -165,11 +166,8 @@ func finish_attack():
 	fire_timer.start();
 
 	#firing portal bullet when theres no transbullet on the screen
-	print('----cd to go: %d' % transbullet_cd)
-	print('----state: %s' %transbullet_state)
-	if transbullet_state == false:
+	if not is_instance_valid(last_trans_bullet):
 		transbullet_cd -= 1
-		
 		# fire the transbullet
 		if transbullet_cd <= 0:
 			var t = load("res://objects/weapons/TransBullet.tscn").instance()
@@ -189,7 +187,7 @@ func finish_attack():
 				get_parent().add_child(t);
 				t.set_global_position(get_global_position());
 			
-			transbullet_state = true
+			last_trans_bullet = t
 			
 
 func randomize_transbullet(t):
