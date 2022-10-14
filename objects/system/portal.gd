@@ -58,7 +58,7 @@ func _process(delta):
 			for i in $Area2D.get_overlapping_bodies():
 				if i.style != style:
 					if (i.name == "Player" && hurt_player):
-						Global.player.damage(50);
+						Global.player.damage(20);
 						hurt_player = false;
 					elif (i.name == "Boss" && hurt_boss):
 						Global.boss.damage(500);

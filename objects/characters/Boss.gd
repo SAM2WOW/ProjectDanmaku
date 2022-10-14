@@ -25,11 +25,12 @@ var moving = false;
 var move_to_center = false;
 var init_dist_to_center = Vector2();
 var duel_bullet;
+var stunned = false
 
 var attack_interval = 1.0;
 
 var transbullet_state = false
-var transbullet_max_cd = 5;
+var transbullet_max_cd = 4;
 var transbullet_cd = transbullet_max_cd
 var missed_bullet_counter = 0
 var max_missed_bullets = 1;
@@ -176,8 +177,16 @@ func fireLaser(fireFrom, fireAt, inPortal, bossSpawned=true):
 	beam.queue_free()
 
 func finish_attack():
-	if hp < 0:
+	if Global.console.gameover:
 		return
+	if stunned:
+		for i in get_node("Style%d" % style).get_childrens():
+			i.set_process(false)
+		yield(get_tree().create_timer(3), "timeout");
+		stunned = false
+		for i in get_node("Style%d" % style).get_childrens():
+			i.set_process(true)
+		
 	rng.randomize();
 	attack_pattern = rng.randi()%2;
 	$FireTimer.start(attack_interval);

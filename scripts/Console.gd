@@ -78,7 +78,7 @@ func damage_boss(amount):
 		
 		if boss_health <= 0:
 			boss_dead()
-			
+			Global.player.health = 10000
 			gameover = true
 			Global.player.set_process(false)
 			Global.boss.set_process(false)
