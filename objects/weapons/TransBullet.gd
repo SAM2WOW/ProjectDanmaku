@@ -12,6 +12,7 @@ var speed = 1000
 
 var base_growth_rate = 0.01
 var max_scale = 2.4
+var max_scale_plus = 2.8
 var damage_multiplier = 0.2
 
 var portal = preload("res://objects/system/portal.tscn")
@@ -41,8 +42,9 @@ func init_duel_bullet():
 	look_at(Global.player.get_global_position())
 	health = 24
 	max_scale = 4
+	max_scale_plus = 4.5
 	damage_multiplier = 0.1
-	$area.set_scale(Vector2(3,3))
+	$area.set_scale(Vector2(2.5,2.5))
 	set_linear_velocity(Vector2(500,100-randi() % 200).rotated(get_global_rotation()))
 	$area/Node2D/Sprite.set_material(load("res://arts/shaders/Portal%d.tres" % style))
 	self.connect("tree_exited", self, "boss_transState_cleanup")
@@ -111,7 +113,7 @@ func verse_jump_explode():
 func _physics_process(delta):
 	if not dead:
 		if not hit:
-			$area.scale = lerp($area.scale, Vector2(2.6,2.6),base_growth_rate * growth_rate)
+			$area.scale = lerp($area.scale, Vector2(max_scale_plus,max_scale_plus),base_growth_rate * growth_rate)
 			if $area.scale.x > max_scale:
 				self_destroy()
 	else:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://objects/system/portal.gd" type="Script" id=1]
 [ext_resource path="res://arts/shaders/MetalBall/background.png" type="Texture" id=2]
@@ -14,6 +14,10 @@ radius = 234.676
 [sub_resource type="Curve" id=12]
 bake_resolution = 24
 _data = [ Vector2( 0, 0.595455 ), 0.0, 1.90438, 0, 0, Vector2( 0.361386, 0.95 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.0590909 ), -4.04, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=15]
+offsets = PoolRealArray( 0, 0.575419, 1 )
+colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.85098 )
 
 [node name="Portal" type="Node2D"]
 script = ExtResource( 1 )
@@ -32,6 +36,7 @@ z_as_relative = false
 texture = ExtResource( 2 )
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="Sprite"]
+visible = false
 material = ExtResource( 4 )
 position = Vector2( -59.5008, -58.196 )
 scale = Vector2( 0.942177, 0.942177 )
@@ -49,7 +54,7 @@ initial_velocity_random = 0.5
 scale_amount = 0.8
 scale_amount_random = 0.39
 scale_amount_curve = SubResource( 12 )
-color = Color( 1, 1, 1, 0.839216 )
+color_initial_ramp = SubResource( 15 )
 
 [node name="CPUParticles2D2" type="CPUParticles2D" parent="Sprite"]
 visible = false
