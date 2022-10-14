@@ -19,6 +19,8 @@ var maxHoldTime = 1.0;
 
 var is_created = false
 var chargeShot
+var flipped
+var shotLocations
 
 var bullet = preload("res://objects/weapons/PlayerBullet.tscn")
 var pixel_bullet = preload("res://arts/pixelArt/fireball.png")
@@ -37,8 +39,9 @@ func _process(delta):
 				chargeShot = bullet.instance()
 				get_parent().add_child(chargeShot);
 				chargeShot.get_node("CollisionShape2D").disabled = true
-				chargeShot.init_bullet(get_node("Style2").get_node("AnimatedSprite").get_node("3DShot").get_global_position(), dir, style);
-			chargeShot.set_global_position(get_node("Style2").get_node("AnimatedSprite").get_node("3DShot").get_global_position())
+				chargeShot.init_bullet(get_node("Style2").get_node("AnimatedSprite").get_node("Shot").get_global_position(), dir, style);
+			chargeShot.set_global_position(get_node("Style2").get_node("AnimatedSprite").get_node("Shot").get_global_position())
+			print(get_node("Style2").get_node("AnimatedSprite").get_node("Shot").get_global_position())
 			chargeShot.set_bullet_rotation(dir)
 			chargeShot.charge = holdTime / maxHoldTime
 			if holdTime > 1.0: chargeShot.charge = 1.0
@@ -56,6 +59,10 @@ func _process(delta):
 			holdTime = 0.0;
 			$FireTimer.start()
 	else:
+		if is_instance_valid(chargeShot):
+			chargeShot.queue_free()
+			is_created = false
+			holdTime = 0.0
 		if Input.is_action_pressed("mouse_action"):
 			# shooting = true;
 			if ($FireTimer.is_stopped()):
@@ -131,77 +138,76 @@ func _on_Verse_Jump(verse):
 
 # fires a bullet at the mouse position
 func fire_bullet():
-	match style:
-		0:
-			init_minimal_bullets();
-			
-			# effects
-			$Style0/Icon.set_scale(Vector2(0.7, 0.7))
-			$Style0/Icon/Playercircle.set_scale(Vector2(4, 4))
-			$Style0/Icon/Playercircle2.set_scale(Vector2(4, 4))
-			var tween = create_tween().set_trans(Tween.TRANS_SINE)
-			tween.tween_property($Style0/Icon/Playercircle, "scale", Vector2(1, 1), 0.2)
-			tween.parallel().tween_property($Style0/Icon/Playercircle2, "scale", Vector2(1, 1), 0.2)
-			tween.parallel().tween_property($Style0/Icon, "scale", Vector2(1, 1), 0.2)
-		1:
-			init_pixel_bullets();
-			
-			# effects
-			$Style1/AnimatedSprite.set_scale(Vector2(2.5, 2.5))
-			var tween = create_tween().set_trans(Tween.TRANS_SINE)
-			tween.tween_property($Style1/AnimatedSprite, "scale", Vector2(3, 3), 0.2)
-		2:
-			init_3d_bullets();
-			
-			# effects
-			$Style2/AnimatedSprite.set_scale(Vector2(0.12, 0.12))
-			var tween = create_tween().set_trans(Tween.TRANS_SINE)
-			tween.tween_property($Style2/AnimatedSprite, "scale", Vector2(0.137, 0.137), 0.2)
-		3:
-			init_collage_bullets();
-		_:
-			pass
+	shotLocations = get_tree().get_nodes_in_group('shots%d' % style)
+	for shot in shotLocations:
+		match style:
+			0:
+				init_minimal_bullets(shot);
+				
+				# effects
+				$Style0/Icon.set_scale(Vector2(0.7, 0.7))
+				$Style0/Icon/Playercircle.set_scale(Vector2(4, 4))
+				$Style0/Icon/Playercircle2.set_scale(Vector2(4, 4))
+				var tween = create_tween().set_trans(Tween.TRANS_SINE)
+				tween.tween_property($Style0/Icon/Playercircle, "scale", Vector2(1, 1), 0.2)
+				tween.parallel().tween_property($Style0/Icon/Playercircle2, "scale", Vector2(1, 1), 0.2)
+				tween.parallel().tween_property($Style0/Icon, "scale", Vector2(1, 1), 0.2)
+			1:
+				init_pixel_bullets(shot);
+				
+				# effects
+				$Style1/AnimatedSprite.set_scale(Vector2(2.5, 2.5))
+				var tween = create_tween().set_trans(Tween.TRANS_SINE)
+				tween.tween_property($Style1/AnimatedSprite, "scale", Vector2(3, 3), 0.2)
+			2:
+				init_3d_bullets(shot);
+				
+				# effects
+				$Style2/AnimatedSprite.set_scale(Vector2(0.12, 0.12))
+				var tween = create_tween().set_trans(Tween.TRANS_SINE)
+				tween.tween_property($Style2/AnimatedSprite, "scale", Vector2(0.137, 0.137), 0.2)
+			3:
+				init_collage_bullets(shot);
+			_:
+				pass
 		
 	# play sounds
 	get_node("Style%d/FireSound" % style).play()
 
 
-func init_minimal_bullets():
-	var shotLocations = get_tree().get_nodes_in_group('shots%d' % style)
-	for shot in shotLocations:
-		var b = bullet.instance()
-		get_parent().add_child(b);
-		
-		var dir = get_global_position().direction_to(get_global_mouse_position());
-		b.init_bullet(shot.get_global_position(), dir, style);
-		b.set_linear_velocity(dir*Global.player_bullet_properties[style]["speed"]);
+func init_minimal_bullets(shot):
+	var b = bullet.instance()
+	get_parent().add_child(b);
+	
+	var dir = get_global_position().direction_to(get_global_mouse_position());
+	b.init_bullet(shot.get_global_position(), dir, style);
+	b.set_linear_velocity(dir*Global.player_bullet_properties[style]["speed"]);
 		
 
-func init_pixel_bullets():
+func init_pixel_bullets(shot):
 	var b = bullet.instance();
 	get_parent().add_child(b)
 	
-	var dir = get_global_position().direction_to(get_global_mouse_position());
-	b.init_bullet(get_global_position(), dir, style);
+	var dir = shot.get_global_position().direction_to(get_global_mouse_position());
+	b.init_bullet(shot.get_global_position(), dir, style);
 	b.set_detonate(get_global_mouse_position());
 	b.set_linear_velocity(dir*Global.player_bullet_properties[style]["speed"]);
 	
-
-func init_3d_bullets():
+func init_3d_bullets(shot):
 	var charge = holdTime / maxHoldTime;
 	if (charge > 1.0): charge = 1.0;
 
 	var b = bullet.instance();
 	get_parent().add_child(b)
 	b.charge = charge;
-	var dir = get_global_position().direction_to(get_global_mouse_position());
-	b.init_bullet(get_global_position(), dir, style);
+	var dir = shot.get_global_position().direction_to(get_global_mouse_position());
+	b.init_bullet(shot.get_global_position(), dir, style);
 	b.set_linear_velocity(dir*Global.player_bullet_properties[style]["speed"]);
 	
 	
-func init_collage_bullets():
-	var dir = get_global_position().direction_to(get_global_mouse_position());
-	var bullets = fire_spread(3, 15, Global.player_bullet_properties[style]["speed"], dir);
+func init_collage_bullets(shot):
+	var dir = shot.get_global_position().direction_to(get_global_mouse_position());
+	var bullets = fire_spread(3, 15, Global.player_bullet_properties[style]["speed"], dir, shot);
 
 
 func damage(amount):

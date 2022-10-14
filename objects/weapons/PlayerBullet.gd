@@ -27,8 +27,9 @@ func _ready():
 
 
 func _on_VisibilityNotifier2D_screen_exited():
-	dying = true
-	queue_free()
+	if get_node("CollisionShape2D").disabled == true:
+		dying = true
+		queue_free()
 	pass
 
 

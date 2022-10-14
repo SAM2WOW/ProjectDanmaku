@@ -384,7 +384,6 @@ func _on_MovementTimer_timeout():
 		rng.randi_range(-pos_limit.x, pos_limit.x), 
 		rng.randi_range(-pos_limit.y, pos_limit.y)
 	);
-	print("timer done");
 	moving = true;
 	move_to_pos = rand_pos;
 	move_to_dir = get_global_position().direction_to(move_to_pos);
