@@ -143,8 +143,8 @@ func _on_hit(damage):
 func damage(damage):
 	damage = damage * damage_multiplier
 	base_growth_rate = 0.01
-	if damage > 4:
-		damage = 4
+	if damage > 3:
+		damage = 3
 	$Timer.start()
 	print('trans damage%d' % damage)
 	_on_hit(damage)
