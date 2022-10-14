@@ -55,7 +55,7 @@ func init_duel_bullet():
 	damage_multiplier = 0.1
 	$area.set_scale(Vector2(2.2,2.2))
 	set_linear_velocity(Vector2(500,100-randi() % 200).rotated(get_global_rotation()))
-	self.connect("tree_exited", self, "boss_transState_cleanup")
+	
 	start_protect = true
 	
 func ready_bullet():
@@ -89,6 +89,7 @@ func _on_VisibilityNotifier2D_screen_exited():
 	queue_free()
 
 func _ready():
+	self.connect("tree_exited", self, "boss_transState_cleanup")
 	$area/CPUParticles2D4.set_emitting(true)
 	$area/CPUParticles2D4.set_material(load("res://arts/shaders/Portal%d.tres" % style))
 	$area/Node2D/Sprite.set_material(load("res://arts/shaders/Portal%d.tres" % style))
@@ -175,7 +176,7 @@ func verse_jump_explode():
 	if is_instance_valid(Global.boss):
 		Global.boss.transbullet_state = false
 		
-	print(p.get_global_transform_with_canvas().origin)
+	#print(p.get_global_transform_with_canvas().origin)
 	Global.console.play_shockwave(get_global_transform_with_canvas().origin)
 	
 func _physics_process(delta):
