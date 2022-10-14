@@ -1,12 +1,11 @@
 extends CPUParticles2D
 
+var style = 0
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-
-
-# Called when the node enters the scene tree for the first time.
 func _ready():
+	set_material(load("res://arts/shaders/Style%d.tres" % Global.current_style))
+	$CPUParticles2D3.set_material(load("res://arts/shaders/Style%d.tres" % style))
 	set_emitting(true)
-	yield(get_tree().create_timer(0.7), "timeout");
+	$CPUParticles2D3.set_emitting(true)
+	yield(get_tree().create_timer(0.7), "timeout")
+	queue_free()

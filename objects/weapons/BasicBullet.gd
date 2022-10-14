@@ -99,7 +99,7 @@ func _on_Verse_Jump(verse):
 			pass
 	
 func _on_Verse_Exit(prev_verse, new_verse):
-	print("exiting %d and entering %d" % [prev_verse, new_verse])
+	#print("exiting %d and entering %d" % [prev_verse, new_verse])
 	match prev_verse:
 		# on leaving minimal verse, nothing
 		0:

@@ -76,7 +76,7 @@ func appear() -> void:
 	$Tween.interpolate_property($Line2D, "width", 0, 10.0, 0.2)
 	$Tween.start()
 	
-	$FireSound.play()
+	SoundPlayer.play_positional("Lazer", get_global_position())
 
 func disappear() -> void:
 	$Tween.stop_all()
