@@ -217,7 +217,6 @@ tint_under = Color( 0, 0, 0, 0.0352941 )
 tint_progress = Color( 0.517647, 0.878431, 0.960784, 0.792157 )
 
 [node name="Style0" type="Node2D" parent="."]
-visible = false
 
 [node name="Icon" type="Sprite" parent="Style0"]
 self_modulate = Color( 0.517647, 0.878431, 0.960784, 1 )
@@ -275,8 +274,7 @@ bus = "Sound"
 script = ExtResource( 8 )
 pitch_low = 0.784
 ptch_high = 1.376
-volume_low = 9.0
-volume_high = 11.0
+volume_low = -10.0
 base_volume = 10.0
 
 [node name="Style1" type="Node2D" parent="."]
@@ -320,8 +318,7 @@ bus = "Sound"
 script = ExtResource( 8 )
 pitch_low = 0.864
 ptch_high = 1.108
-volume_low = 4.0
-volume_high = 5.0
+volume_low = -5.0
 base_volume = 6.0
 
 [node name="HitSound" type="AudioStreamPlayer2D" parent="Style1"]
@@ -330,17 +327,17 @@ bus = "Sound"
 script = ExtResource( 8 )
 pitch_low = 0.784
 ptch_high = 1.376
-volume_low = 9.0
-volume_high = 11.0
+volume_low = -10.0
 base_volume = 10.0
 
 [node name="Style2" type="Node2D" parent="."]
+visible = false
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Style2"]
 position = Vector2( 6, -7 )
 scale = Vector2( -0.192, 0.192 )
 frames = SubResource( 15 )
-frame = 4
+frame = 9
 playing = true
 script = ExtResource( 4 )
 
@@ -382,17 +379,16 @@ bus = "Sound"
 script = ExtResource( 8 )
 pitch_low = 0.784
 ptch_high = 1.376
-volume_low = 9.0
-volume_high = 11.0
+volume_low = -10.0
 base_volume = 10.0
 
 [node name="Style3" type="Node2D" parent="."]
 visible = false
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Style3"]
-scale = Vector2( 0.423826, 0.423826 )
+scale = Vector2( 0.3, 0.3 )
 frames = SubResource( 29 )
-frame = 10
+frame = 8
 playing = true
 script = ExtResource( 4 )
 
@@ -422,6 +418,7 @@ color_ramp = SubResource( 17 )
 stream = ExtResource( 7 )
 bus = "Sound"
 script = ExtResource( 8 )
+volume_low = -5.0
 
 [node name="HitSound" type="AudioStreamPlayer2D" parent="Style3"]
 stream = ExtResource( 13 )
@@ -429,8 +426,7 @@ bus = "Sound"
 script = ExtResource( 8 )
 pitch_low = 0.784
 ptch_high = 1.376
-volume_low = 9.0
-volume_high = 11.0
+volume_low = -10.0
 base_volume = 10.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

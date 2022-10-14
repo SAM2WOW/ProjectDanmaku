@@ -178,9 +178,9 @@ func fire_bullet():
 				init_collage_bullets(shot);
 				
 				# effects
-				$Style3/AnimatedSprite.set_scale(Vector2(0.35, 0.35))
+				$Style3/AnimatedSprite.set_scale(Vector2(0.25, 0.25))
 				var tween = create_tween().set_trans(Tween.TRANS_SINE)
-				tween.tween_property($Style3/AnimatedSprite, "scale", Vector2(0.424, 0.424), 0.2)
+				tween.tween_property($Style3/AnimatedSprite, "scale", Vector2(0.3, 0.3), 0.2)
 			_:
 				pass
 			
