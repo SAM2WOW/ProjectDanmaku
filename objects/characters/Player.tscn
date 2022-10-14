@@ -60,8 +60,9 @@ animations = [ {
 } ]
 
 [sub_resource type="AtlasTexture" id=16]
-atlas = ExtResource( 3 )
-region = Rect2( 0, 0, 67, 61 )
+flags = 4
+atlas = ExtResource( 2 )
+region = Rect2( -11.8309, 46.8765, 449.028, 456.638 )
 
 [sub_resource type="SpriteFrames" id=15]
 animations = [ {
@@ -157,6 +158,7 @@ tint_under = Color( 0, 0, 0, 0.0352941 )
 tint_progress = Color( 0.517647, 0.878431, 0.960784, 0.792157 )
 
 [node name="Style0" type="Node2D" parent="."]
+visible = false
 
 [node name="Icon" type="Sprite" parent="Style0"]
 self_modulate = Color( 0.517647, 0.878431, 0.960784, 1 )
@@ -205,17 +207,16 @@ bus = "Sound"
 script = ExtResource( 8 )
 pitch_low = 0.784
 ptch_high = 1.376
-volume_low = -5
+volume_low = -5.0
 base_volume = -15.0
 
 [node name="Style1" type="Node2D" parent="."]
-visible = false
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Style1"]
 position = Vector2( 0, -5 )
 scale = Vector2( 3, 3 )
 frames = SubResource( 8 )
-frame = 2
+frame = 4
 speed_scale = 2.0
 playing = true
 script = ExtResource( 4 )
@@ -248,7 +249,6 @@ color_ramp = SubResource( 17 )
 stream = ExtResource( 7 )
 bus = "Sound"
 script = ExtResource( 8 )
-volume_high = 5
 
 [node name="Style2" type="Node2D" parent="."]
 visible = false
@@ -257,7 +257,7 @@ visible = false
 position = Vector2( -5, 5 )
 scale = Vector2( -0.137, 0.137 )
 frames = SubResource( 15 )
-frame = 5
+frame = 6
 playing = true
 script = ExtResource( 4 )
 
@@ -289,7 +289,6 @@ color_ramp = SubResource( 17 )
 stream = ExtResource( 7 )
 bus = "Sound"
 script = ExtResource( 8 )
-volume_high = 3
 
 [node name="Style3" type="Node2D" parent="."]
 visible = false
@@ -297,7 +296,7 @@ visible = false
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Style3"]
 scale = Vector2( 0.423826, 0.423826 )
 frames = SubResource( 29 )
-frame = 8
+frame = 3
 playing = true
 script = ExtResource( 4 )
 
@@ -305,7 +304,6 @@ script = ExtResource( 4 )
 position = Vector2( -140, 0 )
 
 [node name="TransEffect" type="CPUParticles2D" parent="Style3"]
-position = Vector2( 0, -15 )
 z_index = -1
 emitting = false
 amount = 4
@@ -321,15 +319,14 @@ initial_velocity_random = 0.51
 angular_velocity_random = 0.41
 damping = 94.5
 damping_random = 1.0
-scale_amount = 3.5
-scale_amount_random = 0.62
+scale_amount = 0.4
+scale_amount_random = 0.21
 color_ramp = SubResource( 17 )
 
 [node name="FireSound" type="AudioStreamPlayer2D" parent="Style3"]
 stream = ExtResource( 7 )
 bus = "Sound"
 script = ExtResource( 8 )
-volume_high = 5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
