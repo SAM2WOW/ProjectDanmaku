@@ -78,13 +78,13 @@ func set_is_casting(cast: bool) -> void:
 
 func appear() -> void:
 	$Tween.stop_all()
-	$Tween.interpolate_property($Line2D, "width", 0, 10.0, 0.2)
+	$Tween.interpolate_property($Line2D, "width", 0, 15.0, 0.2)
 	$Tween.start()
 	
 	SoundPlayer.play_positional("Lazer", get_global_position())
 
 func disappear() -> void:
 	$Tween.stop_all()
-	$Tween.interpolate_property($Line2D, "width", 10.0, 0, 0.1)
+	$Tween.interpolate_property($Line2D, "width", 15.0, 0, 0.1)
 	$Tween.start()
 	

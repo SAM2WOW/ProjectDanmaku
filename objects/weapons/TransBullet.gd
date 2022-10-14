@@ -28,6 +28,7 @@ var dead_damp = 0.15
 var init_size = 1
 var duel_mode = false
 export var tutorial_mode = false
+var smallparticle = preload("res://objects/VFX/small.tscn")
 
 func init_bullet():
 	end_arrow()
@@ -36,7 +37,7 @@ func init_bullet():
 
 	if is_instance_valid(Global.player):
 		$area.look_at(Global.player.get_global_position())
-	set_linear_velocity(Vector2(1000,100-randi() % 200).rotated($area.get_global_rotation()))
+	set_linear_velocity(Vector2(800,100-randi() % 200).rotated($area.get_global_rotation()))
 	self.connect("tree_exited", self, "boss_transState_cleanup")
 	
 func init_tutorial_bullet():
@@ -238,6 +239,7 @@ func _on_Verse_Jump(style):
 
 func _on_hit(damage):
 	if not hit:
+		
 		hit = true
 		var damageTween = create_tween().set_trans(Tween.TRANS_CUBIC)
 		damageTween.tween_property($area/Node2D, "scale", Vector2(1.3,1.3), 0.08)
@@ -248,6 +250,11 @@ func _on_hit(damage):
 		damageTween.parallel().tween_property($area/Node2D, "modulate", Color("ffffff"), 0.08)
 	
 		yield(damageTween,"finished")
+		if damage == 0:
+			$HitSound.pitch_scale = 2.5
+		if health > 0:
+			$HitSound.pitch_scale *= 1.1
+		$HitSound.play()
 		hit = false
 
 	
@@ -282,7 +289,6 @@ func damage(damage):
 			else:
 				verse_jump_init()
 		
-		$HitSound.play()
 	
 
 
@@ -310,12 +316,18 @@ func _on_DetectionArea_body_entered(body):
 				dead = true
 		elif "Player" in body.name:
 			if start_protect:
+				var p = smallparticle.instance()
+				p.set_global_position(body.get_global_position())
+				p.style = style
+				get_parent().add_child(p)
+				p.look_at(get_global_position())
+				
 				damage(body.damage)
 				#print(body)
 				body._on_destroy()
 				#body.queue_free()
 	else:
-		if tutorial_mode:
+		if tutorial_mode and not hurt_player:
 			if body != Global.player and "Player" in body.name:
 				body._on_destroy()
 				_on_hit(0)

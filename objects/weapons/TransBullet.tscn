@@ -75,7 +75,6 @@ bake_resolution = 24
 _data = [ Vector2( 0, 0 ), 0.0, 2.98409, 0, 0, Vector2( 0.450495, 0.985227 ), -0.0390715, -0.0390715, 0, 0, Vector2( 0.980198, 0.0227273 ), -4.55559, 0.0, 0, 0 ]
 
 [node name="TransBullet" type="RigidBody2D" groups=["bullet"]]
-scale = Vector2( 1.2, 1.2 )
 collision_layer = 16
 collision_mask = 3
 physics_material_override = SubResource( 2 )
@@ -83,7 +82,7 @@ gravity_scale = 0.0
 contacts_reported = 1
 contact_monitor = true
 linear_damp = 0.0
-angular_damp = 0.0
+angular_damp = 0.1
 script = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
