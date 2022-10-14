@@ -111,7 +111,6 @@ func self_destroy():
 	tween.tween_property($area, "scale", Vector2(0, 0), 0.2)
 	if style != Global.current_style:
 		spawn_portal()
-	if (!is_instance_valid(Global.boss)): return;
 	Global.boss.transbullet_state = false
 	tween.tween_callback(self, "queue_free")
 

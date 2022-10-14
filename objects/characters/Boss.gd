@@ -165,6 +165,8 @@ func finish_attack():
 	fire_timer.start();
 
 	#firing portal bullet when theres no transbullet on the screen
+	print('----cd to go: %d' % transbullet_cd)
+	print('----state: %s' %transbullet_state)
 	if transbullet_state == false:
 		transbullet_cd -= 1
 		
