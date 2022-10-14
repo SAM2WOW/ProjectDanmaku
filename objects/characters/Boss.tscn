@@ -7,7 +7,7 @@
 [ext_resource path="res://arts/3D/Angel_Idle_Sheet.png" type="Texture" id=5]
 [ext_resource path="res://scripts/AudioRandomizer.gd" type="Script" id=6]
 [ext_resource path="res://sounds/BossHit.wav" type="AudioStream" id=7]
-[ext_resource path="res://sounds/pixel_sfx/pixel_enemy_bullet_fire.wav" type="AudioStream" id=8]
+[ext_resource path="res://arts/3D/Angel_Idle_Sheet-min.png" type="Texture" id=8]
 
 [sub_resource type="Curve" id=7]
 _data = [ Vector2( 0, 0 ), 0.0, 3.63099, 0, 0, Vector2( 0.519802, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.886139, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), -19.5114, 0.0, 0, 0 ]
@@ -68,64 +68,64 @@ animations = [ {
 atlas = ExtResource( 3 )
 region = Rect2( 131, 4, 124, 99 )
 
-[sub_resource type="AtlasTexture" id=41]
+[sub_resource type="AtlasTexture" id=56]
 flags = 4
-atlas = ExtResource( 5 )
+atlas = ExtResource( 8 )
 region = Rect2( 0, 0, 1080, 1080 )
 
-[sub_resource type="AtlasTexture" id=42]
+[sub_resource type="AtlasTexture" id=57]
 flags = 4
-atlas = ExtResource( 5 )
+atlas = ExtResource( 8 )
 region = Rect2( 1080, 0, 1080, 1080 )
 
-[sub_resource type="AtlasTexture" id=43]
+[sub_resource type="AtlasTexture" id=58]
 flags = 4
-atlas = ExtResource( 5 )
+atlas = ExtResource( 8 )
 region = Rect2( 2160, 0, 1080, 1080 )
 
-[sub_resource type="AtlasTexture" id=44]
+[sub_resource type="AtlasTexture" id=59]
 flags = 4
-atlas = ExtResource( 5 )
+atlas = ExtResource( 8 )
 region = Rect2( 3240, 0, 1080, 1080 )
 
-[sub_resource type="AtlasTexture" id=45]
+[sub_resource type="AtlasTexture" id=60]
 flags = 4
-atlas = ExtResource( 5 )
+atlas = ExtResource( 8 )
 region = Rect2( 4320, 0, 1080, 1080 )
 
-[sub_resource type="AtlasTexture" id=46]
+[sub_resource type="AtlasTexture" id=61]
 flags = 4
-atlas = ExtResource( 5 )
+atlas = ExtResource( 8 )
 region = Rect2( 5400, 0, 1080, 1080 )
 
-[sub_resource type="AtlasTexture" id=47]
+[sub_resource type="AtlasTexture" id=62]
 flags = 4
-atlas = ExtResource( 5 )
+atlas = ExtResource( 8 )
 region = Rect2( 6480, 0, 1080, 1080 )
 
-[sub_resource type="AtlasTexture" id=48]
+[sub_resource type="AtlasTexture" id=63]
 flags = 4
-atlas = ExtResource( 5 )
+atlas = ExtResource( 8 )
 region = Rect2( 7560, 0, 1080, 1080 )
 
-[sub_resource type="AtlasTexture" id=49]
+[sub_resource type="AtlasTexture" id=64]
 flags = 4
-atlas = ExtResource( 5 )
+atlas = ExtResource( 8 )
 region = Rect2( 8640, 0, 1080, 1080 )
 
-[sub_resource type="AtlasTexture" id=50]
+[sub_resource type="AtlasTexture" id=65]
 flags = 4
-atlas = ExtResource( 5 )
+atlas = ExtResource( 8 )
 region = Rect2( 9720, 0, 1080, 1080 )
 
-[sub_resource type="AtlasTexture" id=51]
+[sub_resource type="AtlasTexture" id=66]
 flags = 4
-atlas = ExtResource( 5 )
+atlas = ExtResource( 8 )
 region = Rect2( 10800, 0, 1080, 1080 )
 
 [sub_resource type="SpriteFrames" id=18]
 animations = [ {
-"frames": [ SubResource( 41 ), SubResource( 42 ), SubResource( 43 ), SubResource( 44 ), SubResource( 45 ), SubResource( 46 ), SubResource( 47 ), SubResource( 48 ), SubResource( 49 ), SubResource( 50 ), SubResource( 51 ) ],
+"frames": [ SubResource( 56 ), SubResource( 57 ), SubResource( 58 ), SubResource( 59 ), SubResource( 60 ), SubResource( 61 ), SubResource( 62 ), SubResource( 63 ), SubResource( 64 ), SubResource( 65 ), SubResource( 66 ) ],
 "loop": true,
 "name": "New Anim",
 "speed": 12.0
@@ -182,9 +182,6 @@ scale_amount = 3.0
 scale_amount_random = 0.62
 color_ramp = SubResource( 54 )
 
-[node name="FireSound" type="AudioStreamPlayer2D" parent="Style0"]
-script = ExtResource( 6 )
-
 [node name="Style1" type="Node2D" parent="."]
 visible = false
 
@@ -192,7 +189,7 @@ visible = false
 position = Vector2( 1, -2 )
 scale = Vector2( 4, 4 )
 frames = SubResource( 40 )
-frame = 2
+frame = 9
 playing = true
 
 [node name="TransEffect" type="CPUParticles2D" parent="Style1"]
@@ -216,11 +213,6 @@ scale_amount = 5.0
 scale_amount_random = 0.62
 color_ramp = SubResource( 54 )
 
-[node name="FireSound" type="AudioStreamPlayer2D" parent="Style1"]
-stream = ExtResource( 8 )
-script = ExtResource( 6 )
-base_volume = 2.0
-
 [node name="Style2" type="Node2D" parent="."]
 visible = false
 
@@ -229,6 +221,7 @@ position = Vector2( -18, -22 )
 scale = Vector2( 0.422288, 0.422288 )
 frames = SubResource( 18 )
 animation = "New Anim"
+frame = 9
 speed_scale = 0.75
 playing = true
 
@@ -252,9 +245,6 @@ damping_random = 1.0
 scale_amount = 0.1
 scale_amount_random = 0.62
 color_ramp = SubResource( 54 )
-
-[node name="FireSound" type="AudioStreamPlayer2D" parent="Style2"]
-script = ExtResource( 6 )
 
 [node name="Style3" type="Node2D" parent="."]
 visible = false
@@ -283,9 +273,6 @@ scale_amount = 5.0
 scale_amount_random = 0.62
 color_ramp = SubResource( 54 )
 
-[node name="FireSound" type="AudioStreamPlayer2D" parent="Style3"]
-script = ExtResource( 6 )
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( -2, 1 )
 shape = SubResource( 6 )
@@ -296,7 +283,6 @@ autostart = true
 
 [node name="HitSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 7 )
-bus = "Sound"
 script = ExtResource( 6 )
 pitch_low = 0.788
 base_volume = 5.0
