@@ -311,7 +311,7 @@ func _on_DetectionArea_body_entered(body):
 	if not dead:
 		if body == Global.player:
 			if not tutorial_mode:
-				body.damage(10)
+				body.damage(35)
 				if duel_mode:
 					bad_verse_jump_init()
 					return
