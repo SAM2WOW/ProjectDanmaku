@@ -10,7 +10,7 @@ var speed_mult = 1.0;
 
 # var shooting = false;
 
-var max_health = 10000;
+var max_health = 100;
 var health = max_health;
 var health_regen_speed = 1
 
@@ -238,9 +238,9 @@ func damage(amount):
 	health -= amount
 	
 	$HealthBar.show()
-	$HealthBar.set_tint_progress(Color("ca84e0f5"))
+	$HealthBar.set_modulate(Color.white)
 	var tween = create_tween()
-	tween.tween_property($HealthBar, "tint_progress", Color("2b84e0f5"), 0.3)
+	tween.tween_property($HealthBar, "modulate", Color("64ffffff"), 0.3)
 	
 	# wait a bit before regenerate health
 	$RegenerateTimer.start()
