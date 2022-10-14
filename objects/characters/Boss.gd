@@ -25,11 +25,12 @@ var moving = false;
 var move_to_center = false;
 var init_dist_to_center = Vector2();
 var duel_bullet;
+var stunned = false
 
 var attack_interval = 1.0;
 
 var transbullet_state = false
-var transbullet_max_cd = 5;
+var transbullet_max_cd = 4;
 var transbullet_cd = transbullet_max_cd
 var missed_bullet_counter = 0
 var max_missed_bullets = 2;
@@ -110,7 +111,7 @@ func damage(amount,body = null):
 	
 	# effects
 	get_node("Style%d" % style).set_scale(Vector2(0.7, 0.7))
-	var tween = create_tween().set_trans(Tween.TRANS_SINE)
+	var tween = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	tween.tween_property(get_node("Style%d" % style), "scale", Vector2(1, 1), 0.2)
 	
 	Global.camera.shake(0.2, 10, 10);
@@ -121,21 +122,20 @@ func _on_Verse_Jump(verse):
 	if ($MovementTimer.is_stopped()):
 		$MovementTimer.start(movement_interval);
 	
-	var tween = create_tween().set_trans(Tween.TRANS_BOUNCE)
-	tween.tween_property(get_node("Style%d" % style), "scale", Vector2(0.5, 0.5), 0.05)
-	
-	yield(tween, "finished")
 	style = verse
+	print("BOSS STYLE: %d" % verse)
+	
 	get_node("Style%d" % style).show()
 	for i in range(Global.total_style):
 		if i != style:
 			get_node("Style%d" % i).hide()
 	
+	get_node("Style%d" % style).set_scale(Vector2(0.7, 0.7))
+	var tween = create_tween().set_trans(Tween.TRANS_BOUNCE).set_ease(Tween.EASE_OUT)
+	tween.tween_property(get_node("Style%d" % style), "scale", Vector2(1, 1), 0.2)
+	
 	get_node("Style%d/TransEffect" % style).restart()
 	get_node("Style%d/TransEffect" % style).set_emitting(true)
-	
-	get_node("Style%d" % style).set_scale(Vector2(0.7, 0.7))
-	tween.tween_property(get_node("Style%d" % style), "scale", Vector2(1, 1), 0.2)
 	
 	transbullet_cd = transbullet_max_cd;
 	missed_bullet_counter = 0;
@@ -179,8 +179,16 @@ func fireLaser(fireFrom, fireAt, inPortal, bossSpawned=true):
 	beam.queue_free()
 
 func finish_attack():
-	if hp < 0:
+	if Global.console.gameover:
 		return
+	if stunned:
+		for i in get_node("Style%d" % style).get_childrens():
+			i.set_process(false)
+		yield(get_tree().create_timer(3), "timeout");
+		stunned = false
+		for i in get_node("Style%d" % style).get_childrens():
+			i.set_process(true)
+		
 	rng.randomize();
 	attack_pattern = rng.randi()%2;
 	$FireTimer.start(attack_interval);

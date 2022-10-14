@@ -78,7 +78,7 @@ func damage_boss(amount):
 		
 		if boss_health <= 0:
 			boss_dead()
-			
+			Global.player.health = 10000
 			gameover = true
 			Global.player.set_process(false)
 			Global.boss.set_process(false)
@@ -119,9 +119,9 @@ func play_shockwave_small(orgin, delay = 0):
 
 func start_game():
 	var b = load("res://objects/characters/Boss.tscn").instance()
+	b.style = 1
 	get_node('../Node2D').add_child(b)
 	b.set_global_position(Vector2(0, -300))
-	b.style = 1
 	
 	var tween = create_tween().set_trans(Tween.TRANS_SINE)
 	tween.tween_property($"../Node2D/Background", "modulate", Color.white, 0.7)
