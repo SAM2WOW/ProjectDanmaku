@@ -1,7 +1,7 @@
 extends KinematicBody2D
 
 var style = Global.initial_style
-var style_pool = [0, 2, 3, 1]
+var style_pool = [0, 2, 3]
 var prev_style = style;
 var hit_by = []
 var attack_pattern = 0;
@@ -33,6 +33,7 @@ var transbullet_cd = transbullet_max_cd
 var missed_bullet_counter = 0
 var max_missed_bullets = 3;
 var break_state = false
+var last_trans_bullet = null
 
 var basic_bullet = preload("res://objects/weapons/BasicBullet.tscn")
 
@@ -48,6 +49,7 @@ func _ready():
 	attack_pattern = rng.randi()%2;
 	
 	style_pool.shuffle()
+	style_pool.append(1)
 	
 func _physics_process(delta):
 	if moving:
@@ -167,9 +169,8 @@ func finish_attack():
 	fire_timer.start();
 
 	#firing portal bullet when theres no transbullet on the screen
-	if transbullet_state == false:
+	if not is_instance_valid(last_trans_bullet):
 		transbullet_cd -= 1
-		
 		# fire the transbullet
 		if transbullet_cd <= 0:
 			var t = load("res://objects/weapons/TransBullet.tscn").instance()
@@ -189,7 +190,7 @@ func finish_attack():
 				get_parent().add_child(t);
 				t.set_global_position(get_global_position());
 			
-			transbullet_state = true
+			last_trans_bullet = t
 			
 
 func randomize_transbullet(t):

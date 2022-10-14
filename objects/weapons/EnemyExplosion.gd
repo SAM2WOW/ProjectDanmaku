@@ -4,7 +4,7 @@ var damage = 0.0;
 
 func _on_Area2D_body_entered(body):
 	# print(body.hit_by.find(self));
-	print("Explosion Collide %s" % body.name)
+	#print("Explosion Collide %s" % body.name)
 	if ("Player" in body.name):
 		body.damage(damage)
 

@@ -33,7 +33,7 @@ func _on_VisibilityNotifier2D_screen_exited():
 
 
 func _on_PlayerBullet_body_entered(body):
-	print("Bullet Collide %s" % body.name)
+	#print("Bullet Collide %s" % body.name)
 	if "Boss" in body.name:
 		# spawns an explosion at collision area if pixel bullet
 		if (detonate):
