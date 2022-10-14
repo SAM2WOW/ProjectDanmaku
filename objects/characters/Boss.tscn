@@ -211,13 +211,12 @@ pitch_low = 0.788
 volume_low = -6.0
 
 [node name="Style1" type="Node2D" parent="."]
-visible = false
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Style1"]
 position = Vector2( 1, -2 )
 scale = Vector2( 4, 4 )
 frames = SubResource( 40 )
-frame = 2
+frame = 4
 playing = true
 
 [node name="TransEffect" type="CPUParticles2D" parent="Style1"]
@@ -300,7 +299,6 @@ pitch_low = 0.788
 base_volume = 5.0
 
 [node name="Style3" type="Node2D" parent="."]
-visible = false
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Style3"]
 frames = SubResource( 67 )
