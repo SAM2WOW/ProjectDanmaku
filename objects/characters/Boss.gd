@@ -361,11 +361,13 @@ func fire_at(fire_pos, speed, pos=get_global_position(), _style=style):
 	b.set_linear_velocity(dir*speed);
 	
 	get_parent().add_child(b);
+	get_node("Style%d/FireSound" % _style).play()
 	return b;
 
 func fire_pulse(num, speed, offset=0.0, pos=get_global_position(), _style=style):
 	var bullets = [];
 	var degrees = 360.0/num;
+	get_node("Style%d/FireSound" % _style).play()
 	for i in num:
 		var b = basic_bullet.instance();
 		
@@ -404,6 +406,8 @@ func fire_spread(
 		
 		get_parent().add_child(b);
 		bullets.append(b);
+		get_node("Style%d/FireSound" % _style).play()
+		get_node("Style%d/FireSound" % _style).play()
 	return bullets;
 
 # num bullets at the approximate position of the player
@@ -427,6 +431,7 @@ func fire_blob(num, speed, dir, degree_offset=30, speed_offset=100, _style=style
 		
 		get_parent().add_child(b);
 		bullets.append(b);
+		get_node("Style%d/FireSound" % _style).play()
 	return bullets;
 
 

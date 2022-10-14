@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=2]
+[gd_scene load_steps=38 format=2]
 
 [ext_resource path="res://objects/characters/Boss.gd" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://arts/3D/Angel_Idle_Sheet.png" type="Texture" id=5]
 [ext_resource path="res://scripts/AudioRandomizer.gd" type="Script" id=6]
 [ext_resource path="res://sounds/BossHit.wav" type="AudioStream" id=7]
+[ext_resource path="res://sounds/pixel_sfx/pixel_enemy_bullet_fire.wav" type="AudioStream" id=8]
 
 [sub_resource type="Curve" id=7]
 _data = [ Vector2( 0, 0 ), 0.0, 3.63099, 0, 0, Vector2( 0.519802, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.886139, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), -19.5114, 0.0, 0, 0 ]
@@ -181,6 +182,9 @@ scale_amount = 3.0
 scale_amount_random = 0.62
 color_ramp = SubResource( 54 )
 
+[node name="FireSound" type="AudioStreamPlayer2D" parent="Style0"]
+script = ExtResource( 6 )
+
 [node name="Style1" type="Node2D" parent="."]
 visible = false
 
@@ -211,6 +215,11 @@ damping_random = 1.0
 scale_amount = 5.0
 scale_amount_random = 0.62
 color_ramp = SubResource( 54 )
+
+[node name="FireSound" type="AudioStreamPlayer2D" parent="Style1"]
+stream = ExtResource( 8 )
+script = ExtResource( 6 )
+base_volume = 2.0
 
 [node name="Style2" type="Node2D" parent="."]
 visible = false
@@ -244,6 +253,9 @@ scale_amount = 0.1
 scale_amount_random = 0.62
 color_ramp = SubResource( 54 )
 
+[node name="FireSound" type="AudioStreamPlayer2D" parent="Style2"]
+script = ExtResource( 6 )
+
 [node name="Style3" type="Node2D" parent="."]
 visible = false
 
@@ -270,6 +282,9 @@ damping_random = 1.0
 scale_amount = 5.0
 scale_amount_random = 0.62
 color_ramp = SubResource( 54 )
+
+[node name="FireSound" type="AudioStreamPlayer2D" parent="Style3"]
+script = ExtResource( 6 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( -2, 1 )
