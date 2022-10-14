@@ -1,5 +1,11 @@
-[gd_scene format=2]
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://objects/weapons/LaserIndicator.gd" type="Script" id=1]
 
 [node name="LaserIndicator" type="Line2D"]
-modulate = Color( 1, 1, 1, 0.588235 )
-default_color = Color( 1, 0, 0, 1 )
+modulate = Color( 1, 1, 1, 0.290196 )
+width = 30.0
+default_color = Color( 0.952941, 0.427451, 0.223529, 1 )
+begin_cap_mode = 2
+end_cap_mode = 2
+script = ExtResource( 1 )
