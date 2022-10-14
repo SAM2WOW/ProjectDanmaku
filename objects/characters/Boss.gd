@@ -31,7 +31,7 @@ var transbullet_state = false
 var transbullet_max_cd = 5;
 var transbullet_cd = transbullet_max_cd
 var missed_bullet_counter = 0
-var max_missed_bullets = 3;
+var max_missed_bullets = 1;
 var break_state = false
 var last_trans_bullet = null
 
@@ -169,6 +169,8 @@ func finish_attack():
 	fire_timer.start();
 
 	#firing portal bullet when theres no transbullet on the screen
+	print(last_trans_bullet)
+	print('duel bullet is: %s' % duel_bullet)
 	if not is_instance_valid(last_trans_bullet):
 		transbullet_cd -= 1
 		# fire the transbullet

@@ -13,7 +13,7 @@ var speed = 1000
 var base_growth_rate = 0.01
 var max_scale = 2.4
 var max_scale_plus = 2.8
-var damage_multiplier = 0.2
+var damage_multiplier = 0.1
 
 var portal = preload("res://objects/system/portal.tscn")
 var dead = false
@@ -161,6 +161,8 @@ func verse_jump_init():
 	tween.set_trans(Tween.TRANS_CUBIC)
 	tween.tween_property($area, "scale", Vector2(0, 0), 0.15)
 	tween.tween_callback(self, "verse_jump_explode")
+	yield(tween,"finished")
+	queue_free()
 
 func bad_verse_jump_init():
 	dead = true
