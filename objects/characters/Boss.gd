@@ -153,9 +153,11 @@ func finish_attack():
 				transbullet_cd = 5
 				missed_bullet_counter += 1
 			else:
+				
 				transbullet_cd = 1
 				
-			if missed_bullet_counter >= 3:
+			if missed_bullet_counter > 0:
+				#enter break_state here
 				break_state = true
 				move_to_center();
 				missed_bullet_counter = 0

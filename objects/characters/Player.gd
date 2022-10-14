@@ -234,6 +234,9 @@ func damage(amount):
 	if health <= 0:
 		#print("You DEAD!!!")
 		
+		# hide all the graphics
+		hide()
+		
 		Global.console.player_dead()
 		#get_tree().reload_current_scene()
 

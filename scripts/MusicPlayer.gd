@@ -1,6 +1,6 @@
 extends Node
 
-var default_volume = -6
+var default_volume = -10
 
 var song1 = preload("res://sounds/bgm.ogg")
 var playlist = [song1]

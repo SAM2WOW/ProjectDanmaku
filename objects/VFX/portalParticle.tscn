@@ -11,6 +11,7 @@ _data = [ Vector2( 0, 0.595455 ), 0.0, 1.90438, 0, 0, Vector2( 0.282178, 0.89090
 [node name="CPUParticles2D3" type="CPUParticles2D"]
 material = ExtResource( 1 )
 scale = Vector2( 1.49486, 1.49486 )
+z_index = -300
 emitting = false
 amount = 20
 lifetime = 3.0

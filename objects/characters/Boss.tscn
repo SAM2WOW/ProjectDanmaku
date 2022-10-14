@@ -188,7 +188,7 @@ visible = false
 position = Vector2( 1, -2 )
 scale = Vector2( 4, 4 )
 frames = SubResource( 40 )
-frame = 3
+frame = 4
 playing = true
 
 [node name="TransEffect" type="CPUParticles2D" parent="Style1"]
@@ -220,7 +220,7 @@ position = Vector2( -18, -22 )
 scale = Vector2( 0.422288, 0.422288 )
 frames = SubResource( 18 )
 animation = "New Anim"
-frame = 2
+frame = 4
 speed_scale = 0.75
 playing = true
 
