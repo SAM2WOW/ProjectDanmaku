@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=2]
+[gd_scene load_steps=50 format=2]
 
 [ext_resource path="res://objects/characters/Boss.gd" type="Script" id=1]
 [ext_resource path="res://arts/collage/collage_boss.png" type="Texture" id=2]
@@ -139,9 +139,49 @@ flags = 4
 atlas = ExtResource( 8 )
 region = Rect2( 78.6221, 68.5419, 370.904, 420.358 )
 
+[sub_resource type="AtlasTexture" id=80]
+flags = 4
+atlas = ExtResource( 2 )
+region = Rect2( 0, 0, 625, 625 )
+
+[sub_resource type="AtlasTexture" id=81]
+flags = 4
+atlas = ExtResource( 2 )
+region = Rect2( 625, 0, 625, 625 )
+
+[sub_resource type="AtlasTexture" id=82]
+flags = 4
+atlas = ExtResource( 2 )
+region = Rect2( 1250, 0, 625, 625 )
+
+[sub_resource type="AtlasTexture" id=83]
+flags = 4
+atlas = ExtResource( 2 )
+region = Rect2( 1875, 0, 625, 625 )
+
+[sub_resource type="AtlasTexture" id=84]
+flags = 4
+atlas = ExtResource( 2 )
+region = Rect2( 2500, 0, 625, 625 )
+
+[sub_resource type="AtlasTexture" id=85]
+flags = 4
+atlas = ExtResource( 2 )
+region = Rect2( 3125, 0, 625, 625 )
+
+[sub_resource type="AtlasTexture" id=86]
+flags = 4
+atlas = ExtResource( 2 )
+region = Rect2( 3750, 0, 625, 625 )
+
+[sub_resource type="AtlasTexture" id=87]
+flags = 4
+atlas = ExtResource( 2 )
+region = Rect2( 4375, 0, 625, 625 )
+
 [sub_resource type="SpriteFrames" id=67]
 animations = [ {
-"frames": [ ExtResource( 2 ) ],
+"frames": [ SubResource( 80 ), SubResource( 81 ), SubResource( 82 ), SubResource( 83 ), SubResource( 84 ), SubResource( 85 ), SubResource( 86 ), SubResource( 87 ) ],
 "loop": true,
 "name": "default",
 "speed": 5.0
@@ -216,7 +256,7 @@ volume_low = -6.0
 position = Vector2( 1, -2 )
 scale = Vector2( 4, 4 )
 frames = SubResource( 40 )
-frame = 4
+frame = 3
 playing = true
 
 [node name="TransEffect" type="CPUParticles2D" parent="Style1"]
@@ -262,7 +302,7 @@ position = Vector2( -18, -22 )
 scale = Vector2( 0.897591, 0.897591 )
 frames = SubResource( 18 )
 animation = "New Anim"
-frame = 9
+frame = 10
 speed_scale = 0.75
 playing = true
 
@@ -302,6 +342,7 @@ base_volume = 5.0
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Style3"]
 frames = SubResource( 67 )
+frame = 4
 playing = true
 
 [node name="TransEffect" type="CPUParticles2D" parent="Style3"]
