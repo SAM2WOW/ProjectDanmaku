@@ -1,7 +1,8 @@
 extends Node
 
 
-var boss_health = 5000
+var max_boss_health = 10000.0;
+var boss_health =  max_boss_health;
 var portal
 var play_time = 0.0
 var gameover = false
