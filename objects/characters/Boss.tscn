@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=2]
+[gd_scene load_steps=41 format=2]
 
 [ext_resource path="res://objects/characters/Boss.gd" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
@@ -9,6 +9,8 @@
 [ext_resource path="res://sounds/BossHit.wav" type="AudioStream" id=7]
 [ext_resource path="res://arts/3D/Angel_Idle_Sheet-min.png" type="Texture" id=8]
 [ext_resource path="res://sounds/pixel_sfx/pixel_enemy_hit.wav" type="AudioStream" id=9]
+[ext_resource path="res://sounds/AbstractBossFire.wav" type="AudioStream" id=10]
+[ext_resource path="res://sounds/AbstractBossHit.wav" type="AudioStream" id=11]
 
 [sub_resource type="Curve" id=7]
 _data = [ Vector2( 0, 0 ), 0.0, 3.63099, 0, 0, Vector2( 0.519802, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.886139, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), -19.5114, 0.0, 0, 0 ]
@@ -184,13 +186,20 @@ scale_amount_random = 0.62
 color_ramp = SubResource( 54 )
 
 [node name="FireSound" type="AudioStreamPlayer2D" parent="Style0"]
+stream = ExtResource( 10 )
+bus = "Sound"
 script = ExtResource( 6 )
+pitch_low = 0.73
+ptch_high = 1.329
+volume_low = -5.0
+volume_high = 1.0
 
 [node name="HitSound" type="AudioStreamPlayer2D" parent="Style0"]
-stream = ExtResource( 7 )
+stream = ExtResource( 11 )
+bus = "Sound"
 script = ExtResource( 6 )
 pitch_low = 0.788
-base_volume = 5.0
+volume_low = -6.0
 
 [node name="Style1" type="Node2D" parent="."]
 visible = false
@@ -225,6 +234,7 @@ color_ramp = SubResource( 54 )
 
 [node name="FireSound" type="AudioStreamPlayer2D" parent="Style1"]
 stream = ExtResource( 5 )
+bus = "Sound"
 script = ExtResource( 6 )
 volume_low = 6.0
 volume_high = 8.0
@@ -232,6 +242,7 @@ base_volume = 7.0
 
 [node name="HitSound" type="AudioStreamPlayer2D" parent="Style1"]
 stream = ExtResource( 9 )
+bus = "Sound"
 script = ExtResource( 6 )
 pitch_low = 0.788
 base_volume = 5.0
@@ -269,10 +280,12 @@ scale_amount_random = 0.62
 color_ramp = SubResource( 54 )
 
 [node name="FireSound" type="AudioStreamPlayer2D" parent="Style2"]
+bus = "Sound"
 script = ExtResource( 6 )
 
 [node name="HitSound" type="AudioStreamPlayer2D" parent="Style2"]
 stream = ExtResource( 7 )
+bus = "Sound"
 script = ExtResource( 6 )
 pitch_low = 0.788
 base_volume = 5.0
@@ -305,10 +318,12 @@ scale_amount_random = 0.62
 color_ramp = SubResource( 54 )
 
 [node name="FireSound" type="AudioStreamPlayer2D" parent="Style3"]
+bus = "Sound"
 script = ExtResource( 6 )
 
 [node name="HitSound" type="AudioStreamPlayer2D" parent="Style3"]
 stream = ExtResource( 7 )
+bus = "Sound"
 script = ExtResource( 6 )
 pitch_low = 0.788
 base_volume = 5.0

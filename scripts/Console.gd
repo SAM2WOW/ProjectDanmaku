@@ -12,7 +12,8 @@ func _ready():
 	
 	$"../CanvasLayer/Control/HealthBar".set_max(boss_health)
 	$"../CanvasLayer/Control/HealthBar".set_value(boss_health)
-
+	
+	$"../CanvasLayer/Control/Shockwave".get_material().set_shader_param("radius", 0.0)
 
 func _process(delta):
 	if boss_health > 0:
@@ -81,6 +82,11 @@ func play_shockwave_small(orgin, delay = 0):
 	#yield(tween, "finished")
 	#$"../CanvasLayer/Control/Shockwave".hide()
 
+func start_game():
+	var b = load("res://objects/characters/Boss.tscn").instance()
+	get_node('../Node2D').add_child(b)
+	b.set_global_position(Vector2(0,-1))
+	b.style = 0
 
 func _on_Restart_pressed():
 	get_tree().set_pause(false)
