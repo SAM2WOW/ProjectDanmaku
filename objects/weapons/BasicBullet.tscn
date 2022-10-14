@@ -46,6 +46,7 @@ angular_damp = 0.0
 script = ExtResource( 2 )
 
 [node name="Style0" type="Node2D" parent="."]
+visible = false
 
 [node name="Sprite" type="Sprite" parent="Style0"]
 modulate = Color( 0.956863, 0.380392, 0.380392, 1 )
@@ -57,17 +58,18 @@ visible = false
 [node name="Polygon2D" type="AnimatedSprite" parent="Style1"]
 scale = Vector2( 4, 4 )
 frames = SubResource( 7 )
-frame = 2
+frame = 1
 playing = true
 
 [node name="Style2" type="Node2D" parent="."]
 visible = false
 
-[node name="Polygon2D" type="Polygon2D" parent="Style2"]
-color = Color( 1, 0, 0, 1 )
-polygon = PoolVector2Array( -15, 16, -15, -13, 21, -3 )
+[node name="Sprite" type="Sprite" parent="Style2"]
+scale = Vector2( 0.255378, 0.255378 )
+texture = ExtResource( 5 )
 
 [node name="Style3" type="Node2D" parent="."]
+visible = false
 
 [node name="Sprite" type="Sprite" parent="Style3"]
 scale = Vector2( 0.255378, 0.255378 )

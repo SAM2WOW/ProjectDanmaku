@@ -172,6 +172,10 @@ func set_detonate(dest=Global.player.get_global_position()):
 	detonate_at_pos = true;
 	detonate_pos = dest;
 	detonate_init_dist = sqrt(pow(dest.x-pos.x,2)+pow(dest.y-pos.y,2));
+	if (detonate_init_dist <= 10):
+		explode();
+		dying = true;
+		queue_free();
 
 func explode():
 	var e = explosion.instance();
