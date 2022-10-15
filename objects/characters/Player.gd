@@ -5,7 +5,7 @@ extends KinematicBody2D
 var style = Global.initial_style
 
 var velocity = Vector2.ZERO
-export var speed = 500
+export var speed = 400;
 var speed_mult = 1.0;
 # var shooting = false;
 
@@ -38,7 +38,7 @@ func _ready():
 
 func _process(delta):
 	if (style == 2):
-		if Input.is_action_pressed("mouse_action"):
+		if Input.is_action_pressed("fire_action"):
 			var dir = get_global_position().direction_to(get_global_mouse_position());
 			var shot_pos = $Style2/AnimatedSprite/Shot.get_global_position();
 			
@@ -63,7 +63,7 @@ func _process(delta):
 				else:
 					holdTime += delta
 			
-		if Input.is_action_just_released("mouse_action") && is_instance_valid(chargeShot):
+		if Input.is_action_just_released("fire_action") && is_instance_valid(chargeShot):
 			is_created = false
 			chargeShot.queue_free()
 			fire_bullet();
@@ -74,7 +74,7 @@ func _process(delta):
 			chargeShot.queue_free();
 			is_created = false;
 			holdTime = 0.0;
-		if Input.is_action_pressed("mouse_action"):
+		if Input.is_action_pressed("fire_action"):
 			# shooting = true;
 			if ($FireTimer.is_stopped()):
 				fire_bullet()
