@@ -3,6 +3,7 @@ extends Node
 
 var sounds = {
 	"Lazer": "res://sounds/Lazer.wav",
+	"VerseJump": "res://sounds/portal_sfx.wav"
 }
 
 
@@ -13,6 +14,7 @@ func _ready():
 		s.set_bus("Sound")
 		s.name = i
 		s.set_script(load("res://scripts/AudioRandomizer.gd"))
+		if (i == "VerseJump"): s.base_volume = 10;
 		add_child(s)
 
 

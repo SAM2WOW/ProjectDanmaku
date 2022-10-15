@@ -27,7 +27,7 @@ func _ready():
 		var tween = create_tween().set_trans(Tween.TRANS_ELASTIC)
 		tween.tween_property(self, "scale", Vector2(1, 1), 1)
 		
-		$SpawnSound.play()
+		# $SpawnSound.play()
 		
 		yield(tween,"finished")
 		$Sprite/CPUParticles2D.show()
@@ -66,10 +66,14 @@ func _process(delta):
 					elif (body.name == "Boss" && hurt_boss):
 						if (duel_portal):
 							Global.boss.damage(500);
+							Global.boss.stun_dur = 4.0;
 						else:
 							Global.boss.damage(200);
+							Global.boss.stun_dur = 2.0;
 						hurt_boss = false;
 						Global.boss.stunned = true
+						Global.boss.get_node("BrokeSfx").play();
+						Global.camera.shake(0.6, 20, 10);
 						print("boss is stunned!");
 						
 					if body.has_method('_on_Verse_Jump'):
@@ -86,7 +90,7 @@ func verse_jump_explode():
 		tween.tween_property(self, "scale", Vector2(8, 8), 0.8)
 		tween.parallel().tween_property(Engine, "time_scale", 1.0, 0.8)
 		
-		$SpawnSound.play()
+		# $SpawnSound.play()
 		
 		print("verse change");
 		Global.boss.transbullet_cd = Global.boss.transbullet_max_cd;
@@ -95,6 +99,9 @@ func verse_jump_explode():
 		Global.boss.last_trans_bullet = null;
 		
 		tween.tween_callback(self, "verse_jump_end")
+		# scuffed way of playing a delayed sfx lmao
+		yield(get_tree().create_timer(0.3), "timeout");
+		SoundPlayer.play("VerseJump");
 	
 
 

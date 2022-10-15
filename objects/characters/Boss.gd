@@ -38,7 +38,7 @@ var break_state = false
 var last_trans_bullet = null
 
 var stun_timer = 0.0;
-var stun_dur = 4.0;
+var stun_dur = 3.0;
 
 var basic_bullet = preload("res://objects/weapons/BasicBullet.tscn")
 
@@ -75,6 +75,7 @@ func _process(delta):
 		var sprite = get_node("Style%d/AnimatedSprite"%style);
 		if (is_instance_valid(sprite) && Global.new_style == Global.current_style):
 			sprite.stop();
+		modulate = Color("#8a8a8a");
 		stun_timer += delta;
 		$FireTimer.stop();
 		$MovementTimer.stop();
@@ -82,10 +83,13 @@ func _process(delta):
 		if (stun_timer >= stun_dur):
 			if (is_instance_valid(sprite)):
 				sprite.play();
+			modulate = Color("ffffff");
 			stunned = false;
 			print("no longer stunned")
 			start_move_to_random_pos();
-			finish_attack();
+			rng.randomize();
+			attack_pattern = rng.randi()%2;
+			$FireTimer.start(attack_interval);
 			stun_timer = 0.0;
 	
 func _physics_process(delta):
@@ -96,7 +100,7 @@ func _physics_process(delta):
 			move_to_random_pos();
 
 func damage(amount,body = null):
-	print("Boss have been damaged %d" % amount)
+	# print("Boss have been damaged %d" % amount)
 	Global.console.damage_boss(amount)
 	
 	# effects
@@ -112,7 +116,7 @@ func damage(amount,body = null):
 	var tween = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	tween.tween_property(get_node("Style%d" % style), "scale", Vector2(1, 1), 0.2)
 	
-	Global.camera.shake(0.2, 10, 10);
+	# Global.camera.shake(0.2, 10, 10);
 	
 	get_node("Style%d/HitSound" % style).play()
 

@@ -135,7 +135,7 @@ playing = true
 light_mask = 0
 scale = Vector2( 0.657676, 0.657676 )
 frames = SubResource( 20 )
-frame = 2
+frame = 8
 playing = true
 
 [node name="Style3" type="Node2D" parent="."]
