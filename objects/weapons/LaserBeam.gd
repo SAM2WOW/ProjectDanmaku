@@ -44,7 +44,7 @@ func _physics_process(delta: float) -> void:
 		$CollisionParticle2D.global_rotation = get_collision_normal().angle()
 		$CollisionParticle2D.position = cast_point
 		if "Player" in get_collider().name:
-			print(playerDamageIntervalCount)
+			# print(playerDamageIntervalCount)
 			if playerDamageIntervalCount >= playerDamageInterval:
 				get_collider().damage(damage)
 				playerDamageIntervalCount = 0

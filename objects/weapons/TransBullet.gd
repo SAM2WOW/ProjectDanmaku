@@ -19,6 +19,7 @@ var portal = preload("res://objects/system/portal.tscn")
 var dead = false
 var hit = false
 var hurt_player = false;
+var hurt_boss = false;
 var next_scale = Vector2(0,0)
 
 var growth_rate = 1
@@ -206,6 +207,7 @@ func verse_jump_explode():
 	else:
 		if is_instance_valid(Global.boss):
 			Global.boss.stunned = true
+			print("boss is stunned!");
 	$badParticle.set_emitting(false)
 	if tutorial_mode:
 		Global.console.start_game()
@@ -215,7 +217,9 @@ func verse_jump_explode():
 	p.style = style
 	if (hurt_player): 
 		p.hurt_player = true;
-	elif (duel_mode):
+	elif (hurt_boss):
+		if (duel_mode):
+			p.duel_portal = true;
 		p.hurt_boss = true;
 		#Global.boss.stunned = true
 	get_parent().add_child(p);
@@ -293,6 +297,7 @@ func damage(damage):
 				bad_verse_jump_init()
 			else:
 				verse_jump_init()
+				hurt_boss = true;
 		
 	
 

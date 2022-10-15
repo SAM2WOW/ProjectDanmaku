@@ -28,7 +28,6 @@ func _ready():
 	var init_style = Global.initial_style;
 	if (Global.in_tutorial):
 		init_style = Global.tutorial_style	;
-	print(init_style)
 	_on_Verse_Jump(init_style);
 
 func _process(delta):
@@ -43,13 +42,11 @@ func _process(delta):
 				get_parent().add_child(chargeShot);
 				chargeShot.get_node("CollisionShape2D").disabled = true
 				chargeShot.init_bullet(shot_pos, dir, style);
-				print("init");
 			if (is_instance_valid(chargeShot)):
 				# BUG: CRASH HERE(?)
 				chargeShot.set_global_position(shot_pos);
 				chargeShot.set_bullet_rotation(dir)
 				chargeShot.charge = holdTime / maxHoldTime
-				print("hold time:", holdTime);
 				if holdTime >= 1.0: 
 					chargeShot.charge = 1.0;
 					is_created = false
@@ -149,7 +146,6 @@ func _on_Verse_Jump(verse):
 # fires a bullet at the mouse position
 func fire_bullet():
 	var shotLocations = get_tree().get_nodes_in_group('shots%d' % style)
-	print(shotLocations);
 	for shot in shotLocations:
 		match style:
 			0:
@@ -225,19 +221,19 @@ func init_3d_bullets(shot):
 
 	# fire spread depending on charge
 	var dir = shot.get_global_position().direction_to(get_global_mouse_position());
-	var bullets = fire_spread(num_bullets, deg, Global.player_bullet_properties[style]["speed"], dir, shot.get_global_position());
+	var bullets = fire_spread(num_bullets, deg, Global.player_bullet_properties[style]["speed"], dir, 0.6, shot.get_global_position());
 	for b in bullets:
-		b.damage *= 0.4;
 		b.charge = charge;
+		print("print damage: %f charge %f" % [b.damage, charge]);
 	
 	
 func init_collage_bullets(shot):
 	var dir = shot.get_global_position().direction_to(get_global_mouse_position());
-	var bullets = fire_spread(3, 10, Global.player_bullet_properties[style]["speed"], dir, shot.get_global_position());
+	var bullets = fire_spread(3, 10, Global.player_bullet_properties[style]["speed"], dir, 1.0, shot.get_global_position());
 
 
 func damage(amount):
-	#print("Player have been damaged %d" % amount)
+	("Player have been damaged %d" % amount)
 	health -= amount
 	
 	$HealthBar.show()
@@ -271,7 +267,7 @@ func damage(amount):
 
 
 func fire_spread(
-	num, deg, speed, dir, pos=get_global_position(), _style=style
+	num, deg, speed, dir, damage_mult, pos=get_global_position(), _style=style
 ):
 	var bullets = [];
 	var odd = (num%2 != 0);
@@ -292,7 +288,7 @@ func fire_spread(
 		);
 		b.init_bullet(pos, new_dir, _style);
 		b.set_linear_velocity(new_dir*speed);
-		b.damage = Global.player_bullet_properties[_style]["damage"];
+		b.damage = Global.player_bullet_properties[_style]["damage"] * damage_mult;
 		
 		bullets.append(b);
 	return bullets;

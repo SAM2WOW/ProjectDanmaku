@@ -30,12 +30,15 @@ var stunned = false
 var attack_interval = 1.0;
 
 var transbullet_state = false
-var transbullet_max_cd = 4;
+var transbullet_max_cd = 3;
 var transbullet_cd = transbullet_max_cd
 var missed_bullet_counter = 0
-var max_missed_bullets = 2;
+var max_missed_bullets = 3;
 var break_state = false
 var last_trans_bullet = null
+
+var stun_timer = 0.0;
+var stun_dur = 3.0;
 
 var basic_bullet = preload("res://objects/weapons/BasicBullet.tscn")
 
@@ -57,12 +60,27 @@ func _process(delta):
 	hp = Global.console.boss_health;
 	if (hp <= Global.console.max_boss_health*0.5 && !enraged):
 		print("enraged!");
-		movement_interval = 5.0;
-		transbullet_max_cd = 1;
+		movement_interval *= 0.7;
+		transbullet_max_cd -= 1;
 		base_speed = 300;
 		enraged = true;
-		attack_interval = 0.7;
+		attack_interval *= 0.7;
 		max_missed_bullets -= 1;
+		for s in  Global.boss_patterns:
+			for p in Global.boss_patterns[s]:
+				Global.boss_patterns[s][p]["waves"] += 1;
+				Global.boss_patterns[s][p]["interval"] *= 0.8;
+		
+#	if stunned:
+#		stun_timer += delta;
+#		$FireTimer.paused = true;
+#		$MovementTimer.paused = true;
+#		if (stun_timer >= stun_dur):
+#			stunned = false;
+#			print("no longer stunned")
+#			$FireTimer.paused = false;
+#			$MovementTimer.paused = false;
+#			stun_timer = 0.0;
 	
 func _physics_process(delta):
 	if moving:
@@ -106,8 +124,7 @@ func _physics_process(delta):
 				$MovementTimer.start(movement_interval);
 
 func damage(amount,body = null):
-	#print(body)
-	#print("Boss have been damaged %d" % amount)
+	print("Boss have been damaged %d" % amount)
 	Global.console.damage_boss(amount)
 	
 	# effects
@@ -177,10 +194,6 @@ func fireLaser(fireFrom, fireAt, inPortal, bossSpawned=true):
 func finish_attack():
 	if Global.console.gameover:
 		return
-	
-	if stunned:
-		yield(get_tree().create_timer(3), "timeout");
-		stunned = false
 		
 	rng.randomize();
 	attack_pattern = rng.randi()%2;
@@ -189,17 +202,18 @@ func finish_attack():
 	# firing portal bullet when the last trans bullet is freed
 	if not is_instance_valid(last_trans_bullet):
 		transbullet_cd -= 1
+		print("trans bullet cd: ", transbullet_cd);
 		# fire the transbullet
 		if transbullet_cd <= 0:
+			print("fire transbullet");
 			var t = load("res://objects/weapons/TransBullet.tscn").instance()
 			# style pesudo randomize
 			randomize_transbullet(t);
 			# reset transbullet cd
 			transbullet_cd = transbullet_max_cd
 			# fire duel mode bullet
-			#print(missed_bullet_counter)
 			if (missed_bullet_counter >= max_missed_bullets):
-				print('special')
+				print('fire special bullet')
 				missed_bullet_counter = 0;
 				t.duel_mode = true;
 				last_trans_bullet = t
@@ -207,6 +221,7 @@ func finish_attack():
 			# increment missed bullet counter
 			else:
 				missed_bullet_counter += 1;
+				print("missed bullets: ", missed_bullet_counter)
 				get_parent().add_child(t);
 				t.set_global_position(get_global_position());
 			
@@ -235,9 +250,6 @@ func _on_FireTimer_timeout():
 
 func fire_bullets():
 	attack_properties = Global.boss_patterns[style][attack_pattern];
-	if (enraged):
-		attack_properties["waves"] += 1;
-		attack_properties["interval"] *= 1.3;
 	match style:
 		0:
 			init_minimal_bullets();
@@ -342,9 +354,9 @@ func init_3d_bullets():
 						fireLaser(get_global_position(), Vector2(x,y), false)
 			yield(get_tree().create_timer(timeBetweenAttacks), "timeout")
 			if (prev_style != style):
-					prev_style = style;
-					finish_attack();
-					return;
+				prev_style = style;
+				finish_attack();
+				return;
 			
 			var xArr2 = [maxX, -maxX, maxX / 2, -maxX / 2]
 			var yArr2 = [maxY, -maxY, maxY / 2, -maxY / 2]
@@ -530,7 +542,7 @@ func move_to_center():
 	var pos = get_global_position();
 	$MovementTimer.stop();
 	$FireTimer.paused = true;
-	move_speed = 600;
+	move_speed = 1000;
 	moving = true;
 	move_to_center = true;
 	move_to_pos = Vector2(0, 0);

@@ -5,6 +5,8 @@ var basic_bullet = load("res://objects/weapons/BasicBullet.tscn");
 var dir = Vector2();
 var curr_vel = 0.0;
 
+var jumped = false;
+
 # for detonation bullets
 var detonate = false;
 var detonate_at_pos = false;
@@ -45,7 +47,7 @@ func _on_PlayerBullet_body_entered(body):
 		if detonate:
 			explode();
 		else:
-			body.damage(10)
+			body.damage(Global.boss_bullet_properties[style]["damage"]);
 	dying = true
 	queue_free()
 
@@ -66,6 +68,7 @@ func show_verse_style(verse):
 		tween.tween_property(get_node("Style%d" % style), "scale", Vector2(1, 1), 0.2)
 
 
+# enters first
 func _on_Verse_Jump(verse):
 	style = verse;
 	show_verse_style(verse);
@@ -76,11 +79,10 @@ func _on_Verse_Jump(verse):
 			linear_velocity *= 1.2;
 		# into pixel; bullets go slower and blow at speed
 		1:
-			linear_velocity *= 0.8;
 			if (!detonate):
 				detonate = true;
-			# if it jumps to the main verse
-			if (Global.current_style == verse):
+			# if main verse is now pixel, detonate at speed
+			if (Global.new_style == verse):
 				detonate_at_speed = true;
 				
 		# into 3d; laser gets charged
@@ -91,7 +93,7 @@ func _on_Verse_Jump(verse):
 			queue_free()
 		# into collage; bullets can bounce and gets slower
 		3:
-			linear_velocity *= 0.7;
+			linear_velocity *= 1.2;
 			if !bouncing:
 				bouncing = true;
 				num_bounces = 1;
@@ -103,26 +105,27 @@ func _on_Verse_Exit(prev_verse, new_verse):
 	match prev_verse:
 		# on leaving minimal verse, nothing
 		0:
-			init_minimal_bullet();
+			pass;
 		# on leaving pixel verse, splits into 2
 		1:
-			if (detonate):
-				detonate = false;
-				detonate_at_pos = false;
-				detonate_at_speed = false;
+			detonate = false;
+			detonate_at_pos = false;
+			detonate_at_speed = false;
+			
+			# why not 3d verse??
 			if (new_verse != 2):
 				var bullets = Global.boss.fire_spread(2, 20, Global.boss_bullet_properties[new_verse]["speed"]*0.8, dir, get_global_position(), new_verse);
 				for b in bullets:
 					init_clone_instance(b);
 			dying = true
 			queue_free();
-		# on leaving 3d verse, uh who knows
+		# on leaving 3d verse, nothing
 		2:
 			pass
 		# on leaving collage verse, can bounce once and are slower
 		3:
 			if !bouncing:
-				linear_velocity *= 0.7;
+				linear_velocity /= 1.2;
 				init_collage_bullet();
 		_:
 			pass

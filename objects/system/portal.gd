@@ -6,6 +6,7 @@ var exploding = false
 var dying = false
 var hurt_player = false;
 var hurt_boss = false;
+var duel_portal = false;
 
 var smallparticle = preload("res://objects/VFX/small.tscn")
 
@@ -55,18 +56,29 @@ func global_cleanup():
 func _process(delta):
 	if exploding and $Area2D.get_overlapping_bodies().size() > 0:
 		if not dying:
-			for i in $Area2D.get_overlapping_bodies():
-				if i.style != style:
-					if (i.name == "Player" && hurt_player):
+			for body in $Area2D.get_overlapping_bodies():
+				if body.style != style:
+					var prev_style = body.style;
+					# print("prev style: %d new style: %d" % [prev_style, style]);
+					if (body.name == "Player" && hurt_player):
 						Global.player.damage(20);
 						hurt_player = false;
-					elif (i.name == "Boss" && hurt_boss):
-						Global.boss.damage(500);
+					elif (body.name == "Boss" && hurt_boss):
+						if (duel_portal):
+							Global.boss.damage(500);
+						else:
+							Global.boss.damage(200);
 						hurt_boss = false;
-					i._on_Verse_Jump(style)
-			
+						
+					if body.has_method('_on_Verse_Jump'):
+						body._on_Verse_Jump(style)
+					
+					if body.has_method('_on_Verse_Exit'):
+						body._on_Verse_Exit(prev_style, style)
+				
 func verse_jump_explode():
 	if is_instance_valid(Global.boss):
+		Global.new_style = style;
 		Engine.set_time_scale(0.7)
 		var tween = create_tween().set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN)
 		tween.tween_property(self, "scale", Vector2(8, 8), 0.8)
@@ -74,6 +86,7 @@ func verse_jump_explode():
 		
 		$SpawnSound.play()
 		
+		print("verse change");
 		Global.boss.transbullet_cd = Global.boss.transbullet_max_cd;
 		Global.boss.missed_bullet_counter = 0;
 		Global.boss.transbullet_state = false
@@ -86,6 +99,7 @@ func verse_jump_explode():
 func verse_jump_end():
 	Global.background._on_Verse_Jump(style)
 	Global.current_style = style;
+	Global.new_style = Global.current_style;
 	queue_free()
 	
 func _on_Area2D_body_entered(body):
@@ -113,7 +127,7 @@ func _on_Area2D_body_exited(body):
 		p.style = style
 		get_parent().add_child(p)
 		p.look_at(get_global_position())
-		
+
 		if not 'dying' in body:
 			if body.has_method('_on_Verse_Jump'):
 				body._on_Verse_Jump(Global.current_style)
