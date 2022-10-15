@@ -19,14 +19,16 @@ func _ready():
 	
 	$"../CanvasLayer/Control/Shockwave".get_material().set_shader_param("radius", 0.0)
 	
+	# init tutorial
 	if not Global.tutorial_played:
 		Global.tutorial_played = true
+		Global.in_tutorial = true;
 		
 		yield(get_tree().create_timer(1), "timeout")
 		
 		var t = tutorial_bullet.instance()
 		t.tutorial_mode = true
-		t.style = 1
+		t.style = Global.initial_style;
 		t.hurt_player = false;
 		$"../Node2D".add_child(t)
 		t.set_global_position(Vector2(0, -300))
@@ -38,7 +40,7 @@ func _ready():
 		
 		yield(get_tree().create_timer(0.2), "timeout")
 		var t = portal_scene.instance()
-		t.style = 1
+		t.style = Global.initial_style;
 		t.exploding = true
 		t.hurt_player = false;
 		$"../Node2D".add_child(t)
@@ -119,7 +121,8 @@ func play_shockwave_small(orgin, delay = 0):
 
 func start_game():
 	var b = load("res://objects/characters/Boss.tscn").instance()
-	b.style = 1
+	Global.in_tutorial = false;
+	b.style = Global.tutorial_style;
 	get_node('../Node2D').add_child(b)
 	b.set_global_position(Vector2(0, -300))
 	

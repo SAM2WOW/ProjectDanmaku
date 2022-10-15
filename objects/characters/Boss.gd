@@ -30,12 +30,15 @@ var stunned = false
 var attack_interval = 1.0;
 
 var transbullet_state = false
-var transbullet_max_cd = 4;
+var transbullet_max_cd = 3;
 var transbullet_cd = transbullet_max_cd
 var missed_bullet_counter = 0
-var max_missed_bullets = 2;
+var max_missed_bullets = 3;
 var break_state = false
 var last_trans_bullet = null
+
+var stun_timer = 0.0;
+var stun_dur = 3.0;
 
 var basic_bullet = preload("res://objects/weapons/BasicBullet.tscn")
 
@@ -57,65 +60,63 @@ func _process(delta):
 	hp = Global.console.boss_health;
 	if (hp <= Global.console.max_boss_health*0.5 && !enraged):
 		print("enraged!");
-		movement_interval = 5.0;
-		transbullet_max_cd = 1;
+		movement_interval *= 0.7;
+		transbullet_max_cd -= 1;
 		base_speed = 300;
 		enraged = true;
-		attack_interval = 0.7;
+		attack_interval *= 0.7;
 		max_missed_bullets -= 1;
+		for s in  Global.boss_patterns:
+			for p in Global.boss_patterns[s]:
+				Global.boss_patterns[s][p]["waves"] += 1;
+				Global.boss_patterns[s][p]["interval"] *= 0.8;
+		
+	if stunned:
+		var sprite = get_node("Style%d/AnimatedSprite"%style);
+		if (is_instance_valid(sprite) && Global.new_style == Global.current_style):
+			sprite.stop();
+		modulate = Color("#8a8a8a");
+		stun_timer += delta;
+		$FireTimer.stop();
+		$MovementTimer.stop();
+		moving = false;
+		if (stun_timer >= stun_dur):
+			if (is_instance_valid(sprite)):
+				sprite.play();
+			modulate = Color("ffffff");
+			stunned = false;
+			print("no longer stunned")
+			start_move_to_random_pos();
+			rng.randomize();
+			attack_pattern = rng.randi()%2;
+			$FireTimer.start(attack_interval);
+			stun_timer = 0.0;
 	
 func _physics_process(delta):
 	if moving:
-		var pos = get_global_position();
 		if (move_to_center):
-			var min_speed = 20; 
-			
-			var dist_to_center = sqrt(pow(move_to_pos.x-pos.x,2)+pow(move_to_pos.y-pos.y,2));
-			var dist_ratio = dist_to_center/init_dist_to_center;
-			
-			var move_vel = Vector2(
-				move_to_dir.x*(min_speed+move_speed*dist_ratio), 
-				move_to_dir.y*(min_speed+move_speed*dist_ratio)
-			);
-			if (move_vel.x > 1500 || move_vel.y > 1500):
-				print("TOO FAST:");
-				$FireTimer.paused = false;
-				moving = false;
-				move_to_center = false;
-				if (is_instance_valid(last_trans_bullet)):
-					get_parent().add_child(last_trans_bullet);
-					last_trans_bullet.set_global_position(get_global_position());
-				return;
-			move_and_slide(move_vel, Vector2.UP);
-			# once it reaches center
-			if (dist_ratio < 0.05):
-				$FireTimer.paused = false;
-				moving = false;
-				move_to_center = false;
-				if (is_instance_valid(last_trans_bullet)):
-					get_parent().add_child(last_trans_bullet);
-					last_trans_bullet.set_global_position(get_global_position());
-
+			move_to_center();
 		else:
-			move_and_slide(move_to_dir * move_speed, Vector2.UP);
-			if (
-				pos.x < move_to_pos.x+dest_offset && pos.x > move_to_pos.x-dest_offset
-				&& pos.y < move_to_pos.y+dest_offset && pos.y > move_to_pos.y-dest_offset
-			):
-				moving = false;
-				$MovementTimer.start(movement_interval);
+			move_to_random_pos();
 
 func damage(amount,body = null):
-	#print(body)
-	#print("Boss have been damaged %d" % amount)
+	# print("Boss have been damaged %d" % amount)
 	Global.console.damage_boss(amount)
 	
 	# effects
+	var tween1 = create_tween().set_trans(Tween.TRANS_CUBIC)
+	#var tween2 = create_tween().set_trans(Tween.TRANS_CUBIC)
+	tween1.tween_property(self, "modulate", Color("#f76b60"), 0.08)
+	#tween2.tween_property($HealthBar, "rect_scale", Vector2(1.5,1.5), 0.08)
+	tween1.set_trans(Tween.TRANS_LINEAR)
+	#tween1.tween_property($HealthBar, "scale", Vector2(1,1), 0.12)
+	tween1.tween_property(self, "modulate", Color("ffffff"), 0.12)
+	
 	get_node("Style%d" % style).set_scale(Vector2(0.7, 0.7))
 	var tween = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	tween.tween_property(get_node("Style%d" % style), "scale", Vector2(1, 1), 0.2)
 	
-	Global.camera.shake(0.2, 10, 10);
+	# Global.camera.shake(0.2, 10, 10);
 	
 	get_node("Style%d/HitSound" % style).play()
 
@@ -177,10 +178,6 @@ func fireLaser(fireFrom, fireAt, inPortal, bossSpawned=true):
 func finish_attack():
 	if Global.console.gameover:
 		return
-	
-	if stunned:
-		yield(get_tree().create_timer(3), "timeout");
-		stunned = false
 		
 	rng.randomize();
 	attack_pattern = rng.randi()%2;
@@ -188,30 +185,34 @@ func finish_attack():
 
 	# firing portal bullet when the last trans bullet is freed
 	if not is_instance_valid(last_trans_bullet):
-		transbullet_cd -= 1
-		# fire the transbullet
-		if transbullet_cd <= 0:
-			var t = load("res://objects/weapons/TransBullet.tscn").instance()
-			# style pesudo randomize
-			randomize_transbullet(t);
-			# reset transbullet cd
-			transbullet_cd = transbullet_max_cd
-			# fire duel mode bullet
-			#print(missed_bullet_counter)
-			if (missed_bullet_counter >= max_missed_bullets):
-				print('special')
-				missed_bullet_counter = 0;
-				t.duel_mode = true;
-				last_trans_bullet = t
-				move_to_center();
-			# increment missed bullet counter
-			else:
-				missed_bullet_counter += 1;
-				get_parent().add_child(t);
-				t.set_global_position(get_global_position());
-			
+		fire_trans_bullet();
+
+func fire_trans_bullet():
+	transbullet_cd -= 1
+	print("trans bullet cd: ", transbullet_cd);
+	# fire the transbullet
+	if transbullet_cd <= 0:
+		print("fire transbullet");
+		var t = load("res://objects/weapons/TransBullet.tscn").instance()
+		# style pesudo randomize
+		randomize_transbullet(t);
+		# reset transbullet cd
+		transbullet_cd = transbullet_max_cd
+		# fire duel mode bullet
+		if (missed_bullet_counter >= max_missed_bullets):
+			print('fire special bullet')
+			missed_bullet_counter = 0;
+			t.duel_mode = true;
 			last_trans_bullet = t
-			
+			start_move_to_center();
+		# increment missed bullet counter
+		else:
+			missed_bullet_counter += 1;
+			print("missed bullets: ", missed_bullet_counter)
+			get_parent().add_child(t);
+			t.set_global_position(get_global_position());
+		
+		last_trans_bullet = t
 
 func randomize_transbullet(t):
 	# style pesudo randomize
@@ -235,9 +236,6 @@ func _on_FireTimer_timeout():
 
 func fire_bullets():
 	attack_properties = Global.boss_patterns[style][attack_pattern];
-	if (enraged):
-		attack_properties["waves"] += 1;
-		attack_properties["interval"] *= 1.3;
 	match style:
 		0:
 			init_minimal_bullets();
@@ -342,9 +340,9 @@ func init_3d_bullets():
 						fireLaser(get_global_position(), Vector2(x,y), false)
 			yield(get_tree().create_timer(timeBetweenAttacks), "timeout")
 			if (prev_style != style):
-					prev_style = style;
-					finish_attack();
-					return;
+				prev_style = style;
+				finish_attack();
+				return;
 			
 			var xArr2 = [maxX, -maxX, maxX / 2, -maxX / 2]
 			var yArr2 = [maxY, -maxY, maxY / 2, -maxY / 2]
@@ -355,7 +353,6 @@ func init_3d_bullets():
 			yield(get_tree().create_timer(beamDuration), "timeout")
 			finish_attack()
 		1:
-			var timeBetweenAttacks = 0.8
 			for i in range(attack_properties["waves"]):
 				if (!is_instance_valid(Global.boss)): return;
 				if (prev_style != style):
@@ -387,7 +384,9 @@ func init_collage_bullets():
 		1:
 			var b_speed = Global.boss_bullet_properties[style]["speed"];
 			for i in attack_properties["waves"]:
-				fire_pulse(6, b_speed);
+				rng.randomize();
+				var rand_offset = rng.randf_range(-20.0 , 20.0);
+				fire_pulse(6, b_speed, rand_offset);
 				yield(get_tree().create_timer(attack_properties["interval"]), "timeout");
 			finish_attack();
 		_:
@@ -495,6 +494,9 @@ func fire_blob(num, speed, dir, degree_offset=30, speed_offset=100, _style=style
 
 
 func _on_MovementTimer_timeout():
+	start_move_to_random_pos();
+
+func start_move_to_random_pos():
 	var pos = get_global_position();
 	move_speed = base_speed;
 	var max_tries = 10;
@@ -517,19 +519,19 @@ func _on_MovementTimer_timeout():
 		max_tries -= 1;
 		if max_tries <= 0:
 			print("failed too many tries")
-			$MovementTimer.startmovement_interval();
+			$MovementTimer.start(movement_interval);
 			return;
 
 	moving = true;
 	move_to_pos = rand_pos;
 	move_to_dir = get_global_position().direction_to(move_to_pos);
-	
 
-func move_to_center():
+
+func start_move_to_center():
 	var pos = get_global_position();
 	$MovementTimer.stop();
 	$FireTimer.paused = true;
-	move_speed = 600;
+	move_speed = 1000;
 	moving = true;
 	move_to_center = true;
 	move_to_pos = Vector2(0, 0);
@@ -544,3 +546,42 @@ func move_to_center():
 			get_parent().add_child(last_trans_bullet);
 			last_trans_bullet.set_global_position(get_global_position());
 		
+func move_to_center():
+	var pos = get_global_position();
+	var min_speed = 20; 
+	
+	var dist_to_center = sqrt(pow(move_to_pos.x-pos.x,2)+pow(move_to_pos.y-pos.y,2));
+	var dist_ratio = dist_to_center/init_dist_to_center;
+	
+	var move_vel = Vector2(
+		move_to_dir.x*(min_speed+move_speed*dist_ratio), 
+		move_to_dir.y*(min_speed+move_speed*dist_ratio)
+	);
+	if (move_vel.x > 1500 || move_vel.y > 1500):
+		print("TOO FAST:");
+		$FireTimer.paused = false;
+		moving = false;
+		move_to_center = false;
+		if (is_instance_valid(last_trans_bullet)):
+			get_parent().add_child(last_trans_bullet);
+			last_trans_bullet.set_global_position(get_global_position());
+		return;
+	move_and_slide(move_vel, Vector2.UP);
+	# once it reaches center
+	if (dist_ratio < 0.05):
+		$FireTimer.paused = false;
+		moving = false;
+		move_to_center = false;
+		if (is_instance_valid(last_trans_bullet)):
+			get_parent().add_child(last_trans_bullet);
+			last_trans_bullet.set_global_position(get_global_position());
+			
+func move_to_random_pos():
+	var pos = get_global_position();
+	move_and_slide(move_to_dir * move_speed, Vector2.UP);
+	if (
+		pos.x < move_to_pos.x+dest_offset && pos.x > move_to_pos.x-dest_offset
+		&& pos.y < move_to_pos.y+dest_offset && pos.y > move_to_pos.y-dest_offset
+	):
+		moving = false;
+		$MovementTimer.start(movement_interval);

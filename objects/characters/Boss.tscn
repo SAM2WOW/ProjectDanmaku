@@ -1,4 +1,4 @@
-[gd_scene load_steps=52 format=2]
+[gd_scene load_steps=53 format=2]
 
 [ext_resource path="res://objects/characters/Boss.gd" type="Script" id=1]
 [ext_resource path="res://arts/collage/Collage_Boss.png" type="Texture" id=2]
@@ -12,6 +12,7 @@
 [ext_resource path="res://sounds/AbstractBossFire.wav" type="AudioStream" id=10]
 [ext_resource path="res://sounds/AbstractBossHit.wav" type="AudioStream" id=11]
 [ext_resource path="res://arts/collage/collage_boss.png" type="Texture" id=12]
+[ext_resource path="res://sounds/pixel_sfx/boss_broke_2.wav" type="AudioStream" id=13]
 
 [sub_resource type="Curve" id=7]
 _data = [ Vector2( 0, 0 ), 0.0, 3.63099, 0, 0, Vector2( 0.519802, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.886139, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), -19.5114, 0.0, 0, 0 ]
@@ -262,7 +263,6 @@ volume_low = -6.0
 position = Vector2( 1, -2 )
 scale = Vector2( 4, 4 )
 frames = SubResource( 40 )
-frame = 5
 playing = true
 
 [node name="TransEffect" type="CPUParticles2D" parent="Style1"]
@@ -309,6 +309,7 @@ position = Vector2( -18, -22 )
 scale = Vector2( 0.897591, 0.897591 )
 frames = SubResource( 18 )
 animation = "New Anim"
+frame = 9
 speed_scale = 0.75
 playing = true
 
@@ -349,6 +350,7 @@ visible = false
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Style3"]
 frames = SubResource( 67 )
+frame = 2
 playing = true
 
 [node name="TransEffect" type="CPUParticles2D" parent="Style3"]
@@ -401,6 +403,11 @@ autostart = true
 [node name="CollisionPolygon2D" type="CollisionShape2D" parent="BossPortalBox"]
 scale = Vector2( 5.8, 5.8 )
 shape = SubResource( 52 )
+
+[node name="BrokeSfx" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 13 )
+script = ExtResource( 6 )
+base_volume = -7.0
 
 [connection signal="timeout" from="FireTimer" to="." method="_on_FireTimer_timeout"]
 [connection signal="timeout" from="MovementTimer" to="." method="_on_MovementTimer_timeout"]

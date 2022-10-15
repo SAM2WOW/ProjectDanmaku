@@ -231,13 +231,13 @@ anchor_bottom = 1.0
 margin_top = 401.0
 custom_fonts/normal_font = SubResource( 3 )
 bbcode_enabled = true
-bbcode_text = "[center]Hold/Click Left Mouse Button to Shoot[/center]
+bbcode_text = "[center]Hold Left Mouse Button or Spacebar to Shoot[/center]
 
 
 
 
 [center]WASD to Move[/center]"
-text = "Hold/Click Left Mouse Button to Shoot
+text = "Hold Left Mouse Button or Spacebar to Shoot
 
 
 
