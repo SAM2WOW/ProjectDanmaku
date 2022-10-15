@@ -204,10 +204,6 @@ func verse_jump_explode():
 	if hurt_player == true:
 		if is_instance_valid(Global.boss):
 			Global.boss.fire_circle(get_global_position().x,get_global_position().y)
-	else:
-		if is_instance_valid(Global.boss):
-			Global.boss.stunned = true
-			print("boss is stunned!");
 	$badParticle.set_emitting(false)
 	if tutorial_mode:
 		Global.console.start_game()

@@ -309,7 +309,6 @@ position = Vector2( -18, -22 )
 scale = Vector2( 0.897591, 0.897591 )
 frames = SubResource( 18 )
 animation = "New Anim"
-frame = 3
 speed_scale = 0.75
 playing = true
 

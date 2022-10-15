@@ -69,6 +69,8 @@ func _process(delta):
 						else:
 							Global.boss.damage(200);
 						hurt_boss = false;
+						Global.boss.stunned = true
+						print("boss is stunned!");
 						
 					if body.has_method('_on_Verse_Jump'):
 						body._on_Verse_Jump(style)

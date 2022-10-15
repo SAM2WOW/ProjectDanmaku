@@ -72,11 +72,16 @@ func _process(delta):
 				Global.boss_patterns[s][p]["interval"] *= 0.8;
 		
 	if stunned:
+		var sprite = get_node("Style%d/AnimatedSprite"%style);
+		if (is_instance_valid(sprite) && Global.new_style == Global.current_style):
+			sprite.stop();
 		stun_timer += delta;
 		$FireTimer.stop();
 		$MovementTimer.stop();
 		moving = false;
 		if (stun_timer >= stun_dur):
+			if (is_instance_valid(sprite)):
+				sprite.play();
 			stunned = false;
 			print("no longer stunned")
 			start_move_to_random_pos();

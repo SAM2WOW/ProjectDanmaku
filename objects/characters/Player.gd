@@ -12,6 +12,7 @@ var speed_mult = 1.0;
 var max_health = 100;
 var health = max_health;
 var health_regen_speed = 5
+var style_scales = {};
 
 var holdTime = 0.0
 var maxHoldTime = 1.0;
@@ -27,7 +28,12 @@ func _ready():
 	Global.player = self
 	var init_style = Global.initial_style;
 	if (Global.in_tutorial):
-		init_style = Global.tutorial_style	;
+		init_style = Global.tutorial_style;
+	for i in Global.total_style:
+		var sprite = get_node("Style%d/AnimatedSprite"%i)
+		if (is_instance_valid(sprite)):
+			style_scales[i] = sprite.scale;
+			print(style_scales[i]);
 	_on_Verse_Jump(init_style);
 
 func _process(delta):
@@ -80,7 +86,7 @@ func _process(delta):
 	
 	# rotate the sprite toward player in minimalistic style
 	if style == 0:
-		$Style0/Icon.look_at(get_global_mouse_position())
+		$Style0/AnimatedSprite.look_at(get_global_mouse_position())
 	
 	# regenerate health
 	if $RegenerateTimer.is_stopped():
@@ -147,39 +153,40 @@ func _on_Verse_Jump(verse):
 func fire_bullet():
 	var shotLocations = get_tree().get_nodes_in_group('shots%d' % style)
 	for shot in shotLocations:
+		var s_scale = style_scales[style];
 		match style:
 			0:
 				init_minimal_bullets(shot);
 				
 				# effects
-				$Style0/Icon.set_scale(Vector2(0.7, 0.7))
-				$Style0/Icon/Playercircle.set_scale(Vector2(4, 4))
-				$Style0/Icon/Playercircle2.set_scale(Vector2(4, 4))
+				$Style0/AnimatedSprite.set_scale(s_scale*0.7)
+				$Style0/AnimatedSprite/Playercircle.set_scale(Vector2(4, 4))
+				$Style0/AnimatedSprite/Playercircle2.set_scale(Vector2(4, 4))
 				var tween = create_tween().set_trans(Tween.TRANS_SINE)
-				tween.tween_property($Style0/Icon/Playercircle, "scale", Vector2(1, 1), 0.2)
-				tween.parallel().tween_property($Style0/Icon/Playercircle2, "scale", Vector2(1, 1), 0.2)
-				tween.parallel().tween_property($Style0/Icon, "scale", Vector2(1, 1), 0.2)
+				tween.tween_property($Style0/AnimatedSprite/Playercircle, "scale", s_scale, 0.2)
+				tween.parallel().tween_property($Style0/AnimatedSprite/Playercircle2, "scale", s_scale, 0.2)
+				tween.parallel().tween_property($Style0/AnimatedSprite, "scale", s_scale, 0.2)
 			1:
 				init_pixel_bullets(shot);
 				
 				# effects
-				$Style1/AnimatedSprite.set_scale(Vector2(2.5, 2.5))
+				$Style1/AnimatedSprite.set_scale(s_scale*0.8)
 				var tween = create_tween().set_trans(Tween.TRANS_SINE)
-				tween.tween_property($Style1/AnimatedSprite, "scale", Vector2(3, 3), 0.2)
+				tween.tween_property($Style1/AnimatedSprite, "scale", s_scale, 0.2)
 			2:
 				init_3d_bullets(shot);
 				
 				# effects
-				$Style2/AnimatedSprite.set_scale(Vector2(-0.13, 0.13))
+				$Style2/AnimatedSprite.set_scale(s_scale*0.7)
 				var tween = create_tween().set_trans(Tween.TRANS_SINE)
-				tween.tween_property($Style2/AnimatedSprite, "scale", Vector2(-0.192, 0.192), 0.2)
+				tween.tween_property($Style2/AnimatedSprite, "scale", s_scale, 0.2)
 			3:
 				init_collage_bullets(shot);
 				
 				# effects
-				$Style3/AnimatedSprite.set_scale(Vector2(0.25, 0.25))
+				$Style3/AnimatedSprite.set_scale(s_scale*0.7)
 				var tween = create_tween().set_trans(Tween.TRANS_SINE)
-				tween.tween_property($Style3/AnimatedSprite, "scale", Vector2(0.3, 0.3), 0.2)
+				tween.tween_property($Style3/AnimatedSprite, "scale", s_scale, 0.2)
 			_:
 				pass
 			
