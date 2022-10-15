@@ -338,7 +338,7 @@ visible = false
 position = Vector2( 6, -7 )
 scale = Vector2( -0.192, 0.192 )
 frames = SubResource( 15 )
-frame = 8
+frame = 6
 playing = true
 script = ExtResource( 4 )
 
@@ -389,7 +389,7 @@ visible = false
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Style3"]
 scale = Vector2( 0.3, 0.3 )
 frames = SubResource( 29 )
-frame = 5
+frame = 9
 playing = true
 script = ExtResource( 4 )
 

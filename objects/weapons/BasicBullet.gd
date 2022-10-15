@@ -119,9 +119,10 @@ func _on_Verse_Exit(prev_verse, new_verse):
 					init_clone_instance(b);
 			dying = true
 			queue_free();
-		# on leaving 3d verse, nothing
+		# on leaving 3d verse, bullets are a lot faster and weaker
 		2:
-			pass
+			damage *= 0.7;
+			linear_velocity *= 1.4;
 		# on leaving collage verse, can bounce once and are slower
 		3:
 			if !bouncing:

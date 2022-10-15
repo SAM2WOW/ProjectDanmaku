@@ -38,7 +38,7 @@ var break_state = false
 var last_trans_bullet = null
 
 var stun_timer = 0.0;
-var stun_dur = 3.0;
+var stun_dur = 4.0;
 
 var basic_bullet = preload("res://objects/weapons/BasicBullet.tscn")
 
@@ -71,63 +71,38 @@ func _process(delta):
 				Global.boss_patterns[s][p]["waves"] += 1;
 				Global.boss_patterns[s][p]["interval"] *= 0.8;
 		
-#	if stunned:
-#		stun_timer += delta;
-#		$FireTimer.paused = true;
-#		$MovementTimer.paused = true;
-#		if (stun_timer >= stun_dur):
-#			stunned = false;
-#			print("no longer stunned")
-#			$FireTimer.paused = false;
-#			$MovementTimer.paused = false;
-#			stun_timer = 0.0;
+	if stunned:
+		stun_timer += delta;
+		$FireTimer.stop();
+		$MovementTimer.stop();
+		moving = false;
+		if (stun_timer >= stun_dur):
+			stunned = false;
+			print("no longer stunned")
+			start_move_to_random_pos();
+			finish_attack();
+			stun_timer = 0.0;
 	
 func _physics_process(delta):
 	if moving:
-		var pos = get_global_position();
 		if (move_to_center):
-			var min_speed = 20; 
-			
-			var dist_to_center = sqrt(pow(move_to_pos.x-pos.x,2)+pow(move_to_pos.y-pos.y,2));
-			var dist_ratio = dist_to_center/init_dist_to_center;
-			
-			var move_vel = Vector2(
-				move_to_dir.x*(min_speed+move_speed*dist_ratio), 
-				move_to_dir.y*(min_speed+move_speed*dist_ratio)
-			);
-			if (move_vel.x > 1500 || move_vel.y > 1500):
-				print("TOO FAST:");
-				$FireTimer.paused = false;
-				moving = false;
-				move_to_center = false;
-				if (is_instance_valid(last_trans_bullet)):
-					get_parent().add_child(last_trans_bullet);
-					last_trans_bullet.set_global_position(get_global_position());
-				return;
-			move_and_slide(move_vel, Vector2.UP);
-			# once it reaches center
-			if (dist_ratio < 0.05):
-				$FireTimer.paused = false;
-				moving = false;
-				move_to_center = false;
-				if (is_instance_valid(last_trans_bullet)):
-					get_parent().add_child(last_trans_bullet);
-					last_trans_bullet.set_global_position(get_global_position());
-
+			move_to_center();
 		else:
-			move_and_slide(move_to_dir * move_speed, Vector2.UP);
-			if (
-				pos.x < move_to_pos.x+dest_offset && pos.x > move_to_pos.x-dest_offset
-				&& pos.y < move_to_pos.y+dest_offset && pos.y > move_to_pos.y-dest_offset
-			):
-				moving = false;
-				$MovementTimer.start(movement_interval);
+			move_to_random_pos();
 
 func damage(amount,body = null):
 	print("Boss have been damaged %d" % amount)
 	Global.console.damage_boss(amount)
 	
 	# effects
+	var tween1 = create_tween().set_trans(Tween.TRANS_CUBIC)
+	#var tween2 = create_tween().set_trans(Tween.TRANS_CUBIC)
+	tween1.tween_property(self, "modulate", Color("#f76b60"), 0.08)
+	#tween2.tween_property($HealthBar, "rect_scale", Vector2(1.5,1.5), 0.08)
+	tween1.set_trans(Tween.TRANS_LINEAR)
+	#tween1.tween_property($HealthBar, "scale", Vector2(1,1), 0.12)
+	tween1.tween_property(self, "modulate", Color("ffffff"), 0.12)
+	
 	get_node("Style%d" % style).set_scale(Vector2(0.7, 0.7))
 	var tween = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	tween.tween_property(get_node("Style%d" % style), "scale", Vector2(1, 1), 0.2)
@@ -201,32 +176,34 @@ func finish_attack():
 
 	# firing portal bullet when the last trans bullet is freed
 	if not is_instance_valid(last_trans_bullet):
-		transbullet_cd -= 1
-		print("trans bullet cd: ", transbullet_cd);
-		# fire the transbullet
-		if transbullet_cd <= 0:
-			print("fire transbullet");
-			var t = load("res://objects/weapons/TransBullet.tscn").instance()
-			# style pesudo randomize
-			randomize_transbullet(t);
-			# reset transbullet cd
-			transbullet_cd = transbullet_max_cd
-			# fire duel mode bullet
-			if (missed_bullet_counter >= max_missed_bullets):
-				print('fire special bullet')
-				missed_bullet_counter = 0;
-				t.duel_mode = true;
-				last_trans_bullet = t
-				move_to_center();
-			# increment missed bullet counter
-			else:
-				missed_bullet_counter += 1;
-				print("missed bullets: ", missed_bullet_counter)
-				get_parent().add_child(t);
-				t.set_global_position(get_global_position());
-			
+		fire_trans_bullet();
+
+func fire_trans_bullet():
+	transbullet_cd -= 1
+	print("trans bullet cd: ", transbullet_cd);
+	# fire the transbullet
+	if transbullet_cd <= 0:
+		print("fire transbullet");
+		var t = load("res://objects/weapons/TransBullet.tscn").instance()
+		# style pesudo randomize
+		randomize_transbullet(t);
+		# reset transbullet cd
+		transbullet_cd = transbullet_max_cd
+		# fire duel mode bullet
+		if (missed_bullet_counter >= max_missed_bullets):
+			print('fire special bullet')
+			missed_bullet_counter = 0;
+			t.duel_mode = true;
 			last_trans_bullet = t
-			
+			start_move_to_center();
+		# increment missed bullet counter
+		else:
+			missed_bullet_counter += 1;
+			print("missed bullets: ", missed_bullet_counter)
+			get_parent().add_child(t);
+			t.set_global_position(get_global_position());
+		
+		last_trans_bullet = t
 
 func randomize_transbullet(t):
 	# style pesudo randomize
@@ -508,6 +485,9 @@ func fire_blob(num, speed, dir, degree_offset=30, speed_offset=100, _style=style
 
 
 func _on_MovementTimer_timeout():
+	start_move_to_random_pos();
+
+func start_move_to_random_pos():
 	var pos = get_global_position();
 	move_speed = base_speed;
 	var max_tries = 10;
@@ -530,15 +510,15 @@ func _on_MovementTimer_timeout():
 		max_tries -= 1;
 		if max_tries <= 0:
 			print("failed too many tries")
-			$MovementTimer.startmovement_interval();
+			$MovementTimer.start(movement_interval);
 			return;
 
 	moving = true;
 	move_to_pos = rand_pos;
 	move_to_dir = get_global_position().direction_to(move_to_pos);
-	
 
-func move_to_center():
+
+func start_move_to_center():
 	var pos = get_global_position();
 	$MovementTimer.stop();
 	$FireTimer.paused = true;
@@ -557,3 +537,42 @@ func move_to_center():
 			get_parent().add_child(last_trans_bullet);
 			last_trans_bullet.set_global_position(get_global_position());
 		
+func move_to_center():
+	var pos = get_global_position();
+	var min_speed = 20; 
+	
+	var dist_to_center = sqrt(pow(move_to_pos.x-pos.x,2)+pow(move_to_pos.y-pos.y,2));
+	var dist_ratio = dist_to_center/init_dist_to_center;
+	
+	var move_vel = Vector2(
+		move_to_dir.x*(min_speed+move_speed*dist_ratio), 
+		move_to_dir.y*(min_speed+move_speed*dist_ratio)
+	);
+	if (move_vel.x > 1500 || move_vel.y > 1500):
+		print("TOO FAST:");
+		$FireTimer.paused = false;
+		moving = false;
+		move_to_center = false;
+		if (is_instance_valid(last_trans_bullet)):
+			get_parent().add_child(last_trans_bullet);
+			last_trans_bullet.set_global_position(get_global_position());
+		return;
+	move_and_slide(move_vel, Vector2.UP);
+	# once it reaches center
+	if (dist_ratio < 0.05):
+		$FireTimer.paused = false;
+		moving = false;
+		move_to_center = false;
+		if (is_instance_valid(last_trans_bullet)):
+			get_parent().add_child(last_trans_bullet);
+			last_trans_bullet.set_global_position(get_global_position());
+			
+func move_to_random_pos():
+	var pos = get_global_position();
+	move_and_slide(move_to_dir * move_speed, Vector2.UP);
+	if (
+		pos.x < move_to_pos.x+dest_offset && pos.x > move_to_pos.x-dest_offset
+		&& pos.y < move_to_pos.y+dest_offset && pos.y > move_to_pos.y-dest_offset
+	):
+		moving = false;
+		$MovementTimer.start(movement_interval);

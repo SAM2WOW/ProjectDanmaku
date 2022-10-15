@@ -41,6 +41,8 @@ func _on_PlayerBullet_body_entered(body):
 		else:
 			if (style == 2):
 				damage *= charge;
+				# minimum damage
+				if (damage < 5.0): damage = 5.0;
 				if (charge >= 1.0):
 					damage *= 1.25;
 			else:
@@ -126,6 +128,7 @@ func init_collage_bullet():
 func explode():
 	var e = explosion.instance();
 	e.get_node("AnimatedSprite").play();
+	e.charge = charge;
 	get_tree().root.add_child(e);
 	e.set_global_position(get_global_position());
 	e.damage = damage;
@@ -146,7 +149,8 @@ func _on_Verse_Jump(verse):
 			detonate = true;
 		# on entering 3d, gets charged
 		2:
-			# if uncharged on entering, gets a charge of 0.4
+			# if uncharged on entering, gets a charge of 0.5
+			if (charge <= 0.0): charge += 0.2;
 			charge += 0.3;
 			if (charge > 1.0): charge = 1.0
 			linear_velocity *= (1-(charge/2));
@@ -172,6 +176,7 @@ func _on_Verse_Exit(prev_verse, new_verse):
 			var bullets = Global.player.fire_spread(3, 15, curr_vel, dir, 1, get_global_position(), new_verse);
 			for b in bullets:
 				b.damage = damage;
+				b.charge = charge;
 				b.damage *= 0.6;
 				b.linear_velocity *= (1-(charge*0.6));
 				if (bouncing): b.num_bounces = num_bounces;

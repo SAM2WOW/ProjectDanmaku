@@ -52,10 +52,12 @@ func _physics_process(delta: float) -> void:
 			var b = basic_bullet.instance()
 			var pos = get_collision_point()
 			var dir = $Line2D.get_global_position().direction_to(pos)
-			var style = get_collider().get_parent().style
+			var new_style = get_collider().get_parent().style
 			var speed = 1000
 			b.init_bullet(pos, dir, style);
 			b.set_linear_velocity(dir*speed);
+			b._on_Verse_Jump(new_style);
+			b._on_Verse_Exit(style, new_style);
 			get_parent().add_child(b)
 			laserBulletIntervalCount = 0
 	

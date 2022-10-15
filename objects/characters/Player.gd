@@ -244,12 +244,19 @@ func damage(amount):
 	#tween.tween_property(self, "scale", Vector2(1.0,1.0), 0.08)
 	var tween1 = create_tween().set_trans(Tween.TRANS_CUBIC)
 	#var tween2 = create_tween().set_trans(Tween.TRANS_CUBIC)
-	tween1.tween_property(self, "modulate", Color("e60000"), 0.08)
+	tween1.tween_property(self, "modulate", Color("e60000"), 0.13)
 	#tween2.tween_property($HealthBar, "rect_scale", Vector2(1.5,1.5), 0.08)
 	tween1.set_trans(Tween.TRANS_LINEAR)
 	#tween1.tween_property($HealthBar, "scale", Vector2(1,1), 0.12)
 	tween1.tween_property(self, "modulate", Color("ffffff"), 0.12)
 	#tween2.tween_property($HealthBar, "rect_scale", Vector2(1,1), 0.12)
+	
+	# tween animation for when player is hit
+	get_node("Style%d" % style).set_scale(Vector2(0.5, 0.5))
+	var hit_tween = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	hit_tween.tween_property(get_node("Style%d" % style), "scale", Vector2(1, 1), 0.4)
+	
+	Global.camera.shake(0.2, 10, 10);
 	# wait a bit before regenerate health
 	$RegenerateTimer.start()
 	get_node("Style%d/HitSound" % style).play()
