@@ -204,10 +204,17 @@ func bounce_bullet():
 func _physics_process(delta):
 	curr_vel = sqrt(pow(linear_velocity.x,2)+pow(linear_velocity.y,2));
 	if (detonate_at_pos):
-		var speed = 1000; var base_speed = 100; var pos = get_global_position();
+		var speed = Global.boss_bullet_properties[Global.difficulty][style]["speed"];
+		var base_speed = 100; 
+		var pos = get_global_position();
 		
 		var detonate_dist = sqrt(pow(detonate_pos.x-pos.x,2)+pow(detonate_pos.y-pos.y,2));
 		var dist_ratio = detonate_dist/detonate_init_dist;
+		if (curr_vel >= (speed+base_speed)*1.5):
+			explode();
+			dying = true;
+			queue_free();
+			return;
 		set_linear_velocity(Vector2(
 			dir.x*(base_speed+speed*dist_ratio), 
 			dir.y*(base_speed+speed*dist_ratio)

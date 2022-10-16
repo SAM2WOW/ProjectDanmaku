@@ -254,7 +254,7 @@ volume_low = -3.0
 volume_high = 3.0
 
 [node name="ExplosionTimer" type="Timer" parent="."]
-wait_time = 10.0
+wait_time = 13.0
 one_shot = true
 autostart = true
 

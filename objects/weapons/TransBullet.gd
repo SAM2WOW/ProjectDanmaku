@@ -65,7 +65,6 @@ func init_tutorial_bullet():
 	
 func init_duel_bullet():
 	end_arrow()
-	initial_shield = false;
 	dead = false
 	start_protect = true
 

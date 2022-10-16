@@ -105,6 +105,10 @@ func enrage_boss():
 	enraged = true;
 	attack_interval *= 0.7;
 	max_missed_bullets -= 1;
+	for style in Global.boss_patterns[Global.difficulty]:
+		for pattern in Global.boss_patterns[Global.difficulty][style]:
+			Global.boss_patterns[Global.difficulty][style]["waves"] += 1;
+			Global.boss_patterns[Global.difficulty][style]["interval"] *= 0.8;
 
 func update_stun(delta):
 	var sprite = get_node("Style%d/AnimatedSprite"%style);
@@ -288,6 +292,7 @@ func fire_bullets():
 	if enraged:
 		attack_properties["waves"] += 1;
 		attack_properties["interval"] *= 0.8;
+		
 	match style:
 		0:
 			init_minimal_bullets();

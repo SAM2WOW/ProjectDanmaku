@@ -87,19 +87,19 @@ var boss_stats = {
 var boss_bullet_properties = {
 	0: {
 		0: {"damage": 10, "speed": 200},
-		1: {"damage": 20, "speed": 1000},
+		1: {"damage": 20, "speed": 750},
 		2: {"damage": 15, "speed": 300},
 		3: {"damage": 5, "speed": 200}
 	},
 	1: {
 		0: {"damage": 30, "speed": 300},
-		1: {"damage": 40, "speed": 1500},
+		1: {"damage": 40, "speed": 1000},
 		2: {"damage": 35, "speed": 300},
 		3: {"damage": 20, "speed": 300}
 	},
 	2: {
 		0: {"damage": 40, "speed": 500},
-		1: {"damage": 50, "speed": 2000},
+		1: {"damage": 50, "speed": 1250},
 		2: {"damage": 50, "speed": 300},
 		3: {"damage": 20, "speed": 400}
 	}

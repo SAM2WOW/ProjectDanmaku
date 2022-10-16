@@ -226,7 +226,7 @@ func _physics_process(delta):
 			dir.x*(base_speed+speed*dist_ratio), 
 			dir.y*(base_speed+speed*dist_ratio)
 		));
-		if (dist_ratio < 0.01):
+		if (dist_ratio < 0.06):
 			explode();
 			dying = true
 			queue_free();
