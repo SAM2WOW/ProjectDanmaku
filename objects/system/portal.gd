@@ -5,6 +5,7 @@ export var style = 0
 var exploding = false
 var dying = false
 var hurt_player = false;
+var player_damage = Global.boss_stats[Global.difficulty]["transbullet explosion damage"];
 var hurt_boss = false;
 var duel_portal = false;
 var portal_scale = Vector2(1.85, 1.85);
@@ -62,15 +63,17 @@ func _process(delta):
 					var prev_style = body.style;
 					# print("prev style: %d new style: %d" % [prev_style, style]);
 					if (body.name == "Player" && hurt_player):
-						Global.player.damage(20);
+						Global.player.damage(player_damage);
 						hurt_player = false;
 					elif (body.name == "Boss" && hurt_boss):
 						if (duel_portal):
-							Global.boss.damage(300);
-							Global.boss.stun_dur = 4.0;
+							# 5 % of boss hp
+							Global.boss.damage(Global.boss.max_hp*0.05);
+							Global.boss.stun_dur = Global.boss.stun_dur*2;
 						else:
-							Global.boss.damage(200);
-							Global.boss.stun_dur = 2.0;
+							# 2.5 % of boss hp
+							Global.boss.damage(Global.boss.max_hp*0.025);
+							Global.boss.stun_dur = Global.boss.stun_dur;
 						hurt_boss = false;
 						Global.boss.stunned = true
 						Global.boss.get_node("BrokeSfx").play();

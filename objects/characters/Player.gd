@@ -5,13 +5,13 @@ extends KinematicBody2D
 var style = Global.initial_style
 
 var velocity = Vector2.ZERO
-export var speed = 400;
+export var speed = 400
 var speed_mult = 1.0;
 # var shooting = false;
 
-var max_health = 100;
+var max_health = 100
 var health = max_health;
-var health_regen_speed = 5
+var health_regen_speed = 2
 var style_scales = {};
 
 var holdTime = 0.0
@@ -26,6 +26,9 @@ var bullet_properties = Global.player_bullet_properties[style];
 
 func _ready():
 	Global.player = self
+	self.modulate = Color(1, 1, 1, 0);
+	$Tween.interpolate_property(self, 'modulate', Color(1, 1, 1, 0), Color(1, 1, 1, 1), 1, Tween.TRANS_LINEAR, Tween.EASE_OUT, 0.2);
+	$Tween.start();
 	var init_style = Global.initial_style;
 	if (Global.in_tutorial):
 		init_style = Global.tutorial_style;
@@ -35,6 +38,12 @@ func _ready():
 			style_scales[i] = sprite.scale;
 			print(style_scales[i]);
 	_on_Verse_Jump(init_style);
+
+func init_difficulty(difficulty):
+	speed =  Global.player_stats[difficulty]["move speed"];
+	max_health = Global.player_stats[difficulty]["hp"];
+	health = max_health;
+	health_regen_speed = Global.player_stats[difficulty]["hp regen"];
 
 func _process(delta):
 	if (style == 2):

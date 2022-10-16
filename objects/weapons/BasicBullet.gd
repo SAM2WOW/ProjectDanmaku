@@ -47,7 +47,7 @@ func _on_PlayerBullet_body_entered(body):
 		if detonate:
 			explode();
 		else:
-			body.damage(Global.boss_bullet_properties[style]["damage"]);
+			body.damage(Global.boss_bullet_properties[Global.difficulty][style]["damage"]);
 	dying = true
 	queue_free()
 
@@ -114,7 +114,7 @@ func _on_Verse_Exit(prev_verse, new_verse):
 			
 			# why not 3d verse??
 			if (new_verse != 2):
-				var bullets = Global.boss.fire_spread(2, 20, Global.boss_bullet_properties[new_verse]["speed"]*0.8, dir, get_global_position(), new_verse);
+				var bullets = Global.boss.fire_spread(2, 20, Global.boss_bullet_properties[Global.difficulty][new_verse]["speed"]*0.8, dir, get_global_position(), new_verse);
 				for b in bullets:
 					init_clone_instance(b);
 			dying = true
@@ -150,19 +150,19 @@ func init_style(_style):
 # minimal bullets have no real unique properties
 func init_minimal_bullet():
 	# ie.) init bullet properties
-	damage = Global.boss_bullet_properties[style]["damage"];
+	damage = Global.boss_bullet_properties[Global.difficulty][style]["damage"];
 	style = 0;
 
 func init_pixel_bullet():
-	damage = Global.boss_bullet_properties[style]["damage"];
+	damage = Global.boss_bullet_properties[Global.difficulty][style]["damage"];
 	style = 1;
 
 func init_3d_bullet():
-	damage = Global.boss_bullet_properties[style]["damage"];
+	damage = Global.boss_bullet_properties[Global.difficulty][style]["damage"];
 	style = 2;
 
 func init_collage_bullet():
-	damage = Global.boss_bullet_properties[style]["damage"];
+	damage = Global.boss_bullet_properties[Global.difficulty][style]["damage"];
 	bouncing = true;
 	num_bounces = 1;
 	style = 3;

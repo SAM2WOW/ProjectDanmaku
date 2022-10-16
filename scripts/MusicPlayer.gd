@@ -43,15 +43,19 @@ func play_music():
 	if not $BGM.is_playing():
 		$BGM.play()
 
+func stop_music():
+	$BGM.stop();
 
 func fade_in():
 	var tween = create_tween().set_trans(Tween.TRANS_LINEAR)
 	tween.tween_property($BGM, "volume_db", default_volume, 0.5)
+	return tween;
 
-
-func fade_out():
+func fade_out(stop=false):
 	var tween = get_node("Tween")
 	tween.interpolate_property($BGM, "volume_db",
 			default_volume, -80, 1,
 			Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	tween.start()
+	if stop:
+		tween.interpolate_callback(self, 3, "stop_music")

@@ -5,16 +5,16 @@ var is_casting := false setget set_is_casting
 var basic_bullet = preload("res://objects/weapons/BasicBullet.tscn")
 
 var laserBulletIntervalCount = 0
-var playerDamageIntervalCount = 0
 var laserBulletInterval = 0.25
 var playerDamageInterval = 0.2
+var playerDamageIntervalCount = playerDamageInterval;
 
 var inPortal = false;
 var bossSpawned = false;
 
 var style = 2;
 
-var damage = Global.boss_bullet_properties[style]["damage"];
+var damage = Global.boss_bullet_properties[Global.difficulty][style]["damage"];
 
 func _ready() -> void:
 	set_physics_process(false)

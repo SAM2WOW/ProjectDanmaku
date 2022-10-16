@@ -126,7 +126,6 @@ visible = false
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Style1"]
 scale = Vector2( 4, 4 )
 frames = SubResource( 5 )
-frame = 2
 playing = true
 
 [node name="Style2" type="Node2D" parent="."]
@@ -135,7 +134,7 @@ playing = true
 light_mask = 0
 scale = Vector2( 0.657676, 0.657676 )
 frames = SubResource( 20 )
-frame = 2
+frame = 3
 playing = true
 
 [node name="Style3" type="Node2D" parent="."]

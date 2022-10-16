@@ -7,9 +7,11 @@ var dir = Vector2();
 var max_health = 25;
 var health = max_health;
 var moving = true
-var damage = 50
+var damage = Global.boss_stats[Global.difficulty]["transbullet damage"]
 var max_speed = 750;
 var speed = max_speed;
+
+var difficulty_style = 0;
 
 var initial_shield = true;
 
@@ -219,7 +221,7 @@ func verse_jump_explode():
 			Global.boss.fire_circle(get_global_position().x,get_global_position().y)
 	$badParticle.set_emitting(false)
 	if tutorial_mode:
-		Global.console.start_game()
+		Global.console.start_game(difficulty_style)
 	var p = portal.instance();
 	#p.get_node("AnimatedSprite").play();
 	p.exploding = true
@@ -350,13 +352,14 @@ func _on_DetectionArea_body_entered(body):
 	if not dead:
 		if body == Global.player:
 			if not tutorial_mode:
-				body.damage(35)
+				body.damage(damage)
 				if duel_mode:
 					bad_verse_jump_init()
 					return
 				dead = true
 				delayed_destroy()
 		elif "Player" in body.name:
+			print("does this even ever happen")
 			if start_protect:
 				var p = smallparticle.instance()
 				p.set_global_position(body.get_global_position())

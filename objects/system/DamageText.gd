@@ -10,6 +10,7 @@ var velocity = Vector2();
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$Label.set_text(str(int(amount)));
+	z_index = 10;
 	match type:
 		"normal":
 			$Label.set("custom_colors/font_color", Color("ffffff"));

@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://objects/characters/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scripts/Console.gd" type="Script" id=3]
@@ -33,7 +33,7 @@ size = 94
 font_data = ExtResource( 13 )
 
 [sub_resource type="DynamicFont" id=3]
-size = 42
+size = 38
 font_data = ExtResource( 13 )
 
 [sub_resource type="StyleBoxFlat" id=5]
@@ -43,6 +43,10 @@ bg_color = Color( 1, 1, 1, 0.376471 )
 bg_color = Color( 1, 1, 1, 0.784314 )
 
 [sub_resource type="StyleBoxEmpty" id=4]
+
+[sub_resource type="DynamicFont" id=9]
+size = 42
+font_data = ExtResource( 13 )
 
 [node name="Main" type="Node"]
 
@@ -56,7 +60,7 @@ current = true
 script = ExtResource( 14 )
 
 [node name="Player" parent="Node2D" instance=ExtResource( 1 )]
-position = Vector2( 0, 359 )
+position = Vector2( 0, 411 )
 
 [node name="Background" type="Node2D" parent="Node2D" groups=["style"]]
 modulate = Color( 1, 1, 1, 0 )
@@ -145,9 +149,9 @@ anchor_bottom = 1.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/Gameover/CenterContainer"]
 margin_left = 546.0
-margin_top = 358.0
+margin_top = 335.0
 margin_right = 1374.0
-margin_bottom = 722.0
+margin_bottom = 745.0
 
 [node name="Label" type="Label" parent="CanvasLayer/Control/Gameover/CenterContainer/VBoxContainer"]
 margin_right = 828.0
@@ -181,6 +185,18 @@ custom_styles/normal = SubResource( 4 )
 enabled_focus_mode = 0
 text = "< Retry >"
 
+[node name="DifficultySelect" type="Button" parent="CanvasLayer/Control/Gameover/CenterContainer/VBoxContainer"]
+margin_top = 368.0
+margin_right = 828.0
+margin_bottom = 428.0
+focus_mode = 0
+custom_fonts/font = SubResource( 3 )
+custom_styles/hover = SubResource( 5 )
+custom_styles/pressed = SubResource( 6 )
+custom_styles/normal = SubResource( 4 )
+enabled_focus_mode = 0
+text = "< Difficulty Select>"
+
 [node name="PlayerDeath" type="Control" parent="CanvasLayer/Control"]
 visible = false
 anchor_right = 1.0
@@ -197,9 +213,9 @@ anchor_bottom = 1.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/PlayerDeath/CenterContainer"]
 margin_left = 678.0
-margin_top = 390.0
+margin_top = 364.0
 margin_right = 1242.0
-margin_bottom = 690.0
+margin_bottom = 716.0
 
 [node name="Label" type="Label" parent="CanvasLayer/Control/PlayerDeath/CenterContainer/VBoxContainer"]
 margin_right = 564.0
@@ -225,25 +241,99 @@ custom_styles/normal = SubResource( 4 )
 enabled_focus_mode = 0
 text = "< Retry >"
 
+[node name="DifficultySelect" type="Button" parent="CanvasLayer/Control/PlayerDeath/CenterContainer/VBoxContainer"]
+margin_top = 304.0
+margin_right = 564.0
+margin_bottom = 364.0
+focus_mode = 0
+custom_fonts/font = SubResource( 3 )
+custom_styles/hover = SubResource( 5 )
+custom_styles/pressed = SubResource( 6 )
+custom_styles/normal = SubResource( 4 )
+enabled_focus_mode = 0
+text = "< Difficulty Select>"
+
 [node name="Tutorial" type="RichTextLabel" parent="CanvasLayer/Control"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = 401.0
+margin_top = 368.0
+margin_bottom = -33.0
 custom_fonts/normal_font = SubResource( 3 )
 bbcode_enabled = true
-bbcode_text = "[center]Hold Left Mouse Button or Spacebar to Shoot[/center]
+bbcode_text = "
 
 
+[center]Hold Left Mouse Button or Spacebar to Shoot[/center]
+
+[center]WASD to Move[/center]
+
+[center]Move Mouse to Aim[/center]"
+text = "
 
 
-[center]WASD to Move[/center]"
-text = "Hold Left Mouse Button or Spacebar to Shoot
+Hold Left Mouse Button or Spacebar to Shoot
 
+WASD to Move
 
-
-
-WASD to Move"
+Move Mouse to Aim"
 fit_content_height = true
 
+[node name="Tween" type="Tween" parent="CanvasLayer/Control/Tutorial"]
+
+[node name="Difficulties" type="Control" parent="CanvasLayer/Control"]
+margin_left = 960.0
+margin_top = 547.0
+margin_right = 1000.0
+margin_bottom = 587.0
+
+[node name="Easy" type="Label" parent="CanvasLayer/Control/Difficulties"]
+margin_left = -651.0
+margin_top = -134.0
+margin_right = -555.0
+margin_bottom = -74.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = SubResource( 9 )
+text = "Easy"
+
+[node name="Tween" type="Tween" parent="CanvasLayer/Control/Difficulties/Easy"]
+
+[node name="Medium" type="Label" parent="CanvasLayer/Control/Difficulties"]
+margin_left = -89.0
+margin_top = -134.0
+margin_right = 83.0
+margin_bottom = -11.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = SubResource( 9 )
+text = "Medium
+"
+
+[node name="Tween" type="Tween" parent="CanvasLayer/Control/Difficulties/Medium"]
+
+[node name="Hard" type="Label" parent="CanvasLayer/Control/Difficulties"]
+margin_left = 551.0
+margin_top = -137.0
+margin_right = 652.0
+margin_bottom = -14.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = SubResource( 9 )
+text = "Hard
+"
+
+[node name="Tween" type="Tween" parent="CanvasLayer/Control/Difficulties/Hard"]
+
+[node name="DifficultySpawnPos" type="Node2D" parent="."]
+
+[node name="EasyPos" type="Position2D" parent="DifficultySpawnPos" groups=["difficulty_pos0"]]
+position = Vector2( -600, -300 )
+
+[node name="MediumPos" type="Position2D" parent="DifficultySpawnPos" groups=["difficulty_pos1"]]
+position = Vector2( 0, -300 )
+
+[node name="HardPos" type="Position2D" parent="DifficultySpawnPos" groups=["difficulty_pos2"]]
+position = Vector2( 600, -300 )
+
 [connection signal="pressed" from="CanvasLayer/Control/Gameover/CenterContainer/VBoxContainer/Restart" to="Console" method="_on_Restart_pressed"]
+[connection signal="pressed" from="CanvasLayer/Control/Gameover/CenterContainer/VBoxContainer/DifficultySelect" to="Console" method="_on_DifficultySelect_pressed"]
 [connection signal="pressed" from="CanvasLayer/Control/PlayerDeath/CenterContainer/VBoxContainer/Restart" to="Console" method="_on_Restart_pressed"]
+[connection signal="pressed" from="CanvasLayer/Control/PlayerDeath/CenterContainer/VBoxContainer/DifficultySelect" to="Console" method="_on_DifficultySelect_pressed"]

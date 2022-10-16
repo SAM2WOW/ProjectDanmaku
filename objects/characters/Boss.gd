@@ -9,16 +9,26 @@ var fire_rate = 1;
 var rng = RandomNumberGenerator.new();
 var enraged = false;
 var dead = false;
-var hp = 10000.0;
 
+var stats = Global.boss_stats[Global.difficulty];
+# boss statsv
+var max_hp = stats["hp"]
+var hp = max_hp;
+var base_speed = stats["speed"];
+var move_speed = base_speed;
+var movement_interval = stats["movement interval"];
+var attack_interval = stats["attack interval"];
+var transbullet_max_cd = stats["trans bullet cd"];
+var transbullet_cd = transbullet_max_cd
+var missed_bullet_counter = 0
+var max_missed_bullets = stats["missed bullet cd"];
+var stun_timer = 0.0;
+var stun_dur = stats["stun duration"];
 # movement
 var move_to_pos = Vector2();
 var move_to_dir = Vector2();
-var movement_interval = 8.0;
 var pos_offset = 200;
-var base_speed = 150;
 var dist_offset = 200;
-var move_speed = base_speed;
 var dest_offset = 10;
 var moving = false;
 
@@ -28,18 +38,10 @@ var init_dist_to_center = Vector2();
 var duel_bullet;
 var stunned = false
 
-var attack_interval = 1.0;
-
 var transbullet_state = false
-var transbullet_max_cd = 3;
-var transbullet_cd = transbullet_max_cd
-var missed_bullet_counter = 0
-var max_missed_bullets = 3;
 var break_state = false
 var last_trans_bullet = null
 
-var stun_timer = 0.0;
-var stun_dur = 3.0;
 
 var basic_bullet = preload("res://objects/weapons/BasicBullet.tscn")
 var damage_text = preload("res://objects/system/DamageText.tscn")
@@ -52,21 +54,39 @@ var curr_damage_text;
 
 func _ready():
 	Global.boss = self;
+	init_boss_stats();
 	_on_Verse_Jump(Global.initial_style);
 	attack_pattern = rng.randi()%2;
 	
 	style_pool.shuffle()
 	style_pool.append(1)
 
+func init_boss_stats():
+	var stats = Global.boss_stats[Global.difficulty];
+	# boss statsv
+	max_hp = stats["hp"]
+	hp = max_hp;
+	base_speed = stats["speed"];
+	move_speed = base_speed;
+	movement_interval = stats["movement interval"];
+	attack_interval = stats["attack interval"];
+	transbullet_max_cd = stats["trans bullet cd"];
+	transbullet_cd = transbullet_max_cd
+	missed_bullet_counter = 0
+	max_missed_bullets = stats["missed bullet cd"];
+	stun_timer = 0.0;
+	stun_dur = stats["stun duration"];
+
 func _process(delta):
-	hp = Global.console.boss_health;
+	# hp = Global.console.boss_health;
 	var sprite = get_node("Style%d/AnimatedSprite"%style);
 	if (dead && is_instance_valid(sprite)):
 		modulate = Color("#8a8a8a");
 		sprite.stop();
-	if (hp <= Global.console.max_boss_health*0.5 && !enraged):
+	if (hp <= max_hp*0.5 && !enraged):
 		enrage_boss();
-		
+	if (enraged && !stunned && is_instance_valid(sprite)):
+		sprite.speed_scale = 2.0;
 	if stunned:
 		update_stun(delta);
 	
@@ -81,14 +101,10 @@ func enrage_boss():
 	print("enraged!");
 	movement_interval *= 0.7;
 	transbullet_max_cd -= 1;
-	base_speed = 300;
+	base_speed += 150;
 	enraged = true;
 	attack_interval *= 0.7;
 	max_missed_bullets -= 1;
-	for s in  Global.boss_patterns:
-		for p in Global.boss_patterns[s]:
-			Global.boss_patterns[s][p]["waves"] += 1;
-			Global.boss_patterns[s][p]["interval"] *= 0.8;
 
 func update_stun(delta):
 	var sprite = get_node("Style%d/AnimatedSprite"%style);
@@ -102,6 +118,7 @@ func update_stun(delta):
 	if (stun_timer >= stun_dur):
 		if (is_instance_valid(sprite)):
 			sprite.play();
+			sprite.speed_scale = 1;
 		modulate = Color("ffffff");
 		stunned = false;
 		print("no longer stunned")
@@ -115,7 +132,12 @@ func damage(amount,body = null):
 	# print("Boss have been damaged %d" % amount)
 	var stun_mult = 1.0;
 	if (stunned): stun_mult = 1.5;
-	Global.console.damage_boss(amount*stun_mult)
+	# Global.console.damage_boss(amount*stun_mult)
+	if Global.console.gameover == false:
+		hp -= amount*stun_mult;
+		Global.console.set_healthbar(hp);
+		if hp <= 0:
+			Global.console.boss_dead()
 	
 	# effects
 	var tween1 = create_tween().set_trans(Tween.TRANS_CUBIC)
@@ -262,7 +284,10 @@ func _on_FireTimer_timeout():
 	fire_bullets();
 
 func fire_bullets():
-	attack_properties = Global.boss_patterns[style][attack_pattern];
+	attack_properties = Global.boss_patterns[Global.difficulty][style][attack_pattern];
+	if enraged:
+		attack_properties["waves"] += 1;
+		attack_properties["interval"] *= 0.8;
 	match style:
 		0:
 			init_minimal_bullets();
@@ -283,7 +308,7 @@ func init_minimal_bullets():
 	match attack_pattern:
 		0:
 			var offset_inc = 10;
-			var b_speed = Global.boss_bullet_properties[style]["speed"];
+			var b_speed = Global.boss_bullet_properties[Global.difficulty][style]["speed"];
 
 			for i in attack_properties["waves"]:
 				if (!is_instance_valid(Global.boss)): return;
@@ -296,7 +321,7 @@ func init_minimal_bullets():
 			finish_attack();
 		1:
 			var num_bullets = 5;
-			var b_speed = Global.boss_bullet_properties[style]["speed"];
+			var b_speed = Global.boss_bullet_properties[Global.difficulty][style]["speed"];
 			
 			for i in attack_properties["waves"]:
 				if (!is_instance_valid(Global.boss)): return;
@@ -316,7 +341,7 @@ func init_minimal_bullets():
 func init_pixel_bullets():
 	match attack_pattern:
 		0:
-			var b_speed = Global.boss_bullet_properties[style]["speed"];
+			var b_speed = Global.boss_bullet_properties[Global.difficulty][style]["speed"];
 			for i in attack_properties["waves"]:
 				if (!is_instance_valid(Global.boss)): return;
 				if (prev_style != style):
@@ -329,8 +354,7 @@ func init_pixel_bullets():
 				yield(get_tree().create_timer(attack_properties["interval"]), "timeout");
 			finish_attack();
 		1:
-			var num_waves = 8; var wave_interval = 0.1;
-			var b_speed = Global.boss_bullet_properties[style]["speed"];
+			var b_speed = Global.boss_bullet_properties[Global.difficulty][style]["speed"];
 			for i in attack_properties["waves"]:
 				if (!is_instance_valid(Global.boss)): return;
 				if (prev_style != style):
@@ -398,7 +422,7 @@ func init_collage_bullets():
 	match attack_pattern:
 		0:
 			var dir = get_global_position().direction_to(Global.player.get_global_position());
-			var b_speed = Global.boss_bullet_properties[style]["speed"];
+			var b_speed = Global.boss_bullet_properties[Global.difficulty][style]["speed"];
 			for i in attack_properties["waves"]:
 				if (!is_instance_valid(Global.boss)): return;
 				if (prev_style != style):
@@ -409,7 +433,7 @@ func init_collage_bullets():
 				yield(get_tree().create_timer(attack_properties["interval"]), "timeout");
 			finish_attack();
 		1:
-			var b_speed = Global.boss_bullet_properties[style]["speed"];
+			var b_speed = Global.boss_bullet_properties[Global.difficulty][style]["speed"];
 			for i in attack_properties["waves"]:
 				rng.randomize();
 				var rand_offset = rng.randf_range(-20.0 , 20.0);
