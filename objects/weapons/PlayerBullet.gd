@@ -156,7 +156,7 @@ func _on_Verse_Jump(verse):
 			linear_velocity *= (1-(charge/2));
 		# on entering collage, bullets get faster and can bounce
 		3:
-			linear_velocity *= 1.2;
+			linear_velocity *= 0.8;
 			if (!bouncing):
 				bouncing = true;
 				num_bounces = 2;
@@ -177,7 +177,7 @@ func _on_Verse_Exit(prev_verse, new_verse):
 			for b in bullets:
 				b.damage = damage;
 				b.charge = charge;
-				b.damage *= 0.5;
+				b.damage *= 0.6;
 				b.linear_velocity *= (1-(charge*0.6));
 				if (bouncing): b.num_bounces = num_bounces;
 			queue_free();
@@ -185,7 +185,8 @@ func _on_Verse_Exit(prev_verse, new_verse):
 			# on exiting 2, damage of bullet scales with charge upwards
 			pass;
 		3:
-			# on exiting, can bounce twice if it cant bounce already
+			# on exiting, can bounce twice if it cant bounce already and damage is reduced
+			damage *= 0.7;
 			if (!bouncing):
 				bouncing = true;
 				num_bounces = 2;

@@ -66,10 +66,10 @@ func _process(delta):
 						Global.player.damage(player_damage);
 						hurt_player = false;
 					elif (body.name == "Boss" && hurt_boss):
+						Global.boss.stunned = true;
 						if (duel_portal):
 							# 5 % of boss hp
 							Global.boss.damage(Global.boss.max_hp*0.05);
-							
 							if Global.boss.stun_dur >= 10: 
 								Global.boss.stun_dir = 7.5;
 						else:
@@ -77,7 +77,6 @@ func _process(delta):
 							Global.boss.damage(Global.boss.max_hp*0.025);
 							Global.boss.stun_dur = Global.boss.stun_dur;
 						hurt_boss = false;
-						Global.boss.stunned = true
 						Global.boss.get_node("BrokeSfx").play();
 						Global.camera.shake(0.6, 20, 10);
 						print("boss is stunned!");

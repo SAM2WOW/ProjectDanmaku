@@ -166,7 +166,7 @@ func damage(amount,body = null):
 		t.amount = amount*stun_mult;
 		yield(get_tree().create_timer(0.1), "timeout");
 		# wait 0.1 seconds to see if anymore damage is taken
-		if (t.amount >= 200 || stunned):
+		if (t.amount >= 150 || stunned):
 			t.type = "critical";
 		get_parent().add_child(t)
 		curr_damage_text = null;
