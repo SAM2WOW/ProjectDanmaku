@@ -49,7 +49,6 @@ func _process(delta):
 				chargeShot.get_node("CollisionShape2D").disabled = true
 				chargeShot.init_bullet(shot_pos, dir, style);
 			if (is_instance_valid(chargeShot)):
-				# BUG: CRASH HERE(?)
 				chargeShot.set_global_position(shot_pos);
 				chargeShot.set_bullet_rotation(dir)
 				chargeShot.charge = holdTime / maxHoldTime
@@ -231,7 +230,7 @@ func init_3d_bullets(shot):
 	var bullets = fire_spread(num_bullets, deg, Global.player_bullet_properties[style]["speed"], dir, 0.6, shot.get_global_position());
 	for b in bullets:
 		b.charge = charge;
-		print("print damage: %f charge %f" % [b.damage, charge]);
+		# print("print damage: %f charge %f" % [b.damage, charge]);
 	
 	
 func init_collage_bullets(shot):

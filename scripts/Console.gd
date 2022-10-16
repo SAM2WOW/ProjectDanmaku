@@ -2,7 +2,7 @@ extends Node
 
 
 var max_boss_health = 10000.0;
-var boss_health =  max_boss_health;
+var boss_health = max_boss_health;
 var portal
 var play_time = 0.0
 var gameover = false
@@ -60,6 +60,13 @@ func _process(delta):
 func boss_dead():
 	$"../CanvasLayer/Control/Gameover/CenterContainer/VBoxContainer/Time".set_text("Time: %.2fs" % play_time)
 	$"../CanvasLayer/Control/Gameover".show()
+	Global.player.health = 10000;
+	Global.boss.dead = true;
+	Global.boss.finish_attack();
+	gameover = true
+	Global.player.set_process(false)
+	# Global.boss.set_process(false)
+	# Global.boss.set_physics_process(false)
 
 
 func player_dead():
@@ -80,11 +87,6 @@ func damage_boss(amount):
 		
 		if boss_health <= 0:
 			boss_dead()
-			Global.player.health = 10000
-			gameover = true
-			Global.player.set_process(false)
-			Global.boss.set_process(false)
-			Global.boss.set_physics_process(false)
 
 
 func play_shockwave(orgin, delay = 0):

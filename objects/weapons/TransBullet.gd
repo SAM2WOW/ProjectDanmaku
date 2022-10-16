@@ -4,16 +4,21 @@ var style = 0;
 var dir = Vector2();
 
 # for detonation bullets
-var health = 18
+var max_health = 25;
+var health = max_health;
 var moving = true
 var damage = 50
-var max_speed = 1000
-var speed = 1000
+var max_speed = 750;
+var speed = max_speed;
 
-var base_growth_rate = 0.01
-var max_scale = 2.4
-var max_scale_plus = 2.8
+var initial_shield = true;
+
+var default_growth_rate = 0.01;
+var base_growth_rate = default_growth_rate;
+var max_scale = 3.0 # was 2.4
+var max_scale_plus = 3.4 # was 2.8
 var damage_multiplier = 0.1
+var explosion_time = 8.0;
 
 var portal = preload("res://objects/system/portal.tscn")
 var dead = false
@@ -21,6 +26,9 @@ var hit = false
 var hurt_player = false;
 var hurt_boss = false;
 var next_scale = Vector2(0,0)
+var init_scale = Vector2(1.0, 1.0);
+var init_duel_scale = Vector2(2.2, 2.2);
+var explode_scale = Vector2(1.0, 1.0);
 
 var growth_rate = 1
 var start_protect = false
@@ -38,11 +46,14 @@ func init_bullet():
 
 	if is_instance_valid(Global.player):
 		$area.look_at(Global.player.get_global_position())
-	set_linear_velocity(Vector2(800,100-randi() % 200).rotated($area.get_global_rotation()))
+	
+	$area.set_scale(init_scale);
+	set_linear_velocity(Vector2(max_speed,100-randi() % 200).rotated($area.get_global_rotation()))
 	self.connect("tree_exited", self, "boss_transState_cleanup")
 	
 func init_tutorial_bullet():
 	end_arrow()
+	$ExplosionTimer.stop();
 	dead = false
 	start_protect = true
 	hurt_player = false;
@@ -52,6 +63,7 @@ func init_tutorial_bullet():
 	
 func init_duel_bullet():
 	end_arrow()
+	initial_shield = false;
 	dead = false
 	start_protect = true
 
@@ -60,7 +72,7 @@ func init_duel_bullet():
 	max_scale = 4
 	max_scale_plus = 4.2
 	damage_multiplier = 0.1
-	$area.set_scale(Vector2(2.2,2.2))
+	$area.set_scale(init_duel_scale)
 	set_linear_velocity(Vector2(500,100-randi() % 200).rotated($area.get_global_rotation()))
 	
 	start_protect = true
@@ -136,7 +148,8 @@ func self_destroy():
 	tween.tween_property($area, "scale", Vector2(0, 0), 0.2)
 	if style != Global.current_style:
 		spawn_portal()
-	Global.boss.transbullet_state = false
+	if (is_instance_valid(Global.boss)):
+		Global.boss.transbullet_state = false 
 	tween.tween_callback(self, "queue_free")
 
 func spawn_portal():
@@ -230,7 +243,9 @@ func verse_jump_explode():
 func _physics_process(delta):
 	if not dead:
 		if not hit:
+			# increase the area scale at a decellerating rate based on its current state
 			$area.scale = lerp($area.scale, Vector2(max_scale_plus,max_scale_plus),base_growth_rate * growth_rate)
+			# if over max scale, blow up
 			if $area.scale.x > max_scale:
 				self_destroy()
 				if duel_mode:
@@ -242,10 +257,11 @@ func _on_Verse_Jump(style):
 	if style == self.style:
 		queue_free()
 
+# play hit animations / sfx
 func _on_hit(damage):
 	if not hit:
-		
 		hit = true
+		
 		var damageTween = create_tween().set_trans(Tween.TRANS_CUBIC)
 		damageTween.tween_property($area/Node2D, "scale", Vector2(1.3,1.3), 0.08)
 		damageTween.parallel().tween_property($area/Node2D, "modulate", Color("ffafaf"), 0.08)
@@ -253,7 +269,6 @@ func _on_hit(damage):
 		damageTween.set_ease(Tween.EASE_OUT)
 		damageTween.tween_property($area/Node2D, "scale", Vector2(1.0,1.0), 0.08)
 		damageTween.parallel().tween_property($area/Node2D, "modulate", Color("ffffff"), 0.08)
-	
 		yield(damageTween,"finished")
 		if damage == 0:
 			$HitSound.pitch_scale = 2.5
@@ -267,28 +282,45 @@ func _on_hit(damage):
 
 func damage(damage):
 	if start_protect and not dead:
+		print("bullet takes %d damage" % damage);
+		# damage: if damage is 50, is set to 5 damage; 0.1 multiplier
+		var min_dmg = 0.8;
+		var max_dmg = 2.0;
 		damage = damage * damage_multiplier
-		base_growth_rate = 0.01
+		
+		if (initial_shield):
+			min_dmg = 0.5;
+			damage *= 0.1;
+		base_growth_rate = default_growth_rate;
 		health -= damage
+		# if health is high, max damage is 2
 		if health > 6:
 			if damage > 2:
-				damage = 2
-		if damage > 3:
-			damage = 3
-		elif damage < 1:
-			damage = 0.8
+				damage = 2;
+				
+		# max damage is 3
+		if damage > max_dmg:
+			damage = max_dmg;
+		# min damage is 0.8
+		elif damage < min_dmg:
+			damage = min_dmg;
 		$Timer.start()
 		#print('trans damage%d' % damage)
 		_on_hit(damage)
+		
+		# actually setting scale based on damage
 		if $area.scale.x > 0.7:
+			# ths scale dec rate
 			$area.scale -= Vector2(0.125,0.125) * damage
 		
 		
 		if health <= 0:
 			growth_rate = 0.5
+			# growth rate is slower if duel bullet
 			if duel_mode:
 				growth_rate = 0.2
-		if $area.scale.x < 1 and start_protect:
+		# if the scale is set small enough
+		if $area.scale.x < explode_scale.x and start_protect:
 			if tutorial_mode:
 				bad_verse_jump_init()
 			else:
@@ -342,3 +374,13 @@ func _on_DetectionArea_body_entered(body):
 			if body != Global.player and "Player" in body.name:
 				body._on_destroy()
 				_on_hit(0)
+
+
+func _on_ExplosionTimer_timeout():
+	self_destroy()
+	if duel_mode:
+		bad_verse_jump_init()
+
+
+func _on_InitialShieldTimer_timeout():
+	initial_shield = false;

@@ -8,6 +8,7 @@ var attack_pattern = 0;
 var fire_rate = 1;
 var rng = RandomNumberGenerator.new();
 var enraged = false;
+var dead = false;
 var hp = 10000.0;
 
 # movement
@@ -41,11 +42,12 @@ var stun_timer = 0.0;
 var stun_dur = 3.0;
 
 var basic_bullet = preload("res://objects/weapons/BasicBullet.tscn")
-
+var damage_text = preload("res://objects/system/DamageText.tscn")
 var laserInd = preload("res://objects/weapons/LaserIndicator.tscn")
 var laserBeam = preload("res://objects/weapons/LaserBeam.tscn")
 
 var attack_properties;
+var curr_damage_text;
 
 
 func _ready():
@@ -58,50 +60,62 @@ func _ready():
 
 func _process(delta):
 	hp = Global.console.boss_health;
+	var sprite = get_node("Style%d/AnimatedSprite"%style);
+	if (dead && is_instance_valid(sprite)):
+		modulate = Color("#8a8a8a");
+		sprite.stop();
 	if (hp <= Global.console.max_boss_health*0.5 && !enraged):
-		print("enraged!");
-		movement_interval *= 0.7;
-		transbullet_max_cd -= 1;
-		base_speed = 300;
-		enraged = true;
-		attack_interval *= 0.7;
-		max_missed_bullets -= 1;
-		for s in  Global.boss_patterns:
-			for p in Global.boss_patterns[s]:
-				Global.boss_patterns[s][p]["waves"] += 1;
-				Global.boss_patterns[s][p]["interval"] *= 0.8;
+		enrage_boss();
 		
 	if stunned:
-		var sprite = get_node("Style%d/AnimatedSprite"%style);
-		if (is_instance_valid(sprite) && Global.new_style == Global.current_style):
-			sprite.stop();
-		modulate = Color("#8a8a8a");
-		stun_timer += delta;
-		$FireTimer.stop();
-		$MovementTimer.stop();
-		moving = false;
-		if (stun_timer >= stun_dur):
-			if (is_instance_valid(sprite)):
-				sprite.play();
-			modulate = Color("ffffff");
-			stunned = false;
-			print("no longer stunned")
-			start_move_to_random_pos();
-			rng.randomize();
-			attack_pattern = rng.randi()%2;
-			$FireTimer.start(attack_interval);
-			stun_timer = 0.0;
+		update_stun(delta);
 	
 func _physics_process(delta):
-	if moving:
+	if moving && !dead:
 		if (move_to_center):
 			move_to_center();
 		else:
 			move_to_random_pos();
 
+func enrage_boss():
+	print("enraged!");
+	movement_interval *= 0.7;
+	transbullet_max_cd -= 1;
+	base_speed = 300;
+	enraged = true;
+	attack_interval *= 0.7;
+	max_missed_bullets -= 1;
+	for s in  Global.boss_patterns:
+		for p in Global.boss_patterns[s]:
+			Global.boss_patterns[s][p]["waves"] += 1;
+			Global.boss_patterns[s][p]["interval"] *= 0.8;
+
+func update_stun(delta):
+	var sprite = get_node("Style%d/AnimatedSprite"%style);
+	if (is_instance_valid(sprite) && Global.new_style == Global.current_style):
+		sprite.stop();
+	modulate = Color("#8a8a8a");
+	stun_timer += delta;
+	$FireTimer.stop();
+	$MovementTimer.stop();
+	moving = false;
+	if (stun_timer >= stun_dur):
+		if (is_instance_valid(sprite)):
+			sprite.play();
+		modulate = Color("ffffff");
+		stunned = false;
+		print("no longer stunned")
+		start_move_to_random_pos();
+		rng.randomize();
+		attack_pattern = rng.randi()%2;
+		$FireTimer.start(attack_interval);
+		stun_timer = 0.0;
+
 func damage(amount,body = null):
 	# print("Boss have been damaged %d" % amount)
-	Global.console.damage_boss(amount)
+	var stun_mult = 1.0;
+	if (stunned): stun_mult = 1.5;
+	Global.console.damage_boss(amount*stun_mult)
 	
 	# effects
 	var tween1 = create_tween().set_trans(Tween.TRANS_CUBIC)
@@ -116,9 +130,22 @@ func damage(amount,body = null):
 	var tween = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	tween.tween_property(get_node("Style%d" % style), "scale", Vector2(1, 1), 0.2)
 	
-	# Global.camera.shake(0.2, 10, 10);
-	
 	get_node("Style%d/HitSound" % style).play()
+	
+	# Global.camera.shake(0.2, 10, 10);
+	if not is_instance_valid(curr_damage_text):
+		var t = damage_text.instance();
+		curr_damage_text = t;
+		t.set_global_position(get_global_position());
+		t.amount = amount*stun_mult;
+		yield(get_tree().create_timer(0.1), "timeout");
+		# wait 0.1 seconds to see if anymore damage is taken
+		if (t.amount >= 200 || stunned):
+			t.type = "critical";
+		get_parent().add_child(t)
+		curr_damage_text = null;
+	else:
+		curr_damage_text.amount += amount*stun_mult;
 
 func _on_Verse_Jump(verse):
 	if ($MovementTimer.is_stopped()):

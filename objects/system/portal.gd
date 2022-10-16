@@ -7,6 +7,7 @@ var dying = false
 var hurt_player = false;
 var hurt_boss = false;
 var duel_portal = false;
+var portal_scale = Vector2(1.85, 1.85);
 
 var smallparticle = preload("res://objects/VFX/small.tscn")
 
@@ -25,7 +26,7 @@ func _ready():
 	connect("tree_exiting", self, "global_cleanup")
 	if not exploding:
 		var tween = create_tween().set_trans(Tween.TRANS_ELASTIC)
-		tween.tween_property(self, "scale", Vector2(1, 1), 1)
+		tween.tween_property(self, "scale", portal_scale, 1)
 		
 		# $SpawnSound.play()
 		
@@ -65,7 +66,7 @@ func _process(delta):
 						hurt_player = false;
 					elif (body.name == "Boss" && hurt_boss):
 						if (duel_portal):
-							Global.boss.damage(500);
+							Global.boss.damage(300);
 							Global.boss.stun_dur = 4.0;
 						else:
 							Global.boss.damage(200);

@@ -135,7 +135,7 @@ playing = true
 light_mask = 0
 scale = Vector2( 0.657676, 0.657676 )
 frames = SubResource( 20 )
-frame = 8
+frame = 2
 playing = true
 
 [node name="Style3" type="Node2D" parent="."]
@@ -171,5 +171,11 @@ scale_amount_curve = SubResource( 6 )
 color = Color( 1, 1, 1, 0.415686 )
 color_ramp = SubResource( 7 )
 
+[node name="DespawnTimer" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
+autostart = true
+
 [connection signal="body_entered" from="." to="." method="_on_PlayerBullet_body_entered"]
 [connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
+[connection signal="timeout" from="DespawnTimer" to="." method="_on_DespawnTimer_timeout"]

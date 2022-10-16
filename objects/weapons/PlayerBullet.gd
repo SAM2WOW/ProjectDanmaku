@@ -151,7 +151,7 @@ func _on_Verse_Jump(verse):
 		2:
 			# if uncharged on entering, gets a charge of 0.5
 			if (charge <= 0.0): charge += 0.2;
-			charge += 0.3;
+			charge += 0.5;
 			if (charge > 1.0): charge = 1.0
 			linear_velocity *= (1-(charge/2));
 		# on entering collage, bullets get faster and can bounce
@@ -169,7 +169,7 @@ func _on_Verse_Exit(prev_verse, new_verse):
 	match prev_verse:
 		# on exiting minimal, bullets go faster but a lot weaker
 		0:
-			damage *= 0.7;
+			damage *= 0.6;
 			linear_velocity *= 1.2;
 		# on exiting pixel, bullet splits into 3
 		1:
@@ -211,7 +211,10 @@ func _physics_process(delta):
 	curr_vel = sqrt(pow(linear_velocity.x,2)+pow(linear_velocity.y,2));
 	# dir = Vector2.UP.rotated(get_rotation());
 	dir = linear_velocity.normalized();
-
+	# minimum speed
+	var min_speed = 100;
+	if (curr_vel < min_speed):
+		set_linear_velocity(min_speed*dir);
 	if (charge > 0.0):
 		scale = Vector2(1+charge, 1+charge);
 	if (detonate_at_pos):
@@ -229,3 +232,8 @@ func _physics_process(delta):
 			queue_free();
 	if (bouncing && num_bounces > 0):
 		bounce_bullet();
+
+
+func _on_DespawnTimer_timeout():
+	dying = true
+	queue_free();

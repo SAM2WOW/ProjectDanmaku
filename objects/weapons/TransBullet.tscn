@@ -253,6 +253,18 @@ ptch_high = 1.182
 volume_low = -3.0
 volume_high = 3.0
 
+[node name="ExplosionTimer" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
+autostart = true
+
+[node name="InitialShieldTimer" type="Timer" parent="."]
+wait_time = 2.5
+one_shot = true
+autostart = true
+
 [connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
 [connection signal="body_entered" from="area/DetectionArea" to="." method="_on_DetectionArea_body_entered"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
+[connection signal="timeout" from="ExplosionTimer" to="." method="_on_ExplosionTimer_timeout"]
+[connection signal="timeout" from="InitialShieldTimer" to="." method="_on_InitialShieldTimer_timeout"]
