@@ -177,7 +177,7 @@ func _on_Verse_Exit(prev_verse, new_verse):
 			for b in bullets:
 				b.damage = damage;
 				b.charge = charge;
-				b.damage *= 0.6;
+				b.damage *= 0.8;
 				b.linear_velocity *= (1-(charge*0.6));
 				if (bouncing): b.num_bounces = num_bounces;
 			queue_free();

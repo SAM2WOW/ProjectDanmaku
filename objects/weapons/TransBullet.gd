@@ -283,7 +283,7 @@ func _on_hit(damage):
 
 func damage(damage):
 	if start_protect and not dead:
-		print("bullet takes %d damage" % damage);
+		# print("bullet takes %d damage" % damage);
 		# damage: if damage is 50, is set to 5 damage; 0.1 multiplier
 		var min_dmg = 0.8;
 		var max_dmg = 2.0;
@@ -358,7 +358,6 @@ func _on_DetectionArea_body_entered(body):
 				dead = true
 				delayed_destroy()
 		elif "Player" in body.name:
-			print("does this even ever happen")
 			if start_protect:
 				var p = smallparticle.instance()
 				p.set_global_position(body.get_global_position())
