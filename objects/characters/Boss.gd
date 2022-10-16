@@ -105,10 +105,10 @@ func enrage_boss():
 	enraged = true;
 	attack_interval *= 0.7;
 	max_missed_bullets -= 1;
-	for style in Global.boss_patterns[Global.difficulty]:
-		for pattern in Global.boss_patterns[Global.difficulty][style]:
-			Global.boss_patterns[Global.difficulty][style]["waves"] += 1;
-			Global.boss_patterns[Global.difficulty][style]["interval"] *= 0.8;
+	for s in Global.boss_patterns[Global.difficulty]:
+		for p in Global.boss_patterns[Global.difficulty][style]:
+			Global.boss_patterns[Global.difficulty][s][p]["waves"] += 1;
+			Global.boss_patterns[Global.difficulty][s][p]["interval"] *= 0.8;
 
 func update_stun(delta):
 	var sprite = get_node("Style%d/AnimatedSprite"%style);
@@ -354,6 +354,8 @@ func init_pixel_bullets():
 					finish_attack();
 					return;
 				var fire_pos = Global.player.get_global_position()
+				rng.randomize();
+				fire_pos = Vector2(fire_pos.x*rng.randf_range(0.6, 1.6), fire_pos.y*rng.randf_range(0.6, 1.6));
 				var b = fire_at(fire_pos, b_speed);
 				b.set_detonate(fire_pos);
 				yield(get_tree().create_timer(attack_properties["interval"]), "timeout");

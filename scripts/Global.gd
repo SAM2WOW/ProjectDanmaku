@@ -49,20 +49,20 @@ var player_stats = {
 
 var boss_stats = {
 	0: {
-		"hp": 7000.0,
+		"hp": 8000.0,
 		"speed": 150,
-		"movement interval": 10.0,
-		"attack interval": 3.0,
-		"trans bullet cd": 3,
+		"movement interval": 8.0,
+		"attack interval": 2.0,
+		"trans bullet cd": 2,
 		"missed bullet cd": 5,
-		"stun duration": 6,
+		"stun duration": 5,
 		"transbullet damage": 20,
 		"transbullet explosion damage": 20
 	},
 	1: {
 		"hp": 10000.0,
 		"speed": 150,
-		"movement interval": 8.0,
+		"movement interval": 7.0,
 		"attack interval": 1.0,
 		"trans bullet cd": 3,
 		"missed bullet cd": 3,
@@ -86,7 +86,7 @@ var boss_stats = {
 
 var boss_bullet_properties = {
 	0: {
-		0: {"damage": 10, "speed": 200},
+		0: {"damage": 10, "speed": 250},
 		1: {"damage": 20, "speed": 750},
 		2: {"damage": 15, "speed": 300},
 		3: {"damage": 5, "speed": 200}
@@ -101,7 +101,7 @@ var boss_bullet_properties = {
 		0: {"damage": 40, "speed": 500},
 		1: {"damage": 50, "speed": 1250},
 		2: {"damage": 50, "speed": 300},
-		3: {"damage": 20, "speed": 400}
+		3: {"damage": 20, "speed": 350}
 	}
 }
 
@@ -157,7 +157,7 @@ var boss_patterns = {
 		},
 		3: {
 			0: {"waves": 4, "interval": 0.5},
-			1: {"waves": 3, "interval": 0.2}
+			1: {"waves": 2, "interval": 0.2}
 		}
 	}
 }

@@ -69,7 +69,9 @@ func _process(delta):
 						if (duel_portal):
 							# 5 % of boss hp
 							Global.boss.damage(Global.boss.max_hp*0.05);
-							Global.boss.stun_dur = Global.boss.stun_dur*2;
+							
+							if Global.boss.stun_dur >= 10: 
+								Global.boss.stun_dir = 7.5;
 						else:
 							# 2.5 % of boss hp
 							Global.boss.damage(Global.boss.max_hp*0.025);

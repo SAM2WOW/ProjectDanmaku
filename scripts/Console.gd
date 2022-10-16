@@ -167,7 +167,7 @@ func start_game(_difficulty):
 	tween.parallel().tween_property($"../CanvasLayer/Control/Tutorial", "modulate", Color("00ffffff"), 0.4)
 	tween.parallel().tween_property($"../CanvasLayer/Control/Difficulties", "modulate", Color("00ffffff"), 0.4)
 	tween.parallel().tween_property($"../CanvasLayer/Control/HealthBar", "modulate", Color.white, 0.4)
-	tween.tween_property($"../CanvasLayer/Control/HealthBar", "rect_size", Vector2($"../CanvasLayer/Control/HealthBar".get_size().x, 14), 0.5)
+	tween.tween_property($"../CanvasLayer/Control/HealthBar", "rect_size", Vector2($"../CanvasLayer/Control/HealthBar".get_size().x, 30), 0.5)
 	
 	MusicPlayer.play_music()
 	MusicPlayer.fade_in()
