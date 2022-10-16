@@ -173,7 +173,7 @@ func _on_Verse_Exit(prev_verse, new_verse):
 			linear_velocity *= 1.2;
 		# on exiting pixel, bullet splits into 3
 		1:
-			var bullets = Global.player.fire_spread(3, 15, curr_vel, dir, 1, get_global_position(), new_verse);
+			var bullets = Global.player.fire_spread(3, 7.5, curr_vel, dir, 1, get_global_position(), new_verse);
 			for b in bullets:
 				b.damage = damage;
 				b.charge = charge;

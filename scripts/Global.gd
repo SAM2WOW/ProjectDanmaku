@@ -26,8 +26,8 @@ var window_height = ProjectSettings.get_setting("display/window/size/height");
 var player_bullet_properties = {
 	0: {"damage":15, "fire rate":0.25, "speed":900},
 	1: {"damage":50, "fire rate":0.5, "speed":1750},
-	2: {"damage":40, "fire rate":0.6, "speed":1500},
-	3: {"damage":15, "fire rate":0.4, "speed":1000}
+	2: {"damage":50, "fire rate":0.6, "speed":1500},
+	3: {"damage":20, "fire rate":0.4, "speed":1000}
 }
 var player_stats = {
 	0: {

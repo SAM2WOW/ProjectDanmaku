@@ -4,7 +4,7 @@ var style = 0;
 var dir = Vector2();
 
 # for detonation bullets
-var max_health = 25;
+var max_health = 18;
 var health = max_health;
 var moving = true
 var damage = Global.boss_stats[Global.difficulty]["transbullet damage"]
@@ -17,6 +17,7 @@ var initial_shield = true;
 
 var default_growth_rate = 0.01;
 var base_growth_rate = default_growth_rate;
+
 var max_scale = 3.0 # was 2.4
 var max_scale_plus = 3.4 # was 2.8
 var damage_multiplier = 0.1
