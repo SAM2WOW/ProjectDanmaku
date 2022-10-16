@@ -289,9 +289,6 @@ func _on_FireTimer_timeout():
 
 func fire_bullets():
 	attack_properties = Global.boss_patterns[Global.difficulty][style][attack_pattern];
-	if enraged:
-		attack_properties["waves"] += 1;
-		attack_properties["interval"] *= 0.8;
 		
 	match style:
 		0:
