@@ -141,7 +141,7 @@ func end_arrow():
 	
 func self_destroy():
 	if duel_mode:
-		verse_jump_init()
+		bad_verse_jump_init()
 		return
 
 	var tween = create_tween().set_trans(Tween.TRANS_BACK)
@@ -354,9 +354,8 @@ func _on_DetectionArea_body_entered(body):
 				if duel_mode:
 					bad_verse_jump_init()
 					return
-				#self_destroy()
-				delayed_destroy()
 				dead = true
+				delayed_destroy()
 		elif "Player" in body.name:
 			if start_protect:
 				var p = smallparticle.instance()
