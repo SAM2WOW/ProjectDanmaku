@@ -1,7 +1,6 @@
-[gd_scene load_steps=53 format=2]
+[gd_scene load_steps=52 format=2]
 
 [ext_resource path="res://objects/characters/Boss.gd" type="Script" id=1]
-[ext_resource path="res://arts/collage/Collage_Boss.png" type="Texture" id=2]
 [ext_resource path="res://arts/pixelArt/pixel_angel_boss.png" type="Texture" id=3]
 [ext_resource path="res://arts/abstrastArt/boss.png" type="Texture" id=4]
 [ext_resource path="res://sounds/pixel_sfx/pixel_enemy_bullet_fire.wav" type="AudioStream" id=5]
@@ -132,7 +131,7 @@ region = Rect2( 5000, 0, 500, 500 )
 animations = [ {
 "frames": [ SubResource( 68 ), SubResource( 69 ), SubResource( 70 ), SubResource( 71 ), SubResource( 72 ), SubResource( 73 ), SubResource( 74 ), SubResource( 75 ), SubResource( 76 ), SubResource( 77 ), SubResource( 78 ) ],
 "loop": true,
-"name": "New Anim",
+"name": "default",
 "speed": 12.0
 } ]
 
@@ -191,7 +190,7 @@ animations = [ {
 
 [sub_resource type="AtlasTexture" id=88]
 flags = 4
-atlas = ExtResource( 2 )
+atlas = ExtResource( 12 )
 region = Rect2( 1262.86, 20.0132, 603.37, 497.116 )
 
 [sub_resource type="CircleShape2D" id=6]
@@ -263,7 +262,7 @@ volume_low = -6.0
 position = Vector2( 1, -2 )
 scale = Vector2( 4, 4 )
 frames = SubResource( 40 )
-frame = 8
+frame = 2
 playing = true
 
 [node name="TransEffect" type="CPUParticles2D" parent="Style1"]
@@ -309,8 +308,7 @@ visible = false
 position = Vector2( -18, -22 )
 scale = Vector2( 0.897591, 0.897591 )
 frames = SubResource( 18 )
-animation = "New Anim"
-frame = 7
+frame = 3
 speed_scale = 0.75
 playing = true
 
@@ -351,6 +349,7 @@ visible = false
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Style3"]
 frames = SubResource( 67 )
+frame = 7
 playing = true
 
 [node name="TransEffect" type="CPUParticles2D" parent="Style3"]
