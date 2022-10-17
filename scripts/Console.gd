@@ -152,14 +152,14 @@ func set_difficulty(_difficulty):
 		for d in difficulty_bullets:
 			if d.difficulty_style != _difficulty:
 				d.dead = true
-				var d_tween = create_tween().set_trans(Tween.TRANS_BACK)
-				d_tween.tween_property(d.get_node("area"), "scale", Vector2(0, 0), 0.2)
+				var d_tween = create_tween().set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN)
+				d_tween.tween_property(d.get_node("area"), "scale", Vector2(0, 0), 0.3)
 				d_tween.tween_callback(d, "queue_free")
 	var dif_track =0
 	for label in $"../CanvasLayer/Control/Difficulties".get_children():
 		if _difficulty != dif_track:
 			var twn = create_tween().set_trans(Tween.TRANS_CUBIC)
-			twn.tween_property(label, "modulate", Color(255,255,255,0), 0.2)
+			twn.tween_property(label, "modulate", Color(255,255,255,0), 0.3)
 			twn.tween_callback(label, "hide")
 		dif_track +=1
 	print("difficulty: ", _difficulty);
