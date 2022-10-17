@@ -130,6 +130,7 @@ func _physics_process(delta):
 	position.y = clamp(position.y, -get_viewport_rect().size.y/2, get_viewport_rect().size.y/2)
 
 func _input(event):
+	return;
 	if event is InputEventKey:
 		var keyPressed = event.scancode
 		if keyPressed in [48,49,50,51]:

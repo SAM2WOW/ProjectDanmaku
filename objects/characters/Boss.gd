@@ -382,31 +382,37 @@ func init_pixel_bullets():
 func init_3d_bullets():
 	match attack_pattern:
 		0:
-			var timeBetweenAttacks = 1.5
+			var timeBetweenAttacks = attack_properties["interval"];
 			var beamDuration = 0.5
 			var maxX = get_viewport().size.x / 2
 			var maxY = get_viewport().size.y / 2
-			var xArr = [0, maxX, -maxX]
-			var yArr = [0, maxY, -maxY]
-			for x in xArr:
-				for y in yArr:
-					# Don't shoot a laser at (0,0)
-					if (x!=0 || y!=0):
-						fireLaser(get_global_position(), Vector2(x,y), false)
-			yield(get_tree().create_timer(timeBetweenAttacks), "timeout")
-			if (prev_style != style):
-				prev_style = style;
-				finish_attack();
-				return;
+			var off = 50;
+			for i in attack_properties["waves"]:
+				rng.randomize();
+				if i%2 == 0:
+					var xArr = [0+(rng.randi_range(-off, off)), maxX+(rng.randi_range(-off, off)), -maxX+(rng.randi_range(-off, off))]
+					var yArr = [0+(rng.randi_range(-off, off)), maxY+(rng.randi_range(-off, off)), -maxY+(rng.randi_range(-off, off))]
+					for x in xArr:
+						for y in yArr:
+							# Don't shoot a laser at (0,0)
+							if (x!=0 || y!=0):
+								fireLaser(get_global_position(), Vector2(x,y), false)
+				else:
+					var xArr2 = [maxX+(rng.randi_range(-off, off)), -maxX+(rng.randi_range(-off, off)), (maxX/2)+(rng.randi_range(-off, off)), (-maxX/2)+(rng.randi_range(-off, off))]
+					var yArr2 = [maxY+(rng.randi_range(-off, off)), -maxY+(rng.randi_range(-off, off)), (maxY/2)+(rng.randi_range(-off, off)), (-maxY/2)+(rng.randi_range(-off, off))]
+					for x2 in xArr2:
+						for y2 in yArr2:
+							if (!(abs(x2) == maxX && abs(y2) == maxY) && !(abs(x2) == maxX/2 && abs(y2) == maxY/2)):
+								fireLaser(get_global_position(), Vector2(x2,y2), false)
+				yield(get_tree().create_timer(timeBetweenAttacks), "timeout")
+				if (prev_style != style):
+					prev_style = style;
+					finish_attack();
+					return;
 			
-			var xArr2 = [maxX, -maxX, maxX / 2, -maxX / 2]
-			var yArr2 = [maxY, -maxY, maxY / 2, -maxY / 2]
-			for x2 in xArr2:
-				for y2 in yArr2:
-					if (!(abs(x2) == maxX && abs(y2) == maxY) && !(abs(x2) == maxX/2 && abs(y2) == maxY/2)):
-						fireLaser(get_global_position(), Vector2(x2,y2), false)
 			yield(get_tree().create_timer(beamDuration), "timeout")
 			finish_attack()
+			return
 		1:
 			for i in range(attack_properties["waves"]):
 				if (!is_instance_valid(Global.boss)): return;

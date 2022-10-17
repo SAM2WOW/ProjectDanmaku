@@ -291,7 +291,7 @@ func damage(damage):
 		damage = damage * damage_multiplier
 		
 		if (initial_shield):
-			min_dmg = 0.5;
+			min_dmg = 0.25;
 			damage *= 0.1;
 		base_growth_rate = default_growth_rate;
 		health -= damage
