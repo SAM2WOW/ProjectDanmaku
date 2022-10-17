@@ -101,6 +101,7 @@ func ready_tutorial_bullet():
 	$arrows.modulate = Color('ffffff')
 	#tween.tween_callback(self, "init_duel_bullet")
 	$area/CPUParticles2D4.one_shot = false
+	damage_multiplier = 0.5
 	tween.tween_interval(0.3)
 	tween.tween_callback(self, "init_tutorial_bullet")
 	
@@ -210,6 +211,7 @@ func bad_verse_jump_init():
 	tween.tween_callback(self, "verse_jump_explode")
 	$AnimationPlayer.play("glich")
 	tween.tween_property($area, "scale", Vector2(0, 0), 0.3)
+	tween.parallel().tween_property($indi, "scale", Vector2(0, 0), 0.3)
 	yield(tween,"finished")
 	if not tutorial_mode:
 		Global.boss.fire_circle(get_global_position().x,get_global_position().y,16)

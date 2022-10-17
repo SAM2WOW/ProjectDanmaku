@@ -183,20 +183,27 @@ func start_game(_difficulty):
 	$"../CanvasLayer/Control/HealthBar".set_value(b.max_hp)
 	Global.in_tutorial = false;
 	b.style = Global.tutorial_style;
-	get_node('../Node2D').add_child(b)
 	b.set_global_position(Vector2(0, -300))
 	
+	#get_node('../Node2D').add_child(b)
 	var tween = create_tween().set_trans(Tween.TRANS_SINE)
-	tween.tween_property($"../Node2D/Background", "modulate", Color.white, 0.7)
+	#tween.tween_property($"../Node2D/Background", "modulate", Color.white, 0.7)
+	tween.tween_interval(0.45)
 	tween.parallel().tween_property($"../CanvasLayer/Control/Tutorial", "modulate", Color("00ffffff"), 0.4)
 	tween.parallel().tween_property($"../CanvasLayer/Control/Difficulties", "modulate", Color("00ffffff"), 0.4)
 	tween.parallel().tween_property($"../CanvasLayer/Control/HealthBar", "modulate", Color.white, 0.4)
+	yield(tween, "finished")
+	get_node('../Node2D').add_child(b)
+	tween = create_tween().set_trans(Tween.TRANS_SINE)
+	tween.tween_interval(0.1)
+	tween.tween_property($"../Node2D/Background", "modulate", Color.white, 0.2)
 	tween.tween_property($"../CanvasLayer/Control/HealthBar", "rect_size", Vector2($"../CanvasLayer/Control/HealthBar".get_size().x, 30), 0.5)
 	
 	MusicPlayer.play_music()
 	MusicPlayer.fade_in()
 	
 	yield(tween, "finished")
+	
 	$"../CanvasLayer/Control/Tutorial".hide()
 	$"../CanvasLayer/Control/Difficulties".hide();
 
