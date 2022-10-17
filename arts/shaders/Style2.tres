@@ -53,7 +53,7 @@ operator = 4
 operator = 4
 
 [sub_resource type="VisualShaderNodeColorConstant" id=33]
-constant = Color( 0.505882, 0.278431, 0.639216, 1 )
+constant = Color( 0.705882, 0.494118, 0.827451, 1 )
 
 [sub_resource type="VisualShaderNodeColorConstant" id=34]
 constant = Color( 0.105886, 0.0741143, 0.138185, 1 )
@@ -207,7 +207,7 @@ void fragment() {
 	vec3 n_out18p0 = n_out30p0 + n_out25p0;
 
 // Color:28
-	vec3 n_out28p0 = vec3(0.505882, 0.278431, 0.639216);
+	vec3 n_out28p0 = vec3(0.705882, 0.494118, 0.827451);
 	float n_out28p1 = 1.000000;
 
 // ColorOp:27
@@ -250,7 +250,7 @@ void light() {
 
 }
 "
-graph_offset = Vector2( -527.355, 96.0076 )
+graph_offset = Vector2( -349.56, 62.2576 )
 mode = 1
 flags/light_only = false
 nodes/fragment/0/position = Vector2( 820, 300 )
