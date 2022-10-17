@@ -165,6 +165,9 @@ func set_difficulty(_difficulty):
 	print("difficulty: ", _difficulty);
 
 func start_game(_difficulty):
+	
+	#function moved to set_difficulty()
+	
 #	Global.difficulty = _difficulty;
 #	if (is_instance_valid(Global.player)):
 #		Global.player.init_difficulty(_difficulty);
