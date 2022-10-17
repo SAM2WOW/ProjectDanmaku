@@ -188,6 +188,8 @@ func bad_verse_jump_init():
 	dead = true
 	if (!tutorial_mode):
 		hurt_player = true;
+	else:
+		Global.console.set_difficulty(difficulty_style)
 	mode = MODE_STATIC
 	$badParticle.set_material(load("res://arts/shaders/Portal%d.tres" % style))
 	$badParticle2.set_material(load("res://arts/shaders/Portal%d.tres" % style))

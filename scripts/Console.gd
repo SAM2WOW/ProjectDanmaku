@@ -143,17 +143,38 @@ func play_shockwave_small(orgin, delay = 0):
 	#yield(tween, "finished")
 	#$"../CanvasLayer/Control/Shockwave".hide()
 
-func start_game(_difficulty):
+#set difficulty is immediatly called when the selection bullet is destroyed
+func set_difficulty(_difficulty):
 	Global.difficulty = _difficulty;
 	if (is_instance_valid(Global.player)):
 		Global.player.init_difficulty(_difficulty);
 	if (Global.in_tutorial):
 		for d in difficulty_bullets:
 			if d.difficulty_style != _difficulty:
+				d.dead = true
 				var d_tween = create_tween().set_trans(Tween.TRANS_BACK)
 				d_tween.tween_property(d.get_node("area"), "scale", Vector2(0, 0), 0.2)
 				d_tween.tween_callback(d, "queue_free")
+	var dif_track =0
+	for label in $"../CanvasLayer/Control/Difficulties".get_children():
+		if _difficulty != dif_track:
+			var twn = create_tween().set_trans(Tween.TRANS_CUBIC)
+			twn.tween_property(label, "modulate", Color(255,255,255,0), 0.2)
+			twn.tween_callback(label, "hide")
+		dif_track +=1
 	print("difficulty: ", _difficulty);
+
+func start_game(_difficulty):
+#	Global.difficulty = _difficulty;
+#	if (is_instance_valid(Global.player)):
+#		Global.player.init_difficulty(_difficulty);
+#	if (Global.in_tutorial):
+#		for d in difficulty_bullets:
+#			if d.difficulty_style != _difficulty:
+#				var d_tween = create_tween().set_trans(Tween.TRANS_BACK)
+#				d_tween.tween_property(d.get_node("area"), "scale", Vector2(0, 0), 0.2)
+#				d_tween.tween_callback(d, "queue_free")
+#	print("difficulty: ", _difficulty);
 	var b = load("res://objects/characters/Boss.tscn").instance()
 	$"../CanvasLayer/Control/HealthBar".set_max(b.max_hp)
 	$"../CanvasLayer/Control/HealthBar".set_value(b.max_hp)
