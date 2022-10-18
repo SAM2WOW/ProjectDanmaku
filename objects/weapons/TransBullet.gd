@@ -4,7 +4,7 @@ var style = 0;
 var dir = Vector2();
 
 # for detonation bullets
-var max_health = 18;
+var max_health = 10;
 var health = max_health;
 var moving = true
 var damage = Global.boss_stats[Global.difficulty]["transbullet damage"]
@@ -33,7 +33,7 @@ var init_scale = Vector2(1.0, 1.0);
 var init_duel_scale = Vector2(2.2, 2.2);
 var explode_scale = Vector2(1.0, 1.0);
 
-var growth_rate = 1
+var growth_rate = 0.75
 var start_protect = false
 
 var dead_damp = 0.15
@@ -321,7 +321,7 @@ func damage(damage):
 		
 		
 		if health <= 0:
-			growth_rate = 0.5
+			growth_rate = 0.4
 			# growth rate is slower if duel bullet
 			if duel_mode:
 				growth_rate = 0.2

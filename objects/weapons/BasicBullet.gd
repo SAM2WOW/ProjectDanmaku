@@ -126,7 +126,7 @@ func _on_Verse_Exit(prev_verse, new_verse):
 		# on leaving collage verse, can bounce once and are slower
 		3:
 			if !bouncing:
-				linear_velocity /= 1.2;
+				linear_velocity *= 0.7;
 				init_collage_bullet();
 		_:
 			pass

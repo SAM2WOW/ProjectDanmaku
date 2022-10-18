@@ -176,7 +176,7 @@ func damage(amount,body = null):
 func _on_Verse_Jump(verse):
 	if ($MovementTimer.is_stopped()):
 		$MovementTimer.start(movement_interval);
-	
+	prev_style = style;
 	style = verse
 	print("BOSS STYLE: %d" % verse)
 	
@@ -405,6 +405,7 @@ func init_3d_bullets():
 							if (!(abs(x2) == maxX && abs(y2) == maxY) && !(abs(x2) == maxX/2 && abs(y2) == maxY/2)):
 								fireLaser(get_global_position(), Vector2(x2,y2), false)
 				yield(get_tree().create_timer(timeBetweenAttacks), "timeout")
+				# if styles changed, finish the attack and update prev style
 				if (prev_style != style):
 					prev_style = style;
 					finish_attack();
