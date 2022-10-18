@@ -82,8 +82,10 @@ func _ready():
 
 
 func _process(delta):
-	if is_instance_valid(Global.boss) && Global.boss.hp > 0:
+	if not gameover and is_instance_valid(Global.boss) && Global.boss.hp > 0:
 		play_time += delta
+		
+		$"../CanvasLayer/Control/Timer".set_text("Time: %.2fs" % play_time)
 
 
 func boss_dead():
@@ -193,6 +195,8 @@ func start_game(_difficulty):
 	tween.parallel().tween_property($"../CanvasLayer/Control/Tutorial", "modulate", Color("00ffffff"), 0.4)
 	tween.parallel().tween_property($"../CanvasLayer/Control/Difficulties", "modulate", Color("00ffffff"), 0.4)
 	tween.parallel().tween_property($"../CanvasLayer/Control/HealthBar", "modulate", Color.white, 0.4)
+	tween.parallel().tween_property($"../CanvasLayer/Control/Timer", "modulate", Color.white, 0.4)
+	
 	yield(tween, "finished")
 	get_node('../Node2D').add_child(b)
 	game_started = true
@@ -200,6 +204,7 @@ func start_game(_difficulty):
 	tween.tween_interval(0.1)
 	tween.tween_property($"../Node2D/Background", "modulate", Color.white, 0.2)
 	tween.tween_property($"../CanvasLayer/Control/HealthBar", "rect_size", Vector2($"../CanvasLayer/Control/HealthBar".get_size().x, 30), 0.5)
+	tween.parallel().tween_property($"../CanvasLayer/Control/HealthBar/Label", "rect_size", Vector2($"../CanvasLayer/Control/HealthBar/Label".get_size().x, 30), 0.5)
 	
 	MusicPlayer.play_music()
 	MusicPlayer.fade_in()
