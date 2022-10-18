@@ -70,9 +70,9 @@ func init_duel_bullet():
 	start_protect = true
 
 	$area.look_at(Global.player.get_global_position())
-	health = 24
+	health = 25
 	max_scale = 4
-	max_scale_plus = 4.2
+	max_scale_plus = 4.8
 	damage_multiplier = 0.1
 	$area.set_scale(init_duel_scale)
 	set_linear_velocity(Vector2(500,100-randi() % 200).rotated($area.get_global_rotation()))
@@ -206,9 +206,9 @@ func bad_verse_jump_init():
 	tween.parallel().tween_property($indi, "scale", Vector2(0.6, 0.6), 0.7)
 	tween.set_trans(Tween.TRANS_CUBIC)
 	tween.tween_property($area, "scale", Vector2(0.8, 0.8), 0.4)
-	tween.set_trans(Tween.TRANS_ELASTIC)
-	tween.set_trans(Tween.TRANS_ELASTIC)
 	tween.tween_callback(self, "verse_jump_explode")
+	#tween = create_tween().set_trans(Tween.TRANS_ELASTIC)
+	tween.set_trans(Tween.TRANS_ELASTIC)
 	$AnimationPlayer.play("glich")
 	tween.tween_property($area, "scale", Vector2(0, 0), 0.3)
 	tween.parallel().tween_property($indi, "scale", Vector2(0, 0), 0.3)
@@ -223,13 +223,14 @@ func verse_jump_explode():
 	if hurt_player == true:
 		if is_instance_valid(Global.boss):
 			Global.boss.fire_circle(get_global_position().x,get_global_position().y)
+	
 	$badParticle.set_emitting(false)
-	if tutorial_mode:
-		Global.console.start_game(difficulty_style)
 	var p = portal.instance();
 	#p.get_node("AnimatedSprite").play();
 	p.exploding = true
 	p.style = style
+	if tutorial_mode:
+		p.style = 1
 	if (hurt_player): 
 		p.hurt_player = true;
 	elif (hurt_boss):
@@ -237,12 +238,15 @@ func verse_jump_explode():
 			p.duel_portal = true;
 		p.hurt_boss = true;
 		#Global.boss.stunned = true
-	get_parent().add_child(p);
 	p.set_global_position(get_global_position());
+	get_parent().add_child(p);
+	#print('spawning portal')
 	p.exploding = true
 	if is_instance_valid(Global.boss):
 		Global.boss.transbullet_state = false
 		
+	if tutorial_mode:
+		Global.console.start_game(difficulty_style)
 	#print(p.get_global_transform_with_canvas().origin)
 	Global.console.play_shockwave(get_global_transform_with_canvas().origin)
 	
@@ -278,7 +282,7 @@ func _on_hit(damage):
 		yield(damageTween,"finished")
 		if damage == 0:
 			$HitSound.pitch_scale = 2.5
-		if health > 0:
+		if initial_shield:
 			$HitSound.pitch_scale *= 1.1
 		$HitSound.play()
 		hit = false
@@ -356,7 +360,7 @@ func _on_DetectionArea_body_entered(body):
 	if not dead:
 		if body == Global.player:
 			if not tutorial_mode:
-				body.damage(damage)
+				body.damage(20)
 				if duel_mode:
 					bad_verse_jump_init()
 					return
