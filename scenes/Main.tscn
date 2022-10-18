@@ -288,37 +288,39 @@ margin_right = 1000.0
 margin_bottom = 587.0
 
 [node name="Easy" type="Label" parent="CanvasLayer/Control/Difficulties"]
-margin_left = -651.0
+margin_left = -649.0
 margin_top = -134.0
-margin_right = -555.0
+margin_right = -553.0
 margin_bottom = -74.0
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_fonts/font = SubResource( 9 )
 text = "Easy"
+align = 1
 
 [node name="Tween" type="Tween" parent="CanvasLayer/Control/Difficulties/Easy"]
 
 [node name="Medium" type="Label" parent="CanvasLayer/Control/Difficulties"]
-margin_left = -63.0
+margin_left = -84.0
 margin_top = -134.0
-margin_right = 109.0
+margin_right = 88.0
 margin_bottom = -11.0
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_fonts/font = SubResource( 9 )
-text = "Medium
-"
+text = "Normal"
+align = 1
 
 [node name="Tween" type="Tween" parent="CanvasLayer/Control/Difficulties/Medium"]
 
 [node name="Hard" type="Label" parent="CanvasLayer/Control/Difficulties"]
-margin_left = 551.0
+margin_left = 522.0
 margin_top = -137.0
-margin_right = 652.0
+margin_right = 674.0
 margin_bottom = -14.0
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_fonts/font = SubResource( 9 )
-text = "Hard
+text = "Lunatic
 "
+align = 1
 
 [node name="Tween" type="Tween" parent="CanvasLayer/Control/Difficulties/Hard"]
 
