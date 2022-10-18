@@ -53,8 +53,8 @@ var boss_stats = {
 		"speed": 150,
 		"movement interval": 8.0,
 		"attack interval": 2.0,
-		"trans bullet cd": 2,
-		"missed bullet cd": 5,
+		"trans bullet cd": 3,
+		"missed bullet cd": 3,
 		"stun duration": 5,
 		"transbullet damage": 20,
 		"transbullet explosion damage": 20
