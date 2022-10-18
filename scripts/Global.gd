@@ -33,7 +33,7 @@ var player_stats = {
 	0: {
 		"hp": 100.0,
 		"move speed": 400.0,
-		"hp regen": 5
+		"hp regen": 3
 	},
 	1: {
 		"hp": 100.0,
@@ -49,7 +49,7 @@ var player_stats = {
 
 var boss_stats = {
 	0: {
-		"hp": 8000.0,
+		"hp": 8500.0,
 		"speed": 150,
 		"movement interval": 8.0,
 		"attack interval": 2.0,
@@ -60,7 +60,7 @@ var boss_stats = {
 		"transbullet explosion damage": 20
 	},
 	1: {
-		"hp": 10000.0,
+		"hp": 12500.0,
 		"speed": 150,
 		"movement interval": 7.0,
 		"attack interval": 1.0,
@@ -116,7 +116,7 @@ var boss_patterns = {
 			1: {"waves": 6, "interval": 0.2}
 		},
 		2: {
-			0: {"waves": 2, "interval": 3.0},
+			0: {"waves": 2, "interval": 2.2},
 			1: {"waves": 4, "interval": 0.8}
 		},
 		3: {
@@ -134,8 +134,8 @@ var boss_patterns = {
 			1: {"waves": 8, "interval": 0.1}
 		},
 		2: {
-			0: {"waves": 2, "interval": 1.5},
-			1: {"waves": 6, "interval": 0.5}
+			0: {"waves": 3, "interval": 1.5},
+			1: {"waves": 6, "interval": 0.35}
 		},
 		3: {
 			0: {"waves": 3, "interval": 0.6},
@@ -152,7 +152,7 @@ var boss_patterns = {
 			1: {"waves": 12, "interval": 0.1}
 		},
 		2: {
-			0: {"waves": 5, "interval": 0.75},
+			0: {"waves": 5, "interval": 0.85},
 			1: {"waves": 10, "interval": 0.2}
 		},
 		3: {

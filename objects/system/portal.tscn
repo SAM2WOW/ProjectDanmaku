@@ -31,7 +31,7 @@ shape = SubResource( 14 )
 
 [node name="Sprite" type="Sprite" parent="."]
 material = ExtResource( 3 )
-scale = Vector2( 3.83188, 3.83188 )
+scale = Vector2( 3.68701, 3.68701 )
 z_index = -300
 z_as_relative = false
 texture = ExtResource( 2 )
@@ -39,11 +39,10 @@ texture = ExtResource( 2 )
 [node name="CPUParticles2D" type="CPUParticles2D" parent="Sprite"]
 visible = false
 material = ExtResource( 8 )
-position = Vector2( -59.5008, -58.196 )
-scale = Vector2( 0.942177, 0.942177 )
+position = Vector2( -64, -64 )
 z_index = -300
 z_as_relative = false
-amount = 75
+amount = 80
 local_coords = false
 texture = ExtResource( 5 )
 emission_shape = 3

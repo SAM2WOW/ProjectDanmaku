@@ -101,6 +101,7 @@ func ready_tutorial_bullet():
 	$arrows.modulate = Color('ffffff')
 	#tween.tween_callback(self, "init_duel_bullet")
 	$area/CPUParticles2D4.one_shot = false
+	damage_multiplier = 0.5
 	tween.tween_interval(0.3)
 	tween.tween_callback(self, "init_tutorial_bullet")
 	
@@ -188,6 +189,8 @@ func bad_verse_jump_init():
 	dead = true
 	if (!tutorial_mode):
 		hurt_player = true;
+	else:
+		Global.console.set_difficulty(difficulty_style)
 	mode = MODE_STATIC
 	$badParticle.set_material(load("res://arts/shaders/Portal%d.tres" % style))
 	$badParticle2.set_material(load("res://arts/shaders/Portal%d.tres" % style))
@@ -208,6 +211,7 @@ func bad_verse_jump_init():
 	tween.tween_callback(self, "verse_jump_explode")
 	$AnimationPlayer.play("glich")
 	tween.tween_property($area, "scale", Vector2(0, 0), 0.3)
+	tween.parallel().tween_property($indi, "scale", Vector2(0, 0), 0.3)
 	yield(tween,"finished")
 	if not tutorial_mode:
 		Global.boss.fire_circle(get_global_position().x,get_global_position().y,16)
@@ -291,7 +295,7 @@ func damage(damage):
 		damage = damage * damage_multiplier
 		
 		if (initial_shield):
-			min_dmg = 0.5;
+			min_dmg = 0.25;
 			damage *= 0.1;
 		base_growth_rate = default_growth_rate;
 		health -= damage

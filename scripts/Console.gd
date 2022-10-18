@@ -143,36 +143,67 @@ func play_shockwave_small(orgin, delay = 0):
 	#yield(tween, "finished")
 	#$"../CanvasLayer/Control/Shockwave".hide()
 
-func start_game(_difficulty):
+#set difficulty is immediatly called when the selection bullet is destroyed
+func set_difficulty(_difficulty):
 	Global.difficulty = _difficulty;
 	if (is_instance_valid(Global.player)):
 		Global.player.init_difficulty(_difficulty);
 	if (Global.in_tutorial):
 		for d in difficulty_bullets:
 			if d.difficulty_style != _difficulty:
-				var d_tween = create_tween().set_trans(Tween.TRANS_BACK)
-				d_tween.tween_property(d.get_node("area"), "scale", Vector2(0, 0), 0.2)
+				d.dead = true
+				var d_tween = create_tween().set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN)
+				d_tween.tween_property(d.get_node("area"), "scale", Vector2(0, 0), 0.3)
 				d_tween.tween_callback(d, "queue_free")
+	var dif_track =0
+	for label in $"../CanvasLayer/Control/Difficulties".get_children():
+		if _difficulty != dif_track:
+			var twn = create_tween().set_trans(Tween.TRANS_CUBIC)
+			twn.tween_property(label, "modulate", Color(255,255,255,0), 0.3)
+			twn.tween_callback(label, "hide")
+		dif_track +=1
 	print("difficulty: ", _difficulty);
+
+func start_game(_difficulty):
+	
+	#function moved to set_difficulty()
+	
+#	Global.difficulty = _difficulty;
+#	if (is_instance_valid(Global.player)):
+#		Global.player.init_difficulty(_difficulty);
+#	if (Global.in_tutorial):
+#		for d in difficulty_bullets:
+#			if d.difficulty_style != _difficulty:
+#				var d_tween = create_tween().set_trans(Tween.TRANS_BACK)
+#				d_tween.tween_property(d.get_node("area"), "scale", Vector2(0, 0), 0.2)
+#				d_tween.tween_callback(d, "queue_free")
+#	print("difficulty: ", _difficulty);
 	var b = load("res://objects/characters/Boss.tscn").instance()
 	$"../CanvasLayer/Control/HealthBar".set_max(b.max_hp)
 	$"../CanvasLayer/Control/HealthBar".set_value(b.max_hp)
 	Global.in_tutorial = false;
 	b.style = Global.tutorial_style;
-	get_node('../Node2D').add_child(b)
 	b.set_global_position(Vector2(0, -300))
 	
+	#get_node('../Node2D').add_child(b)
 	var tween = create_tween().set_trans(Tween.TRANS_SINE)
-	tween.tween_property($"../Node2D/Background", "modulate", Color.white, 0.7)
+	#tween.tween_property($"../Node2D/Background", "modulate", Color.white, 0.7)
+	tween.tween_interval(0.45)
 	tween.parallel().tween_property($"../CanvasLayer/Control/Tutorial", "modulate", Color("00ffffff"), 0.4)
 	tween.parallel().tween_property($"../CanvasLayer/Control/Difficulties", "modulate", Color("00ffffff"), 0.4)
 	tween.parallel().tween_property($"../CanvasLayer/Control/HealthBar", "modulate", Color.white, 0.4)
+	yield(tween, "finished")
+	get_node('../Node2D').add_child(b)
+	tween = create_tween().set_trans(Tween.TRANS_SINE)
+	tween.tween_interval(0.1)
+	tween.tween_property($"../Node2D/Background", "modulate", Color.white, 0.2)
 	tween.tween_property($"../CanvasLayer/Control/HealthBar", "rect_size", Vector2($"../CanvasLayer/Control/HealthBar".get_size().x, 30), 0.5)
 	
 	MusicPlayer.play_music()
 	MusicPlayer.fade_in()
 	
 	yield(tween, "finished")
+	
 	$"../CanvasLayer/Control/Tutorial".hide()
 	$"../CanvasLayer/Control/Difficulties".hide();
 

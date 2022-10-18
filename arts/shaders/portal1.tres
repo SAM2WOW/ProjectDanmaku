@@ -1,7 +1,7 @@
 [gd_resource type="ShaderMaterial" load_steps=19 format=2]
 
 [ext_resource path="res://arts/pixelArt/pixelart_bg_jam1.png" type="Texture" id=1]
-[ext_resource path="res://arts/particles/whitecircle.png" type="Texture" id=2]
+[ext_resource path="res://arts/ui/roundMask.png" type="Texture" id=2]
 
 [sub_resource type="VisualShaderNodeScalarOp" id=8]
 default_input_values = [ 0, 0.0, 1, 6.0 ]
