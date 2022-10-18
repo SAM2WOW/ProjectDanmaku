@@ -100,7 +100,7 @@ var boss_bullet_properties = {
 	2: {
 		0: {"damage": 40, "speed": 400},
 		1: {"damage": 50, "speed": 1250},
-		2: {"damage": 50, "speed": 300},
+		2: {"damage": 40, "speed": 300},
 		3: {"damage": 20, "speed": 350}
 	}
 }
@@ -152,7 +152,7 @@ var boss_patterns = {
 			1: {"waves": 12, "interval": 0.1}
 		},
 		2: {
-			0: {"waves": 5, "interval": 0.85},
+			0: {"waves": 5, "interval": 1.0},
 			1: {"waves": 10, "interval": 0.2}
 		},
 		3: {
