@@ -1,6 +1,7 @@
-[gd_scene load_steps=52 format=2]
+[gd_scene load_steps=54 format=2]
 
 [ext_resource path="res://objects/characters/Boss.gd" type="Script" id=1]
+[ext_resource path="res://sounds/collage_sfx/CollageBossHit.wav" type="AudioStream" id=2]
 [ext_resource path="res://arts/pixelArt/pixel_angel_boss.png" type="Texture" id=3]
 [ext_resource path="res://arts/abstrastArt/boss.png" type="Texture" id=4]
 [ext_resource path="res://sounds/pixel_sfx/pixel_enemy_bullet_fire.wav" type="AudioStream" id=5]
@@ -9,9 +10,10 @@
 [ext_resource path="res://arts/3D/Angel_Idle_Sheet-min.png" type="Texture" id=8]
 [ext_resource path="res://sounds/pixel_sfx/pixel_enemy_hit.wav" type="AudioStream" id=9]
 [ext_resource path="res://sounds/AbstractBossFire.wav" type="AudioStream" id=10]
-[ext_resource path="res://sounds/AbstractBossHit.wav" type="AudioStream" id=11]
+[ext_resource path="res://sounds/collage_sfx/CollageLaser.wav" type="AudioStream" id=11]
 [ext_resource path="res://arts/collage/collage_boss.png" type="Texture" id=12]
 [ext_resource path="res://sounds/pixel_sfx/boss_broke_2.wav" type="AudioStream" id=13]
+[ext_resource path="res://sounds/3DBossHit.wav" type="AudioStream" id=14]
 
 [sub_resource type="Curve" id=7]
 _data = [ Vector2( 0, 0 ), 0.0, 3.63099, 0, 0, Vector2( 0.519802, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.886139, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), -19.5114, 0.0, 0, 0 ]
@@ -250,7 +252,7 @@ volume_low = -5.0
 volume_high = 1.0
 
 [node name="HitSound" type="AudioStreamPlayer2D" parent="Style0"]
-stream = ExtResource( 11 )
+stream = ExtResource( 2 )
 bus = "Sound"
 script = ExtResource( 6 )
 pitch_low = 0.788
@@ -262,7 +264,7 @@ volume_low = -6.0
 position = Vector2( 1, -2 )
 scale = Vector2( 4, 4 )
 frames = SubResource( 40 )
-frame = 2
+frame = 4
 playing = true
 
 [node name="TransEffect" type="CPUParticles2D" parent="Style1"]
@@ -308,7 +310,7 @@ visible = false
 position = Vector2( -18, -22 )
 scale = Vector2( 0.897591, 0.897591 )
 frames = SubResource( 18 )
-frame = 3
+frame = 7
 speed_scale = 0.75
 playing = true
 
@@ -338,18 +340,18 @@ bus = "Sound"
 script = ExtResource( 6 )
 
 [node name="HitSound" type="AudioStreamPlayer2D" parent="Style2"]
-stream = ExtResource( 7 )
+stream = ExtResource( 14 )
 bus = "Sound"
 script = ExtResource( 6 )
 pitch_low = 0.788
-base_volume = 5.0
+volume_low = -5.0
 
 [node name="Style3" type="Node2D" parent="."]
 visible = false
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Style3"]
 frames = SubResource( 67 )
-frame = 7
+frame = 6
 playing = true
 
 [node name="TransEffect" type="CPUParticles2D" parent="Style3"]
@@ -374,8 +376,12 @@ scale_amount_random = 0.62
 color_ramp = SubResource( 54 )
 
 [node name="FireSound" type="AudioStreamPlayer2D" parent="Style3"]
+stream = ExtResource( 11 )
 bus = "Sound"
 script = ExtResource( 6 )
+pitch_low = 0.478
+ptch_high = 1.048
+volume_low = -4.288
 
 [node name="HitSound" type="AudioStreamPlayer2D" parent="Style3"]
 stream = ExtResource( 7 )

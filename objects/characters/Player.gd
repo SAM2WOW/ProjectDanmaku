@@ -89,8 +89,10 @@ func _process(delta):
 				$FireTimer.start()
 	if (Input.is_action_pressed("holding_shift")):
 		speed_mult = 0.5;
+		$CollisionIndi.modulate.a = 0.25
 	else:
 		speed_mult = 1.0;
+		$CollisionIndi.modulate.a = 0
 	
 	# rotate the sprite toward player in minimalistic style
 	if style == 0:

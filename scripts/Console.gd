@@ -11,6 +11,7 @@ var tutorial_bullet = preload("res://objects/weapons/TransBullet.tscn")
 var portal_scene = preload("res://objects/system/portal.tscn")
 
 var difficulty_bullets = [];
+var game_started = false
 
 func _ready():
 	Global.console = self
@@ -146,8 +147,6 @@ func play_shockwave_small(orgin, delay = 0):
 #set difficulty is immediatly called when the selection bullet is destroyed
 func set_difficulty(_difficulty):
 	Global.difficulty = _difficulty;
-	if (is_instance_valid(Global.player)):
-		Global.player.init_difficulty(_difficulty);
 	if (Global.in_tutorial):
 		for d in difficulty_bullets:
 			if d.difficulty_style != _difficulty:
@@ -166,6 +165,8 @@ func set_difficulty(_difficulty):
 
 func start_game(_difficulty):
 	
+	if (is_instance_valid(Global.player)):
+		Global.player.init_difficulty(_difficulty);
 	#function moved to set_difficulty()
 	
 #	Global.difficulty = _difficulty;
@@ -194,6 +195,7 @@ func start_game(_difficulty):
 	tween.parallel().tween_property($"../CanvasLayer/Control/HealthBar", "modulate", Color.white, 0.4)
 	yield(tween, "finished")
 	get_node('../Node2D').add_child(b)
+	game_started = true
 	tween = create_tween().set_trans(Tween.TRANS_SINE)
 	tween.tween_interval(0.1)
 	tween.tween_property($"../Node2D/Background", "modulate", Color.white, 0.2)

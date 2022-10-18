@@ -1,4 +1,4 @@
-[gd_scene load_steps=51 format=2]
+[gd_scene load_steps=56 format=2]
 
 [ext_resource path="res://objects/characters/Player.gd" type="Script" id=1]
 [ext_resource path="res://arts/collage/Collage_Witch_Girl.png" type="Texture" id=2]
@@ -13,6 +13,11 @@
 [ext_resource path="res://arts/abstrastArt/playercircle.png" type="Texture" id=11]
 [ext_resource path="res://arts/3D/3D_Witch_Idle-min.png" type="Texture" id=12]
 [ext_resource path="res://sounds/pixel_sfx/pixel_player_hit.wav" type="AudioStream" id=13]
+[ext_resource path="res://sounds/collage_sfx/CollageLaser.wav" type="AudioStream" id=14]
+[ext_resource path="res://sounds/AbstractPlayerHit.wav" type="AudioStream" id=15]
+[ext_resource path="res://sounds/AbstractBossHit.wav" type="AudioStream" id=16]
+[ext_resource path="res://arts/particles/whitecircle.png" type="Texture" id=17]
+[ext_resource path="res://arts/ui/circle.png" type="Texture" id=18]
 
 [sub_resource type="Gradient" id=17]
 offsets = PoolRealArray( 0, 0.150838, 1 )
@@ -270,7 +275,7 @@ volume_low = -5.0
 base_volume = -15.0
 
 [node name="HitSound" type="AudioStreamPlayer2D" parent="Style0"]
-stream = ExtResource( 13 )
+stream = ExtResource( 15 )
 bus = "Sound"
 script = ExtResource( 8 )
 pitch_low = 0.784
@@ -285,7 +290,7 @@ visible = false
 position = Vector2( 0, -5 )
 scale = Vector2( 3, 3 )
 frames = SubResource( 8 )
-frame = 1
+frame = 2
 speed_scale = 2.0
 playing = true
 script = ExtResource( 4 )
@@ -329,7 +334,7 @@ script = ExtResource( 8 )
 pitch_low = 0.784
 ptch_high = 1.376
 volume_low = -10.0
-base_volume = 20.0
+base_volume = 15.0
 
 [node name="Style2" type="Node2D" parent="."]
 visible = false
@@ -339,6 +344,7 @@ position = Vector2( 6, -7 )
 rotation = 3.14159
 scale = Vector2( 0.192, -0.192 )
 frames = SubResource( 15 )
+frame = 4
 playing = true
 script = ExtResource( 4 )
 
@@ -381,15 +387,16 @@ script = ExtResource( 8 )
 pitch_low = 0.784
 ptch_high = 1.376
 volume_low = -10.0
-base_volume = 20.0
+base_volume = 15.0
 
 [node name="Style3" type="Node2D" parent="."]
+visible = false
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Style3"]
 position = Vector2( -1, 11 )
 scale = Vector2( 0.411525, 0.411525 )
 frames = SubResource( 29 )
-frame = 7
+frame = 6
 playing = true
 script = ExtResource( 4 )
 
@@ -416,19 +423,19 @@ scale_amount_random = 0.21
 color_ramp = SubResource( 17 )
 
 [node name="FireSound" type="AudioStreamPlayer2D" parent="Style3"]
-stream = ExtResource( 7 )
+stream = ExtResource( 14 )
 bus = "Sound"
 script = ExtResource( 8 )
+pitch_low = 0.7
 volume_low = -5.0
 
 [node name="HitSound" type="AudioStreamPlayer2D" parent="Style3"]
-stream = ExtResource( 13 )
+stream = ExtResource( 16 )
 bus = "Sound"
 script = ExtResource( 8 )
 pitch_low = 0.784
 ptch_high = 1.376
-volume_low = -10.0
-base_volume = 20.0
+volume_low = -5.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
@@ -444,3 +451,17 @@ autostart = true
 one_shot = true
 
 [node name="Tween" type="Tween" parent="."]
+
+[node name="CollisionIndi" type="Sprite" parent="."]
+modulate = Color( 0.768627, 0.101961, 0.101961, 0.219608 )
+scale = Vector2( 0.399516, 0.399516 )
+texture = ExtResource( 17 )
+
+[node name="Bosshealth" type="Sprite" parent="CollisionIndi"]
+modulate = Color( 1, 0.027451, 0.027451, 1 )
+scale = Vector2( 0.256957, 0.256957 )
+texture = ExtResource( 10 )
+
+[node name="Circle" type="Sprite" parent="CollisionIndi"]
+scale = Vector2( 0.918096, 0.918096 )
+texture = ExtResource( 18 )
