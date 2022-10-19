@@ -1,6 +1,7 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://objects/characters/Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://objects/system/portal.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scripts/Console.gd" type="Script" id=3]
 [ext_resource path="res://arts/shaders/BG.jpg" type="Texture" id=5]
 [ext_resource path="res://arts/shaders/Style0.tres" type="Material" id=6]
@@ -63,7 +64,6 @@ script = ExtResource( 14 )
 position = Vector2( 0, 411 )
 
 [node name="Background" type="Node2D" parent="Node2D" groups=["style"]]
-modulate = Color( 1, 1, 1, 0 )
 z_index = -500
 script = ExtResource( 8 )
 
@@ -74,7 +74,6 @@ scale = Vector2( 8, 8 )
 texture = ExtResource( 5 )
 
 [node name="Style1" type="Sprite" parent="Node2D/Background"]
-visible = false
 material = ExtResource( 10 )
 scale = Vector2( 8, 8 )
 texture = ExtResource( 5 )
@@ -98,8 +97,20 @@ collision_mask = 16
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Node2D/Background/StaticBody2D"]
 polygon = PoolVector2Array( -1024, -560, -1088, -640, 1048, -640, 1048, 640, -1088, 640, -1088, -640, -1024, -560, -1024, 576, 984, 576, 984, -576 )
 
+[node name="Portal" parent="Node2D/Background" instance=ExtResource( 2 )]
+position = Vector2( -312, 202 )
+
+[node name="Portal2" parent="Node2D/Background" instance=ExtResource( 2 )]
+position = Vector2( -1, -338 )
+style = 2
+
+[node name="Portal3" parent="Node2D/Background" instance=ExtResource( 2 )]
+position = Vector2( 309, 202 )
+style = 3
+
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 pause_mode = 2
+visible = false
 
 [node name="Control" type="Control" parent="CanvasLayer"]
 anchor_right = 1.0

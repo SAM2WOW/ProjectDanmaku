@@ -1,46 +1,51 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://arts/shaders/Style1.tres" type="Material" id=1]
 [ext_resource path="res://arts/particles/whitecircle.png" type="Texture" id=2]
 [ext_resource path="res://objects/VFX/portalParticle.gd" type="Script" id=3]
 
+[sub_resource type="Curve" id=13]
+bake_resolution = 24
+_data = [ Vector2( 0, 0.669318 ), 0.0, 1.90438, 0, 0, Vector2( 0.490099, 0.806818 ), -1.4217, -1.4217, 0, 0, Vector2( 0.742574, 0 ), -2.92149, 0.0, 0, 0 ]
+
 [sub_resource type="Curve" id=12]
 bake_resolution = 24
-_data = [ Vector2( 0, 0.595455 ), 0.0, 1.90438, 0, 0, Vector2( 0.282178, 0.890909 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.0738636 ), -3.74446, 0.0, 0, 0 ]
+_data = [ Vector2( 0, 0.595455 ), 0.0, 1.90438, 0, 0, Vector2( 0.143564, 0.8625 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.0738636 ), -3.74446, 0.0, 0, 0 ]
 
 [node name="CPUParticles2D3" type="CPUParticles2D"]
 material = ExtResource( 1 )
-scale = Vector2( 2.1, 2.1 )
+scale = Vector2( 1.5, 1.5 )
 z_index = -300
 emitting = false
-amount = 30
+amount = 60
 lifetime = 3.0
 one_shot = true
 speed_scale = 2.0
-explosiveness = 0.88
-lifetime_randomness = 0.17
+explosiveness = 1.0
+lifetime_randomness = 0.2
 local_coords = false
 texture = ExtResource( 2 )
 spread = 180.0
 gravity = Vector2( 0, 0 )
-initial_velocity = 630.0
-initial_velocity_random = 0.02
+initial_velocity = 640.0
+initial_velocity_random = 0.05
 linear_accel_random = 0.1
 damping = 2000.0
-damping_random = 0.1
+damping_random = 0.07
+scale_amount = 0.8
 scale_amount_random = 0.6
-scale_amount_curve = SubResource( 12 )
+scale_amount_curve = SubResource( 13 )
 script = ExtResource( 3 )
 
 [node name="CPUParticles2D4" type="CPUParticles2D" parent="."]
 material = ExtResource( 1 )
 scale = Vector2( 1.49486, 1.49486 )
 emitting = false
-amount = 10
+amount = 20
 lifetime = 0.6
 one_shot = true
 explosiveness = 1.0
-lifetime_randomness = 0.41
+lifetime_randomness = 0.55
 local_coords = false
 texture = ExtResource( 2 )
 spread = 180.0
@@ -50,6 +55,6 @@ initial_velocity_random = 0.44
 linear_accel_random = 0.1
 damping = 64.22
 damping_random = 0.39
-scale_amount = 0.4
+scale_amount = 0.8
 scale_amount_random = 0.3
 scale_amount_curve = SubResource( 12 )

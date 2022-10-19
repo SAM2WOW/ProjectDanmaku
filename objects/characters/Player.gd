@@ -11,7 +11,7 @@ var speed_mult = 1.0;
 
 var max_health = 100
 var health = max_health;
-var health_regen_speed = 2
+var health_regen_speed = 5
 var style_scales = {};
 
 var holdTime = 0.0
@@ -88,7 +88,7 @@ func _process(delta):
 				fire_bullet()
 				$FireTimer.start()
 	if (Input.is_action_pressed("holding_shift")):
-		speed_mult = 0.5;
+		speed_mult = 0.75;
 		$CollisionIndi.modulate.a = 0.25
 	else:
 		speed_mult = 1.0;

@@ -8,7 +8,7 @@ var hurt_player = false;
 var player_damage = Global.boss_stats[Global.difficulty]["transbullet explosion damage"];
 var hurt_boss = false;
 var duel_portal = false;
-var portal_scale = Vector2(1.85, 1.85);
+var portal_scale = Vector2(1, 1);
 
 var smallparticle = preload("res://objects/VFX/small.tscn")
 
@@ -17,7 +17,8 @@ func _ready():
 	#print(position)
 	if Global.portal != null:
 		if Global.portal:
-			Global.portal.self_destroy()
+			#Global.portal.self_destroy()
+			pass
 		Global.portal = self
 	else:
 		Global.portal = self
@@ -64,7 +65,7 @@ func _process(delta):
 					var prev_style = body.style;
 					# print("prev style: %d new style: %d" % [prev_style, style]);
 					if (body.name == "Player" && hurt_player):
-						Global.player.damage(player_damage);
+						Global.player.damage(10);
 						hurt_player = false;
 					elif (body.name == "Boss" && hurt_boss):
 						Global.boss.stunned = true;
@@ -119,6 +120,15 @@ func verse_jump_end():
 	
 func _on_Area2D_body_entered(body):
 	if not exploding:
+		
+		if get_global_position().distance_to(body.get_global_position()) > 200:
+			var p = smallparticle.instance()
+			
+			p.set_global_position(get_global_position() + Vector2(280 * scale.x,0).rotated(body.get_global_position().angle_to_point(get_global_position())))
+			p.style = style
+			get_parent().add_child(p)
+			p.look_at(get_global_position())
+			
 		if (body.name == "Boss"): return;
 		if style == body.style:
 			 return;

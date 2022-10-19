@@ -45,20 +45,20 @@ func _ready():
 		
 		# var tutorial_spawn_locations = get_tree().get_nodes_in_group('difficulty_pos');
 		var d = 0;
-		for d_pos in get_parent().get_node("DifficultySpawnPos").get_children():
-			var spawn_location = get_tree().get_nodes_in_group('difficulty_pos%d'%d);
-			var t = tutorial_bullet.instance()
-			t.tutorial_mode = true
-			t.style = Global.initial_style;
-			t.hurt_player = false;
-			t.difficulty_style = d;
-			$"../Node2D".add_child(t)
-			t.set_global_position(spawn_location[0].get_global_position());
-			difficulty_bullets.append(t);
-			
-			play_shockwave(t.get_global_transform_with_canvas().origin)
-			d += 1;
-		
+#		for d_pos in get_parent().get_node("DifficultySpawnPos").get_children():
+#			var spawn_location = get_tree().get_nodes_in_group('difficulty_pos%d'%d);
+#			var t = tutorial_bullet.instance()
+#			t.tutorial_mode = true
+#			t.style = Global.initial_style;
+#			t.hurt_player = false;
+#			t.difficulty_style = d;
+#			$"../Node2D".add_child(t)
+#			t.set_global_position(spawn_location[0].get_global_position());
+#			difficulty_bullets.append(t);
+#
+#			play_shockwave(t.get_global_transform_with_canvas().origin)
+#			d += 1;
+#
 		# $"../Node2D".add_child(t)
 		# t.set_global_position(Vector2(0, -300))
 		
@@ -196,6 +196,7 @@ func start_game(_difficulty):
 	yield(tween, "finished")
 	get_node('../Node2D').add_child(b)
 	game_started = true
+	
 	tween = create_tween().set_trans(Tween.TRANS_SINE)
 	tween.tween_interval(0.1)
 	tween.tween_property($"../Node2D/Background", "modulate", Color.white, 0.2)

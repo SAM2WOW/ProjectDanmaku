@@ -13,7 +13,12 @@ func _ready():
 	yield(get_tree().create_timer(0.4), "timeout")
 	set_emitting(true)
 	$CPUParticles2D4.set_emitting(true)
-	yield(get_tree().create_timer(1), "timeout")
+	yield(get_tree().create_timer(1.2), "timeout")
+#	var p = load("res://objects/VFX/parti2.tscn").instance()
+#	#p.set_global_position(Vector2(get_global_position().x-235.969,get_global_position().y-235.969))
+#	p.set_material(load("res://arts/shaders/Style%d.tres" % style))
+#	get_parent().add_child(p)
+	#yield(get_tree().create_timer(0.7), "timeout")
 	queue_free()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

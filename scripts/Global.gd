@@ -26,7 +26,7 @@ var window_height = ProjectSettings.get_setting("display/window/size/height");
 var player_bullet_properties = {
 	0: {"damage":15, "fire rate":0.25, "speed":900},
 	1: {"damage":50, "fire rate":0.5, "speed":1750},
-	2: {"damage":50, "fire rate":0.6, "speed":1500},
+	2: {"damage":50, "fire rate":0.6, "speed":1750},
 	3: {"damage":20, "fire rate":0.4, "speed":1000}
 }
 var player_stats = {
@@ -60,12 +60,12 @@ var boss_stats = {
 		"transbullet explosion damage": 20
 	},
 	1: {
-		"hp": 12500.0,
+		"hp": 6000.0,
 		"speed": 150,
 		"movement interval": 7.0,
 		"attack interval": 1.0,
-		"trans bullet cd": 3,
-		"missed bullet cd": 3,
+		"trans bullet cd": 2,
+		"missed bullet cd": 2,
 		"stun duration": 3,
 		"transbullet player damage": 20,
 		"transbullet damage": 30,
