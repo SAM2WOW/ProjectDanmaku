@@ -22,6 +22,13 @@ var new_style = current_style;
 var window_width = ProjectSettings.get_setting("display/window/size/width");
 var window_height = ProjectSettings.get_setting("display/window/size/height");
 
+var gamepad_input_mode = false;
+var last_joystick_direction : Vector2;
+
+const DEVICE_ID = 0
+const DEADZONE = 0.5
+const FACTOR = 1
+
 
 var player_bullet_properties = {
 	0: {"damage":15, "fire rate":0.25, "speed":900},
@@ -161,3 +168,34 @@ var boss_patterns = {
 		}
 	}
 }
+
+
+func _input(event):
+	if gamepad_input_mode:
+		if event is InputEventMouseButton or event is InputEventKey:
+			print("PC MODE")
+			gamepad_input_mode = false
+	
+	if not gamepad_input_mode:
+		if event is InputEventJoypadButton or event is InputEventJoypadMotion:
+			print("CONSOLE MODE")
+			gamepad_input_mode = true
+
+
+func _process(delta):
+	var input_direction = Vector2.ZERO
+	input_direction.x = Input.get_joy_axis(DEVICE_ID, JOY_ANALOG_RX)
+	input_direction.y = Input.get_joy_axis(DEVICE_ID, JOY_ANALOG_RY)
+	if input_direction.length() > DEADZONE:
+		last_joystick_direction = input_direction
+		#var input_angle_in_degrees = rad2deg(last_joystick_direction.angle())
+
+		# rounds the input angle to the next multiple of 45
+		#var dir = int(round(input_angle_in_degrees/45.0)*45)
+
+
+func _get_input_direction(node : Node2D):
+	if gamepad_input_mode:
+		return last_joystick_direction
+	else:
+		return node.get_global_position().direction_to(node.get_global_mouse_position())

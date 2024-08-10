@@ -91,6 +91,8 @@ func _process(delta):
 func boss_dead():
 	$"../CanvasLayer/Control/Gameover/CenterContainer/VBoxContainer/Time".set_text("Time: %.2fs" % play_time)
 	$"../CanvasLayer/Control/Gameover".show()
+	$"../CanvasLayer/Control/Gameover/CenterContainer/VBoxContainer/Restart".grab_focus()
+	
 	Global.player.health = 10000;
 	Global.boss.dead = true;
 	Global.boss.finish_attack();
@@ -98,11 +100,13 @@ func boss_dead():
 	Global.player.set_process(false)
 	# Global.boss.set_process(false)
 	# Global.boss.set_physics_process(false)
+	
 
 
 func player_dead():
 	if gameover == false:
 		$"../CanvasLayer/Control/PlayerDeath".show()
+		$"../CanvasLayer/Control/PlayerDeath/CenterContainer/VBoxContainer/Restart".grab_focus()
 		
 		gameover = true
 		Global.player.set_process(false)

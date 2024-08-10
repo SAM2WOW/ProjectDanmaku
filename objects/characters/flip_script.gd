@@ -11,7 +11,7 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	var dir = get_global_position().direction_to(get_global_mouse_position());
+	var dir = Global._get_input_direction(self)
 	if (dir.x >= 0):
 		self.set_flip_h(true);
 		if Global.current_style != 0:

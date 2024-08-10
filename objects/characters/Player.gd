@@ -48,7 +48,7 @@ func init_difficulty(difficulty):
 func _process(delta):
 	if (style == 2):
 		if Input.is_action_pressed("fire_action"):
-			var dir = get_global_position().direction_to(get_global_mouse_position());
+			var dir = Global._get_input_direction(self);
 			var shot_pos = $Style2/AnimatedSprite/Shot.get_global_position();
 			
 			if !is_created:
@@ -96,7 +96,10 @@ func _process(delta):
 	
 	# rotate the sprite toward player in minimalistic style
 	if style == 0:
-		$Style0/AnimatedSprite.look_at(get_global_mouse_position())
+		if Global.gamepad_input_mode:
+			$Style0/AnimatedSprite.look_at($Style0/AnimatedSprite.get_global_position() + Global.last_joystick_direction)
+		else:
+			$Style0/AnimatedSprite.look_at(get_global_mouse_position())
 	
 	# regenerate health
 	if $RegenerateTimer.is_stopped():
@@ -209,7 +212,7 @@ func init_minimal_bullets(shot):
 	var b = bullet.instance()
 	get_parent().add_child(b);
 	
-	var dir = get_global_position().direction_to(get_global_mouse_position());
+	var dir = Global._get_input_direction(self);
 	b.init_bullet(shot.get_global_position(), dir, style);
 	b.set_linear_velocity(dir*Global.player_bullet_properties[style]["speed"]);
 		
@@ -218,9 +221,15 @@ func init_pixel_bullets(shot):
 	var b = bullet.instance();
 	get_parent().add_child(b)
 	
-	var dir = shot.get_global_position().direction_to(get_global_mouse_position());
+	var dir = Global._get_input_direction(shot);
 	b.init_bullet(shot.get_global_position(), dir, style);
-	b.set_detonate(get_global_mouse_position());
+	
+	# pixel bullet detonate fix
+	if Global.gamepad_input_mode:
+		b.set_detonate(get_global_position() + dir * 700);
+	else:
+		b.set_detonate(get_global_mouse_position());
+	
 	b.set_linear_velocity(dir*Global.player_bullet_properties[style]["speed"]);
 	
 
@@ -238,7 +247,7 @@ func init_3d_bullets(shot):
 		num_bullets = 3;
 
 	# fire spread depending on charge
-	var dir = shot.get_global_position().direction_to(get_global_mouse_position());
+	var dir = Global._get_input_direction(shot);
 	var bullets = fire_spread(num_bullets, deg, Global.player_bullet_properties[style]["speed"], dir, 0.6, shot.get_global_position());
 	for b in bullets:
 		b.charge = charge;
@@ -246,7 +255,7 @@ func init_3d_bullets(shot):
 	
 	
 func init_collage_bullets(shot):
-	var dir = shot.get_global_position().direction_to(get_global_mouse_position());
+	var dir = Global._get_input_direction(shot);
 	var bullets = fire_spread(3, 10, Global.player_bullet_properties[style]["speed"], dir, 1.0, shot.get_global_position());
 
 
