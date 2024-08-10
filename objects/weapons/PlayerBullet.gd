@@ -103,7 +103,8 @@ func init_style(_style):
 func init_pixel_bullet():
 	damage = Global.player_bullet_properties[style]["damage"];
 	
-func set_detonate(dest=get_global_mouse_position()):
+func set_detonate(new_dest=get_global_mouse_position()):
+	dest=new_dest
 	var pos = get_global_position();
 	detonate = true;
 	detonate_at_pos = true;

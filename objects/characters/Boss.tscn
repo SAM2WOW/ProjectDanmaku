@@ -258,13 +258,19 @@ script = ExtResource( 6 )
 pitch_low = 0.788
 volume_low = -6.0
 
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Style0"]
+visible = false
+position = Vector2( 1, -2 )
+scale = Vector2( 4, 4 )
+playing = true
+
 [node name="Style1" type="Node2D" parent="."]
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Style1"]
 position = Vector2( 1, -2 )
 scale = Vector2( 4, 4 )
 frames = SubResource( 40 )
-frame = 4
+frame = 6
 playing = true
 
 [node name="TransEffect" type="CPUParticles2D" parent="Style1"]
@@ -310,7 +316,6 @@ visible = false
 position = Vector2( -18, -22 )
 scale = Vector2( 0.897591, 0.897591 )
 frames = SubResource( 18 )
-frame = 7
 speed_scale = 0.75
 playing = true
 

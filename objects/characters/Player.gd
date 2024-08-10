@@ -260,7 +260,7 @@ func init_collage_bullets(shot):
 
 
 func damage(amount):
-	("Player have been damaged %d" % amount)
+	#("Player have been damaged %d" % amount)
 	health -= amount
 	
 	$HealthBar.show()
@@ -301,7 +301,7 @@ func damage(amount):
 
 
 func fire_spread(
-	num, deg, speed, dir, damage_mult, pos=get_global_position(), _style=style
+	num, deg, new_speed, dir, damage_mult, pos=get_global_position(), _style=style
 ):
 	var bullets = [];
 	var odd = (num%2 != 0);
@@ -321,7 +321,7 @@ func fire_spread(
 			dir.y * (cos(new_deg)) - dir.x * (sin(new_deg))
 		);
 		b.init_bullet(pos, new_dir, _style);
-		b.set_linear_velocity(new_dir*speed);
+		b.set_linear_velocity(new_dir*new_speed);
 		b.damage = Global.player_bullet_properties[_style]["damage"] * damage_mult;
 		
 		bullets.append(b);

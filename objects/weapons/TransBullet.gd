@@ -263,12 +263,12 @@ func _physics_process(delta):
 	else:
 		set_linear_velocity(lerp(get_linear_velocity(),Vector2.ZERO,dead_damp))
 
-func _on_Verse_Jump(style):
-	if style == self.style:
+func _on_Verse_Jump(new_style):
+	if new_style == self.style:
 		queue_free()
 
 # play hit animations / sfx
-func _on_hit(damage):
+func _on_hit(new_damage):
 	if not hit:
 		hit = true
 		
@@ -280,7 +280,7 @@ func _on_hit(damage):
 		damageTween.tween_property($area/Node2D, "scale", Vector2(1.0,1.0), 0.08)
 		damageTween.parallel().tween_property($area/Node2D, "modulate", Color("ffffff"), 0.08)
 		yield(damageTween,"finished")
-		if damage == 0:
+		if new_damage == 0:
 			$HitSound.pitch_scale = 2.5
 		if initial_shield:
 			$HitSound.pitch_scale *= 1.1
@@ -290,13 +290,13 @@ func _on_hit(damage):
 	
 
 
-func damage(damage):
+func damage(dmg):
 	if start_protect and not dead:
 		# print("bullet takes %d damage" % damage);
 		# damage: if damage is 50, is set to 5 damage; 0.1 multiplier
 		var min_dmg = 0.8;
 		var max_dmg = 2.0;
-		damage = damage * damage_multiplier
+		damage = dmg * damage_multiplier
 		
 		if (initial_shield):
 			min_dmg = 0.25;

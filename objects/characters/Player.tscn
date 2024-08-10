@@ -290,7 +290,7 @@ visible = false
 position = Vector2( 0, -5 )
 scale = Vector2( 3, 3 )
 frames = SubResource( 8 )
-frame = 2
+frame = 4
 speed_scale = 2.0
 playing = true
 script = ExtResource( 4 )
@@ -344,7 +344,7 @@ position = Vector2( 6, -7 )
 rotation = 3.14159
 scale = Vector2( 0.192, -0.192 )
 frames = SubResource( 15 )
-frame = 4
+frame = 9
 playing = true
 script = ExtResource( 4 )
 
@@ -396,7 +396,7 @@ visible = false
 position = Vector2( -1, 11 )
 scale = Vector2( 0.411525, 0.411525 )
 frames = SubResource( 29 )
-frame = 6
+frame = 3
 playing = true
 script = ExtResource( 4 )
 

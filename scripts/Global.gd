@@ -1,5 +1,6 @@
 extends Node
 
+signal gamepad_changed
 
 var console
 var player
@@ -175,11 +176,17 @@ func _input(event):
 		if event is InputEventMouseButton or event is InputEventKey:
 			print("PC MODE")
 			gamepad_input_mode = false
+			emit_signal("gamepad_changed")
 	
 	if not gamepad_input_mode:
 		if event is InputEventJoypadButton or event is InputEventJoypadMotion:
 			print("CONSOLE MODE")
 			gamepad_input_mode = true
+			
+			# set a default
+			last_joystick_direction = Vector2.RIGHT.rotated(player.get_rotation())
+			
+			emit_signal("gamepad_changed")
 
 
 func _process(delta):

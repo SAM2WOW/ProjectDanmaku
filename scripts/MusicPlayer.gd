@@ -1,61 +1,77 @@
 extends Node
 
-var default_volume = -5.0
+var default_volume = -10.0
 
 var song1 = preload("res://sounds/bgm.ogg")
-var playlist = [song1]
-var last_played 
+var song2 = preload("res://sounds/bgm_dim.ogg")
 
+var tween
 
 func _ready():
 	# dynamically download music for HTML5
 	
 	var a = AudioStreamPlayer.new()
+	var b = AudioStreamPlayer.new()
 	
-	# pick a random song
-	randomize()
-	last_played = randi() % playlist.size()
-	a.set_stream(playlist[last_played])
-	
-	a.set_volume_db(-80)
+	a.set_stream(song1)
+	a.set_volume_db(-80.0)
 	a.set_bus("Music")
-	#a.set_autoplay(true)
 	a.set_name("BGM")
-	#a.connect("finished", self, "_on_finished")
 	add_child(a)
+
+	b.set_stream(song2)
+	b.set_volume_db(-80.0)
+	b.set_bus("Music")
+	b.set_name("BGM2")
+	add_child(b)
 	
-	var t = Tween.new()
-	t.set_name("Tween")
-	add_child(t)
-
-
-func _on_finished():
-	# non repeating random playlist
-	var next = randi() % playlist.size()
-	while next == last_played:
-		next = randi() % playlist.size()
-	
-	$BGM.set_stream(playlist[next])
-	$BGM.play()
-
 
 func play_music():
 	if not $BGM.is_playing():
 		$BGM.play()
+		$BGM2.play()
+
 
 func stop_music():
 	$BGM.stop();
+	$BGM2.stop();
+
 
 func fade_in():
-	var tween = create_tween().set_trans(Tween.TRANS_LINEAR)
-	tween.tween_property($BGM, "volume_db", default_volume, 0.5)
-	return tween;
+	if tween:
+		tween.kill()
+	
+	tween = create_tween().set_trans(Tween.TRANS_LINEAR)
+	tween.tween_property($BGM, "volume_db", default_volume, 0.3)
+
 
 func fade_out(stop=false):
-	var tween = get_node("Tween")
-	tween.interpolate_property($BGM, "volume_db",
-			default_volume, -80, 1,
-			Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-	tween.start()
-	if stop:
-		tween.interpolate_callback(self, 3, "stop_music")
+	if tween:
+		tween.kill()
+		
+	tween = create_tween().set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN_OUT)
+	tween.tween_property($BGM, "volume_db", -80.0, 3)
+	tween.parallel().tween_property($BGM2, "volume_db", -80.0, 3)
+	
+	tween.tween_callback(self, "stop_music")
+
+
+
+func dim():
+	print('DIM AUDIO')
+	if tween:
+		tween.kill()
+	
+	tween = create_tween().set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN_OUT)
+	tween.tween_property($BGM, "volume_db", -80.0, 0.5)
+	tween.parallel().tween_property($BGM2, "volume_db", default_volume, 0.5)
+
+
+func undim():
+	if tween:
+		tween.kill()
+	
+	tween = create_tween().set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN_OUT)
+	tween.tween_property($BGM, "volume_db", default_volume, 0.5)
+	tween.parallel().tween_property($BGM2, "volume_db", -80.0, 0.5)
+

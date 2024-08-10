@@ -13,6 +13,39 @@ var portal_scene = preload("res://objects/system/portal.tscn")
 var difficulty_bullets = [];
 var game_started = false
 
+var default_tutorial = """
+
+
+
+[center]Hold [img=35, bottom, center]arts/ui/input_promt/mouse_left.png[/img] or [img=35, center-center]arts/ui/input_promt/keyboard_space.png[/img] to Shoot[/center]
+
+[center][img=35, center-center]arts/ui/input_promt/keyboard_arrows.png[/img] to Move[/center]
+
+[center]Move [img=35, center-center]arts/ui/input_promt/mouse_move.png[/img] to Aim[/center]
+"""
+
+var xbox_tutorial = """
+
+
+
+[center]Hold [img=35, bottom, center]arts/ui/input_promt/mouse_left.png[/img] or [img=35, center-center]arts/ui/input_promt/keyboard_space.png[/img] to Shoot[/center]
+
+[center][img=35, center-center]arts/ui/input_promt/keyboard_arrows.png[/img] to Move[/center]
+
+[center]Move [img=35, center-center]arts/ui/input_promt/mouse_move.png[/img] to Aim[/center]
+"""
+
+var ps_tutorial = """
+
+
+
+[center]Hold [img=35, center-center]arts/ui/input_promt/playstation_trigger_r1_alternative.png[/img] to Shoot[/center]
+
+[center][img=35, center-center]arts/ui/input_promt/playstation_stick_l.png[/img] to Move[/center]
+
+[center]Move [img=35, center-center]arts/ui/input_promt/playstation_stick_r.png[/img] to Aim[/center]
+"""
+
 func _ready():
 	Global.console = self
 	randomize()
@@ -21,6 +54,9 @@ func _ready():
 	$"../CanvasLayer/Control/HealthBar".set_value(boss_health)
 	
 	$"../CanvasLayer/Control/Shockwave".get_material().set_shader_param("radius", 0.0)
+	
+	# connect the signal for gamepad
+	Global.connect("gamepad_changed", self, "_on_gamepad_changed")
 	
 	# init tutorial
 	if not Global.tutorial_played:
@@ -88,10 +124,19 @@ func _process(delta):
 		$"../CanvasLayer/Control/Timer".set_text("Time: %.2fs" % play_time)
 
 
+func _on_gamepad_changed():
+	if Global.gamepad_input_mode:
+		$"../CanvasLayer/Control/Tutorial".set_bbcode(ps_tutorial)
+	else:
+		$"../CanvasLayer/Control/Tutorial".set_bbcode(default_tutorial)
+
+
 func boss_dead():
 	$"../CanvasLayer/Control/Gameover/CenterContainer/VBoxContainer/Time".set_text("Time: %.2fs" % play_time)
 	$"../CanvasLayer/Control/Gameover".show()
 	$"../CanvasLayer/Control/Gameover/CenterContainer/VBoxContainer/Restart".grab_focus()
+	
+	MusicPlayer.dim()
 	
 	Global.player.health = 10000;
 	Global.boss.dead = true;
@@ -107,6 +152,8 @@ func player_dead():
 	if gameover == false:
 		$"../CanvasLayer/Control/PlayerDeath".show()
 		$"../CanvasLayer/Control/PlayerDeath/CenterContainer/VBoxContainer/Restart".grab_focus()
+		
+		MusicPlayer.dim()
 		
 		gameover = true
 		Global.player.set_process(false)
@@ -221,8 +268,9 @@ func start_game(_difficulty):
 func _on_Restart_pressed():
 	get_tree().set_pause(false)
 	Global.current_style = Global.initial_style
+	MusicPlayer.undim()
 	get_tree().reload_current_scene()
-
+	
 
 func _on_DifficultySelect_pressed():
 	Global.tutorial_played = false;
