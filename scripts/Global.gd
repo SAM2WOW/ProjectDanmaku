@@ -23,7 +23,7 @@ var new_style = current_style;
 var window_width = ProjectSettings.get_setting("display/window/size/width");
 var window_height = ProjectSettings.get_setting("display/window/size/height");
 
-var gamepad_input_mode = false;
+var gamepad_input_mode = true;
 var last_joystick_direction : Vector2;
 
 const DEVICE_ID = 0
@@ -172,6 +172,11 @@ var boss_patterns = {
 
 
 func _input(event):
+	if Input.is_action_just_pressed("quit"):
+		#get_tree().set_auto_accept_quit(true)
+		get_tree().quit()
+	
+	"""
 	if gamepad_input_mode:
 		if event is InputEventMouseButton or event is InputEventKey:
 			print("PC MODE")
@@ -187,6 +192,7 @@ func _input(event):
 			last_joystick_direction = Vector2.RIGHT.rotated(player.get_rotation())
 			
 			emit_signal("gamepad_changed")
+	"""
 
 
 func _process(delta):

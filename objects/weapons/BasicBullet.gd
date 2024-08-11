@@ -35,7 +35,7 @@ func init_clone_instance(b):
 	b.bouncing = bouncing;
 	b.num_bounces = num_bounces;
 	b.detonate = detonate;
-	b.get_node("DespawnTimer").start($DespawnTimer.get_time_left());
+	b.get_node("DespawnTimer").set_wait_time($DespawnTimer.get_time_left());
 
 func _on_VisibilityNotifier2D_screen_exited():
 	dying = true

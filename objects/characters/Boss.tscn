@@ -74,64 +74,64 @@ animations = [ {
 atlas = ExtResource( 3 )
 region = Rect2( 131, 4, 124, 99 )
 
-[sub_resource type="AtlasTexture" id=68]
+[sub_resource type="AtlasTexture" id=89]
 flags = 4
 atlas = ExtResource( 8 )
-region = Rect2( 0, 0, 500, 500 )
+region = Rect2( 0, 0, 372, 372 )
 
-[sub_resource type="AtlasTexture" id=69]
+[sub_resource type="AtlasTexture" id=90]
 flags = 4
 atlas = ExtResource( 8 )
-region = Rect2( 500, 0, 500, 500 )
+region = Rect2( 372, 0, 372, 372 )
 
-[sub_resource type="AtlasTexture" id=70]
+[sub_resource type="AtlasTexture" id=91]
 flags = 4
 atlas = ExtResource( 8 )
-region = Rect2( 1000, 0, 500, 500 )
+region = Rect2( 744, 0, 372, 372 )
 
-[sub_resource type="AtlasTexture" id=71]
+[sub_resource type="AtlasTexture" id=92]
 flags = 4
 atlas = ExtResource( 8 )
-region = Rect2( 1500, 0, 500, 500 )
+region = Rect2( 1116, 0, 372, 372 )
 
-[sub_resource type="AtlasTexture" id=72]
+[sub_resource type="AtlasTexture" id=93]
 flags = 4
 atlas = ExtResource( 8 )
-region = Rect2( 2000, 0, 500, 500 )
+region = Rect2( 1488, 0, 372, 372 )
 
-[sub_resource type="AtlasTexture" id=73]
+[sub_resource type="AtlasTexture" id=94]
 flags = 4
 atlas = ExtResource( 8 )
-region = Rect2( 2500, 0, 500, 500 )
+region = Rect2( 1860, 0, 372, 372 )
 
-[sub_resource type="AtlasTexture" id=74]
+[sub_resource type="AtlasTexture" id=95]
 flags = 4
 atlas = ExtResource( 8 )
-region = Rect2( 3000, 0, 500, 500 )
+region = Rect2( 2232, 0, 372, 372 )
 
-[sub_resource type="AtlasTexture" id=75]
+[sub_resource type="AtlasTexture" id=96]
 flags = 4
 atlas = ExtResource( 8 )
-region = Rect2( 3500, 0, 500, 500 )
+region = Rect2( 2604, 0, 372, 372 )
 
-[sub_resource type="AtlasTexture" id=76]
+[sub_resource type="AtlasTexture" id=97]
 flags = 4
 atlas = ExtResource( 8 )
-region = Rect2( 4000, 0, 500, 500 )
+region = Rect2( 2976, 0, 372, 372 )
 
-[sub_resource type="AtlasTexture" id=77]
+[sub_resource type="AtlasTexture" id=98]
 flags = 4
 atlas = ExtResource( 8 )
-region = Rect2( 4500, 0, 500, 500 )
+region = Rect2( 3348, 0, 372, 372 )
 
-[sub_resource type="AtlasTexture" id=78]
+[sub_resource type="AtlasTexture" id=99]
 flags = 4
 atlas = ExtResource( 8 )
-region = Rect2( 5000, 0, 500, 500 )
+region = Rect2( 3720, 0, 372, 372 )
 
 [sub_resource type="SpriteFrames" id=18]
 animations = [ {
-"frames": [ SubResource( 68 ), SubResource( 69 ), SubResource( 70 ), SubResource( 71 ), SubResource( 72 ), SubResource( 73 ), SubResource( 74 ), SubResource( 75 ), SubResource( 76 ), SubResource( 77 ), SubResource( 78 ) ],
+"frames": [ SubResource( 89 ), SubResource( 90 ), SubResource( 91 ), SubResource( 92 ), SubResource( 93 ), SubResource( 94 ), SubResource( 95 ), SubResource( 96 ), SubResource( 97 ), SubResource( 98 ), SubResource( 99 ) ],
 "loop": true,
 "name": "default",
 "speed": 12.0
@@ -142,49 +142,49 @@ flags = 4
 atlas = ExtResource( 8 )
 region = Rect2( 78.6221, 68.5419, 370.904, 420.358 )
 
-[sub_resource type="AtlasTexture" id=80]
+[sub_resource type="AtlasTexture" id=100]
 flags = 4
 atlas = ExtResource( 12 )
-region = Rect2( 0, 0, 625, 625 )
+region = Rect2( 0, 0, 512, 512 )
 
-[sub_resource type="AtlasTexture" id=81]
+[sub_resource type="AtlasTexture" id=101]
 flags = 4
 atlas = ExtResource( 12 )
-region = Rect2( 625, 0, 625, 625 )
+region = Rect2( 512, 0, 512, 512 )
 
-[sub_resource type="AtlasTexture" id=82]
+[sub_resource type="AtlasTexture" id=102]
 flags = 4
 atlas = ExtResource( 12 )
-region = Rect2( 1250, 0, 625, 625 )
+region = Rect2( 1024, 0, 512, 512 )
 
-[sub_resource type="AtlasTexture" id=83]
+[sub_resource type="AtlasTexture" id=103]
 flags = 4
 atlas = ExtResource( 12 )
-region = Rect2( 1875, 0, 625, 625 )
+region = Rect2( 1536, 0, 512, 512 )
 
-[sub_resource type="AtlasTexture" id=84]
+[sub_resource type="AtlasTexture" id=104]
 flags = 4
 atlas = ExtResource( 12 )
-region = Rect2( 2500, 0, 625, 625 )
+region = Rect2( 2048, 0, 512, 512 )
 
-[sub_resource type="AtlasTexture" id=85]
+[sub_resource type="AtlasTexture" id=105]
 flags = 4
 atlas = ExtResource( 12 )
-region = Rect2( 3125, 0, 625, 625 )
+region = Rect2( 2560, 0, 512, 512 )
 
-[sub_resource type="AtlasTexture" id=86]
+[sub_resource type="AtlasTexture" id=106]
 flags = 4
 atlas = ExtResource( 12 )
-region = Rect2( 3750, 0, 625, 625 )
+region = Rect2( 3072, 0, 512, 512 )
 
-[sub_resource type="AtlasTexture" id=87]
+[sub_resource type="AtlasTexture" id=107]
 flags = 4
 atlas = ExtResource( 12 )
-region = Rect2( 4375, 0, 625, 625 )
+region = Rect2( 3584, 0, 512, 512 )
 
 [sub_resource type="SpriteFrames" id=67]
 animations = [ {
-"frames": [ SubResource( 80 ), SubResource( 81 ), SubResource( 82 ), SubResource( 83 ), SubResource( 84 ), SubResource( 85 ), SubResource( 86 ), SubResource( 87 ) ],
+"frames": [ SubResource( 100 ), SubResource( 101 ), SubResource( 102 ), SubResource( 103 ), SubResource( 104 ), SubResource( 105 ), SubResource( 106 ), SubResource( 107 ) ],
 "loop": true,
 "name": "default",
 "speed": 5.0
@@ -224,8 +224,7 @@ color = Color( 0.956863, 0.380392, 0.380392, 1 )
 [node name="TransEffect" type="CPUParticles2D" parent="Style0"]
 position = Vector2( 0, -32 )
 z_index = 1
-emitting = false
-amount = 4
+amount = 2
 lifetime = 0.5
 one_shot = true
 explosiveness = 1.0
@@ -270,14 +269,14 @@ playing = true
 position = Vector2( 1, -2 )
 scale = Vector2( 4, 4 )
 frames = SubResource( 40 )
-frame = 6
+frame = 9
 playing = true
 
 [node name="TransEffect" type="CPUParticles2D" parent="Style1"]
 position = Vector2( 0, -32 )
 z_index = 1
 emitting = false
-amount = 4
+amount = 2
 lifetime = 0.5
 one_shot = true
 explosiveness = 1.0
@@ -314,16 +313,16 @@ visible = false
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Style2"]
 position = Vector2( -18, -22 )
-scale = Vector2( 0.897591, 0.897591 )
+scale = Vector2( 1.23729, 1.23729 )
 frames = SubResource( 18 )
+frame = 4
 speed_scale = 0.75
 playing = true
 
 [node name="TransEffect" type="CPUParticles2D" parent="Style2"]
 position = Vector2( 0, -32 )
 z_index = 1
-emitting = false
-amount = 4
+amount = 2
 lifetime = 0.5
 one_shot = true
 explosiveness = 1.0
@@ -355,6 +354,7 @@ volume_low = -5.0
 visible = false
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Style3"]
+scale = Vector2( 1.02787, 1.02787 )
 frames = SubResource( 67 )
 frame = 6
 playing = true
@@ -363,7 +363,7 @@ playing = true
 position = Vector2( 0, -32 )
 z_index = 1
 emitting = false
-amount = 4
+amount = 2
 lifetime = 0.5
 one_shot = true
 explosiveness = 1.0

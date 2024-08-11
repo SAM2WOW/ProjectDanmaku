@@ -2,19 +2,22 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Bullet_Hell_Sky.jpg-5494ddd26f7e8c87fc3fa1c947089966.stex"
+path.s3tc="res://.import/Bullet_Hell_Sky.jpg-5494ddd26f7e8c87fc3fa1c947089966.s3tc.stex"
+path.etc2="res://.import/Bullet_Hell_Sky.jpg-5494ddd26f7e8c87fc3fa1c947089966.etc2.stex"
+path.etc="res://.import/Bullet_Hell_Sky.jpg-5494ddd26f7e8c87fc3fa1c947089966.etc.stex"
 metadata={
-"vram_texture": false
+"imported_formats": [ "s3tc", "etc2", "etc" ],
+"vram_texture": true
 }
 
 [deps]
 
 source_file="res://arts/3D/Bullet_Hell_Sky.jpg"
-dest_files=[ "res://.import/Bullet_Hell_Sky.jpg-5494ddd26f7e8c87fc3fa1c947089966.stex" ]
+dest_files=[ "res://.import/Bullet_Hell_Sky.jpg-5494ddd26f7e8c87fc3fa1c947089966.s3tc.stex", "res://.import/Bullet_Hell_Sky.jpg-5494ddd26f7e8c87fc3fa1c947089966.etc2.stex", "res://.import/Bullet_Hell_Sky.jpg-5494ddd26f7e8c87fc3fa1c947089966.etc.stex" ]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/lossy_quality=0.7
 compress/hdr_mode=0
 compress/bptc_ldr=0

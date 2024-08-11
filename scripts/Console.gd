@@ -50,6 +50,10 @@ func _ready():
 	Global.console = self
 	randomize()
 	
+	# HACK
+	# FORCE SET BBCODE
+	$"../CanvasLayer/Control/Tutorial".set_bbcode(ps_tutorial)
+	
 	$"../CanvasLayer/Control/HealthBar".set_max(boss_health)
 	$"../CanvasLayer/Control/HealthBar".set_value(boss_health)
 	

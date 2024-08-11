@@ -126,6 +126,7 @@ visible = false
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Style1"]
 scale = Vector2( 4, 4 )
 frames = SubResource( 5 )
+frame = 2
 playing = true
 
 [node name="Style2" type="Node2D" parent="."]
@@ -150,7 +151,7 @@ shape = SubResource( 1 )
 
 [node name="TransEffect" type="CPUParticles2D" parent="."]
 emitting = false
-amount = 4
+amount = 1
 lifetime = 0.5
 one_shot = true
 explosiveness = 1.0
@@ -167,7 +168,7 @@ damping_random = 1.0
 scale_amount = 2.0
 scale_amount_random = 0.45
 scale_amount_curve = SubResource( 6 )
-color = Color( 1, 1, 1, 0.415686 )
+color = Color( 1, 1, 1, 0.745098 )
 color_ramp = SubResource( 7 )
 
 [node name="DespawnTimer" type="Timer" parent="."]
