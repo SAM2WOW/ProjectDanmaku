@@ -68,12 +68,13 @@ func show_verse_style(verse):
 	
 	$TransEffect.restart()
 	$TransEffect.set_emitting(true)
-
-	var tween = create_tween()
-	if tween:
-		get_node("Style%d" % style).set_scale(Vector2(0.7, 0.7))
-		tween.set_trans(Tween.TRANS_BOUNCE)
-		tween.tween_property(get_node("Style%d" % style), "scale", Vector2(1, 1), 0.2)
+	
+	if is_inside_tree():
+		var tween = create_tween()
+		if tween:
+			get_node("Style%d" % style).set_scale(Vector2(0.7, 0.7))
+			tween.set_trans(Tween.TRANS_BOUNCE)
+			tween.tween_property(get_node("Style%d" % style), "scale", Vector2(1, 1), 0.2)
 	
 
 # set the position, dir, rotation, and style
@@ -130,7 +131,11 @@ func explode():
 	var e = explosion.instance();
 	e.get_node("AnimatedSprite").play();
 	e.charge = charge;
-	get_tree().root.add_child(e);
+	
+	#HACK
+	get_tree().root.call_deferred("add_child", e)
+	#get_tree().root.add_child(e);
+	
 	e.set_global_position(get_global_position());
 	e.damage = damage;
 

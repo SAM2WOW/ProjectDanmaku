@@ -191,7 +191,11 @@ func bad_verse_jump_init():
 		hurt_player = true;
 	else:
 		Global.console.set_difficulty(difficulty_style)
-	mode = MODE_STATIC
+		
+	#mode = MODE_STATIC
+	#HACK
+	set_deferred("mode", MODE_STATIC)
+	
 	$badParticle.set_material(load("res://arts/shaders/Portal%d.tres" % style))
 	$badParticle2.set_material(load("res://arts/shaders/Portal%d.tres" % style))
 	$badParticle.set_emitting(true)

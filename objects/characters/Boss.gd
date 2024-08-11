@@ -524,7 +524,10 @@ func fire_spread(
 		b.init_bullet(pos, new_dir, _style);
 		b.set_linear_velocity(new_dir*speed);
 		
-		get_parent().add_child(b);
+		#get_parent().add_child(b);
+		#HACK
+		get_parent().call_deferred("add_child", b)
+		
 		bullets.append(b);
 		get_node("Style%d/FireSound" % _style).play()
 		get_node("Style%d/FireSound" % _style).play()

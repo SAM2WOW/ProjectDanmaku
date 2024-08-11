@@ -35,7 +35,7 @@ func init_clone_instance(b):
 	b.bouncing = bouncing;
 	b.num_bounces = num_bounces;
 	b.detonate = detonate;
-	b.get_node("DespawnTimer").start($DespawnTimer.time_left);
+	b.get_node("DespawnTimer").start($DespawnTimer.get_time_left());
 
 func _on_VisibilityNotifier2D_screen_exited():
 	dying = true
@@ -60,12 +60,13 @@ func show_verse_style(verse):
 	
 	$TransEffect.restart()
 	$TransEffect.set_emitting(true)
-
-	var tween = create_tween()
-	if tween:
-		get_node("Style%d" % style).set_scale(Vector2(0.7, 0.7))
-		tween.set_trans(Tween.TRANS_BOUNCE)
-		tween.tween_property(get_node("Style%d" % style), "scale", Vector2(1, 1), 0.2)
+	
+	if is_inside_tree():
+		var tween = create_tween()
+		if tween:
+			get_node("Style%d" % style).set_scale(Vector2(0.7, 0.7))
+			tween.set_trans(Tween.TRANS_BOUNCE)
+			tween.tween_property(get_node("Style%d" % style), "scale", Vector2(1, 1), 0.2)
 
 
 # enters first

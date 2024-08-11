@@ -307,7 +307,10 @@ func fire_spread(
 	var odd = (num%2 != 0);
 	for i in num:
 		var b = bullet.instance();
-		get_parent().add_child(b);
+		
+		#HACK
+		get_parent().call_deferred("add_child", b)
+		#get_parent().add_child(b);
 		
 		var new_deg = 0.0;
 		if !odd:
